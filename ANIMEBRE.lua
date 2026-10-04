@@ -34,10 +34,13 @@ pcall(function()
     local function purge(p)
         if not p then return end
         for _, c in ipairs(p:GetChildren()) do
-            if c.Name == "SpectreWareAnimeBreaker" or c.Name:find("WindUI") or c.Name:find("AngelHub") or c.Name:find("AnimeBreaker") then
+            if c.Name == "SpectreWareAnimeBreaker" or c.Name:find("WindUI") or c.Name:find("AngelHub") or c.Name:find("AnimeBreaker") or c.Name:find("AxelHub") or c.Name:find("Fluent") then
                 pcall(function() c:Destroy() end)
             end
         end
+    end
+    if type(gethui) == "function" then
+        pcall(function() purge(gethui()) end)
     end
     purge(CoreGui)
     if CoreGui:FindFirstChild("RobloxGui") then
@@ -5214,8 +5217,37 @@ end
 
 local Tabs = {}
 
+local function executorName()
+    local scopes = {}
+    pcall(function()
+        if type(getgenv) == "function" then table.insert(scopes, getgenv()) end
+    end)
+    table.insert(scopes, _G)
+    for _, scope in ipairs(scopes) do
+        if type(scope) == "table" then
+            for _, key in ipairs({ "identifyexecutor", "getexecutorname", "identify_executor" }) do
+                if type(scope[key]) == "function" then
+                    local ok, name, version = pcall(scope[key])
+                    if ok and name and tostring(name) ~= "" then
+                        return tostring(name) .. (version and tostring(version) ~= "" and (" " .. tostring(version)) or "")
+                    end
+                end
+            end
+        end
+    end
+    return "Unknown Executor"
+end
+
 Tabs.Dash = function(win)
     local TabDash = win:Tab({ Title = "Dashboard", Icon = "layout-dashboard" })
+
+    TabDash:Section({ Title = "System & Environment" })
+    local detectedExec = executorName()
+    TabDash:Paragraph({
+        Title = "Roblox Executor",
+        Desc = "Active Executor: " .. detectedExec .. "\nAnti-AFK: " .. (CFG.AntiAFK and "Enabled" or "Disabled") .. " | Auto-Rejoin: " .. (CFG.AutoRejoin and "Enabled" or "Disabled")
+    })
+
     TabDash:Section({ Title = "Player Overview" })
     local statPara = TabDash:Paragraph({
         Title = "Live Player Stats",
@@ -6867,29 +6899,27 @@ end
 
 
 
--- Fast batch tab loader: initializes 11 tabs across ~3 frames (~0.04s total) without frame drops
-task.spawn(function()
-    if not Window then
-        warn("[SpectreWare] Cannot initialize tabs: Window is nil!")
-        return
-    end
-    local tabOrder = { "Dash", "Order", "Farm", "Events", "Spins", "Equip", "Cons", "Harbor", "Delete", "Player", "Config" }
-    for i, tabName in ipairs(tabOrder) do
-        if Window.Closed then return end
-        if Tabs[tabName] then
-            local ok, err = pcall(function()
-                Tabs[tabName](Window)
-            end)
-            if not ok then
-                warn("[SpectreWare] Failed initializing tab " .. tostring(tabName) .. ": " .. tostring(err))
-            end
-        end
-        if i % 4 == 0 then
-            task.wait()
+-- Initialize all tabs synchronously so Real Executor / all environments load instantly without thread death
+local tabOrder = { "Dash", "Order", "Farm", "Events", "Spins", "Equip", "Cons", "Harbor", "Delete", "Player", "Config" }
+for _, tabName in ipairs(tabOrder) do
+    if Tabs[tabName] then
+        local ok, err = pcall(function()
+            Tabs[tabName](Window)
+        end)
+        if not ok then
+            warn("[SpectreWare] Failed initializing tab " .. tostring(tabName) .. ": " .. tostring(err))
         end
     end
+end
+
+-- Immediately finish loading and ensure UI is fully displayed
+if Window then
     if Window.FinishLoading then
         pcall(function() Window:FinishLoading() end)
     end
-    print("[SpectreWare] Anime Breaker ready.")
-end)
+    if Window.Raw and Window.Raw.Root then
+        Window.Raw.Root.Visible = true
+        Window.Raw.Minimized = false
+    end
+end
+print("[SpectreWare] Anime Breaker ready.")
