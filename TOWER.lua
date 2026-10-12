@@ -1,17 +1,12577 @@
-local DecentUI
+--[[
+	SpecreWare | Tower Incremental
+	UI: SpectreUI v3.17 (dark/cyan-navy Roblox UI library by SpectreWare)
+	Theme: Spectre (Dark Graphite / Deep Navy Slate / Electric Cyan / Vivid Blue)
+	Brand: SpecreWare
+	Discord: https://discord.gg/GdKxvcHzjS
+	Game: [UPD3] Tower Incremental by Lucky CStudios
+	PlaceId: 75766778174856 / Universe: 10765067592
+
+	Features:
+	  • Built with SpectreUI v3.17 with Command Palette (Ctrl+K), Theme & Settings
+	  • Sleek Cyber/Spectre Aesthetic with Animated Weather Particles
+	  • 2-Column Responsive Section Cards with Collapsible Headers
+	  • User Logo (84699118856259) Embedded in Header, Splash & Open Button
+	  • 100% of Tower Incremental Game Automation Logic Preserved Intact
+]]
+
+-- AUTO Plugin fix for Delta / Wave / Arceus / Fluxus
 pcall(function()
-	if isfile and isfile("DecentUI.luau") and readfile then
-		local c = readfile("DecentUI.luau")
-		if #c > 20000 then DecentUI = loadstring(c)() end
-	elseif isfile and isfile("-3-main/Source.luau") and readfile then
-		local c = readfile("-3-main/Source.luau")
-		if #c > 20000 then DecentUI = loadstring(c)() end
+	local set = setthreadidentity or set_thread_identity or setthreadcontext or set_identity
+	if set then pcall(set, 8) pcall(set, 7) end
+end)
+
+-- ===================== SPECTRE UI LIBRARY LOADER =====================
+local Library
+pcall(function()
+	if isfile and isfile("SpectreUI.lua") and readfile then
+		local c = readfile("SpectreUI.lua")
+		if #c > 20000 then Library = loadstring(c)() end
 	end
 end)
 
-if not DecentUI then
-	DecentUI = (function()
-local a=(function()local a=game:GetService('TweenService')local b=game:GetService('UserInputService')local c=game:GetService('GuiService')local d=game:GetService('RunService')local e=game:GetService('HttpService')local f=game:GetService('Players')local g=game:GetService('TeleportService')local h=game:GetService('MarketplaceService')local i=game:GetService('Stats')local j=f.LocalPlayer local k={}k.Flags={}k.Windows={}local function l(m,n)local o={}if type(m)=='string'then o.Name=m elseif type(m)=='table'then for p,q in pairs(m)do o[p]=q end end for p,q in pairs(n or{})do if o[q]==nil and o[p]~=nil then o[q]=o[p]end end if o.Range then o.Min=o.Min or o.Range[1]o.Max=o.Max or o.Range[2]end return o end local function m(n,o,p,q,r)p._type=r p._frame=q p._listeners=p._listeners or{}local s=n and n.Window local t=o.Name or o.Text or o.Title p._searchName=type(t)=='string'and t or''p._searchKey=string.lower(p._searchName)if n and n._items then table.insert(n._items,p)end if o.Flag then k.Flags[o.Flag]=p if s then s:_flagCreated(o.Flag,p)end end p._userVisible=o.Visible~=false function p:IsVisible()return p._userVisible end function p:_isShown()return p._userVisible and not(n and n._userVisible==false)end function p:SetVisible(u)u=u and true or false if u==p._userVisible or p._destroyed then return end p._userVisible=u if not u then if p._onHide then p._onHide()end if p.Open and type(p.SetOpen)=='function'then p:SetOpen(false)end end if q then q.Visible=u end if s then s._controlsDirty=true end end if q and not p._userVisible then q.Visible=false end function p:SetTooltip(u)p._tooltip=u if q and s and not p._tooltipBound then p._tooltipBound=true s:_attachTooltip(p,q)end end function p:GetTooltip()return p._tooltip end if o.Tooltip~=nil and o.Tooltip~=false then p:SetTooltip(o.Tooltip)end function p:Destroy()if p._destroyed then return end p._destroyed=true if s and s._tipOwner==p then s:_hideTooltip()end for u,v in ipairs(p._listeners)do v()end p._listeners={}if n and n._items then local u=table.find(n._items,p)if u then table.remove(n._items,u)end end if o.Flag and k.Flags[o.Flag]==p then k.Flags[o.Flag]=nil end if s then s._controlsDirty=true end if q then q:Destroy()end end return p end k.Theme={Background=Color3.fromRGB(10,13,20),Surface=Color3.fromRGB(14,19,30),Surface2=Color3.fromRGB(20,27,42),Surface3=Color3.fromRGB(28,38,58),Stroke=Color3.fromRGB(35,48,72),StrokeHover=Color3.fromRGB(56,135,230),Accent=Color3.fromRGB(56,189,248),AccentDark=Color3.fromRGB(10,26,48),Text=Color3.fromRGB(240,246,255),Muted=Color3.fromRGB(125,142,172),Warning=Color3.fromRGB(245,180,90),Success=Color3.fromRGB(52,211,153),Error=Color3.fromRGB(248,113,113)}local n={'Accent','AccentDark','Background','Surface','Surface2','Surface3','Stroke','StrokeHover','Text','Muted','Warning','Success','Error'}local function o(p,q,r)return Color3.fromRGB(p,q,r)end local function p(q,r,s,t,u,v,w,x,y,z)return{Background=o(table.unpack(q)),Surface=o(table.unpack(r)),Surface2=o(table.unpack(s)),Surface3=o(table.unpack(t)),Stroke=o(table.unpack(u)),StrokeHover=o(table.unpack(v)),Accent=o(table.unpack(w)),AccentDark=o(table.unpack(x)),Text=o(table.unpack(y)),Muted=o(table.unpack(z))}end k.ThemePresets={Spectre=p({10,13,20},{14,19,30},{20,27,42},{28,38,58},{35,48,72},{56,135,230},{56,189,248},{10,26,48},{240,246,255},{125,142,172}),Midnight=p({15,18,26},{18,22,31},{22,26,37},{37,44,60},{34,40,55},{70,84,112},{128,160,246},{14,18,30},{228,232,242},{116,126,148}),Ocean=p({12,20,24},{15,24,29},{18,29,35},{31,48,56},{29,44,52},{58,92,104},{110,214,222},{10,24,28},{226,238,240},{108,134,140}),Rose=p({22,15,18},{27,18,22},{32,21,26},{48,34,40},{45,30,37},{98,64,78},{246,160,186},{30,14,20},{240,228,232},{138,112,120}),Emerald=p({13,20,17},{16,24,20},{20,29,24},{33,47,40},{30,44,37},{62,96,78},{132,226,170},{12,26,18},{228,240,233},{110,136,122}),Amber=p({22,18,13},{27,22,16},{32,26,19},{49,41,31},{46,38,28},{100,82,58},{246,196,120},{30,22,10},{242,236,226},{140,126,106}),Mono=p({16,16,17},{20,20,21},{25,25,26},{40,40,42},{38,38,40},{84,84,88},{236,236,240},{20,20,22},{234,234,236},{122,122,128}),Nebula=p({14,12,28},{18,15,35},{23,19,43},{39,32,68},{35,29,62},{84,68,140},{199,125,255},{22,10,40},{236,230,252},{124,114,160}),Synthwave=p({20,12,30},{25,15,37},{31,18,45},{52,30,72},{47,27,66},{110,58,150},{255,94,198},{38,8,30},{250,232,246},{150,118,160}),Sakura=p({24,14,20},{29,17,24},{35,20,29},{54,32,45},{50,29,41},{112,66,92},{255,158,200},{36,12,24},{248,232,240},{150,112,132}),Velvet=p({20,10,16},{25,12,20},{31,15,25},{50,25,40},{46,23,37},{104,52,82},{222,110,170},{30,8,20},{244,228,238},{142,106,126}),Crimson=p({18,10,12},{23,12,15},{28,14,18},{46,24,29},{42,22,27},{104,46,56},{244,74,94},{32,8,12},{244,230,232},{142,106,112}),Sunset=p({22,13,14},{27,16,17},{33,19,21},{52,31,32},{48,28,30},{112,62,58},{255,138,92},{34,14,8},{248,234,228},{150,118,110}),Gold=p({14,13,11},{18,17,14},{23,21,17},{38,35,28},{35,32,26},{92,80,54},{232,196,122},{30,22,8},{240,234,222},{136,126,106}),Cyber=p({13,13,15},{17,17,19},{21,21,24},{36,36,40},{33,33,37},{86,84,70},{250,226,72},{30,26,4},{240,240,232},{126,124,118}),Toxic=p({11,14,11},{14,18,14},{18,23,18},{31,39,30},{28,36,28},{74,98,60},{184,255,74},{18,30,6},{232,242,228},{116,134,110}),Matcha=p({16,19,14},{20,23,17},{24,28,21},{40,46,34},{37,42,31},{84,98,70},{176,214,140},{18,26,10},{236,240,228},{128,136,116}),Aurora=p({10,20,22},{12,25,27},{15,30,33},{26,50,53},{24,45,48},{50,104,104},{94,240,180},{6,30,22},{224,246,240},{102,142,134}),Frost=p({13,17,23},{16,21,28},{20,26,34},{34,43,56},{31,40,52},{72,92,118},{164,214,255},{12,22,34},{230,238,246},{114,128,146}),Abyss=p({7,11,22},{9,14,28},{12,18,35},{22,31,58},{20,28,52},{44,64,120},{72,148,255},{6,14,34},{226,234,250},{100,116,152}),Halloween=p({18,12,20},{23,15,25},{28,18,30},{46,30,48},{43,28,44},{104,62,40},{255,138,36},{36,16,4},{246,234,224},{146,120,128}),Haunted=p({14,12,20},{18,15,26},{22,18,32},{38,31,54},{35,29,50},{70,96,64},{156,255,110},{14,30,8},{232,240,228},{120,116,140}),Christmas=p({12,20,15},{15,25,19},{19,30,23},{32,50,38},{30,46,35},{100,54,56},{236,72,80},{34,8,10},{240,244,236},{120,142,128}),Valentine=p({24,12,17},{30,14,21},{36,17,25},{58,27,40},{54,25,37},{130,56,84},{255,92,140},{40,8,20},{252,232,240},{160,112,132}),Lunar=p({22,10,10},{28,12,12},{34,15,14},{54,24,22},{50,22,20},{130,92,40},{246,196,84},{38,16,6},{250,236,222},{160,120,108}),Tropical=p({10,22,24},{12,27,30},{15,33,36},{26,54,58},{24,50,54},{44,110,110},{255,170,90},{36,18,6},{232,246,244},{104,144,142}),Dracula=p({24,25,33},{29,30,40},{34,36,47},{52,55,70},{48,50,64},{98,114,164},{189,147,249},{26,18,44},{246,246,238},{126,132,168}),Coffee=p({20,16,13},{25,20,16},{30,24,19},{48,39,31},{45,36,29},{104,82,62},{214,170,124},{32,22,12},{240,230,218},{142,124,108})}k.ThemeName='Spectre'k.Assets={Shadow='rbxassetid://6014261993',Glow='rbxassetid://8992230677',Logo='rbxassetid://103859712365480'}local q=[[https://raw.githubusercontent.com/Footagesus/Icons/refs/heads/main/lucide/dist/Icons.lua]]local r=nil local function s()if r~=nil then return r end local t,u=pcall(function()local t=game:HttpGet(q)return loadstring(t)()end)if t and type(u)=='table'then r=u else r=false warn('[AirFlow] lucide icons unavailable: '..tostring(u))end return r end local t={ValleySans={Regular=[[https://raw.githubusercontent.com/HelsinkiTypeStudio/valley-sans/main/fonts/ttf/ValleySans-Regular.ttf]],Medium=[[https://raw.githubusercontent.com/HelsinkiTypeStudio/valley-sans/main/fonts/ttf/ValleySans-Medium.ttf]],SemiBold=[[https://raw.githubusercontent.com/HelsinkiTypeStudio/valley-sans/main/fonts/ttf/ValleySans-SemiBold.ttf]]}}local u={Regular={400,Enum.FontWeight.Regular},Medium={500,Enum.FontWeight.Medium},SemiBold={600,Enum.FontWeight.SemiBold},Bold={700,Enum.FontWeight.Bold}}function k:LoadFont(v)v=l(v,{})if type(writefile)~='function'or type(isfile)~='function'or typeof(getcustomasset)~='function'then warn([[[AirFlow] custom fonts need writefile, isfile and getcustomasset]])return false end local w=v.Name or'CustomFont'local x=v.Weights or t[w]if type(x)~='table'then warn('[AirFlow] no font weights for '..w)return false end local y=v.Folder or'AirFlowFonts'pcall(function()if type(isfolder)=='function'and type(makefolder)=='function'and not isfolder(y)then makefolder(y)end end)local z={}for A,B in pairs(x)do local C=u[A]if C then local D=y..'/'..w..'-'..A..'.ttf'local E=true if not isfile(D)then E=pcall(function()writefile(D,game:HttpGet(B))end)end if E then table.insert(z,{name=A,weight=C[1],style='normal',assetId=getcustomasset(D)})else warn('[AirFlow] could not download '..A..' weight of '..w)end end end if#z==0 then return false end local A=y..'/'..w..'.json'local B=pcall(function()writefile(A,e:JSONEncode({name=w,faces=z}))end)if not B then return false end local C=getcustomasset(A)local function D(E,F)local G=u[E]if G and x[E]then return Font.new(C,G[2])end return F end k.Fonts.Regular=D('Regular',k.Fonts.Regular)k.Fonts.Medium=D('Medium',D('Regular',k.Fonts.Medium))k.Fonts.Bold=D('SemiBold',D('Bold',k.Fonts.Bold))return true end function k:PreloadIcons()return s()~=false end local function v(w)if type(w)=='number'then return'rbxassetid://'..string.format('%.0f',w)end if type(w)=='string'then if w:match('^%d+$')then return'rbxassetid://'..w end if w:find('^rbxassetid://')or w:find('^rbxasset://')or w:find('^rbxthumb://')or w:find('^http')then return w end end return nil end local function w(x)if typeof(x)=='table'then return v(x.Image)or x.Image,x.RectOffset,x.RectSize,true,x.Tint==true end local y=v(x)if y then return y,nil,nil,true,false end if type(x)~='string'then return nil end local z=x:gsub('^lucide:','')local A=s()if not A then return nil end local B=(A.Icons and A.Icons[z])or A[z]if type(B)=='table'then local C=B.Image if type(C)=='number'then C='rbxassetid://'..tostring(C)end local D=(A.Spritesheets and A.Spritesheets[tostring(C)])or C return D,B.ImageRectPosition,B.ImageRectSize elseif type(B)=='string'then return B end warn('[AirFlow] unknown lucide icon: '..z)return nil end local x='chevron-right'local y='rbxasset://fonts/families/BuilderSans.json'k.Fonts={Regular=Font.new(y,Enum.FontWeight.Regular),Medium=Font.new(y,Enum.FontWeight.Medium),Bold=Font.new(y,Enum.FontWeight.SemiBold)}local z=k.Theme local A=k.Assets local B=[[iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAYAAABccqhmAACDfklEQVR42u29eXhdV3ku/q219nRmzYNtybLlIY4zxwmZSeDCpUCAQm3GlgZa4Eeh0IF720Jruy3QWy4tXChDuW2BtlBsegulFCiQhCGj4ySO7Xi2bNmWNRwNZ9zzWr8/stdmaXnvI9mWZMne63nOo+no6Oic/U3v937vB5Cc5CQnOclJTnKSk5zkJCc5yUlOcpKTnOQkJznJSU5yLs+DkpfgyjuMsdj3HSHEklcoOclZ4gbOGMOMMfLQQw8pjDHSyOhjHgM/9NBDSvD7+Hx/PzlJBpCchY3o/MYQQrTR/QcGBoy+vr4cAKQsyyKMMW9iYqI+NTVVueaaa5xGToH/jeDvJNlC4gCSc6mNHiHkSz9L2bbdU6lUrrIsqyudTucYY9f7vr/M8zyEEMqk0+k8xjgdZAeu67o1hFAZAGxN00xd1583TXMglUpNaZq2HwBOIoSmpL9DAIAmjiBxAMlZOMPHstEzxrRqtbqOEHKNaZp32bZ9k6Zpa3Vdb8tms+D7PjDGgBACCCHxsXjd3/BvWpZVNk1zUFXVnxuG8ePJycnnOjo6DkvPCWbKPJKTOIDkXHi0x2J6zxhLnz179mpd119KCPkly7JubGlpyRNCwPdf8A2UUoYx9gMDR8EBjPG0959SChhjOYoz3/cZACCMMRGdhGVZRULIzxlj3yyXyw+1t7cPJY4gOcmZHzCPSN9bWyqVfn94ePjnQ0NDTqVSYaZpslqtxizL8nzf9/wXDmWMUTY3hzLGfMaYF3wMj2mag7Ztf4Ixdg1/jjt27CAJaJhkAMm5yIjP03zGmOJ53osnJyffgBB6fVNTUydjDHzfB4wxRQgBIQRhjBfq/WTBDYLMBGzbLvq+/+V0Ov1FhNBRnhEk2UDiAJJznjW+kOY3TUxMvMx13XcihF7e0tKCPM8DxhhVFAVUVUWL4D3kzoA7gtO2bX8qn89/GSE0zjOBBChMHEByZm/42ZGRkdchhH47nU7fgjEGSikoiuKrqooxxmgm4O5SOwLP8570PO8PU6nUg0k2kDiA5MzQzuPGMTExcb/neR9WVfVFmqYBQohhjJmiKIgQgubob077XPxaYgWKgOH5OAIKAMT3/bplWR/LZDJ/gRDyEyeQOIDkxER927avGxsb+z2M8dsMw8CMMZrJZEDTNDwX0Z4xBpTS8KNo/LIDEP8eISRsH57n86A8G6hWq/9GCPmddDp9MnECiQNIDF+I+pOTk02O47wHY/w/DcNocl0XAICmUims6zpcjPH7vj/N6MXPGWOAEAqdgRz15b+rKAooijLNEcziuYVlged5+1zXfU86nX4kcQKJA0iiPgCMjo7e4/v+x3Vdv0NVVdA0jSKEMMYYCCEX9PgBSAiUUvA8DzzP45yA0Ni5A+BZADdk/nlUtA9Ax7AkQAiBoijnkIvifBEAEM/zhgHgN1RV/W4CDi6OoyQvwcKdHTt2kKAWTp85c+Z3TNP8n4VCIccYoyiwfEW5sLeEUgqu657jADgLUE7542p/2QGIzsH3fSCEhE7A8zwghIBhGDM5AQIAvqIoXbZtf91xnP+JEPp8Ag4mDuCKSfm3bduGtmzZ4heLxauPHDnyyebm5lcEhkoVRcFidL2Qut7zvGkOgBssvw9CaNr34wBAnv7z5yKWChjj0AlwxqHneYAQglmUK4RSSnVdz7mu+zeVSmVlNpvdhhCykpmCpAS47GfvEUJsaGjoDZZl/ZWqqr2KolBd15FhGIin1+cb8XmE59FYjvhi3R/lAOSOQFwGwO+DMQ4dA3cUAQkJDMMATdNmLF0CejIAAKpUKt/J5XIfQggdEoaLkknDJAO4PM7WrVvD9PbMmTPbfd//I1VVFYwxNQwD67oOhBCYbdovgng84vOvOeAnGrzv+9Mcgpg1RGUAUcYv4wEijsBxAP53bNsGXddB1/XYbCZgKzLf91kmk7m/XC7fNjk5+ZdNTU1/gxAyheepCCBi4hCSDGBpgn2MsfThw4c/pmnaBwKjoLlcDuu6HgJrs0H6xejOU37HcaYBetwBiGVBVBYgfi8yVw+cklwOyOUHf0x+f+4QUqkUGIbRMBsIMhEKANi2bajX649nMpl/TKfTP0EI7Y+6VoNho6RUSBzAkjH+zsHBwc+pqvp627aZqqqg6zrSdR2Cz2dl/Ly2F5F8ngGI9TyPxNy4+c8RQiE2gDGmQbnAxPSePw+e5iuKgjDGmNf7vDPBIz9/LtxBCL8HmqaFTmAmXINSyoLniBhjUK1WJ33ff5QQcsAwjD0AcBIATqTT6VPJ+HHiAJaM8Y+Pj/eMjY39E8b4HkVRaCqVQgGbL0yTZ6qXGWPgOA5YlhUatpjG89Qf4IWev+u6odHzn/m+T13XBYwxY4xhjDESBomA04xVVQ2zER7dg3qdBhwAhBDC3ODl8oE/FkIIDMMAXdchIDLNGtYIni/m2YfrulCv1x2M8Yiqqk9ijP9T07T/QgidThxB4gAWo/EThJA/MTHROzY29nVVVe+o1WpU0zTc1NQUpvw8A4iK/tw4ecrPoz83arkt5zhOWA54nge2bfPePwsiLOJR3LIswBiPOo5zslgsnvA8zzEMw1dV1cxkMkjX9ZTneSSTyXS5rrteUZTluVwOEEIQEJSYqqpIxgZE/gAAhP+jYRiQTqdnXeZIVGLm+z4JCFNhJkEpPYEx/gYA/IMIHsqqSMlJHMAlifynT5/uMU3znzRNu8eyLJ8QQlKpFOi6DvxjFNNOjPiO40yL4mJNL0RnME0TLMsC13XBtm0wTRNc1+WDQ+B5HiiKcqSpqWk/IeTxycnJp3O53J4777xzdKb/5/Dhw/lyuXxdNpu9zjTNOx3HuTWVSq1RFAUopWFZEMcMVBRlmhM4j0wgyiFwajEXRgEAGAWALwPAlxBCRxNiUeIAFkPN33vgwIF/xhjfRSn1FUUhhmFAKpUCTdPCVlkcyCcav9zL51GYp/iWZUGlUgHTNKFer0O1Wg1/lxBiNTc371UU5ccbNmx4PJPJnEylUrZhGJnJycmVpmku932/nTGW5iUApZSVSiVmWZadzWatdDo96nneacuyRl3XdXVdX2/b9mt1XX9NJpPJKorCFEVBYmkiH1VVQ+NPpVKzZQ3OZsaABeQioJSewRj/EULoqwmxKHEAl6TPjxBixWIxXywWv4YQepVt2z4hZJrx67oOmqad4wA4g89xHLBte1qdL4J8vu9DvV4Pjb1Wq4URPwD3gDEGHR0dsHLlykqhUDhuWRbxfb83lUpldF1HqVQK83Rcxh/E7AMhBNVqFSqVChSLRRgbG/NHR0ftarU6pet6q6Ioend3N2zcuBFUVQ3bknJJoChK6PS4A5zDMeZw6jB4HT+DMf4wQqjC35Pk6oSEB7AQDD/GGD506NCfMcZe5TgOZYwRMUUWkXSQhnXE2p0j9iK5h6f2tm2DZVmhgRYKBVi9ejXk8/nQwXDUHWOcUxTlevHv8Mf1PI8BAHMch3Fj5JiD1OdHhmGg1tZWhBAizc3Nadu20+Pj4zA2NgaHDx+GI0eOwLp16+Cqq64CwzDCToVYGvDH5szBC6U6xwQvwksDjPH7ASDDGPtthFAtcQJJBgALQfTZvn073bVr1/80DOMvKKWMg24cCTcMI7zxqAgAYTrPHQCP9mI2YFlWyK7TdR1aW1vDtDqOOSjw/FkE4QdFkXpk2jDHHLiDchyH1Wo1qNVqYNs24uXHyMgInD17Fpqbm+H222+HZcuWhZmFOFWIMQ47H3yqcB7ESHg28GkA+N2EPJQ4gAWp+w8cOHD/1NTU11RVzQAAaJqGNE0LkXB+4w6AR0VerzuOA67rQrlcDgE/jDHk83lIpVKQyWQglUo1NPY4oo48/x81/Sff+H15r5+TjTzPA8uywtKjUqnA+Pg4DA8Pw+TkJAAAXHfddXDHHXdMcy68NFFVFQzDCB3AbKcdxeczQ/nAQUIfAN6MEPpmkgUkJcC8UnwPHTp0Q7Va/aJhGFnf9yl+4YRgl3iRB220EMwzTTOM9I7jQDabhUwmA7lcLhIolCm7IPTfxfagSO6Rqbtxqj8iS5BHbf49TdNCpwSCQIjoTHK5HFQqFdi7dy/UajW45557wtaf+HzkWYTZ8CBk5yY6MOngwAkojuN8qFwuP4wQKiZOIHEA8wL6nTx5srlSqfwvVVW7bdumgYpveHGKiLcYiW3bDm+KokBTUxNks1kwDCPSABqJb8S1EqPGfWVDjHMGcY6CEBKWHel0etrzSqfTkMvlIJ1Ow8DAADiOA3fddRcUCoVppYCcYcwkOVatVmHfvn1QKBQgl8tBZ2fnTO1EBAAMY3xLKpW6FwC+KawyS07iAOasbKLDw8MfMgzj5aZpUkIIFqMZv7A5R54xFqbOhBDIZrPQ1dV1zsUsR7fZIuZiSi8bPDcwDgSKFF758aP+Pn8MngXI9TvGeNoUIMYYisUi/Pu//zu8+tWvhu7u7hAAFJ2SOKYc939mMhl4+umn4ejRo7Bu3TpobW2F9vZ2uPPOO+McAQIAqigKBoCXM8b+X2L8jQ9OXoLzr/v379//UkLIe23bZjKwxj/nBB3TNEPD7+zshL6+Pmhrawsv4LjU/mK0/+IyAPHvRQ0FibhBI2cj8v0zmQxks1nI5/OQz+ehUChAc3Mz1Ot1+MEPfgClUinMhuRJxEbGzx3PunXrAAAglUrB3XffDV1dXbB79+6QFNXg3AcAvS+MGCRLShIHMDd1P6tUKh2lUunjjLFCUNcjceyWU245ym8YBnR2dkJnZydks9lZpfHna+jikJBsyCKdWDQaGSSMu8Wl7ZzWLHY5eCnQ1tYG/f394DgO/PjHP4ZarRYOJHFAUXQEjcoR/ljVahUeeeQRUFUVjh8/Dj/+8Y8bYQEMANYAwCuTKzdxAHOaBBw4cOB9lNJb6vU6FSMLN7RarQa5XA56enqgp6cHmpubp6nrzHFGEhqpnF7LgiByRiA7j6j0vFE2IZc5fAw4k8lAJpOBdDoNXV1dMDExAQ899BA4jgO6rof0ZnmaMUY7AK6++mpYv349ZDIZmJqagu9973tw+vRp+K//+i8YGhqKe135HMQbGGPZJAtIMIA5Sf337NlzW6lUem9wgSEe1TgQls/nob29HXK5XMNafc7ACAnxb/T9OHBvtj+XW3F8+o87AJmXwFN4TdPg2LFjoOs6vPzlLw8zJNGxiEpD8mPoug633norEELg6aefBowxeJ4Hk5OTMDg4CMuWLYvqDGAAoBjje33f3wIAf5+AgYkDuCgfgDEGx3HenU6nW2u1GqWU4kqlAi0tLdDe3g5dXV2RSP5cR/yoSC6m6GLXISqCy621mfYCyF+LwCAhBBhjIZ4hComIDqO3txeGhobgRz/6Edx9992Qz+dhcnIy1BcIhpZiHUmhUIC7774bWlpaYN++fTA+Pg6bNm0KX+8oxxqAlpgQ8ibG2DcSdmBCBLqo6H/w4MGXjIyM/BtCKOc4Dqiqirq6uqCvr28aoDdfK7uiUvSoqB33PSmtZwghJs7+i2my8D9g8e/KmYUoQyaqEjuOE4KfAXsQarUajI2NQUtLC2zatAl6enqmTTsKRhuKiVzMEbQHLQD4ZYTQD5JBoSQDOO+zbds2YIyhJ5544m2Msfzk5CRbs2YN6uvrg0wmMytEe66ivgz0xWEB0vMIV3kLLUrC14xxZiIHDHkk5pgGY8wXEHy+tXia4YqqQDwT4AQi+XWZmpqCBx98EHp6emDjxo2wfPlyUBQF6vV6qGhUq9WgWq0CxhjS6XRYSsyUqURoD/oAkKKUvhwAfpCUAIkDOK/z0EMPKffdd5/38pe//JqJiYlfWrZsGbv22muhpaVlwQw/SsAzqr4XnUMQ/RghhAKAQghBXLSzXC5DuVymCKETvu+bGOMKY2wq0OdTMMZ5jHEWIZRxXXdVV1cXSaVSIaWXUkoDZ4IQQjhq5wBvFYpsQM6HQAiBbdtw4sQJOHPmDCxbtgy6u7th/fr1kM1mwylInj2MjY2FWgqtra0N5wj44w8ODgIhBJYvX86JQdcHYGA1KQMSB3A+6j4eY0zZs2fP7/X19XV1dXWxILLMC6gXhfDLziCK9COk4RQAKCFE8X0fVatVPD4+bmOMn3cc5zBC6JlKpbLftu1JQsjxe+65xwQAFwBsDmwCgA4AyrPPPpsdHh5ejRDqBIDbTNO8WlXV67q6upbzqUP6wmG+7xOxK8B3B/B6XqQa825BKpUCy7Lg7NmzcPToUXj66aehp6cHent7IZPJQHNzM3R2doYdAz6HoGlamBHEYRWtra0wPj7Onwfyfd8lhCSKQQkGMLuan0+SHTt27NpCofCn2Wz2tbquc2VamO/V3HKNHwf+CeO8lDGGPM9DlFI4ffr0lGVZT4+Njf0EAH7wqle96iBCqHQxzwljDI8//vjqUql0e3Nz88sRQne1tLSszmazvITwKaUEXlh0GpYVHBPg+ACfduQfOV4wNTUV6iFks1koFArQ0tICHR0d0NbWBtlsNiwHeLnAyUgNdipQy7JwqVT63a6urr/m05vJVZ44gIaafowxcvr06d8oFAofyeVyK4I6Gi2E4YuRPs4BCO0zGqTMuFKpQKlUOjQ+Pv4dQsjX7rjjjmfFVJcxhnfu3IkAADZv3sy2bdsG27ZtYw2wD7Rt2zbYuXMn2rx5M5PBs+eff757fHz8Nbqub9F1/d62tjauigSe52GRHCU6Af59TpTiN9M0Q4KQ67pQrVbB9/2wjEin09DR0QGFQgGamppCfoVlWaEAKRdardVqYFmWTyklvu9/p6en580AYCYjwokDaLS9ByOE/AMHDizL5XL/u7u7+81cxz9Ajxck6suIe0w7jzHGKGOMlEolOHPmzHPlcvkzfX19/75mzZpRWT57ri78rVu34o0bN6LNmzeH2vyMMfW73/3uy1VVfV9XV9cr2tragDFGPc8LMxJxdRlH/kV2osgQrNfr4HleuIZMJA7xjIEQAu3t7bB69Wro6OiAVCoFCCGo1WrhiLVlWfTgwYNYUZRHNm/evAUhNPTQQw8p9957rz+b1+JK0RhECcX3F2nh8PDwSzVN+4vm5uZN4mrrBXJC5zDy5KGZoN6nGGNsmiYcP358wLbtLy1fvvwLK1eunAR4YQFpVMSeD6e5c+dOvGXLFp87m0ceeeQdCKH3dXZ2Xp9Op8E0Ter7PhbHgPmNKx1z4xf3F/ASQmwxir8D8Iu9CB0dHdDd3Q2ZTAZaW1uhpaUlHGMeHx9ne/fuRYVC4ec33njjBxFCu4UVZJELRsTV7QkIeOWIeSojIyO/3dTUtF3X9SwA+EE5gBbK8KNafPIsv6IoFCGEjx8/bpXL5S+lUqm/vPnmm08Lhk8XSh47MB4fANCOHTtw8Hf/78DAwDdPnDjxoUKh8N6Ojo4my7IopRSLewR5u5ETgERj5/MFYrkg3kSwj3cXarUauK4bqibxlmFrayu64YYb2PHjx+/at2/ff5qmudUwjH9ACNli5gcA8PDDD6OHH36YBobPxsbGljHGsh0dHYeTDAAuz1XdW7Zs8Q8dOrQ8n8//ZVdX11sEZRm8EIYv1vxy1JfuQymlqFQqoZMnTz6JMf7I7bff/sOZotlCl1FiRvDzn//8dk3TPlkoFG5XFIX6vs8j67RBJZGDEDWbwKO+OGzFW5LcofCuQC6Xg6amJmhvb58mamJZFj127BgGAGhtbf1RV1fXXwLAYwihasT/kTt9+vRdlmXdgRD6xpo1a/Zdzq1DdCWDfQMDAxtaWlq+ks/nbxEkpeb9NZEn4cQUWHYAnudRSimemJiAkZGRzzDGtt1xxx0TW7duxQAAiw3VFh3Bvn37WsbGxv6subn5vZlMBoJsC8sMRdkhyjsQxfVnomGLN0IIpNPpcCaDLzQRuiXs5MmTUCwWUSqVoqtWrdpjWdbjpVLpZ6Zp2oqidGCMby6Xyz3pdPoxVVW/0N/fP3K58waUK1HFFyHk79u3766mpqYv5PP5jULKDwsV+aNSfbH3H8zQ+4wxcuLEiZFarfYnd911198Gv79oKa28NNixYwe55pprJhhj73/wwQfHfN//vY6OjqzruixgFIazALJegSg5xkuGKCqyqCgkMhHr9ToAvCAoIgi1oJUrV0JnZyc9evQo3rt3740AcCOl9P9TFGWYUnognU7vm5qa+vBNN920W1R/SkqAywzpHx4efgsh5G/a2tqaFirlB4k/HyXOAdP1A6lt23hwcPCIZVlvv+uuux4TeAhsCb3mgBBijz322BtTqdTnW1tbm23bpgghLI5Ji/qBYjYU1RmRyT+iDDnXLCSEQCaTCYVIJe4Em5qaYoODg7RcLuNCofD4tdde+8sIoVGZCwJJG/CyMX4ItPx+vamp6XP5fD7FEfWFjPpRYhjihR2g3dSyLDw4OLiPUvrW22+//bkgQ6FLjc8ulgSPPvroKxhj/9zb29vC26vyhuEoRWF5piAuCxBLAg4mcqBQpBCLJKpKpcJGRkZQpVI5msvl3rd27dofXEkbhtCVYvwYYzY+Pv7+dDr9Cf0FWt+8R37RqKN6/VETfhhjv16vkzNnzjzR09PzQFtb2wEOWF4OoOtTTz31Kt/3v9zT09Pm+z4lhGB5v6C8slw0bPk1lTcT898RjZ7vSlRV9RxxFp4ReJ6HRkZGSrVa7aOtra1fbGtrK18JTgBdCQq+jDEyNTX1J9ls9k+Ci2JejV80bFGEU+7xy33/YJU3HhwcfDCTyfza+vXrz1xO9FXuBH7+85+/VtO0f1ixYkUzQogSQnDccJWY4jfaF8C1CaKchihiwvUKxMcLfi+8Jmq12o8xxu9Ip9ODl7sTQJd55EcAgEdHR7cWCoWP6LrOgiiL5hPhj5rai6LySjr5rFKpoOPHj+/q6el5Y19f38DlePFxJ/DTn/70bc3NzV/s7u5OBXwAJEblKEcgqxJxsVF50YmYLcjlgbitKAL0FclfzwDAexFCj1/OTgBfxnP8CCFES6XSh5uamj6s6zoT5sTnndTDa31R9IL3s2WBDowxq9VqaHBwsG4Yxv/o6+sb2LFjB7kcL7rNmzfTzZs3k3vuueefpqamPj4xMYFEI5UNVEzvZcQ/qhWoqmqoTMQ3NPH0n3/eYEsxCnAJCgA3ep7379Vq9VUIIbpjxw4CSRtw6UR+hBAdGRl5r6ZpfyhoyKOFBPxEw5dxAXE81nEcOjk5STKZzLPXXnvtM8H/cFlGnKAkowghRAj55Pj4+HXpdHqzqqpUURQsGrn4UdYOlLMFuRyIWqgymzZv8BgYAHxFUdpd1/1KuVx+Zz6f//blgMVc9hnAzp07MUKIDg8P/2Y2m/2rVCqlz7fxi6l8I2lt8XOeIdi2DadOnQLTNKG5uXkQAGqXfe8ZIbZ161Z0xx13mIVC4QODg4OPBWAgizJoXruLKb/c/hNbgHJmcIGiLQQA/FQq1app2v8dHR195ZYtW3yRyJRgAIuU4Tc4OPimfD7/d4VCIb2QgJ9IWRV5/I0kuUdGRmBoaIitXLkSZTKZP1qxYsXHKaVXhGoNr61//vOf397a2vqtnp6edt/3AWOMZMOVPxezA/75PKkzUQDAlmWddBznzYVC4bHLCRPAl5vxHzhw4L5MJvPZhTJ+sc4/H91/hBBMTU3ByMhIuB9Q07RJLt0HV8AJqMHkrrvuesxxnO3Dw8Oc5MQagYHy9+bR+EOJccMwViKE/vno0aM3X06YAL6MIom/Z8+e9e3t7f+npaWldaH6/HEpf9yqLWFABUZHR8Nlm4H4xZW4qIVu3boVd3R0fKVcLv+H53mYEMLk9D6qnpfLgHm2Ez+Xy61qa2v77L59+3qDcgAlIOAiSSOLxeJyxtjft7a2XhOMqZKFAPxms2hDlhHzfR/Onj0L1WoVWltbw+WblNIrTq2Gy5EjhGqDg4MfHh4evmbVqlV9CCEqio7KLb+YNt58HgIAfqFQuM3zvM8Vi8W3IISWPFkIXw4sP8aYVq/XP97W1nYHH+xZiIk+OepHCV/IICBCCMrlMoyMjICmaSFXXdM0cF33ipzO5Cl1b2/vXtd1v1Cv11EUt1/cRrTAxg/C6LXf1NT0qmq1+id8IjMpAS7h80cI0bNnz76/o6PjVwN+OblEF8es7ue6LoyOjgJCCHK5HKiqCul0mmUyGdA07aogGtIrbZfd5s2bKWMMdXR0fLlYLD4WDAvRKLT/EjoqAABMCGGtra3ve+CBB94ijzgnDgAWdFuvf/Lkyf+Wz+c/HKj2LohUd6ObOO0nlwCMMRgdHYUzZ85AOp3mwJ+4aPM2AGi6QrMAtm3bNtTd3T06Pj7+2ZGREZcQgpjgWS+l8UudM5bNZvWmpqZPHjly5F6EEF2q2QBeyjp+ExMTvdls9pOZTKZ5Icd6o/bpNVrXJa67PnbsGNTrdUilUqDrOncAOBgBvr5arW66UsVatm3bxhhjqLm5+Tujo6M/8n0fYYzZIjL+aaBgoVDoQAh9cnh4uHP79u1L0gngpbqu66mnnlJd1/1YS0vLdQtl/HKUFz+XF3nIwyyEECgWi1AsFiGTyYRy1xhjUFUVGGNU13UNAN7A59GvxCwAANCGDRsqvu9/fnBw0MYYh05gsbWdAcDv6+u7qVqtfmKplgF4qaL+TU1ND6TT6TcJG20uyWbe2Yz4UkqhXq/DwYMHAQCgubk5LAk4f53PKBBCfsV13U0BOo6vTMU2hlatWvVwqVT6aaAlyBahswrxgI6OjrccPXr0HUsxC8BL0fj37t17faFQ+HA2myULlS5HAVDy+GqUaAXnsA8NDcHw8DBks9lwdJW3twJ0GzmOQ1OpVCsA/B5jTOfGcCVmAe3t7RXbtj83Ojpa53X3YmXS5nI5kslk/vzo0aM3LzUngJdgy4+0t7f/SVtbW68g5LlgG3tE2m8j5J//DiEEbNuGQ4cOAaUUdF2fhhOIrS2MMarX6xQh9Cumaf4+N4YrzQlwxzc4OPifxWLxwUXsALgT8Lu6ujp93//Y2bNnM+L1mjiAOQ0OiB47duzXmpubX7lQqb+M8keBgBGbe6aVAKOjozAyMgKGYYCu6+eQWMT1257nIdu2EWNsq+d5vxmQTK4oJ8Ad35YtWxzXdb9hmqbH9RAXczs6n8+/bHJy8je3b99Ot23bljgAmNuWHz148OBVhUJhq6ZpxkI4gDit/plqfvH3XNeFo0ePguM4kM1mz6Gw8jKAT7txYQyEkOp53v/xPO8dnGl2hWUCDAAgk8l8f2ho6OkgACzmLAC6urpQOp3+3SNHjmxcKqUAXiJS3owxhlpaWv6wra1t5ULx/ONuUZmA+Dlv+SGEYGxsDAYGBsAwjJDBxo2fOwtFUUDX9bAtqCgK8n2fMcYMSunnPM/7rWBU9ooBBoORYXzVVVcVLcv6RtAmhcWcBQCAv3z58h7TNLczxhR+3SYO4OJTfzY4OPjqXC63eb4jv0znldt+Mu1X/FpuA7quC2fOnAGEEBQKBVGjPvwbfDkmxwP4fRBC3AnojLHPuK77ecZYC2eeXQmOYOPGjQgAkGEY/zU2Nja8GHf2ScGBKIpCW1pa7t+9e/cv81ImcQAXB/yxHTt2aNls9n2GYaQuVep/vr+DMQbTNGF0dBQKhQJkMplpu+xFdqBt29OyB13XOV6AKKUs2KX3Hsuyvmua5n3BoEzoCC7X0uCNb3yjzxiD/v7+A1NTUz9YhNfnNOfPA0Bra6tmGMYfnjhxonux07rxUkgFr7/++l9PpVIvvRQ9/6g3WRb5EKf9RP3/8fFxcF03XFChadq02l/MLhzHmQYK8gEYRVEQQgg5jkMNw7jNcZwfWJb1T4yxW7gj4MrHl5sjYIxxhSffdd1/LZVKXLCTLSYHIOo92raNCSG0s7PzxrGxsfcvQhbj0nAAAfDHDh8+3N7c3PzeVCpFFsoBXAxXQHQAJ06cCHfWaZoW9vz5BeF5HliWFa66lmnEfKlF4DiwZVk0nU6ruq6/1XGcB03T/HK9Xr+Li6Hw0drAGVwWmcHmzZspAEC9Xn96cnLygAgQLqLUf5oT8DwPBVnfO5988slrFjOfAy9mXjgAgKqqv9bc3Hx98CLiS/HGyjhAXIYgevuJiQmo1+shuMcjOhcoFZdfOo4Dvu/zlWCRJ3AE2Pd9Zts21TQtaxjG233f/69arfZDx3HeU6vVlgVgoS9kBlhwCHipgoG333770KlTp34YCKxe8pZg1HvPcR3HcZDjOLSjo6Mjm82+T+CwoMQBzJLxBwBQLBaXFwqFdwbLPNh8p1Jyms+Nnm+obeQAZJ5AsVgExhik02kxnT8nymOMQzDQdd1ppcA5bxbGoOs60nUdB9gATafTqUwmcx9j7POU0sempqb+/uzZs29kjG1kjKmBI/AF3IBnCER0DIs5W9i2bRsghJiqqt8tlUpW4ADYpTJ6/n4JET987/hH0zS52MkbDhw4cCOfdoREEWh2rzVCiB0/fvwtPT09GxYi9ZfFPOM8fCMNAN76syyLTUxMgK7riLf/eP0vClmKzsNxnHAXHgCAIGUe5wyQwJCjiqJgTdN6AeABXdcfqFarEwih4/V6/Weapj1FCDkAACMIoaFAMSnO8Yo1dpSRsQjSzoJwAoaHh3etWrXqaQC4IxgQQpfKAYhMUJ7FSRkjxhjTTCbTNjQ09B7G2LsXI49BWazrvJ599tkOXdffxqP/fGUr3OBl7X7+BotvdJS+H0Tw/sfGxpDjOGHvn5N8ZAxAvGBEByAuuJwlCYUEjoUBANU0DRuG0QIALQCwCQDAsqyy67pjExMTJ3VdH8YYP0IpPTU1NXVEVdVSe3u7iRCaOt99BIwxRXBETHQefO/eXJUBv/zLvzz11FNPPdTa2nqHQJi6pMIvMvlLYo4iQghTFOX1TzzxxBcBYPdiW/WmLFJWFevs7Ly/paWFAyh4od5oOZ2PWkkdd/iQT6lUKgEA0jQtr6oq6LoeLqoUN9yIzgYhFKb/4s9n6QRkZ8Akg0SGYeQNw8gDQH9w37dQSqGlpWUMIWRSSqfK5fLzhJAKIWSQEHJAUZSSII1dBYAiAIwDgBsYuIkQ8mAW68Da29vRvffeS8UMD86fEwCe5+2q1WpOoVDQFqLPLhq4PAbOyVycx8EdkuAQEKWUtra2to6MjDyAENq9fft2roHIEgcQHf3p1q1bNd/3f0XTNAwAFM2z9Ysz/XH7/GYZESilFBcKhZ0Ioacty/osQggFpQEf9z2na8AvJv4zflHxf/s8nYA4HYki9t4xoYzAhmG0B1/25nK56yBeyqyOEJoEgCkAcBlj1DTNIQA4SCk1CSG2ruvHXNc9zhhzNE0rAsAQQohGbdMJyo0wc5jJIHg3oFAo7KrX6wOFQmF9sOdx3gMCzwLla0H+vigPz68nhBBSFIUhhN60d+/er15zzTVPLqZWprIYo/+v/dqv3dPU1HT3fNf+svc+X/JP1PMfGxtjp06devT1r3/9Pzz44IMbKaW/5bouRQhBKpVC4ixA1IXm+35IGXZdN3wuiqJcbLqLYl5LFlHzI/n+qqqmASANAMuF790EAK+WHIXteZ5fq9VGKKWnK5VKrVqtPkkpPdzW1va8pmkTAFBECNVkh7Bz5060f/9+tm3btliHsGHDhrMnT558BADWLzQOEKcFwZ0BBwOlchF5nkebm5tbJyYm3s4Y27WYsAC02MZ9AQBGRka+3NnZ+WvzyfnnLThe+0ch+nKNH0UAEv0JQgifOHFi1DCMl1133XXPMcbUhx9++B9SqdRbEUK+YRiEr7mK0rfnGAEhBAzDCJ0EBxH54stLRCyJAgZD5xFkUYTX5mKqTAgB3/ehXC5XFEWpep53ynXd/QDwsOd5z/X19R1HCJUjFHemZQd8N98jjzzyjk2bNv1dAJTOixOQo7o8FSryNvjXfN2bvCqOj60Xi8XT7e3tL9uwYcOhxVIG4MXG+X/++eevJoS8fD435MjtvKjPZxr1jQOrVFV9vKmp6UjwtXvvvfd+AGP8H/l8nmCMfUIIEzfZcqMWl16KBCGOMFuWBfV6Pfx+I/3BeQwWKLhm+I0EWaRCCFFUVUUIIYYxZhhjFrQdqeM4nu/7vmEYOcZYt6qqtxqG8YBhGF8hhPz8xIkTDx05cuTzp0+f3jw5ObkqMA6ZyxBeq6VS6Vi1Wq3BAo6CR3FCZAcRVQ4EN+x5HrS2tvaUy+XXBQNuKCkBIrKAY8eOvapQKHQJCyPmDdSRd8o3IgPJP5c/apoG9Xodmab5o97eXpMxhoP+9Thj7Neee+65zxmG8Sbf9yn3duJUoKwPEBBKwtRf7Du7rguKooQ/EzX0F0tWyVWOVFUF3/dx8LwZY4y5rstrZYYQyiiKcpNhGDc5jvOe8fHxscnJyV1Hjhz5Xmtr60+am5sHEEJVXiYwxsipU6f2+r6/HwBunY8MQEztxcwvjgYe1yGSggZTVRVZlnX/5OTkF7Zv315aDFkAXizEn23btgEAgK7rd6qqyuaL+CMCN/L2nkZCHzNwuhlCCJdKpUqpVHqKf5PPhCOEJru6un7TsqzPU0qxqqqIvnDOySrkNVgiY1DMCGzbBtu2w++5rht+vdhGZnm2YxgG0nUdK4qCVVXFqqoShBDzfZ/W63XfdV1KCGlXVfWVAPCZoaGhJwcGBh48cuTIH5ZKpXWc1NTb2zthmuYT81XGxnFAZI5I3AJYMSMQ7o8CZuimffv23Q0AsBiyALRYdP4AAJ544olX9/X1faWjo6OFUsq4UOZ8pHTi11GyX/LnUZ0BwTFQjDE+efLkY2vWrHl1U1PThOjdee83yHB+HyH0x7qu5yzL8hFCGL1wIjfeRu3EE9dkBYKi034myYwtmmEU/pq6rgs8C7BtO/w8AGWZ53nU8zzEdyVSSsE0zVFd1/+jp6dnZ6FQ+NGuXbteu379+p35fB7NZRYgIvniKncACJ2rSATizpmDf+IIufw4vu9TwzBwqVT6h7vuuutdAOBf0RkAV/p59tlnM3v27PmIqqpfy+fzLQLTbc7AnCiPHmXocay/qMggioAGdfveQqEwKZcu3PgRQrBmzZpPaJr25lqttl9RFBLckUbtspeHTGQmGs8GeEbAP+dU1Gq1CrVaDRzHmXGJ6XxmDXIU5UNOHBAVGZLBanBCKcWWZTHTNKlpmhQAOgDgHcPDw987duzYv1JKry+Xy+58Ln2Jo3zLa+Ci2KPy1ujgc2RZFqiq+ooDBw5cxQlOVyQGwBHdSqWy8dSpU58pl8v3IYRA07R5a+1EvZFRhhAFBs6EXYyOjoLjOM8JbyqNWoK5c+dO0tPT893Dhw8/6XneVs/z3pnJZAzGGMcGMOcHzEZ0VHRE3DGIgCIATMMS4lZtxa3dEjOIKFXkqJHouPvJGRfv4yuKErIo+f8eZAVhK9LzPOY4DvV9H6fT6de4rvsa0zSZwB+Z87S/kfhLVMkYxQiUBGSR53kUIdRdr9fvB4B927dvZ1eUAwjafQgh5A8PD7/m7Nmzn6OULh8bG6Pr1q1Dc532i7P3omePAvVEnKBR71f+HiEETU1Nuc8888zuWYhd+kHZMwYA7xsYGPhn3/c/rqrqi4O/zbMBHMdEjClDps0jiP8fT7vFdqPYTuTgYRSphpOUZmJFztYBRGVhhJCQ+MQfB2M8Dc8IBFOJ67qsVCpRAEC5XA7Nl7CHHOHl0iAq8suOQG4x858RQlilUvlvjLHPIISqlxIMVC5Frx8hRAcGBt5y9uzZz6qq2lwsFqmiKLi1tTVynfbFHrk/KzuFOGR/tpttVVXFmUxm75o1awb4KPP27dsb/o7gCB9jjL3y6NGj72CMvS+bza4nhIDjOFwDEGGMUSOwUFQX4rco5WF5uxE3etd1Y7ECOUsQHU7U57IjiZuYFGtq0Vj4dGQU8BZkOAhjjFzXhbNnz8JVV10FfC/kfGeLUZFeHhKKUpCWfg/Zto1s2775pz/96XUA8GgABl72DgABACKE0BMnTvxWqVT6JADolUqFOo6D0+k05PP5OV8CGUXoaRTFGk38xS0GCRD5Z17zmteMn6f0NZ9zqAPAZxljXx8cHHyb7/vvUlX16iDqAcbYp5Ri9IJHmDY1KBpflCipeF/RoPnPZ+pyNPqe6FRExypTZONarI0UlrgzEEs1kXzj+z5Uq1WwbRt0Xb/goBFn6NwRRUX6OG1ImTMgYh5CBoEopVTX9YLjOC8BgEeviBJgx44dGCHk79u373cdx/m4qqpatVpltm3jyclJuO666/iOPJiLek4cyohK2xvRfs9nAIgxxoGdYwghjwOb5+EIxGxgHAA+zRj76qlTp15vmuYDmqbdkk6ntWDWnAb0V8yzgjgeQNTWItEByJTk81m9Hded4Be7aDRRjxlFxIpywPw5ySk0v5mmCcViMQwccyn/BjMoQ8cZv6wnIXYGRKeg6zrzff/Ow4cP6+vWrbMvVRmgLNQiRYSQv3///ndQSv+cMaZRShkAINd1oVarQTabnTciR1yEj0rTZur5S9p/DCGESqUSZYwdvMhFGExwBJMA8HeMsX88c+bMJsuyfh0AXpdOp9t56uz7PhUuVBSg57GZy2wAv9kYvhghRQMVnQkH9sS6Ocr4Z+pA8MeUcQixM/LC4OXcpvzccKPKw0Y3cTowysEJTE9ECEGe590wNDR0NQA8c6nKAGWBJvz8wcHBe6ampv5CVdWUZVnUdV3s+z7U63VIp9OQTqdhrgk/Yroblf5fTOuLX/gYY7Btu3748OHn52gjjugInCBFfJQx9vFyufy68fHxlwPAbdlstkmkDjPG/LhBnqjo3+j/l52DyFEQQUax1o/qLnBjEqXOZCxitpgLbxXy3+HZTrVanRNWqPxcosDUuOsnilsSld3wnyGEkGVZVFXVrtHR0RcDwDN83BkuJx4AT2tOnjzZPzU19QVVVdtd16UAgDkZhDuAi6njotLLqN5ulKLLhfbCg+fKlan2rFixYkTUMrxYRyDId+HgdRwoFAp/vWrVqldnMplbGGPvcBznW77vH7Usi2azWZLJZIhhGBhjjCilHiHEEzn1lFIWnMhyIOqC512DqBZiVKouv5aBjFl4MwwjVEkW+/+N5i1khyPep1KphB2Oi+n7i6Qe2bBlRxGHW8QxS0U+h1AaMQCAdDp91+HDh/UtW7b4l0KWTVmAZZ7qoUOHPp7JZDYEXg97ngeqqoJt22BZFjQ1NV30lFscQNNog08jfKCRMxCfp+d5QAg5cO+995bnGsDkGQF/PblENgAcBYCjCKF/oJS2nzhxot80zRdblnUbQmi9qqqrDcPQubHySTWeTjPG/GBgJ8wUeJ9aZCXKcwpilOQGyW9ShDvHWMXH5ApJmqaFGnr8FtXtiCNJYYyhUqlAvV6HQqEwqwAyE7cibhnsbK4JGfdoVDr4vo8CAHljpVLpAoCTlxsIiBBCdN++fW8DgF8GAIoxRnw0lL9YlUoFVq1aNa2WvFgm1/mg/Bfj44KV3mDb9l6+qGO+NtcIHAIEAGjnzp1oy5YtfsAnGAOAx4P/sdV13avOnj27Udf1Pl3Xb6rX61lKaY+u652e52nZbJZwZyB3CzzPY4FxMcYY404kSL+RMMiEOJFHzABEMk8cqCq+D9wZqKoaOitZGLURtlGpVMCyLCgUCheU9oufizRemQosy8TJWYM0/TetxRlDK0cB1rC6XC5vAICTlwIHUOZT0//IkSM9pmn+vq7rCmOMcpKPyFyzLGtabXe+DiBqICNuUqsRw26murjRBZVOp8sLvDmXiVnWzp07McALqjlBJ+GR4AaMMdTU1KQCQHetVms2TbOlWq1uchynHWO8XNf1tZRS3XVd4vt+B0KoLdhRiPiospDpAABwA/U5ocjzPO4MQjCSG3SUA4jCAfhEpbw3kTsVEVzkzEGeRZZKJejs7Jx1lhgV5WWjj1r4GsUGjGIHxrUIpc1RiFJKC4WCViwW7wKA719uGQAzTfN9uq5fHUR/zA1fUZRwiIXXb57nTaOrnk/aH8f1n0vQL8b5oEqlUs3n88fg0q3RBlHll2cIDz/8ML733ntpkJE4QYrJ08wHhftnxsfHyeTkJNF1vSudTnenUinieV6753mbKpVKq2maWFGUbk3TehBCqXq93m4YhpHNZkOD5VEPY+wxxhBHujl3QU7do7gBImbAf+44Tjj0JC5TpZSGUmkTExPnda1EGW0j0c8LKScazULIeFVzc/NtBw4cyG3YsKGy0O1AZb6m+44dO7auXC6/RYgM02pHRVEglUqFxs9n3MUFmTO96FHtpKgSoBHYNxMTMM4ZYYyZpmmoVCpVBwcHj8Mi2VgjZAg0Qm0JAQA8/PDDGADgvvvu8yVprkkAOCB8/TVJ/bfl6NGjuud5Kz3PW2Hbdnu1Wr3Ltu0VhJBVqqq25fN51XGccFAJY0wDViMWW5UiuCiDjpRS0DQtjMo8SMjKSTxTKJfLMxLIZGC4kbpvo17/TFE+rsSIuj5930eBg7umUqmsuRTtQGW+pKNc132zpmkrgjoSiYARr6symQzk8/lwmk2MDFFOII6o0SgDiLpfI5LKBUy5jUxMTFgAi3u7juSgqJgtwC8WcCCuy7Bz5060efNm/jkE6r+jwV1PCQ//GcaYYllWT7FY7BsdHb0+k8ncYtv21aqq9mqa1qJpGpimySnHPqUUIYSwPJMgT0FyfMD3fQiERTiXPiwrCCFg23YoPTYTGzRqmi8O3Y9zCPJegDhlJvmajFAOQo7jMEVROj3P2wAAzyxpPQAe/cfGxpadOnXqQcMw1iOEqKZpmHttRVHC2p9SCnv37oVsNgvr1q0L20NcRlt+QxuxxqIWe8zUnuGpa1y6FuckgguPKoqCh4aGvrxhw4Z3Bqk2Wixqr/Oo2chxBxTgDiwK+GSMaY7jXFUsFu9xXfdu3/dvwRivyuVyIeIftCjDtEBuLfLoz0VPbNsOHUmtVoN6vQ7lchnS6TS86lWvgkwmM6MEnMjQk8d1o+i8orGLDD+uERClASDqG4iPJxOEgmvMV1WV1Ov1v9myZcv7hMlGtuQyAB49RkZGXq0oylrP88AwDMRRXjH14y/oypUrYXJyEiqVCqiqGuIDInAnt6GiMgCxBTVbltnFThkGZKNJwQAuS+OPySLOmfAUMgcakJieC26frVQqndVq9dbJycnXp1Kpeyilq7PZLDFNEyilPqUvwERR5CVCSFgWcOPieoqqqoJpmlCv1yGTycQCybPRe4gj+ERlAOLkpegcZEWmKLJQTCnaEwTQJdsFQFwCizF2T5DiUUIIFnfj8XYTB4O6urqgWq1CpVIJt+jy6bRGhno+YM18RcTJyUmYmJg4KKr+wBV4xM5EhFPggicjAPAdAPhOpVLpnJqautM0zQcwxi9VFCUVqAPRYMbhHOBQrv9VVQVN07gWI5imOeu2nzhdKHcB5HIhiiY8W5wgLmOVPkee50GhUFh1+vTpZQBwej60MGG+mYD8H3rve9/bYVnW7YHRI3FQhaf1iqJA0GqCQqEQtnPq9fq0TbmytloUWHMxkT2KvtqIFSfhHMj3fep53oiY/SRnOptRWluOGWM4l8uN9PT0/L+VK1fe39ra+t9N0/yy4zjj2WwWY4yR7/uUUsrEtBoEfUERSNY0DQzDiHQAszHURlF+NgIxYnYa9TuNylC+Piwob1YUi8WVC60VOGcOgPeiS6XSnaqq9nCjFzXqeAuQp/mcCNLS0hI6AF7j8TpLrJtmQvij2FdzLS4ikmYwxl4ul3MScz8vhzCN4pxOp3+2evXqBzRNu7Narf4f27ZHU6kUVhQFUcFqeBbAy0kxkOi6HusAYIbFHo0EQBsZfpyKlJxdRJWu8ksTqEE1l8vla2GpzgLs37+fAQDUarUNGGPV8zwmMMempXBiJuD7PnR0dICmaVCr1cCyrGk6djwbELfkROiuxy7vmEvDFyiuLOhmjELQW08ygAtyBowxhrdu3YpXrFhxqL+//wOGYdzpuu5nXdet6rqO2S/OORoD4m4F27angYfi9SGP5s6knByH9Iuz/bKDmEkwRP6ZLE6jqirUarXeuZonWVAMgO/0Y4yhw4cPbwiMlXESiNjjFbfiALzAMDMMA5YvXw6HDx8G0zTD1I5nDOILJ/Z/L4accSH6AuJN0zSoVCoTU1NTZ2ajApSceD0EjqEAAPT29h4FgPfv3bv3XwHgjwkhLwEAsG2bBkBhGDi4A1AUBWzbDjUGG4HFM5UIjaL8TMBiI6B6pscKJmNvfuihhxSEkLdQhKC55gEgjLEqyjrFRVNuwBzsW7ZsGZw6dQpqtRroug61Wk1suU3jmEdp18my2rPNAs4HM5C9er1ep6lUiiZmfPGHA6hbt27FwW7Ahxljj508efI3Lcv6SCqV6qzVajQYokGcDsyDRBTQJy9+mY0OQdw8iah2FEclFp9DlDJSI31JxhhYlpUKbNKDJToOrHqel5mN0fEygE+FpdNpWLt2LbiuG7Z16vV6KHct4gEyoSJuCvBCUvyZ7iOJUljHjx9PHMAcOwJeGiCE7L6+vs+6rnvfxMTEDwUqIeNdAF5KBopJ5yxUieL4N5L9FvdFynTlqOtOdhpiizDKGUFMe9B1XchkMsu6uroWFAicUwfw7LPPpiilzbNp0XF+NwcDEUKwYsUK6OrqglKpFOkExAWMs7ldyDjxbJyEUGdOTE5OeonZzk9pwBhDO3bsINdee+2Bm2666XWKonyUUuoGrULKywEuJWdZViQPJG5SNKo70IjDH6X1H1c6yMFEfmxpUAoxxiCVSrX7vt8OS3UYyDRNTAhRZsvlF6Wl+Iu2du1aqNVqMDU1BQAwjSrK6aC8DIgSp5iN44EIZZ+oufVGjiCYXhuemJhw51oHIDnTR6CD6dI6AHzk6aefPswY+xQhpNnzPF9VVaKqauSm57hZkajxcbnlHLUAVFzRJi9uiboOZaXmmUpi27bV06dPZ2EJKwKZADARJyk1k/YbQghSqRRcd911gDEOhzz4dlzeHhRnrkWk90LLAFHcohEnQB5vxRhP8q0/lzMLcDGUBYwxtHXrVnzTTTd9NZfLbfE876SqqoRnAhz8i9rNF5Xyy1qFccShKCpwXMZwPiUlTN+diACABoSom5asA7j99tttXdfL8pSXaLRxL7xoWJlMBm699VZQFAUmJiZCHri8GjvqjZ0NetuI7CO2++StOBGiJWZinguXDXCmaX9//48A4HWmaT4b7A/0GWNQq9ViR25nIpJFlQKiFJrcCo67duSp16jrSrymhMdiiqKA67qZpZwBsECyKhzkEYcneD9fHKSIS9Gbm5vhhhtuANu2YWpqChhj04ZBZNRVTNkups8/WwXdQAgkscxLkw2QG2+88dnW1tZfRwjtzefzBCFE6/X6NCBwttdEo8zgQrpE55sBiH9HUZQMQmjBuAB4rrwz71tWKpXDQU2ExCjN03X+cTZvTGtrK9x0003AGIPx8XFwXTckClmWFU6VydNYcbveZuME4oCaqE08Ue3I5CxINuAzxsjq1av39PX1vRUAjqTTaWxZFhV3E4jZYqPFsFE4QNyyj6iZ/7j7yivmxOwiAsPiqkobh4aGMtymllIGgAEACoXCQc/zfD4aKxqn2MabjVEyxqC1tRWuvfbacAkEbwly7Tgxq5A12cXM4HyWfc7WWfi+n9T9l9gJ5HK5va2tre9xXbcYlAOMA3Wyrl+UDHlUOSC3EuNG0WeSAjufLhOnl1uW1fnYY48ZS7EEoEEK8zhjbFhcIiFHZtk7zqS939raCnfffTek02kol8vh+mvTNKe1B8WV2VEzBHErsmcjSS3XgIEwRQL9X2InsGPHDtLd3f0gxviDruuWHMdBruuyuNbwTHp+Mqg80yagODZhnHT6TACzaZrs4MGDsOQcAP8HnnzyyUHDMJ7SNA2YYFEygUds28zGCeTzebjtttugUCjA+Pg42LYNnudN6w6I4hHiRGEU0ysOQJwlarvg48fJiT6bN2+mjDF09913/zNj7MkgyLA4zn0jCa+Z1oPNBkRstGmqES4gTDjiG264AS9FHgDHAfxjx449YVnWa2XFIY7m8xdCVJqdjRNQVRVuvvlmOHLkCJw+fRps2w6BOM4N59FZ3CAjG+yFSpBH7cJLzqXvDnAiTaVSmZyJtx9l9HFr5KCBUtSFzJLEEYZEx2AYRtPatWs74AWp9yXXBeAW8h+2bY+oqsrRwWkqr3xwQ571no3xIYRg3bp1cOONNwLGGEZGRqBWq4XMQVnbPSBYnJPaxdV5cSWBzAKU12An59IfTdPqMvlmNnv95GGzKC0/8RaXMURdU3HksgjjR4HSUauiKL2MMbQQdGA8D5NdqL+/f6+iKN+O2pbCI7+on3YhWvzNzc1w1113QW9vL5TLZahWq+EcgUwYcl0XbNsOAUOOEcQRiOI4BTJizJI6ABaZbmEtCqiTR8fjNvnyayLuPZ9Jdj6O9huXEcQQz7Rg4IktxL5AZb72AWYyma/Ytv0ruq63BGg5El+gQDIaMMbTdgKcz2JOhBBcd9110NbWBkePHoVSqRTqwvExUV4C8P4w/zui1LT8ZvAoINdsER4/AQEX0VFVtR4g/kjM1OLS/tkMk3GHwPUH5P2BFzJhGjPNigCA2baNx8fHX84YewghZM7ntql5kwUP+pePDQwMfI8Q8la+Rlv0fnwPgCyKcCH1+LJly6CjowOOHz8Op06dAs/zIJVKhepDoiah53nTmH5i2ieuwYpTBRY3x861qnJy4ELFaBEAsHq97vJFInECnLNtP8sOoNFOgQtdty4zAoMygDHGPjA+Pt7FGHsPQmhqPrUB8DwNcCCEECsUCn/jOM44vEByYHKaJPfxGzEEZ3rDFEWBdevWwS233AJNTU0wOTkJU1NTYVvQNM2wYyC2DKPUY6I2CcutzABsTEqAxeEAeGR1o7QBZurRx20LEgeA+HUatTZcvmainEEjpqmYcTLGkOM4VFGUN1qW9UXGmMHHo5fMenA+ytnW1vaYqqrf1HUdBZnBtAkpboic0XehTkAEX/L5PFx33XVw7bXXgqZpUCwWoVqthi3DKO4AN3z+9zmG0KjNwz12Yn6LxwEQQlij7T5xdbzs/GW8YC7a47MVpzUMAwAAF4tFaprmlomJiU8wxlJCZr34HYBoNKlU6hO2bR9TFAVHZQHc6HiU5o7gQvA1se7r7u6GO++8EzZs2AAYY5iYmADLssD3fTBNcxqdWAR/5GxAjh78+4G+YdIHXEQOgDFGxS6QvM48auCnkXZEVJtupo7CTDJjcaPl4rZkz/OgXq+j0dFR6jjO+8rl8keWTAkg9WdxZ2fnMd/3P+Z5HtU0LRTUFB0AT8fFYR8Zkb2QbAAAYMWKFXD77bfD1VdfDZZlwcjISCg/bllWqEQsMgvFTTS8bODdCp6xeJ4HlUolyQAW0XFdl0ZFc7njI4KDUaPDs43ks9ESjJolkduCYgaAMYZ6vQ5TU1PIcRxUq9VoqVT6ULFYfDtCiHHtxKWwHRj4E167du2XDx48eKOmae/DGPuMMSIruIrlAUIoXA/GVV8ulLTDH4+rDQ0MDMDQ0FC4iUjX9bAjwOXJNE0L/zavz8QsQNd1vhY7sTpYtC3BWEON0w2YibQDsxSejQD3GmpYyuPFtVqNb1pGGGPI5/Oq53kftW37GV3Xn5tLUHC+mSwsEHik3d3df2Lb9s90XSeMMSq33MSpQR555Ym/i6nBOFC4du1auO2222Dt2rUAAFCpVKZdEPxvcxkyTlwSgUqhNMgkpgaLiRWIoiJ2I/FPeTCIG78oIy7eVxwsissY5OAT1fMXl+VyJ8EXoUoyeKhardJ8Pr/cNM3tjDFd2tW4qB1AWAo0NTVNKory7mq1ekjXdYwQovKLIoov8hRdTM9d171oMIZH8JUrV8Kdd94J/f394Ps+lEqlECzkpQh3BCIoyPfUBW9+WyBXxRJAcFF0AZQovj4X3ZT3BMSt7orS/IsTFp2VkUkcE96WFgVH+Pf54lzbtsObZVlodHSUep53f6VSedtc4gF4oQQed+zYQVatWnWAUvr+ycnJMVVVsaqqjPP35XRI3rYqKgJdDAFPzghWr14NN998M6xatQowxlAsFqFUKoVvgogByDff91te9KIXqZdiN2FypjkAFrwH+kwScY0mBMVt0XE1/0zIflSUlx1BXLkgA9kBrgGWZaF6vY5s2yb1ev0jlmWtm6vW4IKR2bds2eLv2LGDrFu37of5fP4jlFKHDwJx7xdHuhE5/WIb70LLAtkRGIYB/f39cNddd8FVV10F6XQaqtUqmKYZKhGJNGLuFBhjTYQQJTHBRXMMuZ0r9u5nctIzofZzIQQTJTknEtairtHgf0D1ep0ihPrK5fIDc7WNGl+K0c3JyclvP/roowdrtRpSFIVFLf8QEVpRBFSMyrMdKZ6tIyCEQH9/P9x8882wZs0aUFUVxsfHQ6cjYgHBx2xvb28yEbRIju/72SAtZ3H8Dfm6imL9ySIi8szATFyD2WgANLoPVxkWl+DwgTbHcZhlWW8zTXPNXKgG4QUGaQAhxB577LGJs2fPju3evRuq1SoTdwOIyDvHA7hH53wBDgryry9koGgmjGD16tVwyy23wPr160FRlJA3IKoPAQA5duxYkgEsDvlwYIw1i4YT17+P6v/LrcBGrcK5soUoYNDzPDBNc1pg45u2HMfBtm0zwzBWTE5OvmkucKdLEr1+9KMf0a6uLt+yLHjiiSegWCyCYRjn8Paj5MQ5oMM7BJzUw0HCuWJucYygr68PbrrpJujr6wOMMZRKJSiXy6her4Ou6+3t7e0LvtI5ObFDaBkRP5Kl4UTwTtTjFzknsnp13LDQTDsFZyICiTMl8sapWq0Gvu9PKzU4xTnIBBgh5PWMsbaLzQIuhQNAO3fu9HO53JF0Og2macJzzz0Hk5OTkMlkwDAMEDe+RIEu3AnwDcKc5luv18MoPZeOwDAMWL16NWzatAlWrVoFruvC2NgYIIRaTdPsCWa3Eyu8hAdjzFKpFJENVzTeKMHYKObgbI0+zshn6hBElQA88+XZrGEYYBgG6Lo+jZsCAKhSqaB6vX792bNnb5F0OBa9A2A7duzgf/OQpmnQ0tIClFJ49NFHYc+ePVwV5ZxV4nFOQBzokfn+ojDkXDmCtWvXwh133AFtbW0wPj6ODxw44AcpaIIFXMJDKUWpVOq8qLry/P75UnkbsQGj9AEayc3z0qVer4OiKJDJZCCVSoFhGOEYcvA7iDFGCSG4Xq+/KugEsCVVAgRGXk6lUjSbzaJsNguEEHj++efh0UcfhVqtFno8TdPCHYKcnSdPYsk7A3nbUNQHnEuMIJvNohtvvJG95CUvwa985StfwRjTEULe1q1b8UJIOSdneuoPAPDkk0+2MMZaZmrNNVryOZM8mMxXme1ocdT4sFjmii1Iy7KAEAKZTAbS6fQ0roBIbQ5W1N8OAB0XUwYol0DEkQEAFAqFfbZtjyKEuhRFYRhjpOs6nD17FkZGRuD6668Pe/NxiqxRGu48c+CkIU3TwscQOQcX4wiCNxS1tbUxxtj7KaUbGWPbEEI/2759O8y3iENyzpGhY6qqdiKEOoNAgOQloVGrv6P2B4qMQO4oZCzqfGjBsgMRW95RDqVUKoGiKFAoFEDXdZAFTQJeDLZtm+Xz+Q2nT5/eAADDO3fuxADgL5kMoLe3t5rJZBzDMCCVSkE2mwVN06C1tRU0TYN9+/bBrl27wLbt0IgDrwe6rocZgfgi8jKAcwTkCUOBwDMnewE4Jxtj/BIA+I7neX80OTnZFIxDJ9nAApydO3ei4L3PGYaR4/hPlJHLTEAZGBQzgzgsIU5STIz0Yo+fG3xUCcDvxx0CYwzK5TLk83koFArn8AXEAOZ5HgMAA2N8HQDA/v372VIpARgAQFtb2whj7KRhGKBpGjMMAzKZDKiqCrlcDnRdhzNnzsBDDz0EBw4cAM/zQNf1MF3iZQEvFeRUSSSD8LkCsSy4WEahUBagYCdCgRDy0Xw+/z3TNF+OEKLzKeSQnOnn9OnTAADhqvCZlH9nIxraKJrz+8QtlZWkvqcFK7GE5deu+Hc7OjqmOQdu+FEDTpqm3QDwiwWqi94BCGvEpizLOsuZUIZhQKFQgJaWFshkMlAoFKCzszPEBn72s5/B2bNnIZVKhRkB7xSIOIHoJWW9Ac6tlod8LjYjCF5HBgAUY3ybqqr/7jjOVsZYimcDiYnOz+GRD2NcYIwpsoJT1BhwnMZ/nHKQHN2jaL4zAYJRU3/yjECpVAJCCCxfvjzMclVVDR0BF9ERuQ71el27mExTuZQaboVC4YyiKBAoBoXrwQ3DCAeAeB1vWRY8+uijsHr1ali9ejXk8/lwB4AY+cX0LW63G3cS8mBGFB3zPGtRBACUEKITQrb5vn+TaZq/hxA6muAC83uWLVu2EgBStm1DnA5gnPDnbKP+TKO/jX4m348HK+4IDMOAkydPwooVK6Cvr2+atBhCCBzHmVYq8I+O4zQNDQ2lAKC+ZBwAlztuamp6wnVd0DQNeZ7HKKWIUgqpVOqcNcq8A8CXgqxcuRL6+vpCRyAavUwnFlNAUdFHrKswxuGbcpGOIMwGCCGvoZReV6lU3oUQ+iFv2cyXusuVfDKZTIeqqrharUYi4iL6Pxt1nvNdLhvV3weI3iLFMwfRkCuVCvi+H86i1Ov1aWrE4nUq7sH0fb9LUZT8knIAvBOAEBoEgGIqlWqTKb9cdMMwjJDkgzEGTdPANE04fPgwnDlzBlauXAmrVq2CQqHAPeK06S5xU5As8SWmUqIw4xw4AgQABAB8VVX7CCHfNE3zfyCEvhhssUGJE5jbY5qmcT4dnjj2nqwRIP4sSv03bpV4FB4gGj8PQhzkHh8fh97eXujv7w83ZgmAX2TWEjiYtKqq2lIrAfiLcJQxdlJRlDZKKdM0DSmKEvL75Tq/Xq9DrVYDRVEglUqBZVlw8OBBOHXqFKxevRqWLVsG2WwWVFWd9qKJjkDuAYttH/6miJ6X//0LdASEUkoxxnlVVf+mXq93AsBHg822iROYg7N9+3a6efNmUiwWr02n0xDVE2+0Lkz8eRQWJI8Az2alnFjX8ywgCgDk9Xy5XIZ6vQ633XYbpNNp8DwvxLniHIBwqGEYbEk5AAGxHD9w4MDzhULhZo7eyuoo3BHw7yuKEs4BcEOv1+uwZ88eOH78OPT29kJvby+k0+lpb6y82VdGiMVWIscJRBBRXDRynhRVDACMEEJSqdT2er2uM8b+WNilmDgBuLglNF1dXQrGeCU3FjnNb7QFeqY0P26YqNGSz7hJv7jHLJVKsHr1amhtbZ2W/cpOSeQ28IBFKa35vu8sOSbgzp07MUKI2rZ9JtA/C1Mkjn7quh6CgvxzzhnI5XIhWyqXy0E2m4V6vQ779u2Dn/70p7B//36YmpoKuQPy7LWo+SeWAFGpndhK5CXGhZBVAIBqmvZH5XL5ozKTLTkXft7+9rcb6XRakTkAM5UAomCo2Pc/H5JP1ONGkX3iWITj4+PQ0dEB1113XVjyqqraEJMQh9UIIcN79+4tL6kMQGIEPuZ5nqtpmkopDTcIBYMPYSTmtGCuB8DTc75hiH/N23v79++HgYEB6O7uhp6eHmhtbQ0nqsT2i9g1iBIi4U5JbMFwFPc8hUpRkGmwdDr9B7Vazcxms38aEIYgyQTgglmAmUxmI0JoWeCc+esc2aaT0+m41mAUlz+KCdgoI4zbGMQn/UzTBE3TYOPGjaBp2rTMM2oyUVxTxndsMsYqt99+u7XkHADHAWzbfk5V1QFCyDrRwKJeOJFUwaf+xBFi7iA4sOL7Phw8eBCef/55WLZsGWzYsAGam5un1VciGMhLhajZcbEM4W/A+VKLMcY8E2Ce5/1xrVabRAh95mIHOuAKZwFOTEy05HK5jDgFKht7VPuv0QrxmbY/zwT4ideI7FBUVYVqtQoAALfffjvkcrnwvnL7UKD/TgtAAC9s2jYMw4Glpgcg6rjVarUziqLsDVIaJhMsRDCOs6l0XQ/Tfl4GZLPZ8GM+n4d8Pg/ZbBY6Ojogn8/DyMgI/OQnP4Gf/OQncPz4cTBNcxo5I+qNlCfGOLOQE4guUIwEAQAzDEPBGG8bGxt7KUKIzrXe+5V0bNvWNU3Ds9kK3MgZyGq98uNF1fNx68CjaMTcoCcmJoAxBi960YugpaXlHHFQeeRdVsWWsIC9XH7/QrJI5VKquDDGCELIPXr06BPpdPoNfFloI9SW9/x5VOYZAAdPeAYgindqmgaGYUCtVoOxsTE4e/YsNDc3Q19fH/T09EA+nw/LidnUjdwjc6yCbzc+j4wAU0qpYRgtjLG/rtVqr8xkMqcTshCcr84kDa6l61zXVWu1GvM8D/FIOtNC0EZ7/OQOQaNyT+SURKkQidG8UqlAOp2GW2+9FXK5XHgdy39fnmURR4oDO0AAQF3XPQDwC27NknEA4lwAY+zn9Xp9slAoNHMcIE7XnXtnHpHlTIEQAqqqThPx5Btjg1VlYFkWlMtl2L17Nxw6dAi6urpg5cqV0N3dHU4SihdA1JvP1Vl4z1ZsV87GCSCEsOd51DCMa4vF4p8zxh5IOgPnXf8DAICu621Bt4ZxDCAK/Y/r/zdyElG9/Jk0/zg2IHacfN+HiYkJ6O7uhhtuuAGy2ey07lNUoOG0dR79BSdAU6kUdl33cHt7+/Ncb3PJOoBUKnXYcZzDAPCiKGZWo9HKYCAirIk4eMgRf03TwixAVVWwbRswxqDrOjiOA/V6HY4cOQInT56E7u5uWLFiBSxbtiwcPGrUPxbbTqLizGydQLAOmhqG8ebR0dH/6Ozs/GZQCiQOYBZoe5D6pm3bvjZYqhmunBe19GZDCBLJYaI4rXwdyjz+Ro/LDdZ1XRgeHoarrroKbrnlFnnBbCRIyMFuuVwRN1Pbtr23ubn5LCzW1WCz9eQrVqwYP3jw4DOe571IURTm+z6KetGjKJXiui6eOvFUjIMmIpWSR2nuLFRVhVQqBbVaDQ4cOADHjx+HZcuWwbJly6Cnpwey2ew5Gm5ydiBuNZJxixkQYkQpZYZhaLZtf7Rer+9Kp9Mnkyxg9sdxnIxt2/1BmowuZE7/Yrf8RvX5+TXBiWsvfvGLobe3d8bH46l/vV6ftoVKnD5kjCHXdRHG+GGEkHMx14tyqdVcAxzA9zzvp6ZpvjuVSiGEEONvpmz8skCI+EIahhHW6FxfTZQOlzkGvDxwHAc0TYNMJgO1Wg1Onz4NQ0NDcOzYMejv74fe3t5wKiuOIioObfDnIrLAGlxU2PM8mslk1rmu+5sA8JHErGcPpr7nPe9ZPz4+nq3VatNabI00+eKyurhyIKpGb4QR8TKyUqnAypUrYf369ZDP52f8h7giMI/84k14jkzTNEQpHclkMj8Wh+suqo661GyuiYmJXtu2v18oFDZ4nkcBAMfxr+NqPJ4BcIIHvyD4ODBvC4ltFREn4PfhbwIHYAqFAqxduxZWrVoFhmFM0xKIqv94icH13ERRiKg33fM8yhhDjuMMFwqF/4YQej4BBBufHTt2kC1btvi7d+/+VV3XvzI8PIyC9fMoSsYtarSXG6u4E2A2iz/EMkFeAso7Q9lsFtauXQsrVqyYNYWYq1uLW6lk3oKiKDSXy+FarfadjRs3vhEhZC7ZDEDUdG9paRk8ceLEE5TSDY1AF1HZNQorkHcLcMYfISRk8vGSgJcIYmkgdg34WHK5XIZHH30UBgYG4JZbboF8Pt9wASRP4zgewGmdUSVB8ObioBTonpiY2AIA2xIcAGZcMgMAUCqVepuampDv+xxAjRXllFF+0Sk34p9AjNCn+Pue5wHPQtavXw9r164NVa1nY/zc4HkQ4uCfiP5z8dOA//I9hJAZtP/oRSOpi8Gbnzhx4q2qqv5jLpcTiTPTjFuWdo5Cc+WNQfy+Yg+ff59HfnFQiGcHfA0YH0Kq1WpACIH169dDX18fpFKp8E2WxSI4CCl2CPg8QUQGAJRSqmkampqa2pdKpf57Nps9m2ABjbNGxhjZvXv3NwDgDSMjI5QQguOwo0bfg5iBoSgmodwV4BmkruuwbNkyWLduHWQymVkbPgcJ+X4LMQvlGIBwTTFVVYFSenTVqlX3ZTKZMxd7jSiLyZubpvmQ7/v78/n8NUEZgOKWJjbq3Yodgmn/rEAvFgUfOWjDX3w+/SfeOG5QrVZh7969cOLECdi4cSP09vZOy0LEaUKeWvKbnD5KtE7sui7DGF9rmub9APC3ialDQ0GZ7373u+2ZTOa64L1EIutORNnjDF1E6uMyAPE+vMNAKQ2jNZeKX7169TmGPxvjF0vOqOgvYl9Bmxj7vv/tTCZzJrAPttS7AOII59mjR48+SCm9BmOMRAOV6ZEzOQMRLJS/z1M3/oZy3gAhJMwQREPlNGNe19dqNSiXy/DMM8+A4ziwdu3aSK623CXg35PlzflHx3FYKpWCarX64q1bt/49QshLsoBoGvn27dtB1/VVlNJeUQOiEZgXNQIcxeCLovXyLg/PFnO5HGzYsAF6e3unGf75lBGctFav16dlndwRSM+BapqGPc8rptPpr4uZ0JyQKRZBWocRQnRgYOCViqJ8u1AoKL7vTyvqohhaUW9s3KIHWdVVpvny0oG/ASLZh/8ur9Vs24ZKpQKu68KyZcvg2muvDet9GRAUl5yIQqYiZhA8Ls1kMti27YF0Ov3SVCo1kDiA+Gvl6aef/oDneZ8aGRmZNuQFDdh6YlARU2yePfDPRfINlxnLZDKwbNkyaG5uhu7u7mk1/vniB2LNb1lWCEzzJaAyxoUxZplMBmGMP9rf3/+RQPr8oq+LxbTYkgEAWJb1M03THmWM3SNOB8alZ1HTXI3oxKJhxmUYuq5Powbzi8X3/XAKkNf39Xodzp49C6ZpwrXXXguFQmFa6snpymImwFtVclmDEELBSvK+8fHxWwFgQBglTs60t56hXbt2bdQ0DTzPYwGnIlaaS8zAosBlzgvBGIe1OGMMMpkMtLW1wfr166G9vX0ahnO+hs9LQtM0w+jPjV8sQeVNQkL0P9rT0/MFxthFtf4WpQPgEtoIocpzzz33r7qu36NpGpJHd+eC3BF1IfCygNOAxXXlXIdNXDjCV4VxbGBqagp2794NN910U6jpzt9wecsrzwjkiMXXPimKgj3Pu50xtiNpBUYDgF/5ylda161bd3NA82YAgOLo23J7TxaH4S3jSqUCXJMym83CunXroLe3F/jKsbgtQTD79WXTjJ9vAWaMTcs0xe3GQYcKeZ7HVFX9VDAzgubqulAWqcDjtyqVyvvb2trW8N6OmLKL9X0UJjDbnW4yYCOCeCJoJ6b1svYA7yWnUik4c+YMPPbYY3DPPfdAIE81zQnInAGucyBNqDGEENi2vWF0dDQDANWkDIBpQjIA4DuOc9XU1NTVwXWBZK3+qPKQZwGcaAMAUK1WQVEU8DwPVq1aBX19fdDW1jZnRi92pji3P8745YwiuM6oYRi4Vqv9aP369V+Z67JdWWR73mlwsQ+eOnXq+4SQ94mGL76RUZ2Bi10EGpUdiJNlPILwdh4vEzh+sGrVKti9ezf89Kc/hTvuuANyuVz4O1GbaXmtKaoaBygvmKZ5ned5XQBwNDF7OGcPwPXXX3+HbdtGsVhkMh9EDhb88Jqb369QKMDGjRuhra0N2traQjDvYlL8qKjPl9ZykpBt26HD50GEOy3+/aDzRDVNw7ZtD6fT6T9ACFUvtu+/FDIABABM07RvVCqVtxYKhWbf95nYEoxTapHJObNpG4qz22KnQJzUkok+3KOLJCNeEvT09MChQ4dg+fLlsHr16nDTsWjksuYAdwQiUEkIMTRN0xOTPyf9p4wxY9euXS/JZDJw5swZRgjBIu2aO2tubIQQME0TUqkU9Pf3Q1NTE7S2tkJzc/M5vIyLjfby9clBPh7l+dfiVmtRdEbYJsQwxty5/cWaNWt2b926FW/fvp1ethmAyAz83Oc+9+hb3vKW/2xubn4r7wbMNJk3x8/jnL49j+LisBHPEHRdB8/zYO3atTA8PAwnTpyA9vb2aa1HfrFxlqAMDnHvH3ARjHw+3wUA+xMgcHpw+Na3vnVVU1PTzcFrj3g5xdNq/lqmUino6uqC9vb20OjF1F4sC86XCdgo3Re1KMTtUxz951Ff/FuiJqamaYAQYqlUipim+XdXXXXV54M2Odu+fTtc1g6Akx0QQvSd73znN0ul0uZUKqWyFw660KGO2fSHG3UNZGCJjyCLToBSCoVCAa666irYv38/nD59Gvr6+qaNFvOaX+zzyn+XUgq6ruuKonQmNg+iAAhijKHPfOYz1wFAOyGE8aEb13UhnU5Da2srLF++HPL5PLS0tEBzc3NDHf+L3RYtPi7nCIjr6XlbT9T5iysvOMakqqpPCCG1Wu3BdDr9+xc78bfkQED+j/b09Pzg2LFjP0mn0y97wS4oavRmNmoLXmw2IPaRxb0BPHXnZKF6vQ6rVq2CI0eOwJkzZ6C9vT0UfIRfCFiEdV8UISj4PrJt20jMHmDr1q2YK94ghNi//du/3Vav16FUKrHOzk68fPlyaG1thd7eXmhqamqYIV5shI+K9vwa47W9OGwmUs0blaV8IQ0A+IqikHq9vldRlN9YtWrV1FzX/YveAQhZgHn06NEv1Gq1e1OplBKkwQ1Lgdm2C2erG9+Ig8B7/KIQiGVZ0NTUBJ2dnTA8PAzj4+PhYBHnA3C6MecFiF0NfqE4juNrmla9kuv9nTt34s2bNwNCKOyl7tmzZ73jOK9wHAdaW1tRf39/bB0/1wYfVd+LLETbtsPsjovWiupSYr0vCs0K2649RVGUSqVysqOj4ze6u7sH5nsqVFnsZI8jR458t16vP5jJZP47feGguAULs+UI8EgetSE2jhsehwiL6T9XJ6KUwtq1a2F0dBSKxSJkMhlobW0Na01RtERWIuatwVqtVtc07STALxSUrwSj57sVg4veBwAol8vtjLFbCSH367r+MgBYFRg9iqrl58voxfFy3/enkXhERJ/PCjQKLOJeiuBz3zAMxXGcU6lU6u3d3d1PLsRI+KJ1AJwYtG7dOvvo0aNfnJycvDebzWqiZmAUih83yBGnAS93DOIyiCj2mOgEOMrPJ8S6u7shk8lAuVyGarUK6XQ6khAk05L583Fd1y+VSiWuoDzX4M9iM/pt27ZNM/pKpdKBMb4dAF5HCLmLMbaGi6xEOeS5quXjRD5A4O+LWhLcGfBygJcAfNlNVGAJNmJzZ8UwxtQwDFKv1/fmcrnfWCjjX+wZQDgktHv37v9oamr6nu/7r2OM0aiOgAjSNVKDmamFKBOBZCBRbBNG0YvFunDFihXw/PPPh8wvzh3gGYD4nIXnwR3cKcMwSpex0fOaPjR6xljr6Ojofbqu348xvgMhtEZC7f3g9/B8Rnl5XyCv4XnaLy+yFbNIzuaTJxHFmRA+Gk4ppYQQVCgUyMjIyPcQQu/t7u4+sZBiMMpiv1YAAG/atMk9ceLEZ0zT/G+ZTCbDlV/k1DluViBqT/zFthCjSgOR9FOr1WDlypXw/PPPh/RPXdfDqUM56suOJp/P71+5cuXYZWj0KKjpuSJ0bmxs7B5FUV5XrVbvzmQy66XpOm70fOPyvBk8vzbETTwc0BO/L2g4xGaZYqovitRwvIIx5mcyGeI4jl8ul/86lUp9dNWqVVMLrQSlLJXBDwB46MCBA/+WTqd/NSAGTRv7lR1AnHFHLYWYDb8gTh9epiVzcNDzPGhqaoKenh4ol8vTuN6cRCSOCUdstNmDEPLmEwFe4Lqe8v+DMaadPHnymtbW1te5rvvqdDp9QyaTQYJz9gNHgefT6OVdD/w6EqXjRC0HcWpU1uyTGaTy3klh8w+llKJcLkcmJyeHGWNbN2zY8LfilONCvj+LfhsNQoht27YNIYRYU1PTZ6ampkYCOW0WtTgxTv9NRF8vNOLPRhlW7i1v2LAhVBXi6SOPKmJkCZ4fC/YF1Aghjy1lAJAxhnbs2EGCksZHCLGpqanVo6OjH5iYmPhRPp//STab/WNVVW9Mp9MoMHoWvHZkPq5NcSGoyMozTXOaDqT4NZ/YE7+Wo78YgPhwGL8ZhsEl6RnG2Nd1Heu6jkzT/Laqqi/fsGHD3zLG0FwO+FxuGQBs376dbt26FS9btmzXnj17PmtZ1p+pqgpcB06u0eMWP0Z1AOL2wl2slDTGGGzbhra2NmhtbQ0vID5qLEYPIYtgwe6Cp3p6ep4Wx6SXWOuOBlwOv1gs5nVd/yVK6Wbbtu9MpVJdXBeBUupjjPkWGDKftbwIzvH3WNSGEDMA8Xe4s4gLBKIClCg/zz9ijBlCiCKECEKIVCqV45qmfbxYLH5l06ZN7qUWf1Vg6ajAsG3btqEDBw583nXd16bT6U2O49BAGOGiDXamPfFwYZr1kM1mYc2aNbBv374ZeQW8TqaU/gQhVIkTuVyshh/U9hzQ6xsZGXm967pvMwzjxnw+H2ofBoYyL0Yvq/6KBi6n+vJNnNUQf7+RyIic4gtj3hQhxAghJJ1Ok1KpNOW67j97nvfJNWvWDFyqlH/JOgDeFrz66qvH9+/f/4lqtfplXdd1EXE9HxJQIwxALiOilj3O5vH5Yohly5bBwMDAOTMA0g54hhCCqampYjqd/neB+06XiuEzxvDExMRtnuf9erFYfGUmk1nOo6DneRRjjBVFwfNh8KIkW5T6k+wAopyAjOVEDQZFzYjwOY8gG2CKooQDSvV6vVStVr+lquqnV65c+Qw3fIHrAIkDOI/3e+vWrfjqq6/euWfPnl9KpVK/Hmjq46h1TXFrxeI+j8IPRICn0U75uMeq1+uQy+Vg2bJlMDw8PE0bQHQUlFKm6zpGCH19zZo1u+dC8HEBDT81NDT0ioGBgXdlMpmXNDc3a0HaTIOIiAkhZK6ymajILSL44uciB19M8UVAuJG4rIjriOu75RXgws8RpRQ5jjNaq9X+M5VKfXbVqlW7BUAUFhOou6QcQJAFAEKIHTt27OO1Wu3udDrdz5dCNtojeDHp/fmWB+L9Pc+DSqUCq1atCnfCi6IVAeLMAAB5njeRz+e/CgCwdetWNNejn3OpxxcYvj4wMPCmgYGBd6mqekdLSwuXvPI1TcOapuGLJejImo5RqL1o9CIoJ2YA8tRfo+lPkVgkjOdGKgoJehHM8zwolUoWAPyvXC731f7+/gGxBboYuznKkpsHDXah9/f3H37mmWf+GmP8GVVVWcDCQ5KMcqQjaCQaGtUilLOKRpmA/DnGGKrVKuRyOejq6oKA3DdNa5BSylKpFKaUfqmvr++pS4UIz2T4PG1ljClnzpx55fHjxz+UzWbvCoZYGCGEKYqCVFUlXDvxQqN71HsjG7i40WemjpBovFHRXpSNj5JtF1e88ZQfIQSmaUKpVILh4WFar9eJ4zj/fP/9928HeGHfxebNm3mqvyizuSXnADggCAC4q6vry6Ojo/cQQrbw/qrIt5/tvECj6D7TGPFMm2E5PbharYYOgNOAg/tSTdMwAOzv6+v77HzpG1xMuh+0YSkAwKlTp37p+PHjf6Dr+j1NTU18WQXTNA2pqnreDL2oNm2UQxYls8SNOWIaH1Wzi4YbJfstC3DKab5I3xUXzIyPj0OpVIKJiQm+2o1Uq9X911xzzZ9z7oM4xLRYz5J0AEEWgLq7u2tnzpz50Pj4+NWGYVwT0ITxbGv9OCXhRtnATB+j1jkH4B5ks1nI5XLiEAlVFAXX6/WJrq6u92YymdOLifgjpPtsaGhok6qqv1er1X6lUCgoQVpMEUJYVVXUaBPyTE5SrsnliB+l7isTb+QlreKglpwRijRd/rw5PZtLfYvZgeM4MDo6ChMTE1CpVEJuQND3Z+l0Gvm+b61cuXLbxo0bTwbKPf5SUVgBWOL68AcPHtzs+/5XCSG6uFJMputGjWXGpY2NaJ7n6wDgF/ReMAwDBgYGIJ/Ps2w2C77vg6Zp77v++us/Nx+STxdp+DAyMtJVKpX+kBDy6/l8Pu95Hui6TnVdxyK9Na6+FvUTxNclDoyTwTo5QsuvcVS5FjXJKc5xxEm9AbygCs2JP/V6HSYnJ6FUKkG9Xg9l4XkJEGhAUMMwMGNs67333vuni+U9vCIcgFhnHTp06K8A4AO+74c74mZK56McgHyRRe0YnGkXQRwWQCmFZcuWQaVSgfHxcdbU1ITS6fSnr7322t/dtm0bBBNxbLEY/5kzZ15rWdbHDcPYEKTBlBCCgnQ/NBruAKLaaHFZV9QItozSi10Y0ZjF9yTO2XDnBNLEJjd2Ls3F9/JVKhWoVCpgmiZUq1WwLCsUf+UyXXyhC1d48jzPV1WV+L7/43vvvfe1CKE6B6mXiv0ocBlsiUUIsVKp9GeDg4PX6Lr+UsdxKH7hxC6DnInxdz617Gw6BDydnZiYYM3NzTA1NUVt2/7bF73oRX8kqCGzS8zZB4QQHRkZWWNZ1l+apvnadDqNMcYUIYRUVcXikhNxtba4TSfudZYje1RmJhs8d5xRSL/chhOBPi7bzsd2uRQ3V+ctlUowOTkZGjr/OxhjMAwDmpqawk1O4o5I7gwYY9T3fWKa5kB3d/cHEUK1pTi3seQdAO8KFAqF8YMHD/6m67rf1XV9g+M4oZBolDHPBhyUiDrn1bKKyhIwxlCpVMAwDJTL5eqKonwtiBqX9MIJOPs+AMDJkyffPT4+/if5fH5Z8NwpIQQrisIv/Mg1bXGdlZlKrLjHk5eryu8BB/f4iC7f0stT+Hq9DuVyGUqlUrjVmT8edxaapkEmk5m2rk1m9InTfAKmwAzDwK7rWoqifOjqq6/etxhYfVdkCSCnro888sirCoXCP2uaVhDVhKOot1HIs2zwnD8eNbsvA1ayzDNEUEeDFVS0v78fF4vF7/X19b2ptbW1ImohwgLr7W3fvp0yxjqPHj36Mc/zHkin04gDlNwwAqVaiCJcReErcaBeAxCWMcaY7/tYrM1FsY1yuRyyKR3HgWKxCJVK5RxFZa7RKC5yEdN5cdsU12gQqb088ovju8L/zBRFYcFW3z+68847/9e//Mu/kC1btvhL0W6Uy8UBIITojh07yJ133vndQ4cO/bnv+58QxoZRVB94Nul8FLh1Ia06cTOw7/u4UqnQQqHwS4ODgw+0tbV9euvWrXghe8UiOeXEiRMvOXLkyF+pqno9j/qGYYQllIjwy7V1o5aePE4rlQAMAGjwehNCCCKEIK6txyf1xsfHYWJiItRUsCwrdMY8OmuaFkbobDY7bZOT+D+I1F2R3CPeX3RyXMdR2hBFCSFkYmLiK5ZlfZJSipaq8V9WGYAkOqEePnz4rxRFeW+9XqcIISy2hESgT45Kcu0q72mXgSyJzjvt96IIKEI7i65YsQLX6/VBxthrbrrppj0LhSCLf+fAgQPv1jTt4xjjZsdxfF3XsWEYSDQg3hrjhhL1WnJwTjZ88fVjjFFKKaOUIkII5jp6gX7CSQA4tHfv3psrlUqraZrM933EN/nwPYwchOMgpGjAUavXI6bzpmUH4jIOMdLz/5uLtwYlnA8AZGJi4mFFUd54ww03jC411P+ydgDi8shisZg/ffr0/9V1fbPv+zQQl5jG8hJT97jUNGqll9y/Ph8HIJYaiqLQnp4eXK/Xv7tx48bNAGDNdynASyXGWG5gYOBj9Xr9Pel0WvF930+lUkRs6cnRkhs+/5/E/5lr44ljt8Hrx1zXpQCAFEUJW4fVanWSUvq0aZo/T6VSP924ceOz3/rWt15x8ODBLxBCsqlUCgJWYSi5zp9bXDovfi0atGj0IotPvK/4kd9PcgBUURQ8MjLyHCHkDddcc83RpW78l1UJIIOCbW1t5bGxsQ+ePn16eSqVusP3fZ9SSs53NiDKOTRaRholUhkFkgXCn7hYLNJsNvuqXbt2/c6tt976sfksBTjYNzExUTh27Nj/JYT8CtdVMAxjmvHLxBnRMPjyC274/PXgQFzwcxpEYGwYBnFdF2q12lmM8XOGYfw7IeShDRs2HEUIuQAATz755Opyuby9r68vxwFc8e9yHQXujLhDiprOi3IGHNiL6hyI7D+5ZOCjvaqq4rGxsTFK6Qevv/76ozt27CBLOfW/bDMAOdKdPn16/fj4+Dd0Xb/edV0fY0wa9fXlr/kGH7l91YhJGMduk+/LR2WDvfMmIeRNGzZs+M58IMr8MYeGhtrHxsb+Lp/P32/bNgUApKoqCiLutNSZ38Q6mG/XFYUyebbjOA6zbZv6vk+4wVYqlbFcLveo7/vfJIQ8snLlyhNihvPFL35Rfd3rXqf/+Mc//lo2m73fcRz6gu3jac6UZwA8NZeHc6IclVi7c+OX5/dFoE92fMH7TjHGeGJiYgIAfnX9+vX/eTlE/ss2A5BBwRUrVhwaGBh488TExM5cLrfRdV2fUkpmIwUu1+5ilyBurZdMgokqF6RMAo2OjtJly5aly+Xyp48cOXIcIbR/Lp0Af6xarbbi5MmTX02lUvc5juMHKjXhcxbpsGIPnJc0XMaMp/tcGx8AGKWU+r5PDMMgpVIJGGO7UqnUvzQ3N393xYoVh+RMBH6x7svt7OzcVigU7qeUUk3TUFQ05w5AdEhihI9K58X7iNmNjGXEjfkGzwdPTk7WKKXv37Bhw38u1XbfFZcBCBc/QQj5p06dur5YLH5TVdU1jDFfVqOJi+J8mEes7xtRiWVMIIquKi4D4WPBmqbR7u5uXKvVftLS0vLG/v7+kbm42Dgm8vzzz3cjhP7JMIyX1Go1X1EUwiMgr3U52GYYxrSFJ+KWW9d1RYfAfN+nAEA0TYNqtVqmlP6rqqr/0tXV9URLS0tJkgpjvLzZsmUL3rlzp//973//fW1tbZ9wXVcvl8vAdz7Iaju6rp8TsRvV8PL3ZCag6ADkMV8+pMUYw47j1KvV6gdXr179peD9YJfTolblcncACCF/x44dpKenZ8+hQ4feWqlUvpbNZvtt2w4j4GwlwONmx8+3NSi3FoOxUjwyMuIvX778xRMTEx9jjL0bIeRdJEMQBUh/zrKsz+u6/pJ6ve5jjInogHhNzemufGcBZ9LxWp+353gLDwCIruukWq2OY4y/nU6nv9Df379LjPT79++ftvCDf3/nzp3+D37wg/tbWlo+riiKMTo6ygzDQHJUj2rZiV0JMXWPKwFEEDAOKJQ6NIwQgkulkmXb9u+vXr36S0tdnfmKzQDkNHhgYODG8fHxf0qn01c7jkN5O6pRF0De4BPHZ4+bYY/a/it3Bfj9stms39bWRizL+tSmTZs+xKXBL6Tm5M7jmWee+RRC6AMYY0oIwWJ01TQNUqkUaJoWbqsBeGHrMV+3LX7tui6fAIRarVbN5XL/mEqlPtfd3b2PtxgDJePIuQYOnu3atete27a/lsvlusfHx6miKFjARc4h73BDlR2AbPhR0V3OAMT7R5DEKKUUl8tlzzTN3+nr6/ts8D+xpcTxTzKAGExg1apVz+zbt2+zaZpfy+Vy11uW5SOESNSmYTFKiDsIzifiR2EFshyYSH8tl8tYURTa2tr6wWeeeYYyxv4AIeSerxPgEeu55557t+/7/1/QCkXyZJyu61y2elrKz3nzIsDnOA5VVZV4nsd83/96d3f3Jzs6Op4WDR8hROPWmHHj37dv312O4/xdV1dX99jYGE2n09h13ZDQI0b8OHRfju5RNXxcOSB+X3IAlBCCR0dHLcuyfr+vr+9vAm7JZWn8V1QGIF+EpVJp7dGjR/8pk8nc6rou9X2fy1NHEoKi+OtR6jVyxJd3EUThAqLARTBUw/L5PFu+fDl2XfcvN2zY8OGgHJhVGsrvt3///ntKpdK3dV1vCiTHETcgbviZTAYMw5gmtSU6gOD5U67T73ne3kwm8+f9/f07RCXjRs+Li4ps376d7tu37y6M8d/n8/m1Y2Nj1HEcLE4Wii27qAUbYgYQZdDSEo5Iw48q6RhjFGOMJycnq7Va7UMrV678gjAgxS7bwAhwRa6exgghWiwWV5w6depvVFV9je/7LJgGQ7MRCo0ybpk1GBXl5cEWeQ6BZx+e57GmpibW3d2NTdP81OTk5B/ed9991kxOgEuJj4yMdJ48efLbGONbAyluLFJnU6lUuLhCXJjB23qWZYFlWeB5Hg3ESmuKonxmzZo1n0QIFYM17TNKl4np809+8pM3tLS0fL61tbW9WCxOE3OFmLFdGRPg3YlG4pwi0i/P/kdlZIQQHwDIyMjIuOM4v9Hb2/utyw3th6W6GWi+yoGALHS6q6vrLZZlfRFjjBRFQZRSGteyi+sVz7YMiEtRoy5MXddRpVLBZ86cYel0+oOFQuEbjz/++Cr+3Gdw6uz48eO/ixC61XVdSinFIveAp/yc1MPre36r1+tg2zajlLJMJoN933/SMIxXr1279g8RQsXZylqLZcvu3bvf19HR8ZWmpqb2crlM+YJPHtV5i0+k7sp1u6jkM1MJJms8NAB2KQCQoaGhgWq1uiUwfnQlGP8VmwFE0GLJs88++35K6Z/qup7jegJxab0ICsrRnEf4qM00IqFIziTkUVieCTiOA/l8nq5YsQKXy+Xnfd//ndtuu+2/ZAMTQb/nnnvuZbVa7Zu+7+cYY8AluwghYBgGpNPpaZGVp/x80s73fRYMLSGM8ZeuvvrqP0IIFWcLhollwZNPPtmjKMrH2tra3gIAuFKpUEVRMBdEFQVFoiJ+FMgntgHlMkEG/+KcNaWUYYwpY4wMDAz83Pf9d69bt+75KyXyX9EZgJgJBBcrvfHGGz+FMX47Y+ysrus46AOzqN1/cto6mwgfNRMQ1RaULlJQFAVqtRo+fPiw7zjO1YZh7Hj88cffxxhTtm/fTnfs2EG2bt2KeerPGNMqlcrv+r6fZ9wjSGKZPN3nQhm2bYf0XsuyKKUUeZ7HFEX542uuueZdCKHijh07yPbt22kj45f2AdIf/vCHdxFCvrN69eq3McaQbdtMVVUs4hCcMShmADzN59+Lo/Xy+4q/KzL/oqb8+EsbDCCR06dPf+fMmTOvX7du3fPBc6dXlA1AckKiypYtW/znn3/+GsuyPqVp2ktd1w0JIVEjwSINtpHMFY/qUXRiMQuI0hvgPw8uWJrNZnFXVxcQQv6rVCp9+EUvetFTAABPPfWUumnTJnfXrl3vNk3zs5ztSAhBYtrPCTXicxN0+ChCCDuOM5XJZD64fv36rwS1Psxk+Pz1AwD49re/3dnX1/c/MpnMe7LZbLpWq1Hf91GwDizSKcrgnUw/jhrsifp9cUNzTHnmAwCZnJykpVLpo319fX+OEHKutMifOIDG4hjpp59++o8ZYx/SdZ04jjPNCcgjsLIDEKcBo8aMuUOQV09HZQei0EWQrjNCCOrp6QGMcUlV1b+r1Wr/e9OmTWefeOKJrqGhoZ9ks9l1hBDGGEM8knIHoGnaOQ6MKxQTQrCqqmfz+fw7ent7vz8TCi62/gAAvvrVr2bWrFnz3s7Ozne3tLT0B1p7FCGEozQFolJ40ZCjsqoogDCCwhvlADiDD4+Ojp6pVCofWrNmzdfF0umKzIITs48XxXzuuefe5nnen2uattK27fACkkk8sl5dIyXiqAWWcUNDIGndi7sOEEJ+U1MT6ejoAEVRjmGM/+rgwYPd4+PjH+Gz8wAQUnt5qi3Ozgvbb1lAwa0vX778N5YvX/71QGz1nJSfMYZ37tw5TQTj05/+dP6lL33p/blc7rd1Xb9VVVUolUrUdV2k6zoSAUi5dy+z8cQIH9XqE+8rZgJxbE0B6MO+78PY2NgjiqJ8oL29ffeV0OZLHMCF8+cBANj+/fvXVqvVP1NV9Y1BBPYDJ4HidPDiHMBMewkaCWbG6OozTdNYd3c31jQNpqam3MnJSZVr4iGEIJ1OQy6Xg1QqNa2Hzh/DcRwWtD6t5ubm3167du2XeHuOn507d6LNmzdz0Cz8/rFjx9YRQt6oKMqbDcPYkE6noVgsMtM0maIomC/T4H9LFueIku/mRi33+qMWc8rOQ3YAHOgDAFIuly3Lsv5K1/X/3dTUNBnn4BIHkByQSUOMMbx79+5ftSxre3t7+8p6vR6SY6JIPjKBKEq6upHCUBxhKKqkCHTzqKIoKJvNolQqBQAA5XIZpqamwPf9UEWHj/xKXQoW0IA/csMNN3xs165daqVSYffdd58X9ZoMDQ1tsCzrZel0+lWEkJsNw2illEKlUmHBHD+WW3YgCXnKCH1UGi+j+VFlQZQDEBWX+GLCsbGxJyuVykf6+/t/uFjWcicOYAmWBENDQysHBwf/QNf1d2mahi3L4l0ENJt9gVHRPm7tuFjPxm3UEetnPmGIMYZUKhVq4zmOw/v64DhOCPgFZYCfyWQIAHzpxS9+8bvEv/PQQw8ZuVyugxDS09LScg0AvMiyrGvb29tXaprWzrsHjuPQAL/AYn0e1R0RqbeN2HqyFkCU6IcstioS+bkQycTERM1xnE86jvOplStXTl7OnP7EAczz68TJIRhjOHDgwC9Xq9U/IITcSggBy7Jo8FqimVaRi4YfBxTGSZfPpEMg8vm5UXDGH5/yI4SAbdtQr9fB8zye/j8LACeCDgDLZrO4vb29S1GUbkppq6qqKU4aqtVqYFkWDUBJhDFGjSJ3HOovU3/FxxCdRJziTwTBh2GMGQDgoAR6GCH0Jy0tLT9Lon7iAOZcTJMx1nT48OHfsCzr/aqq9tq2Df4LFo0xxigqcouRX9bBn02632i9NX/MKGPifAJeAvD5f0GLIOwOOI4DmqaFvIBAa98P/h+EMQ7bebJxy4M6cWm77ABmSuejfl947RhCiPF0f2Rk5IjjOH/R09OzEyFUEViLSdRPHMDcymkDABw6dGi153nvqlQq70yn022BgfuBvj2SJ/9ExxAXzaPmDmRjaKQvIFOW5Q1JIhDH+/9c5CLYVQiBofOV60iO1HIJErV3LyriRzkCsTyYCdjjv+f7PsMYUy7xVq1Wx0ul0hcB4AsrVqw4lUT9xAEsqCM4cuTIxlKp9FsY47fkcrlCoJ4TdgyiloWI9OAoRHy2Y8dRI7JRwiXiOHNUL12+j5xJRA3aRMlpy06qUStPdlBRz11yBiGyDwBQqVRqlmV9hVL6ha6urr3CvkiaRP3EASxIWSCSYQYHB28plUq/5TjO6zRNK3AGX1Az46i0PcrQ5Z14M0X7KCrxTOuy5ajciM4s1uViKzEKvItSPBIzBTHSxxl7xHObZvgTExM2Y+z7tm3/7+XLl/+cR/wk3U8cwCVzBAAAHCPYs2fPtb7v/ypC6E2GYfQAANi2DQihaVlB1M6AqO9FZQJxstiNBE3lfYdRzDvZOEUHEoXYRyH98vdlem6coYu3YCiJBtgDBgAoFotV13W/AwBf6O7u/hmXgRedcHISB3BJ24ZiFDpz5kzv8PDwa9Pp9Js9z7vdMAzejqMBgIUv5H2Iq8XjsgLZKEUV4EZTc3EU3agpvUYGLT921HMNniNjL+wKYyRIWVzXhUqlMlCtVv+VMfb1vr6+p6PatMmBRBJsMUwYihnB8uXLBwHgM4yxvzt27NgrarXaAwihOwzDaNE0Der1OgRa+KFDxhgjsVPARTplQxXbfVHpfJyAaVxfXqbkRhm1bNwyZhDVAYh7HtP95gtoPkKIqKqKAABqtZpTr9efqlQq/woA3+zv7x+UVsCxxPiTDGDJTBpyAzhy5Mha13Vf4/v+ZozxRkJIlm8O5ug235LL0fioyC5iCFEGLkfXqPtwAJI7GVGII+5vyK2/KP3EmVSQufEGnRLM25CmadJ6vX6kVqv9KJfLfeP48eOPb9q0yRWyqyTVTxzA0ncE3BAOHz58k23b97qu+xqM8Q2pVKqQSqXCHjxjjKPZYVsxbvBFNNa4AZkoRyCCc6K0ViOgMapsiOs+8Jcg2KwLAED4YJLjOGDbtlsul085jvP9lpaW71BKH+M7BfhuBwBIUP3EAVwejmDbtm1o48aN56yVPn78+HrTNG9FCL3McZwXZzKZZZlMRuHKQFygM0iVQ4ZiYHhI1A6IchRR6XrcTH2U04gqFSKMnQWZAR8cQnwcWNd1CFJ7qNfrUwihp2zb/oGmabtGR0d3X3PNNVXJ6FmC6icO4LLnEggjqeGF/o//+I/5W2+99fpcLneP7/svqlarN3qe153NZkk6nQ7HgwPREhaImoZjjIGxIsFYp5UScWBfnHCmUEqwwFkwwXGwAMDDhBAkqvVQSqFUKoHjOCVN0/abpvksY+xnpVLpsY0bNw6K/7MwhZgYfeIA4IpsJQaZAZXXTz322GOdmUymp6mp6QbLsm7BGF/HGFvhOM5ywzBQLpeDQMcvVCcOVnSzQIyDcWWfuCm8KE1CYVkHeiH5eAGX4FRibux8b2BAiZ5ijJ20bftkOp1+QtO03QMDA4eeffbZ4QceeMCK6JokRp84gOQ0yA5oVLvx6NGjy48dO9bd0dHR2tbWdrPv+52O41xDCOlVFEWllLYghDJcCYgbLOf/i3r84ihzlOCJ7/tg2zafPPQYY0XP80zG2ISqqrsVRRk3TXPfqVOnThiGMXnTTTedRAjV44hTgcHD5bRnL3EAyZlPZwAAgHbu3In279/P4rYEBbWzXi6XU0NDQ321Wq0bANRsNttSKBRWEkLaHcfJIISQqqosiMCq53kKIYQCgAcALkIIEUJA0zS3VqtN1uv105ZlnZmamnLS6fRUNps9tmbNmnEA8BBCzkxOLInyyUnOHDuFrVu34h07dpAdO3YQxhiWlXwWsnThf194LkhwXMlJTnIW0jkEN26QRJQPj7pF/G54Eww8fKyo301OcpKTnOQkJznJSU5ykpOc5CQnOclJTnKSk5zkJCc5yUlOcpKTnOQkJznJSU5ykpOc5CQnOclJTnKSk5zkJCc5yUlOcpKTnOQkJznJSU5ykpOc5CQnOclJTnKSk5zkJCc5yUlOcpKTnOQkJznJSc7szv8PwUr1/caIJhAAAAAASUVORK5CYII=]]local function C(D)local E={}local F=[[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/]]for G=1,#F do E[F:byte(G)]=G-1 end local G={}for H=1,#D,4 do local I,J,K,L=D:byte(H,H+3)local M=E[I]*262144+E[J]*4096+(E[K]or 0)*64+(E[L]or 0)local N,O,P=M//65536,M//256%256,M%256 if L~=61 then G[#G+1]=string.char(N,O,P)elseif K~=61 then G[#G+1]=string.char(N,O)else G[#G+1]=string.char(N)end end return table.concat(G)end pcall(function()if type(writefile)~='function'or typeof(getcustomasset)~='function'then return end local D='AirFlowAssets'if type(isfolder)=='function'and type(makefolder)=='function'and not isfolder(D)then makefolder(D)end local E=D..'/OuroFlowLogo.png'local F=C(B)local G=type(isfile)=='function'and type(readfile)=='function'and isfile(E)and readfile(E)==F if not G then writefile(E,F)end local H=getcustomasset(E)if type(H)=='string'and H~=''then A.Logo=H end end)local D=k.Fonts local E=b.TouchEnabled and not b.KeyboardEnabled k.Touch=E local F=188 local G=62 local H=34 local I=E and 54 or 48 local J=E and 70 or 64 local K=E and 40 or 34 local L=E and 34 or 28 local M=64 local N=176 local O=440 local P={Card={Compact=false,Height=I,DescHeight=J,Chip=L,Option=K,TextSize=14,DescSize=13,TitleHeight=18,DescGap=20,DescLine=17,Slider=J},Row={Compact=true,Height=E and 40 or 32,DescHeight=E and 54 or 46,Chip=E and 30 or 24,Option=E and 34 or 28,TextSize=13,DescSize=12,TitleHeight=16,DescGap=17,DescLine=15,Slider=E and 54 or 46}}local Q={}local R={}local S={}local T={}local U={}local V=0 local W=4000 local function X(Y,Z)for _ in pairs(Y)do if _.Parent==nil then if U[_]then Y[_]=nil U[_]=nil if Z then V-=1 end else U[_]=true end else U[_]=nil end end end local function Y()X(R,true)X(S,false)W=math.max(4000,V*2)end local function Z(_)return math.floor(_.R*255+0.5)..','..math.floor(_.G*255+0.5)..','..math.floor(_.B*255+0.5)end local function _()table.clear(T)for aa=#n,1,-1 do local ab=n[aa]T[Z(k.Theme[ab])]=ab end end _()local function aa(ab,ac)for ad,ae in pairs(ac)do if typeof(ae)=='Color3'then local af=T[Z(ae)]local ag=R[ab]if af then if not ag then ag={}R[ab]=ag V+=1 if V>=W then Y()end end ag[ad]=af elseif ag then ag[ad]=nil end end end end local ab=table.clone(k.Theme)local ac=nil local function ad(ae,af,ag)for ah,ai in pairs(af)do local aj=ag[ai]if aj then ae[ah]=aj end end end local function ae(af)for ag,ah in pairs(R)do pcall(ad,ag,ah,af)end end local function af(ag)if ac then ac:Disconnect()ac=nil end local ah,ai={},{}for aj,ak in ipairs(n)do local al=k.Theme[ak]local am=ab[ak]or al if am~=al then ah[ak]=am ai[ak]=am end end local function aj()for ak,al in ipairs(n)do ai[al]=k.Theme[al]ab[al]=k.Theme[al]end ae(ai)end if ag<=0 or next(ah)==nil then aj()return end local ak=0 ac=d.Heartbeat:Connect(function(al)ak+=al if ak>=ag then ac:Disconnect()ac=nil aj()return end local am=1-(1-ak/ag)^5 for an,ao in pairs(ah)do local ap=ao:Lerp(k.Theme[an],am)ai[an]=ap ab[an]=ap end ae(ai)end)end local function ag(ah,ai)S[ah]=ai ai()end local function ah(ai,aj,ak,al,am,an)ak=ak or 0.2 if not an then aa(ai,aj)end if ak<=0 then for ao,ap in pairs(aj)do ai[ao]=ap end return nil end al=al or Enum.EasingStyle.Quart am=am or Enum.EasingDirection.Out local ao=ak..al.Name..am.Name local ap=Q[ao]if not ap then ap=TweenInfo.new(ak,al,am)Q[ao]=ap end local aq=a:Create(ai,ap,aj)aq:Play()return aq end local function ai(aj,ak,al)local am=Instance.new(aj)for an,ao in pairs(ak)do if an~='Parent'then am[an]=ao end end aa(am,ak)if al then for an,ao in ipairs(al)do ao.Parent=am end end if ak.Parent then am.Parent=ak.Parent end return am end k.Roundness=1 k._cornerBases={}local function aj(ak,al)al=al or UDim.new(0,8)local am=ai('UICorner',{CornerRadius=al.Scale==0 and UDim.new(0,math.floor(al.Offset*k.Roundness+0.5))or al,Parent=ak})if al.Scale==0 then k._cornerBases[am]=al.Offset end return am end function k._fixedCorner(ak,al)return ai('UICorner',{CornerRadius=al,Parent=ak})end function k._radius(ak)return math.floor(ak*k.Roundness+0.5)end local function ak(al,am,an,ao)return ai('UIStroke',{Color=am or z.Stroke,Transparency=an or 0,Thickness=ao or 1,ApplyStrokeMode=Enum.ApplyStrokeMode.Border,Parent=al})end local function al(am,an,ao,ap,aq)return ai('UIPadding',{PaddingLeft=UDim.new(0,an or 0),PaddingRight=UDim.new(0,ao or 0),PaddingTop=UDim.new(0,ap or 0),PaddingBottom=UDim.new(0,aq or 0),Parent=am})end local function am(an)local ao={BackgroundTransparency=1,TextColor3=z.Text,TextSize=14,FontFace=D.Medium,TextXAlignment=Enum.TextXAlignment.Left,TextYAlignment=Enum.TextYAlignment.Center,TextTruncate=Enum.TextTruncate.AtEnd}for ap,aq in pairs(an)do ao[ap]=aq end return ai('TextLabel',ao)end local function an(ao,ap,aq,ar,as)local at=ai('ImageLabel',{AnchorPoint=Vector2.new(0.5,0.5),Position=aq,Size=ap,BackgroundTransparency=1,Image=A.Glow,ImageColor3=Color3.fromRGB(226,218,230),ImageTransparency=1,Visible=false,ZIndex=0,Parent=ao})local au=ai('UIGradient',{Rotation=as or 90,Parent=at})ag(au,function()au.Color=ColorSequence.new(Color3.fromRGB(255,255,255),z.Accent)end)return at end local function ao(ap)return ai('Frame',{Position=UDim2.fromOffset(0,0),Size=UDim2.new(1,0,0,1),BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,BorderSizePixel=0,ZIndex=0,Parent=ap})end local ap=1.35 local function aq(ar,as,at)local au,av,aw,ax,ay=w(as)if not au then return end ar.Image=au ar.ImageRectOffset=av or Vector2.zero ar.ImageRectSize=aw or Vector2.zero if as==A.Logo then ay=true end local az=ax and not ay ar:SetAttribute('CustomIcon',az or nil)if az then ah(ar,{ImageColor3=Color3.new(1,1,1)},0)end local aA=ax and not at and as~=A.Logo and(typeof(as)=='table'and tonumber(as.Scale)or ap)or 1 local aB=ar:FindFirstChild('CustomIconScale')if aA~=1 then aB=aB or ai('UIScale',{Name='CustomIconScale',Parent=ar})aB.Scale=aA elseif aB then aB:Destroy()end end local function ar(as,at,au,av)if as:GetAttribute('CustomIcon')then ah(as,{ImageTransparency=au and 0 or 0.4},av)else ah(as,{ImageColor3=at},av)end end local function as()local at pcall(function()if typeof(gethui)=='function'then at=gethui()end end)if typeof(at)=='Instance'then return at end local au pcall(function()au=game:GetService('CoreGui')local av=Instance.new('Folder')av.Parent=au av:Destroy()end)if au then return au end return j:WaitForChild('PlayerGui')end local at,au=nil,Vector2.zero local function av()local aw=time()if at~=aw then at=aw au=c:GetGuiInset()end return b:GetMouseLocation()-au end local function aw(ax)return ax.UserInputType==Enum.UserInputType.MouseButton1 or ax.UserInputType==Enum.UserInputType.Touch end local function ax()return b:GetLastInputType()==Enum.UserInputType.Touch end local function ay(az,aA)local aB az.InputBegan:Connect(function(aC)if aw(aC)then local aD=aA()aB=aD and aD.CanvasPosition end end)return function()local aC=aA()return not(aB and aC and(aC.CanvasPosition-aB).Magnitude>4)end end local function az(aA,aB)local aC,aD=aB.AbsolutePosition,aB.AbsoluteSize return aA.X>=aC.X and aA.X<=aC.X+aD.X and aA.Y>=aC.Y and aA.Y<=aC.Y+aD.Y end local function aA(aB)return aB.UserInputType==Enum.UserInputType.MouseMovement or aB.UserInputType==Enum.UserInputType.Touch end local function aB(aC,aD,aE,aF)local aG=ai('Frame',{AnchorPoint=Vector2.new(0,0.5),Position=aF,Size=UDim2.fromOffset(16,16),BackgroundTransparency=1,Parent=aC})local aH=ai('ImageLabel',{Size=UDim2.fromScale(1,1),BackgroundTransparency=1,ImageColor3=aE,ScaleType=Enum.ScaleType.Fit,Parent=aG})aq(aH,aD)return aG,aH end local function aC(aD,aE,aF)local aG=ai('Frame',{AnchorPoint=Vector2.new(aE,0.5),Position=UDim2.new(aE,aF,0.5,0),Size=UDim2.fromOffset(18,18),BackgroundTransparency=1,Parent=aD})local aH={}local aI=ai('ImageLabel',{AnchorPoint=Vector2.new(0.5,0.5),Position=UDim2.fromScale(0.5,0.5),Size=UDim2.fromOffset(16,16),BackgroundTransparency=1,ImageColor3=z.Muted,ScaleType=Enum.ScaleType.Fit,Parent=aG})aq(aI,'chevron-down')if aI.Image~=''then function aH:Set(aJ)ah(aI,{Rotation=aJ and 180 or 0,ImageColor3=aJ and z.Accent or z.Muted},0.3,Enum.EasingStyle.Quint)end return aH end aI:Destroy()local function aJ(aK,aL)return am({AnchorPoint=Vector2.new(0.5,0.5),Position=UDim2.fromScale(0.5,0.5),Size=UDim2.fromOffset(18,18),Text='\u{203a}',TextSize=22,TextXAlignment=Enum.TextXAlignment.Center,TextColor3=z.Muted,TextTransparency=aL,Rotation=aK,Parent=aG})end local aK=aJ(90,0)local aL=aJ(270,1)function aH:Set(aM)ah(aK,{TextTransparency=aM and 1 or 0},0.2)ah(aL,{TextTransparency=aM and 0 or 1,TextColor3=aM and z.Accent or z.Muted},0.2)end return aH end local aD={}local function aE(aF)local aG=av()local aH=math.max(aF.AbsoluteSize.X,aF.AbsoluteSize.Y)*2.2 local aI=table.remove(aD)if aI and not pcall(function()aI.Parent=nil end)then aI=nil end if not aI then aI=ai('Frame',{AnchorPoint=Vector2.new(0.5,0.5),BackgroundColor3=z.Accent,BorderSizePixel=0})aj(aI,UDim.new(1,0))end aI.Position=UDim2.fromOffset(aG.X-aF.AbsolutePosition.X,aG.Y-aF.AbsolutePosition.Y)aI.Size=UDim2.fromOffset(0,0)aI.BackgroundColor3=z.Accent aI.BackgroundTransparency=0.82 aI.ZIndex=aF.ZIndex+1 aI.Parent=aF ah(aI,{Size=UDim2.fromOffset(aH,aH),BackgroundTransparency=1},0.55)task.delay(0.55,function()if aI.Parent~=aF or not aF.Parent then pcall(aI.Destroy,aI)return end aI.Parent=nil if#aD<4 then table.insert(aD,aI)else aI:Destroy()end end)end local function aF(aG)if not aG or aG:GetAttribute('Hidden')then return end ah(aG,{Color=z.Accent,Transparency=0.2},0.08)task.delay(0.12,function()ah(aG,{Color=z.Stroke,Transparency=0},0.35)end)end local function aG(aH,aI)aH.MouseEnter:Connect(function()ah(aI,{Color=z.StrokeHover},0.12)end)aH.MouseLeave:Connect(function()ah(aI,{Color=z.Stroke},0.25)end)end local aH={[Enum.KeyCode.LeftControl]='LCtrl',[Enum.KeyCode.RightControl]='RCtrl',[Enum.KeyCode.LeftShift]='LShift',[Enum.KeyCode.RightShift]='RShift',[Enum.KeyCode.LeftAlt]='LAlt',[Enum.KeyCode.RightAlt]='RAlt',[Enum.KeyCode.Return]='Enter',[Enum.KeyCode.Escape]='Esc',[Enum.KeyCode.Backspace]='Backspace'}local function aI(aJ)if aJ==nil then return'None'end return aH[aJ]or aJ.Name end local function aJ(aK,...)if type(aK)~='function'then return end local aL,aM=pcall(aK,...)if not aL then warn('[AirFlow] callback error: '..tostring(aM))end end local function aK(aL)local aM=nil task.spawn(function()aM=table.pack(pcall(aL))end)while aM==nil do task.wait()end return table.unpack(aM,1,aM.n)end local function aL(aM,aN,aO)local aP=0 local aQ=tostring(aO)local aR=aQ:find('%.')if aR then aP=#aQ-aR end local aS='%.'..aP..'f'return{snap=function(aT)aT=math.floor(aT/aO+0.5)*aO return math.clamp(aT,aM,aN)end,format=function(aT)return string.format(aS,aT)end}end local function aM(aN)return aN._metrics or P.Card end local function aN(aO,aP)local aQ=aO.AbsoluteSize.X/aP.Scale.Scale return math.clamp(math.floor(aQ*0.48),90,220)end local function aO(aP,aQ,aR,aS)local aT=aM(aP).Compact local aU={Size=UDim2.new(1,0,0,aR),BackgroundColor3=z.Surface2,BackgroundTransparency=aT and 1 or 0,BorderSizePixel=0,LayoutOrder=aP:_nextOrder(),Parent=aP.List}if aQ=='TextButton'then aU.AutoButtonColor=false aU.Text=''end local aV=ai(aQ,aU)aV:SetAttribute('NoDrag',true)aj(aV)local aW=ak(aV,z.Stroke,aT and 1 or 0)if aT then aW:SetAttribute('Hidden',true)end return aV,aW end local function aP(aQ,aR,aS,aT,aU)aU=aU or P.Card local aV,aW if aS then local aX=math.floor((aU.DescHeight-(aU.DescGap+aU.DescLine))/2)aV=am({Position=UDim2.fromOffset(14,aX),Size=UDim2.new(1,-(14+aT),0,aU.TitleHeight),Text=aR,TextSize=aU.TextSize,Parent=aQ})aW=am({Position=UDim2.fromOffset(14,aX+aU.DescGap),Size=UDim2.new(1,-(14+aT),0,aU.DescLine),Text=aS,TextSize=aU.DescSize,FontFace=D.Regular,TextColor3=z.Muted,Parent=aQ})else aV=am({Position=UDim2.fromOffset(14,0),Size=UDim2.new(1,-(14+aT),1,0),Text=aR,TextSize=aU.TextSize,Parent=aQ})end return aV,aW end local function aQ(aR,aS,aT,aU,aV,aW)aS=l(aS,aT)local aX=aM(aR)local aY=aS.Desc and aX.DescHeight or aX.Height local aZ,a_=aO(aR,aU or'Frame',aY,aS)aG(aZ,a_)local a0,a1 if aV then a0,a1=aP(aZ,aS.Name or aW,aS.Desc,aV,aX)end return aS,aZ,a_,aY,a0,a1 end local function aR(aS,aT,aU)if aS then aS.Size=UDim2.new(1,-(14+aU),aS.Size.Y.Scale,aS.Size.Y.Offset)end if aT then aT.Size=UDim2.new(1,-(14+aU),0,aT.Size.Y.Offset)end end local aS={}aS.__index=aS function aS:_nextOrder()self._order=self._order+1 return self._order end function aS:Section(aT)local aU=not(type(aT)=='table'and aT.Visible==false)if type(aT)=='table'then aT=aT.Name or aT.Title or''end local aV=aM(self).Compact and 14 or 2 local aW=ai('Frame',{Size=UDim2.new(1,0,0,28),BackgroundTransparency=1,LayoutOrder=self:_nextOrder(),Parent=self.List})local aX=am({Position=UDim2.fromOffset(aV,8),Size=UDim2.new(0,0,0,16),AutomaticSize=Enum.AutomaticSize.X,Text=string.upper(aT),TextSize=12,TextColor3=z.Muted,TextTruncate=Enum.TextTruncate.None,Parent=aW})local aY=aV==2 and 0 or aV local aZ=ai('Frame',{AnchorPoint=Vector2.new(1,0.5),Position=UDim2.new(1,-aY,0,16),Size=UDim2.new(1,-12,0,1),BackgroundColor3=z.Stroke,BorderSizePixel=0,Parent=aW})local function a_()aZ.Size=UDim2.new(1,-(aX.AbsoluteSize.X/self.Window.Scale.Scale+aV+12+aY),0,1)end aX:GetPropertyChangedSignal('AbsoluteSize'):Connect(a_)task.defer(a_)return m(self,{Visible=aU},{Set=function(a0,a1)aX.Text=string.upper(a1)end},aW,'Section')end function aS:Divider(aT)local aU=type(aT)=='table'and(aT.Text or aT.Name)or type(aT)=='string'and aT or nil if aU then local aV=aM(self).Compact and 14 or 2 local aW=ai('Frame',{Size=UDim2.new(1,0,0,18),BackgroundTransparency=1,LayoutOrder=self:_nextOrder(),Parent=self.List})local aX=am({AnchorPoint=Vector2.new(0.5,0.5),Position=UDim2.fromScale(0.5,0.5),Size=UDim2.new(0,0,0,14),AutomaticSize=Enum.AutomaticSize.X,Text=aU,TextSize=11,FontFace=D.Regular,TextColor3=z.Muted,TextTruncate=Enum.TextTruncate.None,Parent=aW})al(aX,8,8)local aY={}for aZ,a_ in ipairs({0,1})do aY[aZ]=ai('Frame',{AnchorPoint=Vector2.new(a_,0.5),Position=UDim2.new(a_,a_==0 and aV or-aV,0.5,0),Size=UDim2.new(0.5,-aV,0,1),BackgroundColor3=z.Stroke,BorderSizePixel=0,Parent=aW})end local function aZ()local a_=aX.AbsoluteSize.X/self.Window.Scale.Scale/2 for a0,a1 in ipairs(aY)do a1.Size=UDim2.new(0.5,-(aV+a_),0,1)end end aX:GetPropertyChangedSignal('AbsoluteSize'):Connect(aZ)task.defer(aZ)return m(self,{Visible=not(type(aT)=='table'and aT.Visible==false)},{Set=function(a_,a0)aX.Text=tostring(a0)end},aW,'Divider')end local aV=ai('Frame',{Size=UDim2.new(1,0,0,1),BackgroundColor3=z.Stroke,BorderSizePixel=0,LayoutOrder=self:_nextOrder(),Parent=self.List})if aM(self).Compact then aV.BackgroundTransparency=1 aV.Size=UDim2.new(1,0,0,9)ai('Frame',{Position=UDim2.fromOffset(14,4),Size=UDim2.new(1,-28,0,1),BackgroundColor3=z.Stroke,BorderSizePixel=0,Parent=aV})end return m(self,{Visible=not(type(aT)=='table'and aT.Visible==false)},{},aV,'Divider')end function aS:Label(aT)aT=l(aT,{Name='Text',Title='Text'})local aU=am({Size=UDim2.new(1,0,0,18),Text=k._rich(aT.Text or''),TextSize=13,FontFace=D.Regular,TextColor3=k._color(aT.Color)or z.Muted,RichText=true,LayoutOrder=self:_nextOrder(),Parent=self.List})if aM(self).Compact then aU.TextSize=12 al(aU,14,14)else al(aU,2)end local aV={Set=function(aV,aW)aU.Text=k._rich(aW)end,Get=function()return aU.Text end,SetColor=function(aV,aW)ah(aU,{TextColor3=k._color(aW)or z.Muted},0.25)end}if type(aT.Update)=='function'then local aW=math.max(tonumber(aT.UpdateRate)or 1,0.05)local aX=true aV._listeners=aV._listeners or{}table.insert(aV._listeners,function()aX=false end)task.spawn(function()while aX and aU.Parent do local aY,aZ=aK(aT.Update)if aY and aZ~=nil then aU.Text=k._rich(aZ)elseif not aY then warn('[AirFlow] label update error: '..tostring(aZ))end task.wait(aW)end end)function aV:SetUpdateRate(aY)aW=math.max(tonumber(aY)or aW,0.05)end end return m(self,aT,aV,aU,'Label')end function aS:Paragraph(aT)aT=l(aT,{Title='Name'})local aU=aO(self,'Frame',0,aT)aU.AutomaticSize=Enum.AutomaticSize.Y if aM(self).Compact then al(aU,14,14,6,8)else al(aU,14,14,11,12)end ai('UIListLayout',{SortOrder=Enum.SortOrder.LayoutOrder,Padding=UDim.new(0,4),Parent=aU})am({Size=UDim2.new(1,0,0,14),Text=aT.Name or'',LayoutOrder=1,Parent=aU})local aV=am({Size=UDim2.new(1,0,0,0),AutomaticSize=Enum.AutomaticSize.Y,Text=k._rich(aT.Content or''),TextSize=13,FontFace=D.Regular,TextColor3=z.Muted,TextWrapped=true,TextTruncate=Enum.TextTruncate.None,TextYAlignment=Enum.TextYAlignment.Top,RichText=true,LayoutOrder=2,Parent=aU})return m(self,aT,{Set=function(aW,aX)aV.Text=k._rich(aX)end},aU,'Paragraph')end local function aT(aU,aV)local aW=aV.Style=='Primary'local aX=E and 34 or 28 local aY=aX+6+(aV.Desc and 16 or 0)local aZ=aO(aU,'TextButton',aY,aV)local a_=ai('Frame',{Position=UDim2.fromOffset(14,3),Size=UDim2.new(1,-28,0,aX),BackgroundColor3=aW and z.Accent or z.Surface3,BackgroundTransparency=aW and 0.12 or 0.45,BorderSizePixel=0,ClipsDescendants=true,Parent=aZ})aj(a_,UDim.new(0,6))local a0=ak(a_,aW and z.Accent or z.Stroke,aW and 0.4 or 0)local a1=ai('Frame',{AnchorPoint=Vector2.new(0.5,0.5),Position=UDim2.fromScale(0.5,0.5),Size=UDim2.new(0,0,1,0),AutomaticSize=Enum.AutomaticSize.X,BackgroundTransparency=1,Parent=a_})ai('UIListLayout',{FillDirection=Enum.FillDirection.Horizontal,VerticalAlignment=Enum.VerticalAlignment.Center,SortOrder=Enum.SortOrder.LayoutOrder,Padding=UDim.new(0,6),Parent=a1})local a2=aW and z.AccentDark or z.Text if aV.Icon then local a3=ai('ImageLabel',{Size=UDim2.fromOffset(14,14),BackgroundTransparency=1,ImageColor3=aW and z.AccentDark or z.Accent,ScaleType=Enum.ScaleType.Fit,LayoutOrder=1,Parent=a1})aq(a3,aV.Icon)end local a3=am({Size=UDim2.new(0,0,1,0),AutomaticSize=Enum.AutomaticSize.X,Text=aV.Name or'Button',TextSize=13,TextColor3=a2,TextTruncate=Enum.TextTruncate.None,LayoutOrder=2,Parent=a1})if aV.Desc then am({Position=UDim2.fromOffset(14,aX+6),Size=UDim2.new(1,-28,0,14),Text=aV.Desc,TextSize=12,FontFace=D.Regular,TextColor3=z.Muted,Parent=aZ})end local a4=aW and 0.12 or 0.45 aZ.MouseEnter:Connect(function()ah(a_,{BackgroundTransparency=aW and 0 or 0.2},0.12)ah(a0,aW and{Transparency=0}or{Color=z.StrokeHover},0.12)end)aZ.MouseLeave:Connect(function()ah(a_,{BackgroundTransparency=a4},0.25)ah(a0,aW and{Transparency=0.4}or{Color=z.Stroke},0.25)end)aZ.MouseButton1Click:Connect(function()aE(a_)aJ(aV.Callback)end)return m(aU,aV,{SetText=function(a5,a6)a3.Text=a6 end},aZ,'Button')end function aS:Button(aU)aU=l(aU,{Title='Name',Description='Desc'})if aM(self).Compact then return aT(self,aU)end local aV=aU.Style=='Primary'local aW=aU.Desc and J or I local aX,aY=aO(self,'TextButton',aW,aU)aX.ClipsDescendants=true if aV then ah(aX,{BackgroundColor3=z.Accent,BackgroundTransparency=0.12},0)ah(aY,{Color=z.Accent},0)aY.Transparency=0.4 aX.MouseEnter:Connect(function()ah(aX,{BackgroundTransparency=0},0.12)ah(aY,{Transparency=0},0.12)end)aX.MouseLeave:Connect(function()ah(aX,{BackgroundTransparency=0.12},0.25)ah(aY,{Transparency=0.4},0.25)end)else aG(aX,aY)end local aZ=aV and z.AccentDark or z.Text local a_=0 if aU.Icon then aB(aX,aU.Icon,aV and z.AccentDark or z.Accent,UDim2.new(0,14,0.5,0))a_=26 end local a0=aP(aX,aU.Name or'Button',aU.Desc,30)if a_>0 then for a1,a2 in ipairs(aX:GetChildren())do if a2:IsA('TextLabel')then a2.Position=a2.Position+UDim2.fromOffset(a_,0)a2.Size=a2.Size-UDim2.fromOffset(a_,0)end end end if aV then for a1,a2 in ipairs(aX:GetChildren())do if a2:IsA('TextLabel')then ah(a2,{TextColor3=aZ},0)end end end aB(aX,x,aV and z.AccentDark or z.Muted,UDim2.new(1,-30,0.5,0))aX.MouseButton1Click:Connect(function()aE(aX)aJ(aU.Callback)end)return m(self,aU,{SetText=function(a1,a2)a0.Text=a2 end},aX,'Button')end function aS:Toggle(aU)local aV,aW aU,aV,aW=aQ(self,aU,{Title='Name',Description='Desc',CurrentValue='Default',Value='Default'},'TextButton',56,'Toggle')local aX=ai('Frame',{AnchorPoint=Vector2.new(1,0.5),Position=UDim2.new(1,-14,0.5,0),Size=E and UDim2.fromOffset(44,24)or UDim2.fromOffset(36,20),BackgroundColor3=z.Surface3,BorderSizePixel=0,Parent=aV})aj(aX,UDim.new(1,0))ak(aX,z.Stroke)local aY=ai('Frame',{AnchorPoint=Vector2.new(0,0.5),Position=UDim2.new(0,3,0.5,0),Size=E and UDim2.fromOffset(18,18)or UDim2.fromOffset(14,14),BackgroundColor3=z.Muted,BorderSizePixel=0,Parent=aX})aj(aY,UDim.new(1,0))local aZ=ai('ImageLabel',{AnchorPoint=Vector2.new(0.5,0.5),Position=UDim2.fromScale(0.5,0.5),Size=UDim2.new(1,24,1,24),BackgroundTransparency=1,Image=A.Glow,ImageColor3=z.Accent,ImageTransparency=1,ZIndex=0,Parent=aX})local a_={Value=aU.Default==true}local function a0(a1)local a2=a_.Value local a3=a1 and 0.25 or 0 ah(aX,{BackgroundColor3=a2 and z.Accent or z.Surface3},a3)ah(aZ,{ImageTransparency=a2 and 0.75 or 1},a3)local a4=E and 18 or 14 ah(aY,{Position=a2 and UDim2.new(0,(E and 44 or 36)-3-a4,0.5,0)or UDim2.new(0,3,0.5,0),BackgroundColor3=a2 and z.AccentDark or z.Muted},a3,Enum.EasingStyle.Back)if a1 then ah(aY,{Size=UDim2.fromOffset(a4+4,a4-2)},0.08)task.delay(0.08,function()ah(aY,{Size=UDim2.fromOffset(a4,a4)},0.2,Enum.EasingStyle.Back)end)end end local a1=false function a_:Set(a2,a3)a2=a2==true if a2==a_.Value then return end a_.Value=a2 a0(true)if not a1 then aF(aW)end if not a3 then aJ(aU.Callback,a2)end end function a_:Get()return a_.Value end a0(false)aV.MouseButton1Click:Connect(function()a1=true a_:Set(not a_.Value)a1=false end)local a2=m(self,aU,a_,aV,'Toggle')if a_.Value then aJ(aU.Callback,true)end return a2 end function aS:Slider(aU)aU=l(aU,{Title='Name',Description='Desc',CurrentValue='Default',Value='Default',Increment='Step'})local aV=aU.Min or 0 local aW=aU.Max or 100 local aX=aU.Step or 1 local aY=aU.Suffix or''local aZ=aL(aV,aW,aX)local a_=aM(self)local a0=a_.Compact local a1=a_.Slider local a2,a3=aO(self,'Frame',a1,aU)aG(a2,a3)am({Position=UDim2.fromOffset(14,a0 and 5 or 12),Size=UDim2.new(1,-120,0,18),Text=aU.Name or'Slider',TextSize=a_.TextSize,Parent=a2})local a4=ai('Frame',{AnchorPoint=Vector2.new(1,0),Position=UDim2.new(1,a0 and-14 or-10,0,a0 and 2 or 9),Size=UDim2.fromOffset(40,24),BackgroundColor3=z.Surface,BorderSizePixel=0,ClipsDescendants=true,Parent=a2})aj(a4,UDim.new(0,6))local a5=ak(a4)local a6=am({Size=UDim2.new(1,0,1,0),TextSize=13,TextColor3=z.Accent,TextXAlignment=Enum.TextXAlignment.Center,TextTruncate=Enum.TextTruncate.None,Parent=a4})local a7=ai('TextBox',{Position=UDim2.fromOffset(9,0),Size=UDim2.new(0,0,1,0),AutomaticSize=Enum.AutomaticSize.X,BackgroundTransparency=1,Text='',TextColor3=z.Text,TextSize=13,FontFace=D.Medium,TextXAlignment=Enum.TextXAlignment.Left,ClearTextOnFocus=false,Visible=false,Parent=a4})ai('UISizeConstraint',{MinSize=Vector2.new(14,0),Parent=a7})local a8=am({Size=UDim2.new(0,0,1,0),AutomaticSize=Enum.AutomaticSize.X,Text=aY,TextSize=13,TextColor3=z.Accent,TextTruncate=Enum.TextTruncate.None,Visible=false,Parent=a4})local a9=ai('TextButton',{Size=UDim2.fromScale(1,1),BackgroundTransparency=1,Text='',AutoButtonColor=false,ZIndex=2,Parent=a4})local ba=false local function bb(bc)local bd if ba then bd=9+a7.AbsoluteSize.X/(self.Window.Scale.Scale)+a8.TextBounds.X+9 a8.Position=UDim2.fromOffset(9+a7.AbsoluteSize.X/(self.Window.Scale.Scale),0)else bd=a6.TextBounds.X+18 end bd=math.max(bd,36)if bc then a4.Size=UDim2.fromOffset(bd,24)else ah(a4,{Size=UDim2.fromOffset(bd,24)},0.2)end end a6:GetPropertyChangedSignal('TextBounds'):Connect(function()if not ba then bb(false)end end)a7:GetPropertyChangedSignal('AbsoluteSize'):Connect(function()if ba then bb(false)end end)local bc=ai('Frame',{Position=UDim2.new(0,14,0,a1-(a0 and 13 or 18)),Size=UDim2.new(1,-28,0,5),BackgroundColor3=z.Surface3,BorderSizePixel=0,Parent=a2})aj(bc,UDim.new(1,0))local bd=ai('Frame',{Size=UDim2.new(0,0,1,0),BackgroundColor3=z.Accent,BorderSizePixel=0,Parent=bc})aj(bd,UDim.new(1,0))local be=ai('ImageLabel',{AnchorPoint=Vector2.new(0.5,0.5),Position=UDim2.new(0,0,0.5,0),Size=UDim2.fromOffset(28,28),BackgroundTransparency=1,Image=A.Glow,ImageColor3=z.Accent,ImageTransparency=0.85,ZIndex=2,Parent=bc})local bf=ai('Frame',{AnchorPoint=Vector2.new(0.5,0.5),Position=UDim2.new(0,0,0.5,0),Size=UDim2.fromOffset(12,12),BackgroundColor3=z.Accent,BorderSizePixel=0,ZIndex=3,Parent=bc})aj(bf,UDim.new(1,0))local bg=ai('TextButton',{Position=UDim2.new(0,8,0,a1-(a0 and 13 or 18)-(E and 19 or 13)),Size=UDim2.new(1,-16,0,E and 40 or 28),BackgroundTransparency=1,Text='',AutoButtonColor=false,ZIndex=4,Parent=a2})local bh={Value=math.clamp(aU.Default or aV,aV,aW)}local bi=false a9.MouseEnter:Connect(function()ah(a5,{Color=z.StrokeHover},0.12)end)a9.MouseLeave:Connect(function()if not a7:IsFocused()then ah(a5,{Color=z.Stroke},0.2)end end)a9.MouseButton1Click:Connect(function()ba=true a7.Text=aZ.format(bh.Value)a6.Visible=false a7.Visible=true a8.Visible=aY~=''a9.Visible=false ah(a5,{Color=z.StrokeHover},0.12)a7:CaptureFocus()task.defer(bb,false)end)a7.FocusLost:Connect(function()local bj=tonumber(a7.Text)ba=false a7.Visible=false a8.Visible=false a6.Visible=true a9.Visible=true ah(a5,{Color=z.Stroke},0.2)if bj then bh:Set(bj)end bb(false)end)bg.MouseEnter:Connect(function()if not bi then ah(be,{ImageTransparency=0.78,Size=UDim2.fromOffset(34,34)},0.15)end end)bg.MouseLeave:Connect(function()if not bi then ah(be,{ImageTransparency=0.85,Size=UDim2.fromOffset(28,28)},0.2)end end)local bj=aZ.snap local function bk()return(aW-aV)==0 and 0 or(bh.Value-aV)/(aW-aV)end local function bl(bm,bn,bo)bo=bo or Enum.EasingStyle.Linear ah(bd,{Size=UDim2.new(bm,0,1,0)},bn,bo)ah(bf,{Position=UDim2.new(bm,0,0.5,0)},bn,bo)ah(be,{Position=UDim2.new(bm,0,0.5,0)},bn,bo)end local function bm(bn,bo)bl(bk(),bn,bo)a6.Text=aZ.format(bh.Value)..aY end local function bn(bo)local bp=bk()local bq=math.max(bc.AbsoluteSize.X,1)local br=(bp>=bo and 1 or-1)*(5/bq)bl(math.clamp(bp+br,0,1),0.22,Enum.EasingStyle.Quint)task.delay(0.22,function()if not bi then bl(bk(),0.18,Enum.EasingStyle.Quint)end end)a6.Text=aZ.format(bh.Value)..aY end local function bo()ah(bf,{Size=UDim2.fromOffset(14,12)},0.08)ah(be,{Size=UDim2.fromOffset(32,32),ImageTransparency=0.78},0.12)task.delay(0.1,function()ah(bf,{Size=UDim2.fromOffset(12,12)},0.25,Enum.EasingStyle.Quint)ah(be,{Size=UDim2.fromOffset(28,28),ImageTransparency=0.85},0.25)end)end function bh:Set(bp,bq)bp=bj(tonumber(bp)or aV)if bp==bh.Value then return end local br=bk()bh.Value=bp if bi then bm(0.05)else bn(br)bo()aF(a3)end if not bq then aJ(aU.Callback,bp)end end function bh:Get()return bh.Value end local function bp(bq)local br=math.clamp((bq-bc.AbsolutePosition.X)/bc.AbsoluteSize.X,0,1)bh:Set(aV+(aW-aV)*br)end bg.InputBegan:Connect(function(bq)if aw(bq)then bi=true bh.Dragging=true ah(bf,{Size=UDim2.fromOffset(16,16)},0.15,Enum.EasingStyle.Back)ah(be,{Size=UDim2.fromOffset(44,44),ImageTransparency=0.7},0.15)bp(av().X)end end)self.Window:_listen('Changed',function(bq)if bi and aA(bq)then bp(av().X)end end,bh)self.Window:_listen('Ended',function(bq)if bi and aw(bq)then bi=false bh.Dragging=false ah(bf,{Size=UDim2.fromOffset(12,12)},0.2)ah(be,{Size=UDim2.fromOffset(28,28),ImageTransparency=0.85},0.2)aJ(aU.OnRelease,bh.Value)end end,bh)bh.Value=bj(bh.Value)bm(0)task.defer(bb,true)return m(self,aU,bh,a2,'Slider')end function aS:Dropdown(aU)aU=l(aU,{Title='Name',Description='Desc',CurrentOption='Default',Value='Default',MultipleOptions='Multi',Values='Options'})if aU.Multi and type(aU.Default)~='table'and aU.Default~=nil then aU.Default={aU.Default}elseif not aU.Multi and type(aU.Default)=='table'then aU.Default=aU.Default[1]end local aV=aU.Multi==true local aW=aU.Options or{}local aX,aY,aZ aU,aX,aY,aZ=aQ(self,aU,{},'Frame')local a_=aM(self)local a0=a_.Compact local a1=a_.Chip local a2=self.Window local a3=E and 40 or 30 local a4=aU.MaxRows or 6 local a5=a0 and aU.Stacked==true local a6=2 if a5 then a6=(aU.Name or'')~=''and 20 or 2 a1=E and 34 or 30 aZ=a6+a1+4 aX.Size=UDim2.new(1,0,0,aZ)end local a7=ai('TextButton',{Size=UDim2.new(1,0,0,aZ),BackgroundTransparency=1,Text='',AutoButtonColor=false,Parent=aX})local a8,a9 if not a5 then a8,a9=aP(a7,aU.Name or'Dropdown',aU.Desc,180,a_)elseif a6>2 then a8=am({Position=UDim2.fromOffset(14,1),Size=UDim2.new(1,-28,0,16),Text=aU.Name,TextSize=a_.TextSize,Parent=a7})end local ba=ai('Frame',{AnchorPoint=a5 and Vector2.zero or Vector2.new(1,0.5),Position=a5 and UDim2.fromOffset(14,a6)or UDim2.new(1,a0 and-14 or-10,0.5,0),Size=UDim2.fromOffset(60,a1),BackgroundColor3=z.Surface,BorderSizePixel=0,ClipsDescendants=true,Parent=a7})aj(ba,UDim.new(0,6))local bb=ak(ba)local bc=am({Position=UDim2.fromOffset(10,0),Size=UDim2.new(1,-34,1,0),TextColor3=z.Muted,TextSize=13,TextTruncate=Enum.TextTruncate.None,ClipsDescendants=true,Parent=ba})local bd=aC(ba,1,-6)local be=am({Size=UDim2.fromOffset(0,a1),AutomaticSize=Enum.AutomaticSize.X,TextSize=13,Visible=false,Parent=ba})local bf=''local function bg()local bh=(a5 and aX.AbsoluteSize.X/a2.Scale.Scale-28 or a0 and aN(aX,a2)or 190)-10-34 be.Text=bf if be.TextBounds.X<=bh then return bf end local bi=bf while#bi>1 do bi=bi:sub(1,-2)be.Text=bi..'..'if be.TextBounds.X<=bh then return bi..'..'end end return'..'end local function bh(bi)if a5 then ba.Size=UDim2.new(1,-28,0,a1)return end local bj if a0 then bj=aN(aX,a2)else bj=math.clamp(bc.TextBounds.X+10+34,60,190)end aR(a8,a9,bj+(a0 and 24 or 20))if bi then ba.Size=UDim2.fromOffset(bj,a1)else ah(ba,{Size=UDim2.fromOffset(bj,a1)},0.2)end end bc:GetPropertyChangedSignal('TextBounds'):Connect(function()if not a0 then bh(false)end end)if a0 then local bi,bj=0,false aX:GetPropertyChangedSignal('AbsoluteSize'):Connect(function()local bk=aX.AbsoluteSize.X if bk==bi then return end bi=bk bh(true)if not bj then bj=true task.delay(0.12,function()bj=false bc.Text=bg()end)end end)end local bi=ai('Frame',{AnchorPoint=Vector2.new(1,0),Size=UDim2.fromOffset(220,0),BackgroundTransparency=1,Visible=false,ZIndex=45,Parent=a2.Body})bi:SetAttribute('NoDrag',true)local bj=ai('ImageLabel',{Position=UDim2.fromOffset(-18,-12),Size=UDim2.new(1,36,1,36),BackgroundTransparency=1,Image=A.Shadow,ImageColor3=Color3.new(0,0,0),ImageTransparency=1,ScaleType=Enum.ScaleType.Slice,SliceCenter=Rect.new(49,49,450,450),Parent=bi})local bk=ai('Frame',{Size=UDim2.fromScale(1,1),BackgroundColor3=z.Background,BorderSizePixel=0,ClipsDescendants=true,Parent=bi})aj(bk,UDim.new(0,10))local bl=ak(bk,z.Stroke,1)ao(bk)local bm=ai('Frame',{Size=UDim2.new(1,0,0,120),BackgroundTransparency=1,Parent=bk})al(bm,8,8,8,8)local bn=ai('Frame',{Size=UDim2.new(1,0,0,32),BackgroundColor3=z.Surface,BorderSizePixel=0,Parent=bm})aj(bn,UDim.new(0,7))local bo=ak(bn)local bp,bq=aB(bn,'search',z.Muted,UDim2.new(0,10,0.5,0))bp.Size=UDim2.fromOffset(14,14)local br=ai('TextBox',{Position=UDim2.fromOffset(32,0),Size=UDim2.new(1,-40,1,0),BackgroundTransparency=1,Text='',PlaceholderText=aU.SearchPlaceholder or'Search',PlaceholderColor3=z.Muted,TextColor3=z.Text,TextSize=13,FontFace=D.Regular,TextXAlignment=Enum.TextXAlignment.Left,TextTruncate=Enum.TextTruncate.AtEnd,ClearTextOnFocus=false,Parent=bn})br.Focused:Connect(function()ah(bo,{Color=z.StrokeHover},0.15)ah(bq,{ImageColor3=z.Accent},0.15)end)br.FocusLost:Connect(function()ah(bo,{Color=z.Stroke},0.2)ah(bq,{ImageColor3=z.Muted},0.2)end)local bs=ai('Frame',{Size=UDim2.new(1,0,0,28),BackgroundTransparency=1,Visible=aV,Parent=bm})local function bt(bu,bv)local bw=ai('TextButton',{Position=bv,Size=UDim2.new(0.5,-3,1,0),BackgroundColor3=z.Surface3,BackgroundTransparency=0.35,BorderSizePixel=0,Text='',AutoButtonColor=false,ClipsDescendants=true,Parent=bs})aj(bw,UDim.new(0,6))local bx=ak(bw)am({Size=UDim2.fromScale(1,1),Text=bu,TextSize=12,TextXAlignment=Enum.TextXAlignment.Center,Parent=bw})bw.MouseEnter:Connect(function()ah(bw,{BackgroundTransparency=0.05},0.15)ah(bx,{Color=z.StrokeHover},0.15)end)bw.MouseLeave:Connect(function()ah(bw,{BackgroundTransparency=0.35},0.25)ah(bx,{Color=z.Stroke},0.25)end)bw.MouseButton1Click:Connect(function()aE(bw)end)return bw end local bu=bt(aU.SelectAllText or'Select all',UDim2.fromOffset(0,0))local bv=bt(aU.ClearAllText or'Clear all',UDim2.new(0.5,3,0,0))local bw=ai('ScrollingFrame',{Size=UDim2.new(1,0,0,100),BackgroundTransparency=1,BorderSizePixel=0,ScrollBarThickness=E and 4 or 3,ScrollBarImageColor3=z.Accent,ScrollBarImageTransparency=0.4,ScrollingDirection=Enum.ScrollingDirection.Y,CanvasSize=UDim2.new(),Parent=bm})ai('UIListLayout',{SortOrder=Enum.SortOrder.LayoutOrder,Padding=UDim.new(0,2),Parent=bw})local bx=am({Size=UDim2.new(1,0,0,a3),Text=aU.NoResultsText or'No results',TextSize=13,FontFace=D.Regular,TextColor3=z.Muted,TextXAlignment=Enum.TextXAlignment.Center,LayoutOrder=0,Visible=false,Parent=bw})local by={Open=false}local bz={}local bA={}local bB=''local function bC(bD)return bB==''or string.find(string.lower(tostring(bD)),bB,1,true)~=nil end local function bD(bE)return(bE:gsub('&','&amp;'):gsub('<','&lt;'):gsub('>','&gt;'))end local function bE(bF)local bG=tostring(bF)local bH=bB~=''and string.find(string.lower(bG),bB,1,true)if not bH then return bD(bG)end local bI=bH+#bB-1 return bD(bG:sub(1,bH-1))..'<font color="#'..z.Accent:ToHex()..'"><b>'..bD(bG:sub(bH,bI))..'</b></font>'..bD(bG:sub(bI+1))end if aV then for bF,bG in ipairs(aU.Default or{})do bz[bG]=true end elseif aU.Default~=nil then bz[aU.Default]=true end local function bF()if aV then local bG={}for bH,bI in ipairs(aW)do if bz[bI]then table.insert(bG,bI)end end return bG end for bG,bH in ipairs(aW)do if bz[bH]then return bH end end return nil end local function bG(bH,bI)local bJ,bK=bH.On==true,bH.Hover==true ah(bH.Frame,{BackgroundColor3=bJ and z.Accent or z.Surface3,BackgroundTransparency=bJ and(bK and 0.8 or 0.88)or(bK and 0.55 or 1)},bI)ah(bH.Label,{TextColor3=(bJ or bK)and z.Text or z.Muted},bI)end local function bH(bI,bJ)local bK=bz[bI.Option]==true if bI.On==bK and bJ then return end bI.On=bK local bL=bJ and 0.18 or 0 bG(bI,bL)if aV then ah(bI.Box,{BackgroundColor3=bK and z.Accent or z.Surface2},bL)ah(bI.BoxStroke,{Color=bK and z.Accent or z.Stroke},bL)else ah(bI.Bar,{BackgroundTransparency=bK and 0 or 1,Size=UDim2.fromOffset(3,bK and a3-14 or 4)},bJ and 0.3 or 0,Enum.EasingStyle.Quint)end ah(bI.Check,{ImageTransparency=bK and 0 or 1},bL)if bJ and bK then bI.CheckScale.Scale=0.5 ah(bI.CheckScale,{Scale=1},0.3,Enum.EasingStyle.Back)else bI.CheckScale.Scale=1 end end local function bI(bJ)local bK=bF()if#aW==0 then bf=aU.EmptyText or'None'elseif aV then if#bK>2 then bf=tostring(bK[1])..', '..tostring(bK[2])..'  +'..(#bK-2)else bf=#bK>0 and table.concat(bK,', ')or(aU.NoneText or'None')end else bf=bK~=nil and tostring(bK)or(aU.NoneText or'None')end bc.Text=bg()local bL=#aW>0 and(if aV then#bK>0 else bK~=nil)ah(bc,{TextColor3=bL and z.Text or z.Muted},bJ and 0.15 or 0)for bM,bN in pairs(bA)do bH(bN,bJ)end end local function bJ()local bK=0 for bL,bM in ipairs(aW)do if bC(bM)then bK+=1 end end return bK end local bK=true local bL=Vector2.new(220,120)local bM=false local function bN(bO)bK=aU.Searchable~=false and#aW>(aU.SearchAfter or 0)bn.Visible=bK local bP=0 if bK then bP+=38 end bs.Position=UDim2.fromOffset(0,bP)if aV and#aW>0 then bs.Visible=true bP+=34 else bs.Visible=false end local bQ=bJ()bx.Visible=bQ==0 local bR=math.clamp(bQ,1,a4)local bS=bR*a3+(bR-1)*2 bw.CanvasSize=UDim2.fromOffset(0,math.max(bQ,1)*(a3+2)-2)local bT=a2.Scale.Scale local bU=a2:_popupHost(aX)local bV=bU.AbsoluteSize.Y/bT local bW=(ba.AbsolutePosition.Y-bU.AbsolutePosition.Y)/bT local bX=math.max(bV-(bW+ba.AbsoluteSize.Y/bT)-14,bW-14)-bP-16 if bX>=a3 then bS=math.min(bS,bX)end bw.Position=UDim2.fromOffset(0,bP)bw.Size=UDim2.new(1,0,0,bS)local bY=math.max(math.floor(ba.AbsoluteSize.X/bT),aU.PopupWidth or 210)local bZ=bU.AbsoluteSize.X/bT bY=math.min(bY,math.max(bZ-16,120))bL=Vector2.new(bY,bP+bS+16)bm.Size=UDim2.new(1,0,0,bL.Y)if not bM then return end if bO then bi.Size=UDim2.fromOffset(bL.X,bL.Y)else ah(bi,{Size=UDim2.fromOffset(bL.X,bL.Y)},0.22,Enum.EasingStyle.Quint)end end local function bO()for bP,bQ in pairs(bA)do local bR=bC(bP)bQ.Frame.Visible=bR if bR then bQ.Label.Text=bE(bP)end end end local bP=nil local function bQ()local bR=a2:_popupHost(aX)local bS=a2.Scale.Scale if bP then local bT=ba.AbsolutePosition+ba.AbsoluteSize/2 if not az(bT,bP)then by:SetOpen(false)return end end local bT=bR.AbsoluteSize/bS local bU=(ba.AbsolutePosition-bR.AbsolutePosition)/bS local bV=ba.AbsoluteSize/bS local bW=math.clamp(bU.X+bV.X,bL.X+8,math.max(bT.X-8,bL.X+8))local bX=bU.Y+bV.Y+6 if bX+bL.Y>bT.Y-8 and bU.Y-6-bL.Y>=8 then bi.AnchorPoint=Vector2.new(1,1)bi.Position=UDim2.fromOffset(bW,bU.Y-6)bm.AnchorPoint=Vector2.new(0,1)bm.Position=UDim2.fromScale(0,1)else bi.AnchorPoint=Vector2.new(1,0)bi.Position=UDim2.fromOffset(bW,bX)bm.AnchorPoint=Vector2.zero bm.Position=UDim2.fromScale(0,0)end end local bR=nil local bS=0 local bT=nil local function bU()if bT then bT.ScrollingEnabled=true bT=nil end end local function bV()bw.CanvasPosition=Vector2.zero if aV then return end local bW=bF()if bW==nil then return end for bX,bY in ipairs(aW)do if bY==bW then bw.CanvasPosition=Vector2.new(0,math.max(0,(bX-2)*(a3+2)))return end end end local function bW(bX)if bX==by.Open then return end by.Open=bX bd:Set(bX)ah(bb,{Color=bX and z.Accent or z.Stroke,Transparency=bX and 0.35 or 0},0.2)ah(ba,{BackgroundColor3=bX and z.Surface2 or z.Surface},0.2)bS+=1 if bX then if a2._closePopup and a2._closePopup~=by._close then a2._closePopup()end a2._closePopup=by._close bP=aX:FindFirstAncestorWhichIsA('ScrollingFrame')if bP and bP.ScrollingEnabled then bT=bP bP.ScrollingEnabled=false end bi.Parent=a2:_popupHost(aX)bB=''br.Text=''br.PlaceholderText=aU.SearchPlaceholder or(#aW>6 and('Search '..#aW..' options')or'Search')bO()bN(true)bI(false)bV()bM=true bi.Size=UDim2.fromOffset(bL.X,0)bQ()bi.Visible=true ah(bi,{Size=UDim2.fromOffset(bL.X,bL.Y)},0.3,Enum.EasingStyle.Quint)ah(bl,{Transparency=0},0.12)ah(bj,{ImageTransparency=0.4},0.3)if not bR then bR=a2:_listen('Render',bQ)end else if a2._closePopup==by._close then a2._closePopup=nil end bU()if br:IsFocused()then br:ReleaseFocus()end bM=false ah(bi,{Size=UDim2.fromOffset(bL.X,0)},0.2,Enum.EasingStyle.Quint)ah(bj,{ImageTransparency=1},0.16)local bY=bS task.delay(0.14,function()if bS==bY and not by.Open then ah(bl,{Transparency=1},0.06)end end)task.delay(0.21,function()if bS==bY and not by.Open then bi.Visible=false if bR then bR()bR=nil end end end)end end by._close=function()bW(false)end local function bX()bI(true)aJ(aU.Callback,bF())end local function bY()local bZ={}for b_,b0 in ipairs(aW)do bZ[b0]=b_ end for b_,b0 in pairs(bA)do if not bZ[b_]then b0.Frame:Destroy()bA[b_]=nil end end for b_,b0 in ipairs(aW)do local b1=bA[b0]if b1 then b1.Frame.LayoutOrder=b_ continue end local b2=ai('TextButton',{Size=UDim2.new(1,-6,0,a3),BackgroundColor3=z.Surface3,BackgroundTransparency=1,BorderSizePixel=0,Text='',AutoButtonColor=false,LayoutOrder=b_,Parent=bw})aj(b2,UDim.new(0,7))local b3,b4,b5,b6 if aV then b3=ai('Frame',{AnchorPoint=Vector2.new(0,0.5),Position=UDim2.new(0,8,0.5,0),Size=UDim2.fromOffset(18,18),BackgroundColor3=z.Surface2,BorderSizePixel=0,Parent=b2})aj(b3,UDim.new(0,5))b4=ak(b3,z.Stroke)b6=ai('ImageLabel',{AnchorPoint=Vector2.new(0.5,0.5),Position=UDim2.fromScale(0.5,0.5),Size=UDim2.fromOffset(12,12),BackgroundTransparency=1,ImageColor3=z.AccentDark,ImageTransparency=1,ScaleType=Enum.ScaleType.Fit,Parent=b3})else b5=ai('Frame',{AnchorPoint=Vector2.new(0,0.5),Position=UDim2.new(0,3,0.5,0),Size=UDim2.fromOffset(3,4),BackgroundColor3=z.Accent,BackgroundTransparency=1,BorderSizePixel=0,Parent=b2})aj(b5,UDim.new(1,0))b6=ai('ImageLabel',{AnchorPoint=Vector2.new(1,0.5),Position=UDim2.new(1,-10,0.5,0),Size=UDim2.fromOffset(14,14),BackgroundTransparency=1,ImageColor3=z.Accent,ImageTransparency=1,ScaleType=Enum.ScaleType.Fit,Parent=b2})end aq(b6,'check')local b7=ai('UIScale',{Parent=b6})local b8=am({Position=UDim2.fromOffset(aV and 36 or 14,0),Size=UDim2.new(1,aV and-44 or-46,1,0),Text=bE(b0),TextSize=13,TextColor3=z.Muted,RichText=true,Parent=b2})local b9={Option=b0,Frame=b2,Box=b3,BoxStroke=b4,Bar=b5,Check=b6,CheckScale=b7,Label=b8,On=nil,Hover=false}local ca=ay(b2,function()return bw end)b2.MouseEnter:Connect(function()if ax()then return end b9.Hover=true bG(b9,0.15)if b4 and not bz[b0]then ah(b4,{Color=z.StrokeHover},0.15)end end)b2.MouseLeave:Connect(function()b9.Hover=false bG(b9,0.25)if b4 and not bz[b0]then ah(b4,{Color=z.Stroke},0.25)end end)b2.MouseButton1Click:Connect(function()if not ca()then return end if bz[b0]then if not aV and aU.AllowNone==false then bW(false)return end bz[b0]=nil else if not aV then bz={}end bz[b0]=true end bX()if not aV then bW(false)end end)bA[b0]=b9 bH(b9,false)end bO()if by.Open then bN(false)end end bu.MouseButton1Click:Connect(function()for bZ,b_ in ipairs(aW)do if bC(b_)then bz[b_]=true end end bX()end)bv.MouseButton1Click:Connect(function()bz={}bX()end)function by:Set(bZ,b_)bz={}if aV then for b0,b1 in ipairs(type(bZ)=='table'and bZ or{bZ})do bz[b1]=true end elseif bZ~=nil then bz[bZ]=true end bI(by.Open)aF(aY)if not b_ then aJ(aU.Callback,bF())end end function by:Get()return bF()end local function bZ(b_,b0)if type(b_)~='table'or type(b0)~='table'then return b_==b0 end if#b_~=#b0 then return false end for b1,b2 in ipairs(b_)do if b0[b1]~=b2 then return false end end return true end function by:Refresh(b_,b0,b1)local b2=bF()aW=b_ or{}if not b0 then bz={}end bY()bI(false)if not b1 and not bZ(b2,bF())then aJ(aU.Callback,bF())end end function by:_saveValue()local b_=bF()if aV then local b0={}for b1,b2 in ipairs(b_)do b0[b2]=true end for b1 in pairs(bz)do if not b0[b1]then table.insert(b_,b1)end end return b_ end if b_==nil then b_=next(bz)end return b_ end function by:SetOpen(b_)bW(b_==true)end local b_=ay(a7,function()return aX:FindFirstAncestorWhichIsA('ScrollingFrame')end)a7.MouseButton1Click:Connect(function()if b_()then bW(not by.Open)end end)a7.MouseEnter:Connect(function()if not by.Open and not ax()then ah(bb,{Color=z.StrokeHover},0.15)ah(ba,{BackgroundColor3=z.Surface2},0.15)end end)a7.MouseLeave:Connect(function()if not by.Open then ah(bb,{Color=z.Stroke},0.25)ah(ba,{BackgroundColor3=z.Surface},0.25)end end)br:GetPropertyChangedSignal('Text'):Connect(function()bB=string.lower(br.Text)bO()if by.Open then bN(false)end end)by._listeners={function()bW(false)bU()if bR then bR()bR=nil end bi:Destroy()end}a2:_listen('Began',function(b0)if not by.Open then return end if b0.KeyCode==Enum.KeyCode.Escape then bW(false)elseif aw(b0)then local b1=av()if not az(b1,bi)and not az(b1,a7)then bW(false)end end end,by)bY()bI(false)task.defer(bh,true)return m(self,aU,by,aX,'Dropdown')end k._amountSuffixes={k=1e3,m=1e6,b=1e9,t=1e12,qa=1e15,qi=1e18}function k._parseAmount(aU)aU=string.lower(tostring(aU)):gsub('[%s,_%$]','')aU=aU:gsub('kg$',''):gsub('/s$','')local aV=tonumber(aU)if aV then return aV end local aW,aX=aU:match('^(.-)(%a+)$')local aY=aX and k._amountSuffixes[aX]aV=aW and tonumber(aW)if aV and aY then return aV*aY end return nil end function aS:Input(aU)local aV,aW,aX,aY,aZ aU,aV,aW,aX,aY,aZ=aQ(self,aU,{Title='Name',Description='Desc',PlaceholderText='Placeholder',CurrentValue='Default',Value='Default'},'Frame',160,'Input')local a_=aM(self).Compact local a0=a_ and aM(self).Chip+2 or 30 local a1=ai('Frame',{AnchorPoint=Vector2.new(1,0.5),Position=UDim2.new(1,a_ and-14 or-10,0.5,0),Size=UDim2.fromOffset(170,a0),BackgroundColor3=z.Surface,BorderSizePixel=0,Parent=aV})aj(a1,UDim.new(0,6))local a2=ak(a1)local a3=aU.Icon if a3 then aB(a1,a3,z.Muted,UDim2.new(0,8,0.5,0))end local a4=ai('TextBox',{Position=UDim2.fromOffset(a3 and 30 or 8,0),Size=UDim2.new(1,a3 and-38 or-16,1,0),BackgroundTransparency=1,Text=aU.Default or'',PlaceholderText=aU.Placeholder or'',PlaceholderColor3=z.Muted,TextColor3=z.Text,TextSize=a_ and 13 or 14,FontFace=D.Regular,TextXAlignment=Enum.TextXAlignment.Left,ClearTextOnFocus=false,TextTruncate=Enum.TextTruncate.None,ClipsDescendants=true,Parent=a1})a1.ClipsDescendants=true local a5=a4.Text local a6=aU.Numeric and k._parseAmount(a5)or nil if aU.Numeric and not a6 then a5=''end local a7=false local a8=(a3 and 30 or 8)+8 local function a9(ba)local bb if a_ then bb=aN(aV,self.Window)else local bc=aV.AbsoluteSize.X/self.Window.Scale.Scale local bd=math.clamp(bc-14-110-20,100,200)local be=a4.TextBounds.X if#a4.Text==0 then be=math.min(a4.TextBounds.X,90)end bb=math.clamp(be+a8+12,90,bd)+(a7 and 8 or 0)bb=math.min(bb,bd+8)end aR(aY,aZ,bb+(a_ and 24 or 20))if ba then a1.Size=UDim2.fromOffset(bb,a0)else ah(a1,{Size=UDim2.fromOffset(bb,a0)},0.18)end end local ba=0 aV:GetPropertyChangedSignal('AbsoluteSize'):Connect(function()if aV.AbsoluteSize.X~=ba then ba=aV.AbsoluteSize.X a9(true)end end)a4:GetPropertyChangedSignal('Text'):Connect(function()a9(false)end)a4:GetPropertyChangedSignal('TextBounds'):Connect(function()a9(false)end)task.defer(a9,true)a4.Focused:Connect(function()a7=true ah(a2,{Color=z.StrokeHover},0.15)a9(false)end)a4.FocusLost:Connect(function(bb)a7=false ah(a2,{Color=z.Stroke},0.15)a9(false)if aU.Numeric then local bc=k._parseAmount(a4.Text)if not bc then a4.Text=a5 return end a5,a6=a4.Text,bc aJ(aU.Callback,bc,bb)return end aJ(aU.Callback,a4.Text,bb)end)return m(self,aU,{Set=function(bb,bc)a4.Text=tostring(bc)if aU.Numeric then local bd=k._parseAmount(a4.Text)if bd then a5,a6=a4.Text,bd else a4.Text=a5 end end aF(aW)end,Get=function()if aU.Numeric then return a6 end return a4.Text end,_saveValue=aU.Numeric and function()return a5 end or nil},aV,'Input')end function aS:Keybind(aU)local aV,aW,aX,aY,aZ aU,aV,aW,aX,aY,aZ=aQ(self,aU,{Title='Name',Description='Desc',CurrentKeybind='Default',Value='Default'},'Frame',110,'Keybind')if type(aU.Default)=='string'then aU.Default=Enum.KeyCode[aU.Default]end local a_=aM(self).Compact local a0=aM(self).Chip local a1=ai('TextButton',{AnchorPoint=Vector2.new(1,0.5),Position=UDim2.new(1,a_ and-14 or-10,0.5,0),Size=UDim2.fromOffset(44,a0),BackgroundColor3=z.Surface,BorderSizePixel=0,Text='',AutoButtonColor=false,ClipsDescendants=true,Parent=aV})aj(a1,UDim.new(0,6))local a2=ak(a1)local a3=am({Size=UDim2.new(1,0,1,0),TextSize=13,TextColor3=z.Muted,TextXAlignment=Enum.TextXAlignment.Center,TextTruncate=Enum.TextTruncate.None,Parent=a1})local a4={Value=aU.Default,Listening=false}local function a5(a6)local a7=math.max(a3.TextBounds.X+20,E and 44 or 36)aR(aY,aZ,a7+(a_ and 24 or 20))if a6 then a1.Size=UDim2.fromOffset(a7,a0)else ah(a1,{Size=UDim2.fromOffset(a7,a0)},0.2)end end a3:GetPropertyChangedSignal('TextBounds'):Connect(function()a5(false)end)local function a6()a3.Text=a4.Listening and'...'or aI(a4.Value)ah(a2,{Color=a4.Listening and z.StrokeHover or z.Stroke},0.15)ah(a3,{TextColor3=a4.Listening and z.Accent or z.Muted},0.15)end function a4:Set(a7,a8)local a9=a4.Listening a4.Value=a7 a4.Listening=false a6()if not a9 then aF(aW)end if not a8 then aJ(aU.OnChanged,a7)end end a1.MouseButton1Click:Connect(function()a4.Listening=not a4.Listening a6()end)self.Window:_listen('Began',function(a7,a8)if a7.UserInputType~=Enum.UserInputType.Keyboard then return end if a4.Listening then self.Window._consumedKey=a7.KeyCode self.Window._consumedAt=os.clock()if a7.KeyCode==Enum.KeyCode.Escape then a4.Listening=false a6()else a4:Set(a7.KeyCode)end return end if not a8 and a4.Value~=nil and a7.KeyCode==a4.Value then aJ(aU.Callback,a7.KeyCode)end end,a4)a6()task.defer(a5,true)function a4:Get()return a4.Value end a4._onHide=function()if a4.Listening then a4.Listening=false a6()end end return m(self,aU,a4,aV,'Keybind')end function aS:ColorPicker(aU)local aV=194 local aW,aX,aY aU,aW,aX,aY=aQ(self,aU,{Title='Name',Description='Desc',Color='Default',CurrentValue='Default',Value='Default'},'Frame')aW.ClipsDescendants=true local aZ=aM(self)local a_=aZ.Compact local a0=ai('TextButton',{Size=UDim2.new(1,0,0,aY),BackgroundTransparency=1,Text='',AutoButtonColor=false,Parent=aW})aP(a0,aU.Name or'Color',aU.Desc,140,aZ)local a1=ai('Frame',{AnchorPoint=Vector2.new(1,0.5),Position=UDim2.new(1,a_ and-38 or-34,0.5,0),Size=UDim2.fromOffset(22,22),BorderSizePixel=0,Parent=a0})aj(a1,UDim.new(0,6))ak(a1,z.Stroke)local a2=am({AnchorPoint=Vector2.new(1,0.5),Position=UDim2.new(1,a_ and-68 or-64,0.5,0),Size=UDim2.fromOffset(64,16),TextSize=12,FontFace=D.Regular,TextColor3=z.Muted,TextXAlignment=Enum.TextXAlignment.Right,Parent=a0})local a3=aC(a0,1,a_ and-14 or-12)local a4=ai('Frame',{Position=UDim2.fromOffset(14,aY+2),Size=UDim2.new(1,-28,0,aV-12),BackgroundTransparency=1,Visible=false,Parent=aW})local a5=ai('TextButton',{Size=UDim2.new(1,0,0,118),BackgroundColor3=Color3.new(1,1,1),BorderSizePixel=0,Text='',AutoButtonColor=false,Parent=a4})aj(a5,UDim.new(0,8))ak(a5,z.Stroke)local a6=ai('UIGradient',{Color=ColorSequence.new(Color3.new(1,1,1),Color3.new(1,0,0)),Parent=a5})local a7=ai('Frame',{Size=UDim2.fromScale(1,1),BackgroundColor3=Color3.new(0,0,0),BorderSizePixel=0,Parent=a5})aj(a7,UDim.new(0,8))ai('UIGradient',{Transparency=NumberSequence.new({NumberSequenceKeypoint.new(0,1),NumberSequenceKeypoint.new(1,0)}),Rotation=90,Parent=a7})local function a8(a9,ba)local bb=ai('Frame',{AnchorPoint=Vector2.new(0.5,0.5),Size=UDim2.fromOffset(ba,ba),BackgroundColor3=Color3.new(1,1,1),BorderSizePixel=0,ZIndex=3,Parent=a9})aj(bb,UDim.new(1,0))ak(bb,Color3.new(0,0,0),0.7)local bc=ai('Frame',{AnchorPoint=Vector2.new(0.5,0.5),Position=UDim2.fromScale(0.5,0.5),Size=UDim2.new(1,-4,1,-4),BorderSizePixel=0,ZIndex=3,Parent=bb})aj(bc,UDim.new(1,0))return bb,bc end local a9,ba=a8(a5,14)local bb=ai('TextButton',{Position=UDim2.fromOffset(0,132),Size=UDim2.new(1,0,0,10),BackgroundColor3=Color3.new(1,1,1),BorderSizePixel=0,Text='',AutoButtonColor=false,Parent=a4})aj(bb,UDim.new(1,0))ai('UIGradient',{Color=ColorSequence.new({ColorSequenceKeypoint.new(0,Color3.fromRGB(255,0,0)),ColorSequenceKeypoint.new(1/6,Color3.fromRGB(255,255,0)),ColorSequenceKeypoint.new(2/6,Color3.fromRGB(0,255,0)),ColorSequenceKeypoint.new(3/6,Color3.fromRGB(0,255,255)),ColorSequenceKeypoint.new(4/6,Color3.fromRGB(0,0,255)),ColorSequenceKeypoint.new(5/6,Color3.fromRGB(255,0,255)),ColorSequenceKeypoint.new(1,Color3.fromRGB(255,0,0))}),Parent=bb})local bc,bd=a8(bb,16)bc.Position=UDim2.fromScale(0,0.5)local be=ai('Frame',{Position=UDim2.fromOffset(0,154),Size=UDim2.fromOffset(a_ and 110 or 124,28),BackgroundColor3=z.Surface,BorderSizePixel=0,Parent=a4})aj(be,UDim.new(0,7))local bf=ak(be)local bg=ai('Frame',{AnchorPoint=Vector2.new(0,0.5),Position=UDim2.new(0,6,0.5,0),Size=UDim2.fromOffset(16,16),BorderSizePixel=0,Parent=be})aj(bg,UDim.new(0,4))ak(bg,z.Stroke)local bh=ai('TextBox',{Position=UDim2.fromOffset(30,0),Size=UDim2.new(1,-38,1,0),BackgroundTransparency=1,Text='',TextTruncate=Enum.TextTruncate.None,ClipsDescendants=false,TextColor3=z.Text,TextSize=13,FontFace=D.Regular,TextXAlignment=Enum.TextXAlignment.Left,ClearTextOnFocus=false,Parent=be})local bi=am({Position=UDim2.fromOffset(a_ and 118 or 134,154),Size=UDim2.new(1,a_ and-118 or-134,0,28),TextXAlignment=Enum.TextXAlignment.Right,TextSize=12,FontFace=D.Regular,TextColor3=z.Muted,Parent=a4})local bj={Open=false}local bk,bl,bm=Color3.toHSV(aU.Default or z.Accent)local bn=nil local function bo(bp)return string.format('#%02X%02X%02X',math.floor(bp.R*255+0.5),math.floor(bp.G*255+0.5),math.floor(bp.B*255+0.5))end local function bp(bq)local br=Color3.fromHSV(bk,bl,bm)bj.Value=br a1.BackgroundColor3=br bg.BackgroundColor3=br ba.BackgroundColor3=br bd.BackgroundColor3=Color3.fromHSV(bk,1,1)a2.Text=bo(br)a6.Color=ColorSequence.new(Color3.new(1,1,1),Color3.fromHSV(bk,1,1))ah(a9,{Position=UDim2.fromScale(bl,1-bm)},bq,Enum.EasingStyle.Quint)ah(bc,{Position=UDim2.fromScale(bk,0.5)},bq,Enum.EasingStyle.Quint)if not bh:IsFocused()then bh.Text=bo(br)end bi.Text=string.format('%d  %d  %d',math.floor(br.R*255+0.5),math.floor(br.G*255+0.5),math.floor(br.B*255+0.5))end local function bq(br,bs)bp(br)if not bs then aJ(aU.Callback,bj.Value)end end function bj:Set(br,bs)bk,bl,bm=Color3.toHSV(br)bq(0.25,bs)aF(aX)end function bj:Get()return bj.Value end local function br(bs)bj.Open=bs ah(aW,{Size=UDim2.new(1,0,0,bs and(aY+aV)or aY)},0.35,Enum.EasingStyle.Quint)a3:Set(bs)if bs then a4.Visible=true else task.delay(0.35,function()if not bj.Open then a4.Visible=false end end)end end function bj:SetOpen(bs)br(bs==true)end a0.MouseButton1Click:Connect(function()br(not bj.Open)end)local function bs(bt)bl=math.clamp((bt.X-a5.AbsolutePosition.X)/a5.AbsoluteSize.X,0,1)bm=1-math.clamp((bt.Y-a5.AbsolutePosition.Y)/a5.AbsoluteSize.Y,0,1)bq(0.04)end local function bt(bu)bk=math.clamp((bu.X-bb.AbsolutePosition.X)/bb.AbsoluteSize.X,0,0.999)bq(0.04)end a5.InputBegan:Connect(function(bu)if aw(bu)then bn='sv'ah(a9,{Size=UDim2.fromOffset(18,18)},0.2,Enum.EasingStyle.Quint)bs(av())end end)bb.InputBegan:Connect(function(bu)if aw(bu)then bn='hue'ah(bc,{Size=UDim2.fromOffset(20,20)},0.2,Enum.EasingStyle.Quint)bt(av())end end)self.Window:_listen('Changed',function(bu)if not bn or not aA(bu)then return end local bv=av()if bn=='sv'then bs(bv)else bt(bv)end end,bj)self.Window:_listen('Ended',function(bu)if bn and aw(bu)then bn=nil ah(a9,{Size=UDim2.fromOffset(14,14)},0.25,Enum.EasingStyle.Quint)ah(bc,{Size=UDim2.fromOffset(16,16)},0.25,Enum.EasingStyle.Quint)end end,bj)bh.Focused:Connect(function()ah(bf,{Color=z.StrokeHover},0.15)end)bh.FocusLost:Connect(function()ah(bf,{Color=z.Stroke},0.15)local bu,bv,bw=bh.Text:match('^%s*#?(%x%x)(%x%x)(%x%x)%s*$')if bu then bj:Set(Color3.fromRGB(tonumber(bu,16),tonumber(bv,16),tonumber(bw,16)))else bh.Text=bo(bj.Value)end end)bp(0)return m(self,aU,bj,aW,'ColorPicker')end function aS:Stepper(aU)local aV,aW,aX,aY,aZ aU,aV,aW,aX,aY,aZ=aQ(self,aU,{Title='Name',Description='Desc',CurrentValue='Default',Value='Default',Increment='Step'},'Frame',150,'Stepper')local a_=aU.Min or 0 local a0=aU.Max or 100 local a1=aU.Step or 1 local a2=aU.Suffix or''local a3=aL(a_,a0,a1)local a4=aM(self).Compact local a5=aM(self).Chip local a6=ai('Frame',{AnchorPoint=Vector2.new(1,0.5),Position=UDim2.new(1,a4 and-14 or-10,0.5,0),Size=UDim2.fromOffset(0,a5),AutomaticSize=Enum.AutomaticSize.X,BackgroundColor3=z.Surface,BorderSizePixel=0,Parent=aV})aj(a6,UDim.new(0,6))local a7=ak(a6)ai('UIListLayout',{FillDirection=Enum.FillDirection.Horizontal,SortOrder=Enum.SortOrder.LayoutOrder,VerticalAlignment=Enum.VerticalAlignment.Center,Parent=a6})local function a8(a9,ba)local bb=ai('TextButton',{Size=UDim2.fromOffset(a5,a5),BackgroundTransparency=1,Text=a9,TextColor3=z.Muted,TextSize=18,FontFace=D.Medium,AutoButtonColor=false,LayoutOrder=ba,Parent=a6})bb.MouseEnter:Connect(function()ah(bb,{TextColor3=z.Accent},0.12)end)bb.MouseLeave:Connect(function()ah(bb,{TextColor3=z.Muted},0.2)end)return bb end local a9=a8('\u{2212}',1)local ba=am({Size=UDim2.new(0,30,1,0),TextSize=13,TextColor3=z.Accent,TextXAlignment=Enum.TextXAlignment.Center,TextTruncate=Enum.TextTruncate.None,LayoutOrder=2,Parent=a6})local bb=a8('+',3)local function bc(bd)local be=math.max(ba.TextBounds.X+12,30)if bd then ba.Size=UDim2.new(0,be,1,0)else ah(ba,{Size=UDim2.new(0,be,1,0)},0.2)end end ba:GetPropertyChangedSignal('TextBounds'):Connect(function()bc(false)end)a6:GetPropertyChangedSignal('AbsoluteSize'):Connect(function()aR(aY,aZ,a6.AbsoluteSize.X/self.Window.Scale.Scale+(a4 and 24 or 20))end)local bd={Value=math.clamp(aU.Default or a_,a_,a0)}local be=a3.snap local bf=false local function bg()ba.Text=a3.format(bd.Value)..a2 ah(a9,{TextTransparency=bd.Value<=a_ and 0.6 or 0},0.15)ah(bb,{TextTransparency=bd.Value>=a0 and 0.6 or 0},0.15)end function bd:Set(bh,bi)bh=be(tonumber(bh)or a_)if bh==bd.Value then return end bd.Value=bh bg()if not bf then aF(aW)end if not bi then aJ(aU.Callback,bh)end end function bd:Get()return bd.Value end local function bh(bi)bf=true bd:Set(bd.Value+bi*a1)bf=false ah(a7,{Color=z.StrokeHover},0.08)task.delay(0.12,function()ah(a7,{Color=z.Stroke},0.2)end)end local function bi(bj,bk)local bl=false bj.InputBegan:Connect(function(bm)if not aw(bm)then return end bl=true bh(bk)task.delay(0.4,function()while bl do bh(bk)task.wait(0.07)end end)end)bj.InputEnded:Connect(function(bm)if aw(bm)then bl=false end end)bj.MouseLeave:Connect(function()bl=false end)end bi(a9,-1)bi(bb,1)bg()task.defer(bc,true)return m(self,aU,bd,aV,'Stepper')end function aS:Progress(aU)aU=l(aU,{Title='Name',Description='Desc',CurrentValue='Default',Value='Default'})local aV=aM(self)local aW=aV.Compact local aX=aW and 6 or 10 local aY,aZ=aO(self,'Frame',(aU.Desc and aV.DescHeight or aV.Height)+aX,aU)aG(aY,aZ)local a_ if aU.Desc then a_=math.floor((aV.DescHeight-(aV.DescGap+aV.DescLine))/2)-2 else a_=aW and 5 or 12 end am({Position=UDim2.fromOffset(14,a_),Size=UDim2.new(1,-110,0,18),Text=aU.Name or'Progress',TextSize=aV.TextSize,Parent=aY})if aU.Desc then am({Position=UDim2.fromOffset(14,a_+aV.DescGap),Size=UDim2.new(1,-110,0,aV.DescLine),Text=aU.Desc,TextSize=aV.DescSize,FontFace=D.Regular,TextColor3=z.Muted,Parent=aY})end local a0=am({AnchorPoint=Vector2.new(1,0),Position=UDim2.new(1,-14,0,a_),Size=UDim2.fromOffset(90,18),TextXAlignment=Enum.TextXAlignment.Right,TextSize=13,TextColor3=k._color(aU.TextColor)or z.Accent,RichText=true,Parent=aY})local a1=ai('Frame',{Position=UDim2.new(0,14,1,aW and-12 or-16),Size=UDim2.new(1,-28,0,5),BackgroundColor3=z.Surface3,BorderSizePixel=0,Parent=aY})aj(a1,UDim.new(1,0))local a2=ai('Frame',{Size=UDim2.new(0,0,1,0),BackgroundColor3=k._color(aU.Color)or z.Accent,BorderSizePixel=0,Parent=a1})aj(a2,UDim.new(1,0))local a3={Value=math.clamp(aU.Default or 0,0,1)}local a4=aU.Format local function a5(a6)local a7=a3.Value ah(a2,{Size=UDim2.new(a7,0,1,0)},a6,Enum.EasingStyle.Quint)if type(a4)=='function'then a0.Text=k._rich(a4(a7))else a0.Text=string.format('%d%%',math.floor(a7*100+0.5))end end function a3:Set(a6,a7)a6=math.clamp(tonumber(a6)or 0,0,1)if a6==a3.Value then return end a3.Value=a6 a5(0.35)if not a7 then aJ(aU.Callback,a6)end end function a3:Get()return a3.Value end function a3:SetColor(a6)ah(a2,{BackgroundColor3=k._color(a6)or z.Accent},0.25)end function a3:SetTextColor(a6)ah(a0,{TextColor3=k._color(a6)or z.Accent},0.25)end ag(a0,function()a5(0)end)return m(self,aU,a3,aY,'Progress')end function aS:OrderList(aU)aU=l(aU,{Title='Name',Description='Desc',Options='Items',Values='Items'})local aV=aM(self)local aW=aV.Compact local aX=self.Window local aY=E and 40 or 32 local aZ=4 local a_=aY+aZ local a0=E and 34 or 26 local a1=E and 30 or 22 local a2=math.max(math.floor(tonumber(aU.MaxRows)or 6),1)local a3=aU.Numbered~=false local a4=aU.Arrows~=false local a5=aO(self,'Frame',0,aU)a5.AutomaticSize=Enum.AutomaticSize.Y if aW then al(a5,14,14,6,8)else al(a5,14,14,11,12)end ai('UIListLayout',{SortOrder=Enum.SortOrder.LayoutOrder,Padding=UDim.new(0,6),Parent=a5})local a6=tostring(aU.Name or'')am({Size=UDim2.new(1,0,0,18),Text=a6,TextSize=aV.TextSize,Visible=a6~='',LayoutOrder=1,Parent=a5})if aU.Desc then am({Size=UDim2.new(1,0,0,0),AutomaticSize=Enum.AutomaticSize.Y,Text=aU.Desc,TextSize=aV.DescSize,FontFace=D.Regular,TextColor3=z.Muted,TextWrapped=true,TextTruncate=Enum.TextTruncate.None,LayoutOrder=2,Parent=a5})end local a7=ai('ScrollingFrame',{Size=UDim2.new(1,0,0,aY+2),BackgroundTransparency=1,BorderSizePixel=0,ScrollBarThickness=E and 4 or 3,ScrollBarImageColor3=z.Accent,ScrollBarImageTransparency=0.4,ScrollingDirection=Enum.ScrollingDirection.Y,CanvasSize=UDim2.new(),ScrollingEnabled=false,LayoutOrder=3,Parent=a5})a7:SetAttribute('NoDrag',true)local a8=ai('Frame',{Size=UDim2.fromScale(1,1),BackgroundTransparency=1,Parent=a7})local a9=am({Size=UDim2.new(1,0,0,aY),Text=tostring(aU.EmptyText or'Nothing to order'),TextSize=13,FontFace=D.Regular,TextColor3=z.Muted,TextXAlignment=Enum.TextXAlignment.Center,Visible=false,Parent=a8})local function ba(bb,bc,bd,be,bf)bf.BackgroundTransparency=1 bf.Text=''bf.AutoButtonColor=false bf.Parent=bb local bg=ai('TextButton',bf)local bh=ai('ImageLabel',{AnchorPoint=Vector2.new(0.5,0.5),Position=UDim2.fromScale(0.5,0.5),Size=E and UDim2.fromOffset(16,16)or UDim2.fromOffset(14,14),BackgroundTransparency=1,ImageColor3=z.Muted,ScaleType=Enum.ScaleType.Fit,Parent=bg})aq(bh,bc)if bh.Image~=''then return bg,{Object=bh,Color='ImageColor3',Fade='ImageTransparency'}end bh:Destroy()local bi=am({Size=UDim2.fromScale(1,1),Text=bd,TextSize=18,TextColor3=z.Muted,TextXAlignment=Enum.TextXAlignment.Center,TextTruncate=Enum.TextTruncate.None,Rotation=be,Parent=bg})return bg,{Object=bi,Color='TextColor3',Fade='TextTransparency'}end local function bb(bc,bd,be,bf)ah(bc.Object,{[bc.Color]=bd,[bc.Fade]=be},bf)end local bc={}local bd={}local be={}local bf=nil local bg,bh local function bi(bj)return 1+(bj-1)*a_ end local function bj()local bk={}for bl,bm in ipairs(bd)do bk[bl]=bm.Value end return bk end local function bk(bl)local bm=#bd for bn,bo in ipairs(bd)do bo.Index.Text=tostring(bn)if bo~=bf then ah(bo.Frame,{Position=UDim2.fromOffset(3,bi(bn))},bl and 0 or 0.22,Enum.EasingStyle.Quint)end if bo.UpIcon then ah(bo.UpIcon.Object,{[bo.UpIcon.Fade]=bn==1 and 0.7 or 0},bl and 0 or 0.15)ah(bo.DownIcon.Object,{[bo.DownIcon.Fade]=bn==bm and 0.7 or 0},bl and 0 or 0.15)end end end local function bl()local bm=#bd local bn=math.max(bm,1)*a_-aZ+2 local bo=math.clamp(bm,1,a2)local bp=bo*a_-aZ+2 local bq=bm>a2 a7.Size=UDim2.new(1,0,0,bp)a7.CanvasSize=UDim2.fromOffset(0,bn)a8.Size=UDim2.new(1,bq and-8 or 0,0,bn)if not bf then a7.ScrollingEnabled=bq end a9.Visible=bm==0 local br=math.max(bn-bp,0)if a7.CanvasPosition.Y>br then a7.CanvasPosition=Vector2.new(0,br)end end local function bm(bn)bc.Value=bj()if not bn then aJ(aU.Callback,bj())end end local function bn()if a7.ScrollingEnabled then return a7 end return a5:FindFirstAncestorWhichIsA('ScrollingFrame')end local function bo(bp)local bq=ai('Frame',{Size=UDim2.new(1,-6,0,aY),BackgroundColor3=z.Surface,BorderSizePixel=0,Parent=a8})aj(bq,UDim.new(0,7))local br={Value=bp,Frame=bq}br.Stroke=ak(bq)br.Scale=ai('UIScale',{Parent=bq})local bs bs,br.GripIcon=ba(bq,'grip-vertical','=',0,{Size=UDim2.new(0,a0,1,0)})local bt=a0 br.Index=am({Position=UDim2.fromOffset(bt,0),Size=UDim2.new(0,22,1,0),TextSize=12,TextColor3=z.Accent,TextTruncate=Enum.TextTruncate.None,Visible=a3,Parent=bq})if a3 then bt+=22 end local bu=a4 and a1*2+8 or 10 br.Text=am({Position=UDim2.fromOffset(bt,0),Size=UDim2.new(1,-(bt+bu),1,0),Text=tostring(bp),TextSize=13,Parent=bq})local bv={}if a4 then local bw,bx bw,br.UpIcon=ba(bq,'chevron-up','\u{203a}',-90,{AnchorPoint=Vector2.new(1,0),Position=UDim2.new(1,-(a1+6),0,0),Size=UDim2.new(0,a1,1,0)})bx,br.DownIcon=ba(bq,'chevron-down','\u{203a}',90,{AnchorPoint=Vector2.new(1,0),Position=UDim2.new(1,-4,0,0),Size=UDim2.new(0,a1,1,0)})for by,bz in pairs({[bw]=-1,[bx]=1})do local bA=bz<0 and br.UpIcon or br.DownIcon local bB=ay(by,bn)by.MouseEnter:Connect(function()if not ax()then ah(bA.Object,{[bA.Color]=z.Accent},0.12)end end)by.MouseLeave:Connect(function()ah(bA.Object,{[bA.Color]=z.Muted},0.2)end)by.MouseButton1Click:Connect(function()if bB()then bg(br,bz)end end)table.insert(bv,by)end end bs.InputBegan:Connect(function(bw)if aw(bw)then bh(br)end end)bq.InputBegan:Connect(function(bw)if bw.UserInputType~=Enum.UserInputType.MouseButton1 then return end local bx=av()for by,bz in ipairs(bv)do if az(bx,bz)then return end end bh(br)end)bq.MouseEnter:Connect(function()if not ax()and br~=bf then ah(br.Stroke,{Color=z.StrokeHover},0.12)bb(br.GripIcon,z.Text,0,0.12)end end)bq.MouseLeave:Connect(function()if br~=bf then ah(br.Stroke,{Color=z.Stroke},0.25)bb(br.GripIcon,z.Muted,0,0.25)end end)return br end local function bp(bq)local br={}for bs,bt in ipairs(bd)do br[bt.Value]=br[bt.Value]or{}table.insert(br[bt.Value],bt)end local bs={}for bt,bu in ipairs(bq)do local bv=br[bu]local bw=bv and table.remove(bv,1)if not bw then bw=bo(bu)bw.Frame.Position=UDim2.fromOffset(3,bi(bt))end bs[bt]=bw end for bt,bu in pairs(br)do for bv,bw in ipairs(bu)do bw.Frame:Destroy()end end bd=bs end local function bq(br,bs)local bt={}for bu,bv in ipairs(br)do bt[bv]=(bt[bv]or 0)+1 end local bu={}for bv,bw in ipairs({bs,br})do for bx,by in ipairs(bw)do if(bt[by]or 0)>0 then bt[by]-=1 table.insert(bu,by)end end end return bu end local function br(bs)local bt=bi(bs)-1 local bu=a7.AbsoluteWindowSize.Y/aX.Scale.Scale local bv=a7.CanvasPosition.Y if bt<bv then bv=bt elseif bt+aY+2>bv+bu then bv=bt+aY+2-bu end if bv~=a7.CanvasPosition.Y then ah(a7,{CanvasPosition=Vector2.new(0,math.max(bv,0))},0.2)end end function bg(bs,bt)if bf then return end local bu=table.find(bd,bs)local bv=bu and bu+bt if not bv or bv<1 or bv>#bd then return end bd[bu],bd[bv]=bd[bv],bd[bu]bk(false)ah(bs.Stroke,{Color=z.Accent},0.08)task.delay(0.18,function()if bs~=bf then ah(bs.Stroke,{Color=z.Stroke},0.3)end end)br(bv)bm(false)end local bs,bt=0,nil local bu,bv,bw=nil,nil,nil local function bx(by)local bz=aX.Scale.Scale local bA=(by.Y-bs-a7.AbsolutePosition.Y)/bz+a7.CanvasPosition.Y bA=math.clamp(bA,bi(1),bi(#bd))bf.Frame.Position=UDim2.fromOffset(3,bA)local bB=math.clamp(math.floor((bA-1)/a_+0.5)+1,1,#bd)local bC=table.find(bd,bf)if bC~=bB then table.remove(bd,bC)table.insert(bd,bB,bf)bk(false)end end local function by(bz)if not bf or not bt then return end local bA=aX.Scale.Scale local bB=a7.AbsolutePosition.Y local bC=bB+a7.AbsoluteSize.Y local bD=aY*bA local bE=0 if bt.Y<bB+bD then bE=-(bB+bD-bt.Y)/bD elseif bt.Y>bC-bD then bE=(bt.Y-(bC-bD))/bD end if bE==0 then return end local bF=math.max(a7.CanvasSize.Y.Offset-a7.AbsoluteWindowSize.Y/bA,0)local bG=math.clamp(a7.CanvasPosition.Y+math.clamp(bE,-1.5,1.5)*360*bz,0,bF)if bG~=a7.CanvasPosition.Y then a7.CanvasPosition=Vector2.new(0,bG)bx(bt)end end function bh(bz)if bf or#bd<2 or bc._destroyed then return end bf=bz bu=table.clone(bd)bt=av()bs=bt.Y-bz.Frame.AbsolutePosition.Y bz.Frame.ZIndex=5 ah(bz.Frame,{BackgroundColor3=z.Surface3},0.12)ah(bz.Stroke,{Color=z.Accent},0.12)ah(bz.Scale,{Scale=1.02},0.18,Enum.EasingStyle.Back)bb(bz.GripIcon,z.Accent,0,0.12)a7.ScrollingEnabled=false local bA=a5:FindFirstAncestorWhichIsA('ScrollingFrame')if bA and bA.ScrollingEnabled then bw=bA bA.ScrollingEnabled=false end bv=aX:_listen('Render',by)end local function bz(bA)local bB=bf if not bB then return end bf=nil bt=nil if bv then bv()bv=nil end if bw then bw.ScrollingEnabled=true bw=nil end ah(bB.Frame,{BackgroundColor3=z.Surface},0.2)ah(bB.Stroke,{Color=z.Stroke},0.25)ah(bB.Scale,{Scale=1},0.2)bb(bB.GripIcon,z.Muted,0,0.25)task.delay(0.22,function()if bB~=bf then bB.Frame.ZIndex=1 end end)bk(false)bl()for bC,bD in ipairs(bd)do if bu[bC]~=bD then bm(bA)break end end end aX:_listen('Changed',function(bA)if bf and aA(bA)then bt=av()bx(bt)end end,bc)aX:_listen('Ended',function(bA)if bf and aw(bA)then bz(false)end end,bc)table.insert(bc._listeners,function()bz(true)end)bc._onHide=function()bz(false)end function bc:Set(bA,bB)if type(bA)~='table'then return end bz(true)be=table.clone(bA)bp(bq(bj(),be))bk(false)bl()bm(bB)end function bc:Get()return bj()end function bc:Refresh(bA,bB,bC)bz(true)bA=type(bA)=='table'and table.clone(bA)or{}if bB~=false then bA=bq(bA,bc:_saveValue())else be={}end bp(bA)bk(false)bl()bm(bC)end function bc:_saveValue()local bA=bj()local bB={}for bC,bD in ipairs(bA)do bB[bD]=(bB[bD]or 0)+1 end for bC,bD in ipairs(be)do if(bB[bD]or 0)>0 then bB[bD]-=1 else table.insert(bA,bD)end end return bA end bp(type(aU.Items)=='table'and aU.Items or{})bk(true)bl()bc.Value=bj()return m(self,aU,bc,a5,'OrderList')end for aU,aV in pairs(table.clone(aS))do if type(aV)=='function'and aU:sub(1,1)~='_'and aU:sub(1,6)~='Create'then aS['Create'..aU]=aV end end local function aU()local aV pcall(function()if typeof(identifyexecutor)=='function'then aV=(identifyexecutor())elseif typeof(getexecutorname)=='function'then aV=getexecutorname()end end)if type(aV)=='string'and#aV>0 then return aV end return d:IsStudio()and'Studio'or'Unknown'end local function aV(aW)local aX=aU()local aY=aW.SupportedExecutors if type(aY)=='table'then local aZ=string.lower(aX)for a_,a0 in ipairs(aY)do if string.find(aZ,string.lower(tostring(a0)),1,true)then return aX,true,'Your executor is supported and fully compatible.'end end return aX,false,'Not on the supported list. Some features may not work.'end local aZ={{'writefile',writefile},{'readfile',readfile},{'getcustomasset',getcustomasset},{'setclipboard',setclipboard or toclipboard},{'request',request or http_request or(syn and syn.request)}}local a_={}for a0,a1 in ipairs(aZ)do if type(a1[2])~='function'then table.insert(a_,a1[1])end end if#a_==0 then return aX,true,'Your executor is supported and fully compatible.'end return aX,false,'Missing '..table.concat(a_,', ')..'. Some features may not work.'end local aW={}function aW.Path(aX)return tostring(aX)..'/unsupported_skip.txt'end function aW.Available()return type(writefile)=='function'and type(readfile)=='function'and type(isfile)=='function'end function aW.Saved(aX,aY)if not aW.Available()then return false end local aZ=aW.Path(aX)local a_,a0=pcall(function()return isfile(aZ)and readfile(aZ)or nil end)return a_ and a0==aY end function aW.Write(aX,aY,aZ)if not aW.Available()then return false end return pcall(function()if type(isfolder)=='function'and type(makefolder)=='function'then local a_=''for a0 in tostring(aX):gmatch('[^/\\]+')do a_=a_==''and a0 or a_..'/'..a0 if not isfolder(a_)then makefolder(a_)end end end writefile(aY,aZ)end)end function aW.Save(aX,aY)return aW.Write(aX,aW.Path(aX),aY)end function aW.DisclaimerKey(aX)if aX.Id~=nil then return(tostring(aX.Id):gsub('[\r\n]',' '))end local aY=tostring(aX.Title)..'\0'..tostring(aX.Text)local aZ=5381 for a_=1,#aY do aZ=(aZ*33+aY:byte(a_))%4294967296 end return string.format('%08x',aZ)end function aW.DisclaimerAccepted(aX,aY)if not aW.Available()then return false end local aZ=tostring(aX)..'/disclaimers.txt'local a_,a0=pcall(function()return isfile(aZ)and readfile(aZ)or''end)if not a_ or type(a0)~='string'then return false end for a1 in a0:gmatch('[^\r\n]+')do if a1==aY then return true end end return false end function aW.AcceptDisclaimer(aX,aY)if aW.DisclaimerAccepted(aX,aY)then return true end local aZ=tostring(aX)..'/disclaimers.txt'local a_,a0=pcall(function()return isfile(aZ)and readfile(aZ)or''end)a0=a_ and type(a0)=='string'and a0 or''if a0~=''and not a0:match('\n$')then a0 ..='\n'end return aW.Write(aX,aZ,a0..aY..'\n')end local aX=nil local function aY()if aX==nil then local aZ,a_=pcall(function()return h:GetProductInfo(game.PlaceId)end)aX=aZ and type(a_)=='table'and a_ or false end return aX or nil end local function aZ()local a_=aY()if a_ and a_.Name then return a_.Name end return d:IsStudio()and'Studio'or'Unknown game'end local a_={US='United States',GB='United Kingdom',DE='Germany',FR='France',NL='Netherlands',SG='Singapore',JP='Japan',AU='Australia',BR='Brazil',IN='India',HK='Hong Kong',CA='Canada'}local function a0(a1)task.spawn(function()local a2=request or http_request or(syn and syn.request)or(http and http.request)local a3 if type(a2)=='function'then pcall(function()local a4=a2({Url='https://ipinfo.io/json',Method='GET'})local a5=type(a4)=='table'and(a4.Body or a4.body)or nil if type(a5)=='string'then local a6=e:JSONDecode(a5)if type(a6)=='table'and a6.country then local a7=a_[a6.country]or a6.country a3=a6.city and(a6.city..', '..a7)or a7 end end end)end a1(a3 or'Unavailable')end)end local a1=setmetatable({},{__index=function(a1,a2)if a2=='Success'or a2=='Warning'or a2=='Error'then return z[a2]end return nil end})local a2={}a2.__index=a2 function k.Window(a3,a4)a4=l(a4,{Name='Title',LoadingSubtitle='Subtitle',ToggleUIKeybind='Keybind'})if type(a4.Keybind)=='string'then a4.Keybind=Enum.KeyCode[a4.Keybind]end local a5=a4.Size or UDim2.fromOffset(760,520)local a6=a4.Keybind or Enum.KeyCode.RightControl local a7=setmetatable({Tabs={},CurrentTab=nil,Open=true,Keybind=a6,_connections={},_controls={},_inputListeners={Began={},Changed={},Ended={},Render={}},_frameSteps={},_destroyed=false,_identity={Names={},Avatars={}},_pinned={},Minimized=false,_hideName=false,_hideAvatar=false,Title=a4.Title or'Airflow',_logoIcon=a4.Icon or A.Logo,_sessionStart=os.clock(),_islandLocked=a4.IslandDraggable==false},a2)local a8=type(a4.ConfigurationSaving)=='table'and a4.ConfigurationSaving or{}a7.ConfigFolder=a8.FolderName or'AirflowUI'a7.ConfigName=a8.FileName a7._configListeners={}a7._pendingFlags={}local a9=a4.DefaultTheme or a4.Theme if a9~=nil then k.DefaultTheme=a9 end a7:_applyDefaultTheme()a7._uiScale=math.clamp(tonumber(a4.UIScale)or 1,0.6,1.5)a7._adaptive=a4.AdaptiveSize~=false a7.UIScale=a7._uiScale if a4.Density~=nil then k:SetDensity(a4.Density)end if a4.CornerRadius~=nil then k:SetCornerRadius(a4.CornerRadius,true)end local function ba(bb)return function(...)for bc,bd in ipairs(a7._inputListeners[bb])do bd(...)end end end local bb=ba('Render')table.insert(a7._connections,d.RenderStepped:Connect(function(bc)bb(bc)for bd,be in ipairs(a7._frameSteps)do be(bc)end end))table.insert(a7._connections,b.InputBegan:Connect(ba('Began')))table.insert(a7._connections,b.InputChanged:Connect(ba('Changed')))table.insert(a7._connections,b.InputEnded:Connect(ba('Ended')))local bc=ai('ScreenGui',{Name=a4.Name or'AirflowUI',IgnoreGuiInset=true,ResetOnSpawn=false,DisplayOrder=999,ZIndexBehavior=Enum.ZIndexBehavior.Sibling})a7.Gui=bc local bd=ai('Frame',{Name='Window',AnchorPoint=Vector2.new(0.5,0.5),Position=UDim2.fromScale(0.5,0.5),Size=a5,BackgroundTransparency=1,Parent=bc})a7.Root=bd local be=ai('UIScale',{Parent=bd})a7.Scale=be local bf=ai('ImageLabel',{Position=UDim2.fromOffset(-25,-25),Size=UDim2.new(1,50,1,50),BackgroundTransparency=1,Image=A.Shadow,ImageColor3=Color3.new(0,0,0),ImageTransparency=0.6,ScaleType=Enum.ScaleType.Slice,SliceCenter=Rect.new(49,49,450,450),Parent=bd})a7.Shadow=bf a7._shadowRest=0.6 local bg=ai('CanvasGroup',{Name='Fader',Size=UDim2.fromScale(1,1),BackgroundTransparency=1,GroupTransparency=1,ZIndex=2,Parent=bd})a7._fader=bg a7._bodyAlpha=1 local bh=ai('Frame',{Name='Body',Size=UDim2.fromScale(1,1),BackgroundColor3=z.Background,BorderSizePixel=0,ClipsDescendants=true,ZIndex=2,Parent=bg})a7.Body=bh aj(bh,UDim.new(0,10))a7.BodyStroke=ak(bh,z.Stroke)ao(bh)a7._backgroundImage=ai('ImageLabel',{Name='BackgroundImage',Size=UDim2.fromScale(1,1),BackgroundTransparency=1,ScaleType=Enum.ScaleType.Crop,ImageTransparency=1,Visible=false,ZIndex=0,Parent=bh})aj(a7._backgroundImage,UDim.new(0,10))a7.BackgroundTransparency=math.clamp(tonumber(a4.BackgroundTransparency)or 0.35,0,1)a7._backgroundGeneration=0 local bi=ai('Frame',{Name='Sidebar',Size=UDim2.new(0,F,1,0),BackgroundTransparency=1,BorderSizePixel=0,ClipsDescendants=true,Parent=bh})a7.Sidebar=bi local bj=ai('Frame',{Name='Fill',Size=UDim2.new(1,24,1,0),BackgroundColor3=z.Surface,BorderSizePixel=0,ZIndex=0,Parent=bi})aj(bj,UDim.new(0,10))a7.SidebarFill=bj ai('Frame',{Name='Divider',AnchorPoint=Vector2.new(1,0),Position=UDim2.fromScale(1,0),Size=UDim2.new(0,1,1,0),BackgroundColor3=z.Stroke,BorderSizePixel=0,ZIndex=2,Parent=bi})local bk=ai('Frame',{Name='Header',Size=UDim2.new(1,0,0,G),BackgroundTransparency=1,Parent=bi})local bl=ai('ImageLabel',{AnchorPoint=Vector2.new(0,0.5),Position=UDim2.new(0,14,0.5,0),Size=UDim2.fromOffset(32,32),BackgroundTransparency=1,Image='',ImageColor3=z.Accent,ScaleType=Enum.ScaleType.Fit,Parent=bk})aq(bl,a4.Icon or A.Logo,true)local bm=a4.Version or a4.Subtitle am({Position=UDim2.new(0,56,0.5,bm and-15 or-9),Size=UDim2.new(1,-68,0,18),Text=a7.Title,TextSize=14,FontFace=D.Bold,Parent=bk})if bm then am({Position=UDim2.new(0,56,0.5,3),Size=UDim2.new(1,-68,0,14),Text=tostring(bm),TextSize=11,FontFace=D.Regular,TextColor3=z.Muted,Parent=bk})end local bn=a4.Profile~=false local bo=ai('ScrollingFrame',{Name='Tabs',Position=UDim2.fromOffset(0,G),Size=UDim2.new(1,0,1,-(G+(bn and M+4 or 12))),BackgroundTransparency=1,BorderSizePixel=0,ScrollBarThickness=0,ScrollingDirection=Enum.ScrollingDirection.Y,AutomaticCanvasSize=Enum.AutomaticSize.Y,CanvasSize=UDim2.new(),Parent=bi})a7.TabList=bo local bp=ai('Frame',{Position=UDim2.fromOffset(8,2),Size=UDim2.new(1,-16,0,H),BackgroundColor3=z.Surface3,BackgroundTransparency=0.35,BorderSizePixel=0,Visible=false,Parent=bo})aj(bp,UDim.new(0,7))local bq=ai('Frame',{AnchorPoint=Vector2.new(0,0.5),Position=UDim2.new(0,0,0.5,0),Size=UDim2.fromOffset(2,14),BackgroundColor3=z.Accent,Visible=false,BorderSizePixel=0,Parent=bp})aj(bq,UDim.new(1,0))a7._indicatorPill=bq a7.Indicator=bp local br=ai('Frame',{Name='Stack',Position=UDim2.fromOffset(8,2),Size=UDim2.new(1,-16,0,0),AutomaticSize=Enum.AutomaticSize.Y,BackgroundTransparency=1,ZIndex=2,Parent=bo})ai('UIListLayout',{SortOrder=Enum.SortOrder.LayoutOrder,Padding=UDim.new(0,2),Parent=br})a7._tabStack=br a7:_overflowHint(bi,bo,br,true,z.Surface)if bn then a7:_buildProfile(bi)end local bs=ai('Frame',{Name='Content',Position=UDim2.fromOffset(F+1,0),Size=UDim2.new(1,-(F+1),1,0),BackgroundTransparency=1,ClipsDescendants=true,Parent=bh})a7.Content=bs a7:_sidebarResize(bi,tonumber(a4.SidebarWidth)or F)a7._outLayer=ai('CanvasGroup',{Name='TransitionOut',Size=UDim2.fromScale(1,1),BackgroundTransparency=1,Visible=false,ZIndex=2,Parent=bs})a7._inLayer=ai('CanvasGroup',{Name='TransitionIn',Size=UDim2.fromScale(1,1),BackgroundTransparency=1,Visible=false,ZIndex=3,Parent=bs})local bt=ai('TextButton',{AnchorPoint=Vector2.new(1,0),Position=UDim2.new(1,-14,0,14),Size=UDim2.fromOffset(34,34),BackgroundColor3=z.Surface2,BackgroundTransparency=1,Text='',AutoButtonColor=false,ZIndex=5,Parent=bs})bt:SetAttribute('NoDrag',true)local bu=ai('ImageLabel',{AnchorPoint=Vector2.new(0.5,0.5),Position=UDim2.fromScale(0.5,0.5),Size=UDim2.fromOffset(20,20),BackgroundTransparency=1,ImageColor3=z.Muted,ScaleType=Enum.ScaleType.Fit,Parent=bt})aq(bu,'minimize-2')bt.MouseEnter:Connect(function()ah(bu,{ImageColor3=z.Text,Size=UDim2.fromOffset(18,18)},0.2,Enum.EasingStyle.Quint)end)bt.MouseLeave:Connect(function()ah(bu,{ImageColor3=z.Muted,Size=UDim2.fromOffset(20,20)},0.25,Enum.EasingStyle.Quint)end)bt.MouseButton1Click:Connect(function()a7:Minimize()end)a7.MinimizeButton=bt if a4.Search~=false then a7:_buildSearch(bs)end local bv=ai('Frame',{Name='Notifications',AnchorPoint=Vector2.new(1,1),Position=UDim2.new(1,-20,1,-20),Size=UDim2.new(0,280,1,-40),BackgroundTransparency=1,Parent=bc})local function bw()bv.Size=UDim2.new(0,math.min(280,bc.AbsoluteSize.X-40),1,-40)end table.insert(a7._connections,bc:GetPropertyChangedSignal('AbsoluteSize'):Connect(bw))ai('UIListLayout',{SortOrder=Enum.SortOrder.LayoutOrder,VerticalAlignment=Enum.VerticalAlignment.Bottom,Padding=UDim.new(0,4),Parent=bv})a7.NotifyHolder=bv a7._notifyOrder=0 a7._toasts={}a7.MaxNotifications=a4.MaxNotifications or 4 a7._controlsDirty=true table.insert(a7._connections,bh.DescendantAdded:Connect(function()a7._controlsDirty=true end))table.insert(a7._connections,bh.DescendantRemoving:Connect(function()a7._controlsDirty=true end))a7:SetDragStyle(a4.DragStyle or(a4.DragSkeleton==false and'Off'or'Outline'))a7:SetIslandStyle(a4.IslandStyle)if a4.Transparent then a7:SetTransparent(true)end if a4.Background then task.spawn(a7.SetBackground,a7,a4.Background)end a7:_enableDrag()a7.MaxSize=a4.MaxSize a7.KeepOnScreen=a4.KeepOnScreen~=false a7:_enableResize(a4.MinSize or Vector2.new(480,360))if a4.SaveSize~=false then local bx=a7 local by={_type='WindowSize',_listeners={}}function by:Get()local bz=bx:GetSize()return{Width=bz.X,Height=bz.Y}end function by:Set(bz)if type(bz)=='table'and tonumber(bz.Width)and tonumber(bz.Height)then bx:SetSize(Vector2.new(tonumber(bz.Width),tonumber(bz.Height)))end end local bz=type(a4.SaveSize)=='string'and a4.SaveSize or'__WindowSize'k.Flags[bz]=by a7:_flagCreated(bz,by)end table.insert(a7._connections,b.InputBegan:Connect(function(bx,by)if by then return end if bx.UserInputType==Enum.UserInputType.Keyboard and bx.KeyCode==a7.Keybind then task.defer(function()local bz=a7._consumedKey==bx.KeyCode and os.clock()-(a7._consumedAt or 0)<0.2 a7._consumedKey=nil if not bz and not a7._destroyed then if a7.Minimized then a7:Restore()else a7:Toggle(not a7.Open)end end end)end end))pcall(function()if typeof(syn)=='table'and typeof(syn.protect_gui)=='function'then syn.protect_gui(bc)end end)bc.Parent=a4.Parent or as()be.Scale=0.9 bf.ImageTransparency=1 a7.BodyStroke.Transparency=1 bd.Visible=false a7:_fitToScreen(true)table.insert(a7._connections,bc:GetPropertyChangedSignal('AbsoluteSize'):Connect(function()a7:_fitToScreen()a7:_clampToScreen()end))local bx=a4.ToggleButton if bx==nil or bx==true then bx={}end if type(bx)=='table'then a7:_createToggleButton(bx)end local by=a7.ToggleButton~=nil and a7:_toggleButtonAllowed()if(a4.OpenButton~=nil and a4.OpenButton~=false)or(a4.OpenButton==nil and E and not by)then a7:_createOpenButton(type(a4.OpenButton)=='table'and a4.OpenButton or{})end if a4.Backdrop~=false then a7:_buildBackdrop(type(a4.Backdrop)=='table'and a4.Backdrop or{})end a7._introDone=false table.insert(k.Windows,a7)if a4.Home~=false then a7:_buildHome(type(a4.Home)=='table'and a4.Home or{})end local bz=a4.Loading if type(bz)=='table'then a4.LoadingDuration=bz.Duration or a4.LoadingDuration a4.LoadingText=bz.Text or bz.Subtitle or a4.LoadingText a4.LoadingSteps=bz.Steps or a4.LoadingSteps a4.LoadingTitle=bz.Title or a4.LoadingTitle bz=bz.Enabled~=false end local bA={}local bB=a4.UnsupportedExecutor if bB~=false then bB=type(bB)=='table'and bB or{}local bC=a4.SupportedExecutors or(type(a4.Home)=='table'and a4.Home.SupportedExecutors or nil)local bD,bE,bF=aV({SupportedExecutors=bC})if not bE and not aW.Saved(a7.ConfigFolder,bD)then local bG=bB.Block==true local bH=a7.ConfigFolder table.insert(bA,{Title=bB.Title or'Unsupported executor',Subtitle=bD,Text=bG and((bB.Text or bF).." This script can't run here.")or(bB.Text or bF),Icon='shield-alert',Color=z.Warning,ContinueText='Continue anyway',ExitText='Exit',Block=bG,RememberText="Don't ask again on this executor",Remember=function()aW.Save(bH,bD)end})end end local bC=a4.Disclaimer or a4.Disclaimers if type(bC)=='string'or(type(bC)=='table'and(bC.Title~=nil or bC.Text~=nil))then bC={bC}end if type(bC)=='table'then for bD,bE in ipairs(bC)do if type(bE)=='string'then bE={Text=bE}end if type(bE)=='table'then local bF=aW.DisclaimerKey(bE)local bG=a7.ConfigFolder local bH=bE.Block==true local bI=bE.Remember~=false and not bH if not(bI and aW.DisclaimerAccepted(bG,bF))then local bJ=bE.Callback table.insert(bA,{Title=bE.Title or'Disclaimer',Subtitle=bE.Subtitle,Text=bE.Text or'',Icon=bE.Icon or'info',Color=bE.Color or z.Accent,ContinueText=bE.AcceptText or'I understand',ExitText=bE.DeclineText==nil and'Exit'or bE.DeclineText,RememberText=bI and(bE.RememberText or"Don't show again")or nil,Remember=function()aW.AcceptDisclaimer(bG,bF)end,Callback=type(bJ)=='function'and bJ or nil,Block=bH})end end end end if#bA>0 then a4._prompts=bA end if bz==false and a4._prompts then a4.LoadingDuration=a4.LoadingDuration or 0.5 bz=true end if bz==false then task.defer(function()a7:_playIntro()end)else a7:_showLoader(a4)end return a7 end k.CreateWindow=k.Window function k:Notify(a3)local a4=k.Windows[#k.Windows]if a4 then return a4:Notify(a3)end end function k:Confirm(a3)local a4=k.Windows[#k.Windows]if a4 then return a4:Confirm(a3)end end function k:Dialog(a3)local a4=k.Windows[#k.Windows]if a4 then return a4:Dialog(a3)end end local function a3(a4,a5,a6)local a7=a4 while a7 and a7~=a5 and a7:IsA('GuiObject')do if not a7.Visible then return false end local a8=a7.Parent if a8 and a8~=a5 and a8:IsA('GuiObject')and(a8.ClipsDescendants or a8:IsA('ScrollingFrame'))and not az(a6,a8)then return false end a7=a8 end return true end function a2:_refreshControls()local a4={}for a5,a6 in ipairs(self.Body:GetDescendants())do if a6:IsA('GuiButton')or a6:IsA('TextBox')or a6:GetAttribute('NoDrag')then table.insert(a4,a6)end end self._controls=a4 self._controlsDirty=false end function a2:_overControl(a4)if self._dialog or self:_overPopout(a4)then return true end if self._controlsDirty then self:_refreshControls()end for a5,a6 in ipairs(self._controls)do if a6.Parent and az(a4,a6)and a3(a6,self.Body,a4)then return true end end return false end function a2:_tooltipCard()if self._tip then return self._tip end local a4=ai('CanvasGroup',{Name='Tooltip',Size=UDim2.fromOffset(0,0),BackgroundTransparency=1,GroupTransparency=1,Visible=false,ZIndex=60,Parent=self.Gui})local a5=ai('UIScale',{Parent=a4})local a6=4 local a7=ai('Frame',{Position=UDim2.fromOffset(a6,a6),Size=UDim2.fromOffset(0,0),AutomaticSize=Enum.AutomaticSize.XY,BackgroundTransparency=1,Parent=a4})ai('UIListLayout',{SortOrder=Enum.SortOrder.LayoutOrder,Padding=UDim.new(0,2),Parent=a7})local function a8(a9)ai('UIStroke',{Color=Color3.new(0,0,0),Transparency=0.35,Thickness=1,ApplyStrokeMode=Enum.ApplyStrokeMode.Contextual,Parent=a9})end local a9=ai('Frame',{Size=UDim2.fromOffset(0,18),AutomaticSize=Enum.AutomaticSize.X,BackgroundTransparency=1,LayoutOrder=1,Parent=a7})ai('UIListLayout',{FillDirection=Enum.FillDirection.Horizontal,VerticalAlignment=Enum.VerticalAlignment.Center,SortOrder=Enum.SortOrder.LayoutOrder,Padding=UDim.new(0,6),Parent=a9})local ba=ai('ImageLabel',{Size=UDim2.fromOffset(14,14),BackgroundTransparency=1,ImageColor3=z.Accent,ScaleType=Enum.ScaleType.Fit,LayoutOrder=1,Parent=a9})local bb=am({Size=UDim2.fromOffset(0,18),AutomaticSize=Enum.AutomaticSize.X,TextSize=13,FontFace=D.Bold,TextTruncate=Enum.TextTruncate.None,LayoutOrder=2,Parent=a9})a8(bb)local bc=am({Size=UDim2.fromOffset(0,0),AutomaticSize=Enum.AutomaticSize.XY,TextSize=12,FontFace=D.Medium,TextWrapped=true,TextTruncate=Enum.TextTruncate.None,TextYAlignment=Enum.TextYAlignment.Top,LineHeight=1.1,LayoutOrder=2,Parent=a7})a8(bc)ai('UISizeConstraint',{MaxSize=Vector2.new(240,math.huge),Parent=bc})local function bd()local be=math.max(a5.Scale,0.01)local bf=a7.AbsoluteSize/be a4.Size=UDim2.fromOffset(bf.X+a6*2,bf.Y+a6*2)end a7:GetPropertyChangedSignal('AbsoluteSize'):Connect(bd)local be={Holder=a4,Scale=a5,Pad=a6,Head=a9,Icon=ba,Title=bb,Body=bc,Shown=false,Fit=bd}self._tip=be self:_listen('Render',function(bf)local bg=self._tipOwner if not bg then return end local bh=bg._frame if bg._destroyed or not self.Open or self.Minimized or not bh or not bh.Parent or(bg._isShown and not bg:_isShown())or not a3(bh,self.Body,bh.AbsolutePosition+bh.AbsoluteSize/2)then self:_hideTooltip()return end local bi=av()-self.Gui.AbsolutePosition local bj=be.Pad*a5.Scale local bk=a4.AbsoluteSize-Vector2.one*bj*2 local bl=self.Gui.AbsoluteSize local bm,bn if be.Touch then bm,bn=bi.X-bk.X/2,bi.Y-bk.Y-30 else bm,bn=bi.X+14,bi.Y+20 if bm+bk.X>bl.X-8 then bm=bi.X-bk.X-10 end if bn+bk.Y>bl.Y-8 then bn=bi.Y-bk.Y-12 end end local bo=Vector2.new(math.clamp(bm,8,math.max(8,bl.X-bk.X-8)),math.clamp(bn,8,math.max(8,bl.Y-bk.Y-8)))local bp=be.Position if not bp or be.Snap then bp=bo+Vector2.new(0,6)be.Snap=false else bp=bp:Lerp(bo,math.min(bf*22,1))end be.Position=bp a4.Position=UDim2.fromOffset(math.floor(bp.X-bj+0.5),math.floor(bp.Y-bj+0.5))end)self:_listen('Began',function(bf)if self._tipOwner and not be.Touch and(bf.UserInputType==Enum.UserInputType.MouseButton1 or bf.UserInputType==Enum.UserInputType.MouseButton2 or bf.UserInputType==Enum.UserInputType.Keyboard)then self:_hideTooltip()end end)return be end function a2:_showTooltip(a4,a5)local a6=a4._tooltip local a7,a8,a9 if type(a6)=='table'then a7,a8,a9=a6.Text or a6.Content or a6.Desc,a6.Title or a6.Name,a6.Icon elseif a6~=nil and a6~=false then a7=tostring(a6)end if(a7==nil or a7=='')and(a8==nil or a8=='')then return end local ba=self:_tooltipCard()ba.Title.Text=a8 or''ba.Title.Visible=a8~=nil and a8~=''ba.Icon.Visible=a9~=nil if a9~=nil then aq(ba.Icon,a9)end ba.Head.Visible=ba.Title.Visible or a9~=nil ba.Body.Text=a7 or''ba.Body.Visible=a7~=nil and a7~=''ba.Fit()ba.Body.TextColor3=z.Text ba.Scale.Scale=math.max(self.Scale.Scale,0.75)ba.Touch=a5==true local bb=ba.Shown self._tipOwner=a4 ba.Shown=true ba.Generation=(ba.Generation or 0)+1 local bc=ba.Holder if not bb then ba.Snap=true bc.Visible=true bc.GroupTransparency=1 ba.Scale.Scale=ba.Scale.Scale*0.96 end ah(bc,{GroupTransparency=0},0.14,Enum.EasingStyle.Quad)ah(ba.Scale,{Scale=math.max(self.Scale.Scale,0.75)},0.18,Enum.EasingStyle.Back)end function a2:_hideTooltip(a4)local a5=self._tip if not a5 or not a5.Shown or(a4 and self._tipOwner~=a4)then return end self._tipOwner=nil self._tipHiddenAt=os.clock()a5.Shown=false a5.Generation=(a5.Generation or 0)+1 local a6=a5.Generation ah(a5.Holder,{GroupTransparency=1},0.1,Enum.EasingStyle.Quad)task.delay(0.1,function()if a5.Generation==a6 then a5.Holder.Visible=false end end)end function a2:_attachTooltip(a4,a5)local a6,a7,a8=false,0,nil local function a9(ba,bb)a7+=1 local bc=a7 task.delay(ba,function()if a7~=bc or not a6 or a4._destroyed or self._destroyed then return end if bb and a8 and(av()-a8).Magnitude>10 then return end self:_showTooltip(a4,bb)end)end table.insert(a4._listeners,(function()local ba={a5.MouseEnter:Connect(function()if ax()then return end a6=true local ba=os.clock()-(self._tipHiddenAt or 0)<0.35 or self._tipOwner~=nil a9(ba and 0 or 0.45,false)end),a5.MouseLeave:Connect(function()a6=false a7+=1 self:_hideTooltip(a4)end),a5.InputBegan:Connect(function(ba)if ba.UserInputType==Enum.UserInputType.Touch then a6=true a8=av()a9(0.5,true)end end),a5.InputEnded:Connect(function(ba)if ba.UserInputType==Enum.UserInputType.Touch then a6=false a7+=1 self:_hideTooltip(a4)end end)}return function()for bb,bc in ipairs(ba)do bc:Disconnect()end end end)())end k.DragStyles={'Outline','Brackets','Ghost','Frame','Off'}local function a4(a5)local a6=a5.Root local a7=a5.DragStyle or'Outline'local a8=ai('Frame',{AnchorPoint=a6.AnchorPoint,Position=a6.Position,Size=UDim2.fromOffset(a6.AbsoluteSize.X,a6.AbsoluteSize.Y),BackgroundColor3=a7=='Ghost'and z.Background or z.Accent,BackgroundTransparency=1,BorderSizePixel=0,ZIndex=40,Parent=a5.Gui})aj(a8,UDim.new(0,10))local a9={}local function ba(bb,bc)local bd={}for be in pairs(bc)do bd[be]=1 end table.insert(a9,{Object=bb,Shown=bc,Hidden=bd})end local function bb(bc,bd)for be,bf in ipairs({Vector2.new(0,0),Vector2.new(1,0),Vector2.new(0,1),Vector2.new(1,1)})do local bg=UDim2.new(bf.X,bf.X==0 and bd or-bd,bf.Y,bf.Y==0 and bd or-bd)for bh,bi in ipairs({UDim2.fromOffset(bc,2),UDim2.fromOffset(2,bc)})do local bj=ai('Frame',{AnchorPoint=bf,Position=bg,Size=bi,BackgroundColor3=z.Accent,BackgroundTransparency=1,BorderSizePixel=0,Parent=a8})aj(bj,UDim.new(1,0))ba(bj,{BackgroundTransparency=0})end end end if a7=='Brackets'then bb(22,0)elseif a7=='Ghost'then ba(a8,{BackgroundTransparency=0.35})ba(ak(a8,z.Stroke,1,1),{Transparency=0})elseif a7=='Frame'then ba(ak(a8,z.StrokeHover,1,1),{Transparency=0})else ba(a8,{BackgroundTransparency=0.92})ba(ak(a8,z.Accent,1,1.5),{Transparency=0.2})bb(16,6)end local bc=ai('UIScale',{Scale=1.02,Parent=a8})for bd,be in ipairs(a9)do ah(be.Object,be.Shown,0.15,Enum.EasingStyle.Quad)end ah(bc,{Scale=1},0.25,Enum.EasingStyle.Quint)local function bd()for be,bf in ipairs(a9)do ah(bf.Object,bf.Hidden,0.2,Enum.EasingStyle.Quad)end task.delay(0.22,function()a8:Destroy()end)end return a8,bd end function a2:_enableDrag()local a5,a6=false,false local a7,a8=Vector2.zero,Vector2.zero local a9=nil local ba,bb=nil,nil local function bc()local bd=self.Root return bd.AbsolutePosition+bd.AbsoluteSize*bd.AnchorPoint-self.Gui.AbsolutePosition end local function bd()if not ba then return end local be=Vector2.new(ba.Position.X.Offset,ba.Position.Y.Offset)if self.KeepOnScreen then be=self:_clampedCentre(be)end if self._clampTween then self._clampTween:Cancel()end self._clampTween=ah(self.Root,{Position=UDim2.fromOffset(be.X,be.Y)},0.3,Enum.EasingStyle.Quint)bb()ba,bb=nil,nil end table.insert(self._connections,b.InputBegan:Connect(function(be)if not aw(be)then return end if not self.Open or not self.Root.Visible then return end local bf=av()if self._resizeActive or(self._grip and az(bf,self._grip))then return end if not az(bf,self.Body)or self:_overControl(bf)then return end if self._clampTween then self._clampTween:Cancel()self._clampTween=nil end a5,a6=true,false a8=bf a7=bf-bc()end))table.insert(self._connections,b.InputEnded:Connect(function(be)if not a5 then return end if aw(be)then a5=false a9=nil if ba then bd()else self:_clampToScreen()end end end))table.insert(self._frameSteps,function(be)if not a5 then return end local bf=av()if not a6 and(bf-a8).Magnitude>3 then a6=true if self.DragSkeleton then ba,bb=a4(self)end end if not a6 then return end if ba and(not self.Open or not self.Root.Visible)then a5=false bd()return end a9=bf-a7 local bg=1-math.exp(-be*45)if ba then local bh=Vector2.new(ba.Position.X.Offset,ba.Position.Y.Offset)local bi=bh:Lerp(a9,bg)ba.Position=UDim2.fromOffset(bi.X,bi.Y)else local bh=bc():Lerp(a9,bg)self.Root.Position=UDim2.fromOffset(bh.X,bh.Y)end end)end function a2:SetDragStyle(a5)a5=table.find(k.DragStyles,a5)and a5 or'Outline'self.DragStyle=a5 self.DragSkeleton=a5~='Off'return a5 end function a2:GetDragStyle()return self.DragStyle end k.IslandStyles={'Show on Hover','Always Show'}function a2:SetIslandStyle(a5)a5=table.find(k.IslandStyles,a5)and a5 or'Show on Hover'self.IslandStyle=a5 if self._islandSettle then self._islandSettle()end return a5 end function a2:GetIslandStyle()return self.IslandStyle end function a2:SetDragSkeleton(a5)if a5==false then self:SetDragStyle('Off')elseif self.DragStyle=='Off'or not self.DragStyle then self:SetDragStyle('Outline')end end function a2:_sidebarResize(a5,a6)local a7=a5:FindFirstChild('Divider')local a8=a6 local function a9(ba,bb)if bb~=false then a8=ba end local bc=self.Body.AbsoluteSize.X/self.Scale.Scale-300 ba=math.floor(math.clamp(ba,150,math.max(math.min(300,bc),150)))self.SidebarWidth=ba a5.Size=UDim2.new(0,ba,1,0)self.Content.Position=UDim2.fromOffset(ba+1,0)self.Content.Size=UDim2.new(1,-(ba+1),1,0)end self.SetSidebarWidth=function(ba,bb)a9(tonumber(bb)or F)end a9(a6)local ba=ai('TextButton',{AnchorPoint=Vector2.new(1,0),Position=UDim2.new(1,0,0,0),Size=UDim2.new(0,6,1,0),BackgroundTransparency=1,Text='',AutoButtonColor=false,ZIndex=6,Parent=a5})ba:SetAttribute('NoDrag',true)local bb,bc,bd=false,0,a6 local function be(bf)if a7 then ah(a7,{BackgroundColor3=bf and z.Accent or z.Stroke},0.15)end end ba.MouseEnter:Connect(function()be(true)end)ba.MouseLeave:Connect(function()if not bb then be(false)end end)ba.InputBegan:Connect(function(bf)if bf.UserInputType==Enum.UserInputType.MouseButton1 or bf.UserInputType==Enum.UserInputType.Touch then bb,bc,bd=true,bf.Position.X,self.SidebarWidth a8=bd be(true)end end)self:_listen('Changed',function(bf)if bb and aA(bf)then a9(bd+(bf.Position.X-bc)/self.Scale.Scale)end end)self:_listen('Ended',function(bf)if bb and(bf.UserInputType==Enum.UserInputType.MouseButton1 or bf.UserInputType==Enum.UserInputType.Touch)then bb=false be(false)end end)self.Body:GetPropertyChangedSignal('AbsoluteSize'):Connect(function()if not bb then a9(a8,false)end end)end function a2:SetTransparent(a5)self.Transparent=a5==true local a6=self.Transparent self._shadowRest=a6 and 0.85 or 0.6 ah(self.Body,{BackgroundTransparency=a6 and 0.35 or 0},0.25)local a7=a6 and 0.5 or(self.Background and 0.45 or 0)ah(self.SidebarFill,{BackgroundTransparency=a7},0.25)if self.Open and not self.Minimized and self.Root.Visible then ah(self.Shadow,{ImageTransparency=self._shadowRest},0.25)end end local function a5(a6)local a7={}for a8,a9 in ipairs(a6:GetChildren())do if a9:IsA('GuiObject')then table.insert(a7,a9)end end table.sort(a7,function(a8,a9)return a8.LayoutOrder<a9.LayoutOrder end)return a7 end local function a6(a7,a8,a9)if not a7.Visible and not a9 then return end a7.Visible=false task.delay(a8,function()if not a7.Parent then return end local ba=ai('UIScale',{Scale=0.94,Parent=a7})a7.Visible=true ah(ba,{Scale=1},0.4,Enum.EasingStyle.Back)task.delay(0.4,function()ba:Destroy()end)end)end function a2:_revealCards(a7,a8)local a9=a7.CurrentSubTab or a7 if a9._revealed then return end a9._revealed=true local ba=0 local function bb(bc)a6(bc,(a8 or 0)+ba*0.035)ba+=1 end local bc=a9._columnSet for bd,be in ipairs(a5(a9.List))do if bc and be==bc.Holder then local bf,bg=a5(bc.Left),a5(bc.Right)for bh=1,math.max(#bf,#bg)do if bf[bh]then bb(bf[bh])end if bg[bh]then bb(bg[bh])end end else bb(be)end end end function a2:_playIntro(a7)if self._introDone or self._destroyed then return end self._introDone=true self:_refreshBackdrop(true)task.delay(0.4,function()self:_refreshToggleButton()end)task.delay(1.5,function()if not self._destroyed and not self.MiniBar then self:_buildMiniBar()end end)local a8,a9,ba=self.Root,self.Shadow,self.Scale if self.CurrentTab then self:_revealCards(self.CurrentTab,a7 and 0.15 or 0.25)end a8.Visible=true if a7 then ba.Scale=self._fitScale or 1 a8.Position=UDim2.fromScale(0.5,0.5)self:_fade(0,0.3)ah(self.BodyStroke,{Transparency=0},0.3)ah(a9,{ImageTransparency=0.6},0.3)else a8.Position=UDim2.new(0.5,0,0.5,24)ah(ba,{Scale=self._fitScale or 1},0.5,Enum.EasingStyle.Back)ah(a8,{Position=UDim2.fromScale(0.5,0.5)},0.5,Enum.EasingStyle.Quint)self:_fade(0,0.35)ah(self.BodyStroke,{Transparency=0},0.35)end if not a7 then ah(a9,{ImageTransparency=0.6},0.5)end for bb,bc in ipairs(self.Tabs)do a6(bc._button,0.1+bb*0.05,true)end self.Indicator.Visible=false task.delay(0.15+#self.Tabs*0.05,function()if self.CurrentTab then self:_placeIndicator(self.CurrentTab)end end)end function a2:_showLoader(a7)local a8=a7.LoadingDuration or 1.6 local a9=self.Gui local ba=a7.LoadingSteps or{'Preparing interface','Loading icons','Almost there'}local bb,bc,bd=340,22,24 local be=80 local bf=be+#ba*bd+18 local bg=ai('CanvasGroup',{AnchorPoint=Vector2.new(0.5,0.5),Position=UDim2.new(0.5,0,0.5,10),Size=UDim2.fromOffset(bb,bf),BackgroundColor3=z.Background,BorderSizePixel=0,GroupTransparency=1,ZIndex=10,Parent=a9})local bh=aj(bg,UDim.new(0,12))local bi=ak(bg,z.Stroke,1)local bj=ai('UIScale',{Scale=0.97,Parent=bg})local bk=ai('ImageLabel',{Position=UDim2.fromOffset(-25,-25),Size=UDim2.new(1,50,1,50),BackgroundTransparency=1,Image=A.Shadow,ImageColor3=Color3.new(0,0,0),ImageTransparency=1,ScaleType=Enum.ScaleType.Slice,SliceCenter=Rect.new(49,49,450,450),ZIndex=0,Parent=bg})local bl=ai('CanvasGroup',{Size=UDim2.fromScale(1,1),BackgroundTransparency=1,Parent=bg})local bm=ai('ImageLabel',{Position=UDim2.fromOffset(bc,bc),Size=UDim2.fromOffset(30,30),BackgroundTransparency=1,ImageColor3=z.Accent,ScaleType=Enum.ScaleType.Fit,Parent=bl})aq(bm,a7.Icon or A.Logo,true)local bn=bc+42 local bo=am({Position=UDim2.fromOffset(bn,bc-2),Size=UDim2.new(1,-(bn+70),0,18),Text=a7.LoadingTitle or a7.Title or'Airflow',TextSize=15,FontFace=D.Bold,Parent=bl})local bp=am({Position=UDim2.fromOffset(bn,bc+17),Size=UDim2.new(1,-(bn+70),0,15),Text=a7.LoadingText or a7.Subtitle or'Loading',TextSize=12,FontFace=D.Regular,TextColor3=z.Muted,Parent=bl})local bq=am({AnchorPoint=Vector2.new(1,0),Position=UDim2.new(1,-bc,0,bc+6),Size=UDim2.fromOffset(56,16),Text='0%',TextSize=13,FontFace=D.Medium,TextColor3=z.Muted,TextXAlignment=Enum.TextXAlignment.Right,Parent=bl})ai('Frame',{Position=UDim2.fromOffset(bc,be-14),Size=UDim2.new(1,-bc*2,0,1),BackgroundColor3=z.Stroke,BorderSizePixel=0,Parent=bl})local br={}for bs,bt in ipairs(ba)do local bu=ai('Frame',{Position=UDim2.fromOffset(bc,be+(bs-1)*bd),Size=UDim2.new(1,-bc*2,0,bd),BackgroundTransparency=1,Parent=bl})local bv=ai('Frame',{AnchorPoint=Vector2.new(0.5,0.5),Position=UDim2.new(0,7,0.5,0),Size=UDim2.fromOffset(6,6),BackgroundColor3=z.Surface3,BorderSizePixel=0,Parent=bu})aj(bv,UDim.new(1,0))local bw=ai('Frame',{AnchorPoint=Vector2.new(0.5,0.5),Position=UDim2.new(0,7,0.5,0),Size=UDim2.fromOffset(12,12),BackgroundTransparency=1,Visible=false,Parent=bu})aj(bw,UDim.new(1,0))local bx=ai('UIStroke',{Color=z.Accent,Thickness=2,Parent=bw})ai('UIGradient',{Transparency=NumberSequence.new({NumberSequenceKeypoint.new(0,0),NumberSequenceKeypoint.new(0.5,0),NumberSequenceKeypoint.new(0.501,1),NumberSequenceKeypoint.new(1,1)}),Parent=bx})local by=ai('ImageLabel',{AnchorPoint=Vector2.new(0.5,0.5),Position=UDim2.new(0,7,0.5,0),Size=UDim2.fromOffset(14,14),BackgroundTransparency=1,ImageColor3=z.Accent,ImageTransparency=1,ScaleType=Enum.ScaleType.Fit,Parent=bu})aq(by,'check')local bz=am({Position=UDim2.fromOffset(24,0),Size=UDim2.new(1,-24,1,0),Text=tostring(bt),TextSize=13,FontFace=D.Regular,TextColor3=z.Muted,TextTransparency=1,Parent=bu})br[bs]={Dot=bv,Spinner=bw,Check=by,Label=bz,State='pending'}task.delay(0.15+bs*0.06,function()if bg.Parent and br[bs].State=='pending'then ah(bz,{TextTransparency=0.45},0.3)end end)end local function bs(bt,bu)local bv=br[bt]if not bv or bv.State==bu then return end bv.State=bu bv.Dot.Visible=bu=='pending'bv.Spinner.Visible=bu=='active'ah(bv.Check,{ImageTransparency=bu=='done'and 0 or 1},0.2)ah(bv.Label,{TextTransparency=bu=='pending'and 0.45 or 0,TextColor3=bu=='active'and z.Text or z.Muted},0.2)end local bt=ai('Frame',{AnchorPoint=Vector2.new(0,1),Position=UDim2.fromScale(0,1),Size=UDim2.new(1,0,0,2),BackgroundColor3=z.Surface3,BorderSizePixel=0,Parent=bl})local bu=ai('Frame',{Size=UDim2.fromScale(0,1),BackgroundColor3=z.Accent,BorderSizePixel=0,Parent=bt})ah(bg,{GroupTransparency=0,Position=UDim2.fromScale(0.5,0.5)},0.45,Enum.EasingStyle.Quint)ah(bj,{Scale=1},0.45,Enum.EasingStyle.Quint)ah(bk,{ImageTransparency=0.55},0.4)ah(bu,{Size=UDim2.fromScale(0.85,1)},a8*0.8,Enum.EasingStyle.Quart)local bv bv=d.RenderStepped:Connect(function(bw)if not bg.Parent then bv:Disconnect()return end bq.Text=math.floor(bu.Size.X.Scale*100+0.5)..'%'for bx,by in ipairs(br)do if by.State=='active'then by.Spinner.Rotation=(by.Spinner.Rotation+bw*360)%360 end end end)task.spawn(s)for bw in ipairs(ba)do task.delay(a8*(bw-1)/#ba,function()if not bg.Parent then return end if bw>1 then bs(bw-1,'done')end bs(bw,'active')end)end local function bw()for bx in ipairs(br)do bs(bx,'done')end end local function bx()bw()ah(bl,{GroupTransparency=1},0.18)local by=self._fitScale or 1 local bz=self.Root.Size ah(bg,{Size=UDim2.fromOffset(bz.X.Offset*by,bz.Y.Offset*by),Position=UDim2.fromScale(0.5,0.5)},0.5,Enum.EasingStyle.Quint)ah(bh,{CornerRadius=UDim.new(0,k._radius(10))},0.5,Enum.EasingStyle.Quint)ah(bj,{Scale=1},0.5,Enum.EasingStyle.Quint)task.delay(0.28,function()self:_playIntro(true)ah(bg,{GroupTransparency=1},0.25)ah(bi,{Transparency=1},0.2)ah(bk,{ImageTransparency=1},0.2)end)task.delay(0.6,function()bg:Destroy()end)end local function by()bw()ah(bl,{GroupTransparency=1},0.18)end local function bz(bA,bB)local bC,bD,bE=360,24,220 local bF=bA.Color or z.Accent local bG=ai('CanvasGroup',{AnchorPoint=Vector2.new(0.5,0),Position=UDim2.fromScale(0.5,0),Size=UDim2.new(0,bC,1,0),BackgroundTransparency=1,GroupTransparency=1,ZIndex=5,Parent=bg})local bH=ai('Frame',{Position=UDim2.fromOffset(bD,bD),Size=UDim2.fromOffset(44,44),BackgroundColor3=bF,BackgroundTransparency=0.86,BorderSizePixel=0,Parent=bG})aj(bH,UDim.new(0,12))ak(bH,bF,1).Transparency=0.6 local bI=ai('ImageLabel',{AnchorPoint=Vector2.new(0.5,0.5),Position=UDim2.fromScale(0.5,0.5),Size=UDim2.fromOffset(22,22),BackgroundTransparency=1,ImageColor3=bF,ScaleType=Enum.ScaleType.Fit,Parent=bH})aq(bI,bA.Icon or'info')am({Position=UDim2.fromOffset(bD+58,bA.Subtitle and bD+3 or bD+12),Size=UDim2.new(1,-(bD*2+58),0,20),Text=bA.Title,TextSize=17,Parent=bG})if bA.Subtitle then am({Position=UDim2.fromOffset(bD+58,bD+25),Size=UDim2.new(1,-(bD*2+58),0,16),Text=tostring(bA.Subtitle),TextSize=13,TextColor3=bF,Parent=bG})end local bJ=ai('ScrollingFrame',{Position=UDim2.fromOffset(bD,bD+60),Size=UDim2.new(1,-bD*2,0,16),BackgroundTransparency=1,BorderSizePixel=0,ScrollBarThickness=E and 4 or 3,ScrollBarImageColor3=z.Accent,ScrollBarImageTransparency=0.4,ScrollingDirection=Enum.ScrollingDirection.Y,CanvasSize=UDim2.new(),Parent=bG})local bK=am({Size=UDim2.new(1,-8,0,0),Text=tostring(bA.Text),TextSize=13,FontFace=D.Regular,TextColor3=z.Muted,TextWrapped=true,TextTruncate=Enum.TextTruncate.None,TextYAlignment=Enum.TextYAlignment.Top,Parent=bJ})local bL=ai('Frame',{AnchorPoint=Vector2.new(0,1),Position=UDim2.new(0,bD,1,-bD+4),Size=UDim2.new(1,-bD*2,0,34),BackgroundTransparency=1,Parent=bG})ai('UIListLayout',{FillDirection=Enum.FillDirection.Horizontal,HorizontalAlignment=Enum.HorizontalAlignment.Right,SortOrder=Enum.SortOrder.LayoutOrder,Padding=UDim.new(0,8),Parent=bL})local bM=false local bN=nil if not bA.Block and bA.RememberText and aW.Available()then local bO=E and 20 or 16 bN=ai('TextButton',{AnchorPoint=Vector2.new(0,1),Position=UDim2.new(0,bD,1,-bD+4-34-12),Size=UDim2.new(1,-bD*2,0,E and 28 or 22),BackgroundTransparency=1,Text='',AutoButtonColor=false,Parent=bG})local bP=ai('Frame',{AnchorPoint=Vector2.new(0,0.5),Position=UDim2.fromScale(0,0.5),Size=UDim2.fromOffset(bO,bO),BackgroundColor3=z.Surface2,BorderSizePixel=0,Parent=bN})aj(bP,UDim.new(0,4))local bQ=ak(bP,z.Stroke,1)local bR=ai('ImageLabel',{AnchorPoint=Vector2.new(0.5,0.5),Position=UDim2.fromScale(0.5,0.5),Size=UDim2.fromOffset(bO-4,bO-4),BackgroundTransparency=1,ImageColor3=z.AccentDark,ImageTransparency=1,ScaleType=Enum.ScaleType.Fit,Parent=bP})aq(bR,'check')local bS=am({Position=UDim2.fromOffset(bO+8,0),Size=UDim2.new(1,-(bO+8),1,0),Text=bA.RememberText,TextSize=12,FontFace=D.Regular,TextColor3=z.Muted,Parent=bN})bN.MouseEnter:Connect(function()ah(bQ,{Color=bM and z.Accent or z.StrokeHover},0.12)ah(bS,{TextColor3=z.Text},0.12)end)bN.MouseLeave:Connect(function()ah(bQ,{Color=bM and z.Accent or z.Stroke},0.2)ah(bS,{TextColor3=bM and z.Text or z.Muted},0.2)end)bN.MouseButton1Click:Connect(function()bM=not bM ah(bP,{BackgroundColor3=bM and z.Accent or z.Surface2},0.15)ah(bQ,{Color=bM and z.Accent or z.Stroke},0.15)ah(bR,{ImageTransparency=bM and 0 or 1},0.15)ah(bS,{TextColor3=bM and z.Text or z.Muted},0.15)end)end local bO=false local function bP(bQ,bR,bS,bT)local bU=ai('TextButton',{Size=UDim2.fromOffset(0,34),AutomaticSize=Enum.AutomaticSize.X,BackgroundColor3=bR and z.Accent or z.Surface2,BackgroundTransparency=bR and 0.12 or 0,BorderSizePixel=0,Text='',AutoButtonColor=false,LayoutOrder=bS,Parent=bL})aj(bU,UDim.new(0,7))local bV=ak(bU,bR and z.Accent or z.Stroke,1)bV.Transparency=bR and 0.4 or 0 al(bU,14,14)am({Size=UDim2.new(0,0,1,0),AutomaticSize=Enum.AutomaticSize.X,Text=bQ,TextSize=13,TextColor3=bR and z.AccentDark or z.Text,TextXAlignment=Enum.TextXAlignment.Center,Parent=bU})bU.MouseEnter:Connect(function()if bR then ah(bU,{BackgroundTransparency=0},0.12)ah(bV,{Transparency=0},0.12)else ah(bV,{Color=z.StrokeHover},0.12)end end)bU.MouseLeave:Connect(function()if bR then ah(bU,{BackgroundTransparency=0.12},0.2)ah(bV,{Transparency=0.4},0.2)else ah(bV,{Color=z.Stroke},0.2)end end)bU.MouseButton1Click:Connect(function()if bO then return end bO=true bT()end)end if bA.ExitText~=false then bP(bA.ExitText or'Exit',bA.Block,1,function()if bA.Callback then task.spawn(bA.Callback,false)end ah(bg,{GroupTransparency=1,Position=UDim2.new(0.5,0,0.5,12)},0.25,Enum.EasingStyle.Quint)ah(bk,{ImageTransparency=1},0.2)task.delay(0.25,function()self:Destroy()end)end)end if not bA.Block then bP(bA.ContinueText or'Continue',true,2,function()if bM and bA.Remember then bA.Remember()end if bA.Callback then task.spawn(bA.Callback,true)end ah(bG,{GroupTransparency=1},0.15)task.delay(0.15,function()bG:Destroy()bB()end)end)end local bQ=false local function bR()local bS,bT=pcall(function()local bS=Instance.new('GetTextBoundsParams')bS.Text=bK.Text bS.Font=bK.FontFace bS.Size=bK.TextSize bS.Width=bC-bD*2-8 return game:GetService('TextService'):GetTextBoundsAsync(bS)end)return bS and bT and math.ceil(bT.Y)+2 or bK.TextBounds.Y end local function bS(bT)local bU=math.max(bR(),16)local bV=math.min(bU,bE)bK.Size=UDim2.new(1,-8,0,bU)bJ.Size=UDim2.new(1,-bD*2,0,bV)bJ.CanvasSize=UDim2.fromOffset(0,bU)local bW=bD+60+bV+18+34+bD-4 if bN then bW+=bN.Size.Y.Offset+10 end ah(bg,{Size=UDim2.fromOffset(bC,bW)},bT,Enum.EasingStyle.Quint)end bK:GetPropertyChangedSignal('TextBounds'):Connect(function()if bQ and bg.Parent and bG.Parent then bS(0.2)end end)task.delay(0.15,function()if not bg.Parent then return end bQ=true bS(0.35)task.delay(0.12,function()ah(bG,{GroupTransparency=0},0.3)bH.Size=UDim2.fromOffset(34,34)bH.Position=UDim2.fromOffset(bD+5,bD+5)ah(bH,{Size=UDim2.fromOffset(44,44),Position=UDim2.fromOffset(bD,bD)},0.45,Enum.EasingStyle.Back)end)end)end local function bA(bB,bC)if not bg.Parent then return end local bD=bB[bC]if not bD then bx()return end bz(bD,function()bA(bB,bC+1)end)end task.delay(a8,function()ah(bu,{Size=UDim2.fromScale(1,1)},0.25,Enum.EasingStyle.Quint)task.delay(0.25,function()if not bg.Parent then return end if a7._prompts then by()bA(a7._prompts,1)else bx()end end)end)end function a2:_fitToScreen(a7)local a8=self.Gui.AbsoluteSize if a8.X==0 or a8.Y==0 then return end local a9=self.Root.Size local ba=(self._uiScale or 1)*(self._adaptive~=false and k._adaptiveFactor(a8)or 1)local bb=math.min(ba,(a8.X-24)/math.max(a9.X.Offset,1),(a8.Y-24)/math.max(a9.Y.Offset,1))self._fitScale=math.max(bb,0.45)if self._introDone and self.Open then if a7 then self.Scale.Scale=self._fitScale else ah(self.Scale,{Scale=self._fitScale},0.2)end end end function k._adaptiveFactor(a7)if E then return 1 end local a8=math.min(a7.X/1920,a7.Y/1020)if a8>0.9 and a8<1.15 then return 1 end return math.clamp(math.floor(a8*20+0.5)/20,0.85,1.75)end function a2:SetAdaptiveSize(a7)self._adaptive=a7~=false self:_fitToScreen()task.delay(0.22,function()if not self._destroyed then self:_clampToScreen()end end)end function a2:GetAdaptiveSize()return self._adaptive~=false end function a2:SetUIScale(a7)a7=math.clamp(tonumber(a7)or 1,0.6,1.5)self.UIScale=a7 self._uiScale=a7 self:_fitToScreen()task.delay(0.22,function()if not self._destroyed then self:_clampToScreen()end end)end function a2:GetUIScale()return self._uiScale or 1 end k.DensityModes={Compact=0.55,Default=1,Comfortable=1.45}k.Density='Default'function k._spaced(a7,a8)if a7<=0 then return 0 end return math.max(math.floor(a7*a8+(a8-1)*4+0.5),0)end function k._space(a7,a8)local a9=k.DensityModes[k.Density]or 1 if a7:IsA('UIListLayout')or a7:IsA('UIGridLayout')then a7:SetAttribute('Space',a8)a7.Padding=UDim.new(0,k._spaced(a8,a9))elseif a7:IsA('UIPadding')then a7:SetAttribute('SpaceL',a8[1])a7:SetAttribute('SpaceR',a8[2])a7:SetAttribute('SpaceT',a8[3])a7:SetAttribute('SpaceB',a8[4])a7.PaddingLeft=UDim.new(0,math.floor(a8[1]*math.sqrt(a9)+0.5))a7.PaddingRight=UDim.new(0,math.floor(a8[2]*math.sqrt(a9)+0.5))a7.PaddingTop=UDim.new(0,k._spaced(a8[3],a9))a7.PaddingBottom=UDim.new(0,k._spaced(a8[4],a9))end return a7 end function k:SetDensity(a7)if type(a7)=='string'then for a8 in pairs(k.DensityModes)do if a8:lower()==a7:lower()then a7=a8 break end end end if not k.DensityModes[a7]then a7='Default'end k.Density=a7 for a8,a9 in ipairs(k.Windows)do if a9.Gui and a9.Gui.Parent then for ba,bb in ipairs(a9.Gui:GetDescendants())do local bc=bb:GetAttribute('Space')if bc then k._space(bb,bc)elseif bb:GetAttribute('SpaceL')then k._space(bb,{bb:GetAttribute('SpaceL'),bb:GetAttribute('SpaceR'),bb:GetAttribute('SpaceT'),bb:GetAttribute('SpaceB')})end end end end return a7 end function a2:SetDensity(a7)return k:SetDensity(a7)end function a2:GetDensity()return k.Density end function a2:_clampedCentre(a7)local a8=self.Gui.AbsoluteSize local a9=self.Root.AbsoluteSize/2 return Vector2.new(math.clamp(a7.X,math.min(a9.X,a8.X/2),math.max(a8.X-a9.X,a8.X/2)),math.clamp(a7.Y,math.min(a9.Y,a8.Y/2),math.max(a8.Y-a9.Y,a8.Y/2)))end function a2:_clampToScreen()if not self.KeepOnScreen or self._resizeActive then return end local a7=self.Root local a8=a7.AbsolutePosition+a7.AbsoluteSize/2-self.Gui.AbsolutePosition local a9=self:_clampedCentre(a8)if(a9-a8).Magnitude>0.5 then self._clampTween=ah(a7,{Position=UDim2.fromOffset(a9.X,a9.Y)},0.25,Enum.EasingStyle.Quint)end end function a2:_createOpenButton(a7)local a8=self.Gui local a9=ai('TextButton',{AnchorPoint=Vector2.new(0.5,0),Position=UDim2.new(0.5,0,0,14),Size=UDim2.fromOffset(0,40),AutomaticSize=Enum.AutomaticSize.X,BackgroundColor3=z.Background,BorderSizePixel=0,Text='',AutoButtonColor=false,ZIndex=30,Parent=a8})aj(a9,UDim.new(1,0))ak(a9,z.Stroke)al(a9,12,16)local ba=ai('ImageLabel',{AnchorPoint=Vector2.new(0,0.5),Position=UDim2.new(0,0,0.5,0),Size=UDim2.fromOffset(20,20),BackgroundTransparency=1,ImageColor3=z.Accent,ScaleType=Enum.ScaleType.Fit,ZIndex=31,Parent=a9})aq(ba,a7.Icon or A.Logo,true)am({Position=UDim2.fromOffset(28,0),Size=UDim2.new(0,0,1,0),AutomaticSize=Enum.AutomaticSize.X,Text=a7.Title or'Airflow',TextSize=13,TextTruncate=Enum.TextTruncate.None,ZIndex=31,Parent=a9})self.OpenButton=a9 local bb,bc=false,false local bd=Vector2.zero a9.InputBegan:Connect(function(be)if aw(be)then bb=true bc=false bd=av()-a9.AbsolutePosition end end)table.insert(self._connections,b.InputChanged:Connect(function(be)if not bb then return end if aA(be)then local bf=av()-bd-a8.AbsolutePosition if(bf-(a9.AbsolutePosition-a8.AbsolutePosition)).Magnitude>3 then bc=true end a9.AnchorPoint=Vector2.new(0,0)a9.Position=UDim2.fromOffset(math.clamp(bf.X,0,math.max(a8.AbsoluteSize.X-a9.AbsoluteSize.X,0)),math.clamp(bf.Y,0,math.max(a8.AbsoluteSize.Y-a9.AbsoluteSize.Y,0)))end end))table.insert(self._connections,b.InputEnded:Connect(function(be)if bb and aw(be)then bb=false if not bc then self:Toggle()end end end))end function a2:_toggleButtonAllowed()return self._toggleEnabled and(E or self._togglePlatform=='Both')end function a2:_refreshToggleButton()local a7=self.ToggleButton if not a7 then return end local a8=self._introDone and not self._destroyed and self:_toggleButtonAllowed()if a8 and not a7.Visible then a7.Visible=true a7.Size=UDim2.fromOffset(0,0)ah(a7,{Size=UDim2.fromOffset(self._toggleSize,self._toggleSize)},0.45,Enum.EasingStyle.Quint)elseif not a8 then a7.Visible=false end local a9=self.Minimized or not self.Open ah(self._toggleStroke,{Color=a9 and z.Accent or z.Stroke,Transparency=a9 and 0.3 or 0},0.35)local ba=self._toggleIcon ah(ba,{Rotation=a9 and 180 or 0},0.5,Enum.EasingStyle.Quint)if not ba:GetAttribute('CustomIcon')then ah(ba,{ImageColor3=a9 and z.Text or z.Accent},0.35)end end function a2:_createToggleButton(a7)local a8=self.Gui local a9=tonumber(a7.Size)or(E and 56 or 50)local ba=math.floor(a9*0.46)self._toggleEnabled=a7.Enabled~=false self._togglePlatform=a7.Platform=='Both'and'Both'or'Mobile'self._toggleSize=a9 local bb=ai('TextButton',{AnchorPoint=Vector2.new(0.5,0.5),Position=a7.Position or UDim2.new(0,18+a9/2,0.5,0),Size=UDim2.fromOffset(a9,a9),BackgroundColor3=z.Background,BorderSizePixel=0,Text='',AutoButtonColor=false,ClipsDescendants=true,Visible=false,ZIndex=30,Parent=a8})aj(bb,UDim.new(0,12))local bc=ak(bb,z.Stroke)local bd=ai('ImageLabel',{AnchorPoint=Vector2.new(0.5,0.5),Position=UDim2.fromScale(0.5,0.5),Size=UDim2.fromOffset(ba,ba),BackgroundTransparency=1,ImageColor3=z.Accent,ScaleType=Enum.ScaleType.Fit,ZIndex=31,Parent=bb})local be=ai('UIScale',{Parent=bb})self.ToggleButton=bb self._toggleStroke=bc self._toggleIcon=bd self:SetToggleButtonIcon(a7.Icon or'layout-grid')local bf,bg=false,false local bh=Vector2.zero bb.InputBegan:Connect(function(bi)if aw(bi)then bf=true bg=false bh=av()-bb.AbsolutePosition ah(be,{Scale=0.94},0.18,Enum.EasingStyle.Quint)end end)table.insert(self._connections,b.InputChanged:Connect(function(bi)if not bf or not aA(bi)then return end local bj=av()-bh-a8.AbsolutePosition if(bj-(bb.AbsolutePosition-a8.AbsolutePosition)).Magnitude>3 then bg=true end if bg then bb.AnchorPoint=Vector2.zero bb.Position=UDim2.fromOffset(math.clamp(bj.X,0,math.max(a8.AbsoluteSize.X-bb.AbsoluteSize.X,0)),math.clamp(bj.Y,0,math.max(a8.AbsoluteSize.Y-bb.AbsoluteSize.Y,0)))end end))table.insert(self._connections,b.InputEnded:Connect(function(bi)if not bf or not aw(bi)then return end bf=false ah(be,{Scale=1},0.4,Enum.EasingStyle.Quint)if bg then return end aE(bb)if not self.Open then self:Toggle(true)elseif self.Minimized then self:Restore()else self:Minimize()end end))end function a2:SetToggleButton(a7)self._toggleEnabled=a7~=false self:_refreshToggleButton()end function a2:SetToggleButtonPlatform(a7)self._togglePlatform=a7=='Both'and'Both'or'Mobile'self:_refreshToggleButton()end function a2:SetToggleButtonIcon(a7)local a8=self._toggleIcon if not a8 then return end a8.Image=''aq(a8,a7)if a8.Image==''then aq(a8,A.Logo)end if not a8:GetAttribute('CustomIcon')then ah(a8,{ImageColor3=(self.Minimized or not self.Open)and z.Text or z.Accent},0)end end function a2:_enableResize(a7)local a8=self.MaxSize or Vector2.new(math.huge,math.huge)self._minSize=a7 local a9=self.Root local ba=ai('Frame',{AnchorPoint=Vector2.new(0.5,0.5),Position=UDim2.new(1,4,1,4),Size=UDim2.fromOffset(32,32),BackgroundTransparency=1,Active=true,ZIndex=20,Parent=a9})self._grip=ba local bb=ai('Frame',{AnchorPoint=Vector2.new(1,1),Position=UDim2.fromOffset(12,12),Size=UDim2.fromOffset(26,26),BackgroundTransparency=1,ZIndex=20,Parent=ba})aj(bb,UDim.new(0,10))local bc=ai('UIStroke',{Color=z.Muted,Thickness=2,Transparency=0.55,Parent=bb})ai('UIGradient',{Rotation=45,Transparency=NumberSequence.new({NumberSequenceKeypoint.new(0,1),NumberSequenceKeypoint.new(0.55,1),NumberSequenceKeypoint.new(0.85,0),NumberSequenceKeypoint.new(1,0)}),Parent=bc})local function bd(be)ah(bc,{Color=be and z.Accent or z.Muted,Transparency=be and 0 or 0.55},be and 0.15 or 0.3,Enum.EasingStyle.Quint)end local be=20 local bf=false local bg=Vector2.zero local bh=Vector2.zero local bi=Vector2.zero local bj=Vector2.zero local bk=Vector2.zero local bl=Vector2.zero local function bm()return Vector2.new(a9.Size.X.Offset,a9.Size.Y.Offset)end local function bn()if a9.AnchorPoint==Vector2.zero then return end if self._clampTween then self._clampTween:Cancel()self._clampTween=nil end local bo=a9.AbsolutePosition-self.Gui.AbsolutePosition a9.AnchorPoint=Vector2.zero a9.Position=UDim2.fromOffset(bo.X,bo.Y)end local function bo()local bp=a9.AbsolutePosition-self.Gui.AbsolutePosition local bq=a9.AbsoluteSize/2 a9.AnchorPoint=Vector2.new(0.5,0.5)a9.Position=UDim2.fromOffset(bp.X+bq.X,bp.Y+bq.Y)end local function bp(bq)return Vector2.new(math.floor(math.clamp(bq.X,a7.X,a8.X)+0.5),math.floor(math.clamp(bq.Y,a7.Y,a8.Y)+0.5))end ba.InputBegan:Connect(function(bq)if not aw(bq)or not self.Open then return end if not self._resizeActive then bn()bi=bm()bj=Vector2.zero bl=bi end self._resizeActive=true bf=true bg=bi bh=av()bk=bp(bg)bd(true)end)ba.MouseEnter:Connect(function()if not bf then bd(true)end end)ba.MouseLeave:Connect(function()if not bf then bd(false)end end)table.insert(self._connections,b.InputEnded:Connect(function(bq)if bf and aw(bq)then bf=false bd(false)end end))table.insert(self._frameSteps,function(bq)if not self._resizeActive then return end if bf then local br=(av()-bh)/self.Scale.Scale bk=bp(bg+br)end local br=math.min(bq,1/30)local bs=math.exp(-be*br)local bt=bi-bk local bu=(bj+bt*be)*br bj=(bj-bu*be)*bs bi=bk+(bt+bu)*bs local bv=Vector2.new(math.floor(bi.X+0.5),math.floor(bi.Y+0.5))if bv~=bl then bl=bv a9.Size=UDim2.fromOffset(bv.X,bv.Y)end if not bf and(bi-bk).Magnitude<0.3 and bj.Magnitude<3 then bi=bk bj=Vector2.zero bl=bk a9.Size=UDim2.fromOffset(bk.X,bk.Y)bo()self._resizeActive=false self:_fitToScreen()self:_clampToScreen()end end)end function a2:GetSize()return Vector2.new(self.Root.Size.X.Offset,self.Root.Size.Y.Offset)end function a2:SetSize(a7,a8)if typeof(a7)=='UDim2'then a7=Vector2.new(a7.X.Offset,a7.Y.Offset)end if typeof(a7)~='Vector2'or self._resizeActive then return end local a9=self._minSize or Vector2.zero local ba=self.MaxSize or Vector2.new(math.huge,math.huge)a7=Vector2.new(math.floor(math.clamp(a7.X,a9.X,ba.X)+0.5),math.floor(math.clamp(a7.Y,a9.Y,ba.Y)+0.5))if a7==self:GetSize()then return end local bb=(a8 or not self.Root.Visible)and 0 or 0.3 ah(self.Root,{Size=UDim2.fromOffset(a7.X,a7.Y)},bb,Enum.EasingStyle.Quint)task.delay(bb+0.02,function()if not self._destroyed then self:_fitToScreen()self:_clampToScreen()end end)end local a7=1 local a8='airflow:'local function a9(ba,bb)return ba.ConfigFolder..'/'..bb..'.json'end local function ba()return type(writefile)=='function'and type(readfile)=='function'and type(isfile)=='function'end local function bb(bc)if type(isfolder)~='function'or type(makefolder)~='function'then return end local bd=''for be in tostring(bc):gmatch('[^/\\]+')do bd=bd==''and be or bd..'/'..be if not isfolder(bd)then makefolder(bd)end end end local function bc(bd)return string.format('%02x%02x%02x',math.floor(bd.R*255+0.5),math.floor(bd.G*255+0.5),math.floor(bd.B*255+0.5))end local function bd(be)if type(be)=='table'then if type(be.Hex)=='string'then be=be.Hex elseif type(be[1])=='number'then return Color3.new(be[1],be[2]or 0,be[3]or 0)end end if type(be)=='string'then local bf,bg,bh=be:match('^%s*#?(%x%x)(%x%x)(%x%x)%s*$')if bf then return Color3.fromRGB(tonumber(bf,16),tonumber(bg,16),tonumber(bh,16))end end return nil end local function be(bf)local bg=bf._type local bh=bf:Get()if type(bf._saveValue)=='function'then bh=bf:_saveValue()end if bg=='Keybind'then return{Type=bg,Value=bh and bh.Name or nil}elseif bg=='ColorPicker'then return{Type=bg,Value=typeof(bh)=='Color3'and{Hex=bc(bh)}or nil}end return{Type=bg,Value=bh}end local function bf(bg,bh,bi)local bj=bg._type local bk=bh.Value if bj=='Keybind'then bg:Set(type(bk)=='string'and Enum.KeyCode[bk]or nil,bi)elseif bj=='ColorPicker'then local bl=bd(bk)if bl then bg:Set(bl,bi)end elseif bj=='Dropdown'then bg:Set(bk,bi)elseif bj=='Toggle'then if type(bk)=='boolean'then bg:Set(bk,bi)end elseif bj=='Slider'or bj=='Stepper'or bj=='Progress'then local bl=tonumber(bk)if bl then bg:Set(bl,bi)end elseif bk~=nil then bg:Set(bk,bi)end end local function bg(bh,bi)return type(bi)=='table'and(bi.Type==nil or bi.Type==bh._type)end local function bh(bi)local bj={}if bi and bi._pendingFlags then for bk,bl in pairs(bi._pendingFlags)do bj[bk]=bl.Entry end end for bk,bl in pairs(k.Flags)do if bl._type and type(bl.Get)=='function'then local bm,bn=pcall(be,bl)if bm then bj[bk]=bn end end end return bj end function a2:_applyFlags(bi,bj)bj=bj==true self._pendingFlags={}for bk,bl in pairs(bi)do local bm=k.Flags[bk]if bm and type(bm.Set)=='function'then if bg(bm,bl)then pcall(bf,bm,bl,bj)end elseif type(bl)=='table'then self._pendingFlags[bk]={Entry=bl,Silent=bj}end end end function a2:_flagCreated(bi,bj)local bk,bl=pcall(be,bj)if bk then bj._defaultEntry=bl end local bm=self._pendingFlags and self._pendingFlags[bi]if not bm then return end task.defer(function()if self._pendingFlags[bi]~=bm or k.Flags[bi]~=bj or bj._destroyed then return end self._pendingFlags[bi]=nil if bg(bj,bm.Entry)then pcall(bf,bj,bm.Entry,bm.Silent)end end)end function a2:_configChanged()for bi,bj in ipairs(self._configListeners)do aJ(bj)end end function a2:OnConfigChanged(bi)table.insert(self._configListeners,bi)return function()local bj=table.find(self._configListeners,bi)if bj then table.remove(self._configListeners,bj)end end end local function bi(bj)return type(bj)=='string'and bj~=''and not bj:find('[\\/:%*%?"<>|]')end local function bj(bk,bl,bm)return e:JSONEncode({Folder=bk.ConfigFolder,Name=bl,Version=a7,Config=e:JSONEncode(bm)})end local bk=[[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/]]local bl={}for bm=1,#bk do bl[bk:byte(bm)]=bm-1 end local function bm(bn)if#bn%4~=0 then return nil end local bo={}for bp=1,#bn,4 do local bq,br=0,0 for bs=0,3 do local bt=bn:byte(bp+bs)local bu=bl[bt]if bt==61 and bp+3>=#bn then br+=1 bu=0 elseif bu==nil or br>0 then return nil end bq=bq*64+bu end if br>2 then return nil end local bs=string.char(bit32.extract(bq,16,8),bit32.extract(bq,8,8),bit32.extract(bq,0,8))table.insert(bo,bs:sub(1,3-br))end return table.concat(bo)end local function bn(bo)bo=tostring(bo or''):match('^%s*(.-)%s*$')if bo:sub(1,#a8)==a8 then bo=bm((bo:sub(#a8+1):gsub('%s','')))if not bo then return nil,'invalid config code'end end local bp,bq=pcall(function()return e:JSONDecode(bo)end)if not bp or type(bq)~='table'then return nil,'invalid config code'end local br={}if type(bq.Config)=='string'or(type(bq.Config)=='table'and bq.Config.Type==nil)then br.Folder=type(bq.Folder)=='string'and bq.Folder or nil br.Name=type(bq.Name)=='string'and bq.Name or nil br.Version=tonumber(bq.Version)local bs=bq.Config if type(bs)=='string'then bp,bs=pcall(function()return e:JSONDecode(bq.Config)end)if not bp then return nil,'invalid config code'end end if type(bs)~='table'then return nil,'invalid config code'end bq=bs end for bs,bt in pairs(bq)do if type(bs)~='string'or type(bt)~='table'then return nil,'invalid config code'end end return bq,br end local function bo(bp,bq,br)if not bi(bq)then return false,'invalid config name'end if not ba()then return false,'file API unavailable'end local bs,bt=pcall(bj,bp,bq,br)if not bs then return false,'could not encode config'end bb(bp.ConfigFolder)return pcall(writefile,a9(bp,bq),bt)end local function bp(bq,br)if not ba()then return nil,'file API unavailable'end if not bi(br)then return nil,'invalid config name'end local bs=a9(bq,br)if not isfile(bs)then return nil,'no config named '..tostring(br)end local bt,bu=pcall(readfile,bs)if not bt or type(bu)~='string'then return nil,'could not read '..br end local bv,bw=bn(bu)if not bv then return nil,'config is not valid JSON'end return bv,bw end function a2:ConfigExists(bq)return bi(bq)and ba()and isfile(a9(self,bq))or false end function a2:SaveConfig(bq)bq=bq or self.ConfigName if not bq then return false,'no config name'end local br,bs=bo(self,bq,bh(self))if br then self.ConfigName=bq end return br,bs end function a2:LoadConfig(bq,br)bq=bq or self.ConfigName if not bq then return false,'no config name'end local bs,bt=bp(self,bq)if not bs then return false,bt end self:_applyFlags(bs,br)self.ConfigName=bq self.LoadedConfig=bq self:_configChanged()return true end function a2:DeleteConfig(bq)if not ba()or type(delfile)~='function'then return false,'file API unavailable'end if not bi(bq)then return false,'invalid config name'end local br=a9(self,bq)if not isfile(br)then return false,'no config named '..bq end local bs,bt=pcall(delfile,br)if not bs then return false,bt end if self.LoadedConfig==bq then self.LoadedConfig=nil end self:_configChanged()return true end function a2:RenameConfig(bq,br)if not bi(br)then return false,'invalid config name'end if bq==br then return true end if self:ConfigExists(br)then return false,br..' already exists'end local bs,bt=bp(self,bq)if not bs then return false,bt end local bu bu,bt=bo(self,br,bs)if not bu then return false,bt end if type(delfile)=='function'then pcall(delfile,a9(self,bq))end if self.LoadedConfig==bq then self.LoadedConfig=br end if self.ConfigName==bq then self.ConfigName=br end for bv,bw in ipairs({'Global','Account'})do if self:GetAutoload(bw)==bq then self:SetAutoload(br,bw)end end self:_configChanged()return true end function a2:ListConfigs()local bq={}if type(listfiles)~='function'or type(isfolder)~='function'or not isfolder(self.ConfigFolder)then return bq end local br,bs=pcall(listfiles,self.ConfigFolder)if not br or type(bs)~='table'then return bq end for bt,bu in ipairs(bs)do local bv=bu:match('([^/\\]+)%.json$')if bv then table.insert(bq,bv)end end table.sort(bq,function(bt,bu)return bt:lower()<bu:lower()end)return bq end function a2:ResetConfig(bq)self._pendingFlags={}for br,bs in pairs(k.Flags)do if bs._defaultEntry and type(bs.Set)=='function'then pcall(bf,bs,bs._defaultEntry,bq==true)end end self:_configChanged()return true end local function bq(br)if type(isfolder)~='function'or not isfolder(br)then return true end if type(delfolder)=='function'and pcall(delfolder,br)and not isfolder(br)then return true end if type(listfiles)=='function'then local bs,bt=pcall(listfiles,br)for bu,bv in ipairs(bs and bt or{})do if isfolder(bv)then bq(bv)elseif type(delfile)=='function'then pcall(delfile,bv)end end end if type(delfolder)=='function'then pcall(delfolder,br)end return not isfolder(br)end function a2:ClearWorkspace()local br=bq(self.ConfigFolder)self.LoadedConfig=nil for bs,bt in ipairs(self._workspaceListeners or{})do aJ(bt)end self:_configChanged()return br end function a2:ExportConfig(br)local bs,bt if br then bs,bt=bp(self,br)if not bs then return nil,bt end else bs=bh(self)br=self.LoadedConfig or self.ConfigName end local bu,bv=pcall(bj,self,br,bs)if not bu then return nil,'could not encode config'end return bv end function a2:DecodeConfig(br)return bn(br)end function a2:ImportConfig(br,bs,bt)local bu,bv=bn(br)if not bu then return false,bv end if not bt and bv.Folder and bv.Folder~=self.ConfigFolder then return false,'config is for '..bv.Folder end if bs==true then bs=bv.Name if not bi(bs)then return false,'config has no usable name'end end if bs then local bw,bx=bo(self,bs,bu)if not bw then return false,bx end end self:_applyFlags(bu)if bs then self.ConfigName=bs self.LoadedConfig=bs end self:_configChanged()return true,nil,bs end local function br(bs)if not ba()or not isfile(bs)then return nil end local bt,bu=pcall(readfile,bs)if bt and type(bu)=='string'and bu~=''then return bu end return nil end local function bs(bt)if ba()and type(delfile)=='function'and isfile(bt)then pcall(delfile,bt)end end local function bt(bu)return bu.ConfigFolder..'/configsettings.txt'end function a2:_readConfigSettings()local bu=br(bt(self))if bu then local bv,bw=pcall(function()return e:JSONDecode(bu)end)if bv and type(bw)=='table'then return bw end end return{}end function a2:_writeConfigSettings(bu)if not ba()then return false,'file API unavailable'end local bv=self:_readConfigSettings()for bw,bx in pairs(bu)do bv[bw]=bx end bb(self.ConfigFolder)return pcall(writefile,bt(self),e:JSONEncode(bv))end local function bu(bv,bw)if bw=='Account'then return bv.ConfigFolder..'/autoload_'..tostring(j and j.UserId or 0)..'.txt'end return bv.ConfigFolder..'/autoload.txt'end function a2:GetAutoloadMode()return self:_readConfigSettings().AutoloadMode=='Account'and'Account'or'Global'end function a2:GetAutoload(bv)if bv then return br(bu(self,bv))end return br(bu(self,'Account'))or br(bu(self,'Global'))end function a2:SetAutoload(bv,bw)if not ba()then return false,'file API unavailable'end bw=bw or self:GetAutoloadMode()local bx,by=true,nil if bv==nil or bv==''then bs(bu(self,bw))if bw=='Global'then bs(bu(self,'Account'))end else bb(self.ConfigFolder)bx,by=pcall(writefile,bu(self,bw),tostring(bv))if bx and bw=='Global'then bs(bu(self,'Account'))end end self:_configChanged()return bx,by end function a2:SetAutoloadMode(bv)bv=bv=='Account'and'Account'or'Global'if bv==self:GetAutoloadMode()then return true end local bw=self:GetAutoload()local bx,by=self:_writeConfigSettings({AutoloadMode=bv})if not bx then return false,by end bs(bu(self,bv=='Account'and'Global'or'Account'))if bw then return self:SetAutoload(bw,bv)end self:_configChanged()return true end function a2:LoadAutoload(bv)local bw=self:GetAutoload()if not bw then return false,'no autoload config'end return self:LoadConfig(bw,bv)end k._themeListeners={}local function bv(bw)if typeof(bw)=='Color3'then return bw elseif type(bw)=='string'then local bx,by,bz=bw:match('^%s*#?(%x%x)(%x%x)(%x%x)%s*$')if bx then return Color3.fromRGB(tonumber(bx,16),tonumber(by,16),tonumber(bz,16))end elseif type(bw)=='table'then local bx,by,bz=bw[1]or bw.R,bw[2]or bw.G,bw[3]or bw.B if tonumber(bx)and tonumber(by)and tonumber(bz)then return Color3.fromRGB(bx,by,bz)end end return nil end local function bw(bx)return string.format('#%02X%02X%02X',math.floor(bx.R*255+0.5),math.floor(bx.G*255+0.5),math.floor(bx.B*255+0.5))end k._toneTags={}for bx,by in ipairs(n)do k._toneTags[string.lower(by)]=by end function k._color(bx)if type(bx)=='string'then local by=k._toneTags[string.lower(bx)]if by then return z[by]end end return bv(bx)end function k._rich(bx)bx=tostring(bx==nil and''or bx)if not string.find(bx,'<',1,true)then return bx end return(string.gsub(bx,'<(/?)(%a+%d*)>',function(by,bz)local bA=k._toneTags[string.lower(bz)]if not bA then return nil end if by=='/'then return'</font>'end return'<font color="'..bw(z[bA])..'">'end))end function k.Colorize(...)local bx={...}if bx[1]==k then table.remove(bx,1)end local by,bz=tostring(bx[1]==nil and''or bx[1]),bx[2]local bA=type(bz)=='string'and k._toneTags[string.lower(bz)]if bA then return'<'..bA..'>'..by..'</'..bA..'>'end local bB=bv(bz)if not bB then return by end return'<font color="'..bw(bB)..'">'..by..'</font>'end function k:SetCornerRadius(bx,by)bx=math.clamp(math.floor((tonumber(bx)or 10)+0.5),0,20)k.Roundness=bx/10 for bz,bA in pairs(k._cornerBases)do if not bz.Parent then k._cornerBases[bz]=nil else local bB=UDim.new(0,math.floor(bA*k.Roundness+0.5))if by then bz.CornerRadius=bB else ah(bz,{CornerRadius=bB},0.25,Enum.EasingStyle.Quint)end end end return bx end function k:GetCornerRadius()return math.floor(k.Roundness*10+0.5)end function k:SetTheme(bx,by)if type(bx)=='string'then local bz=k.ThemePresets[bx]if not bz then return false end k.ThemeName=bx bx=bz elseif type(bx)~='table'then return false end local bz=false for bA,bB in ipairs(n)do local bC=bv(bx[bB])if bC and bC~=z[bB]then z[bB]=bC bz=true end end if not bz then return true end _()Y()af(by and 0 or 0.3)for bA,bB in pairs(S)do if bA.Parent then pcall(bB)end end for bA,bB in ipairs(k._themeListeners)do pcall(bB)end return true end function k:GetTheme()local bx={}for by,bz in ipairs(n)do bx[bz]=z[bz]end return bx end function k:SetDefaultTheme(bx)k.DefaultTheme=bx if bx==nil then return true end local by=false for bz,bA in ipairs(k.Windows)do if not bA._destroyed then if bA:GetDefaultTheme()then return true end by=true end end return k:SetTheme(bx,not by)end function k:GetDefaultTheme()return k.DefaultTheme end local function bx(by)return by.ConfigFolder..'/themes'end function a2:SaveTheme(by)if not ba()then return false,'file API unavailable'end if type(by)~='string'or by==''then return false,'theme needs a name'end bb(self.ConfigFolder)bb(bx(self))local bz={}for bA,bB in ipairs(n)do bz[bB]=bw(z[bB])end return pcall(function()writefile(bx(self)..'/'..by..'.json',e:JSONEncode(bz))end)end function a2:LoadTheme(by,bz)if k.ThemePresets[by]then return k:SetTheme(by,bz)end local bA=br(bx(self)..'/'..tostring(by)..'.json')if not bA then return false,'no theme named '..tostring(by)end local bB,bC=pcall(function()return e:JSONDecode(bA)end)if not bB or type(bC)~='table'then return false,'theme is not valid JSON'end k.ThemeName=by return k:SetTheme(bC,bz)end function a2:DeleteTheme(by)if not ba()or type(delfile)~='function'then return false,'file API unavailable'end local bz=bx(self)..'/'..tostring(by)..'.json'if not isfile(bz)then return false,'no theme named '..tostring(by)end delfile(bz)if self:GetDefaultTheme()==by then self:SetDefaultTheme(nil)end return true end function a2:ListThemes()local by={}if type(listfiles)~='function'or type(isfolder)~='function'or not isfolder(bx(self))then return by end for bz,bA in ipairs(listfiles(bx(self)))do local bB=bA:match('([^/\\]+)%.json$')if bB then table.insert(by,bB)end end table.sort(by)return by end function a2:GetDefaultTheme()return br(bx(self)..'/default.txt')end function a2:SetDefaultTheme(by)if not ba()then return false,'file API unavailable'end bb(self.ConfigFolder)bb(bx(self))local bz=bx(self)..'/default.txt'if by==nil or by==''then if isfile(bz)and type(delfile)=='function'then pcall(delfile,bz)end return true end return pcall(writefile,bz,tostring(by))end function a2:_applyDefaultTheme()local by=self:GetDefaultTheme()if by then local bz,bA=pcall(self.LoadTheme,self,by,true)if bz and bA then return end end if k.DefaultTheme~=nil then pcall(k.SetTheme,k,k.DefaultTheme,true)end end k.BackgroundPresets={['Deep Violet']='rbxassetid://136310484943077',['Blood Red']='rbxassetid://121343473918667',['Cyanic']='rbxassetid://95656189244173',['Amber Glow']='rbxassetid://107795771598485',['Bloomings']='rbxassetid://133541508207801',['Lavender Pink']='rbxassetid://126107479485287'}k.BackgroundPresetOrder={'Deep Violet','Blood Red','Cyanic','Amber Glow','Bloomings','Lavender Pink'}k._imageExtensions={png=true,jpg=true,jpeg=true,webp=true,gif=true,bmp=true}function a2:_backgroundFolder()return self.ConfigFolder..'/backgrounds'end function a2:_trimBackground(by)return(tostring(by or''):match('^%s*(.-)%s*$'))end function a2:_resolveBackground(by)by=self:_trimBackground(by)local bz=k.BackgroundPresets[by]if bz then return bz end if by:match('^%d+$')then return'rbxassetid://'..by end if by:match('^rbxassetid://%d+')or by:match('^rbxasset://')or by:match('^rbxthumb://')or by:match('^https?://www%.roblox%.com/asset')then return by end local bA=ba()and typeof(getcustomasset)=='function'if by:match('^https?://')then if not bA then return nil,'web images need writefile and getcustomasset'end local bB=by:match('^[^?#]+')or by local bC=(bB:match('%.(%w+)$')or'png'):lower()if not k._imageExtensions[bC]then bC='png'end local bD=(bB:gsub('^https?://',''):gsub('[^%w]','_')):sub(-60)local bE=self:_backgroundFolder()..'/cache'local bF=bE..'/'..bD..'_'..#by..'.'..bC if not isfile(bF)then local bG,bH=pcall(function()local bG=(syn and syn.request)or http_request or request if bG then local bH=bG({Url=by,Method='GET'})return bH and bH.Body end return game:HttpGet(by,true)end)if not bG or type(bH)~='string'or#bH<128 then return nil,'could not download the image'end local bI=bH:sub(1,64):lower()if bI:find('<!doctype')or bI:find('<html')then return nil,'that link is a web page, not an image'end bb(bE)if not pcall(writefile,bF,bH)then return nil,'could not save the image'end end local bG,bH=pcall(getcustomasset,bF)if bG and type(bH)=='string'and bH~=''then return bH end pcall(delfile,bF)return nil,'the downloaded file is not an image'end if bA then for bB,bC in ipairs({self:_backgroundFolder()..'/'..by,by})do if isfile(bC)then local bD,bE=pcall(getcustomasset,bC)if bD and type(bE)=='string'and bE~=''then return bE end return nil,'could not load '..by end end end return nil,'no image called '..by end function a2:SetBackground(by)self._backgroundGeneration+=1 local bz=self._backgroundGeneration local bA=self._backgroundImage by=by~=false and self:_trimBackground(by)or''if by==''or by=='None'then self.Background=nil ah(bA,{ImageTransparency=1},0.25)task.delay(0.25,function()if self._backgroundGeneration==bz then bA.Visible=false bA.Image=''end end)self:SetTransparent(self.Transparent)return true end local bB,bC=self:_resolveBackground(by)if self._backgroundGeneration~=bz or self._destroyed then return false,'replaced by a newer background'end if not bB then return false,bC end self.Background=by bA.Image=bB bA.Visible=true ah(bA,{ImageTransparency=self.BackgroundTransparency},0.3)self:SetTransparent(self.Transparent)return true end function a2:GetBackground()return self.Background end function a2:SetBackgroundTransparency(by)self.BackgroundTransparency=math.clamp(tonumber(by)or 0.35,0,1)if self.Background then ah(self._backgroundImage,{ImageTransparency=self.BackgroundTransparency},0.15)end end function a2:ListBackgrounds()local by=table.clone(k.BackgroundPresetOrder)local bz=self:_backgroundFolder()if type(listfiles)=='function'and type(isfolder)=='function'and isfolder(bz)then local bA={}for bB,bC in ipairs(listfiles(bz))do local bD=bC:match('([^/]+)$')local bE=bD and bD:match('%.(%w+)$')if bE and k._imageExtensions[bE:lower()]then table.insert(bA,bD)end end table.sort(bA)for bB,bC in ipairs(bA)do table.insert(by,bC)end end return by end local function by(bz,bA,bB)local bC=ai('Frame',{AnchorPoint=Vector2.new(0.5,0.5),Position=UDim2.new(0.5,0,0.5,-10),Size=UDim2.fromOffset(200,70),BackgroundTransparency=1,Parent=bz})local bD=ai('ImageLabel',{AnchorPoint=Vector2.new(0.5,0),Position=UDim2.new(0.5,0,0,0),Size=UDim2.fromOffset(26,26),BackgroundTransparency=1,ImageColor3=z.Muted,ImageTransparency=0.15,ScaleType=Enum.ScaleType.Fit,Parent=bC})aq(bD,bA)local bE=am({Position=UDim2.fromOffset(0,36),Size=UDim2.new(1,0,0,16),Text=bB,TextSize=13,FontFace=D.Regular,TextColor3=z.Muted,TextXAlignment=Enum.TextXAlignment.Center,Parent=bC})return bC,bE,bD end local function bz(bA,bB)bB=bB or 0 bA.GroupTransparency=1 bA.Position=UDim2.fromOffset(0,bB+14)bA.Visible=true ah(bA,{GroupTransparency=0,Position=UDim2.fromOffset(0,bB)},0.32,Enum.EasingStyle.Quint)end local function bA(bB)bB=math.max(math.floor(bB),0)local bC=math.floor(bB/86400)local bD=math.floor(bB/3600)%24 local bE=math.floor(bB/60)%60 if bC>0 then return string.format('%dd %dh',bC,bD)elseif bD>0 then return string.format('%dh %dm',bD,bE)elseif bE>0 then return string.format('%dm %ds',bE,bB%60)end return string.format('%ds',bB)end local function bB(bC)if type(bC)~='string'or bC==''then return'Studio'end if#bC>16 then return bC:sub(1,8)..'...'..bC:sub(-4)end return bC end local function bC(bD)local bE=setclipboard or toclipboard or(Clipboard and Clipboard.set)if type(bE)~='function'then return false end return(pcall(bE,tostring(bD)))end local function bD(bE)local bF=string.format([[https://games.roblox.com/v1/games/%d/servers/Public?sortOrder=%s&limit=100&excludeFullGames=true]],game.PlaceId,bE)local bG,bH=pcall(function()return game:HttpGet(bF)end)if not bG or type(bH)~='string'then return nil end local bI,bJ=pcall(function()return e:JSONDecode(bH)end)if not bI or type(bJ)~='table'or type(bJ.data)~='table'then return nil end return bJ.data end local function bE(bF,bG,bH,bI)local bJ=ai('TextButton',{Size=UDim2.fromOffset(30,16),BackgroundColor3=z.Surface3,BorderSizePixel=0,Text='',AutoButtonColor=false,LayoutOrder=bH,Parent=bF})aj(bJ,UDim.new(1,0))ak(bJ)local bK=ai('Frame',{AnchorPoint=Vector2.new(0,0.5),Position=UDim2.new(0,2,0.5,0),Size=UDim2.fromOffset(12,12),BackgroundColor3=z.Muted,BorderSizePixel=0,Parent=bJ})aj(bK,UDim.new(1,0))local bL=bG==true local function bM(bN)local bO=bN and 0.22 or 0 ah(bJ,{BackgroundColor3=bL and z.Accent or z.Surface3},bO)ah(bK,{Position=bL and UDim2.new(0,16,0.5,0)or UDim2.new(0,2,0.5,0),BackgroundColor3=bL and z.AccentDark or z.Muted},bO,Enum.EasingStyle.Back)end bJ.MouseButton1Click:Connect(function()bL=not bL bM(true)aJ(bI,bL)end)bM(false)return bJ end local function bF(bG,bH,bI,bJ)local bK=ai('TextButton',{BackgroundColor3=z.Surface3,BackgroundTransparency=0.45,BorderSizePixel=0,Text='',AutoButtonColor=false,ClipsDescendants=true,Parent=bG})for bL,bM in pairs(bI)do bK[bL]=bM end aj(bK,UDim.new(0,6))local bL=ak(bK)local bM=am({Size=UDim2.fromScale(1,1),Text=bH,TextSize=12,TextXAlignment=Enum.TextXAlignment.Center,Parent=bK})if bK.AutomaticSize==Enum.AutomaticSize.X then bM.Size=UDim2.new(0,0,1,0)bM.AutomaticSize=Enum.AutomaticSize.X bM.TextTruncate=Enum.TextTruncate.None al(bK,14,14)end bK.MouseEnter:Connect(function()ah(bK,{BackgroundTransparency=0.15},0.12)ah(bL,{Color=z.StrokeHover},0.12)end)bK.MouseLeave:Connect(function()ah(bK,{BackgroundTransparency=0.45},0.25)ah(bL,{Color=z.Stroke},0.25)end)bK.MouseButton1Click:Connect(function()aE(bK)aJ(bJ)end)return bK,bM end local function bG(bH,bI,bJ)local bK=ai('Frame',{Size=UDim2.new(1,0,0,bI),BackgroundColor3=z.Surface2,BorderSizePixel=0,LayoutOrder=bJ,Parent=bH})bK:SetAttribute('NoDrag',true)aj(bK,UDim.new(0,10))ak(bK)return bK end local bH={Players={'users','Players'},Friends={'user-check','Friends'},Execs={'zap','Execs'},Session={'timer','Session'},Uptime={'timer','Session'},FPS={'gauge','FPS'},Ping={'wifi','Ping'},Executor={'terminal','Executor'},Game={'gamepad-2','Game'},Region={'globe','Region'},Time={'clock','Time'},ServerAge={'server','Server age'},Memory={'cpu','Memory'}}function k._healthColor(bI,bJ,bK,bL)if type(bI)~='number'then return z.Text end if bL then return bI<=bJ and z.Success or bI<=bK and z.Warning or z.Error end return bI>=bJ and z.Success or bI>=bK and z.Warning or z.Error end local function bI(bJ)if not ba()then return nil end local bK=bJ..'/executions.txt'local bL=0 pcall(function()bb(bJ)if isfile(bK)then bL=tonumber(readfile(bK))or 0 end end)bL+=1 pcall(writefile,bK,tostring(bL))return bL end local function bJ(bK,bL,bM,bN,bO)local bP=ai('ScrollingFrame',{Position=UDim2.fromOffset(0,bM),Size=UDim2.new(1,0,1,-bM),BackgroundTransparency=1,BorderSizePixel=0,ScrollBarThickness=2,ScrollBarImageColor3=z.Accent,ScrollBarImageTransparency=0.5,ScrollingDirection=Enum.ScrollingDirection.Y,AutomaticCanvasSize=Enum.AutomaticSize.Y,CanvasSize=UDim2.new(),Parent=bL})k._space(al(bP,24,24,2,24),{24,24,2,24})k._space(ai('UIListLayout',{SortOrder=Enum.SortOrder.LayoutOrder,Padding=UDim.new(0,8),Parent=bP}),8)bK.List=bP bK._items={}bK._groupboxes={}bK._childCount=0 bK._emptyText=bO bK._empty,bK._emptyCaption=by(bL,bN,bO)bP.ChildAdded:Connect(function(bQ)if bQ:IsA('GuiObject')then bK._childCount+=1 bK:_refreshEmpty()end end)bP.ChildRemoved:Connect(function(bQ)if bQ:IsA('GuiObject')then bK._childCount=math.max(bK._childCount-1,0)bK:_refreshEmpty()end end)bK:_refreshEmpty()return bP end function aS:_refreshEmpty()local bK=self._empty if not bK then return end if self._subTabs then bK.Visible=false else bK.Visible=self._childCount==0 end end function aS:_columns()if self._columnSet then return self._columnSet end local bK=ai('Frame',{Name='Columns',Size=UDim2.new(1,0,0,0),AutomaticSize=Enum.AutomaticSize.Y,BackgroundTransparency=1,LayoutOrder=100000,Parent=self.List})local bL=k._space(ai('UIListLayout',{FillDirection=Enum.FillDirection.Horizontal,SortOrder=Enum.SortOrder.LayoutOrder,Padding=UDim.new(0,10),Parent=bK}),10)local function bM(bN)local bO=ai('Frame',{Size=UDim2.new(0.5,-5,0,0),AutomaticSize=Enum.AutomaticSize.Y,BackgroundTransparency=1,LayoutOrder=bN,Parent=bK})k._space(ai('UIListLayout',{SortOrder=Enum.SortOrder.LayoutOrder,Padding=UDim.new(0,10),Parent=bO}),10)return bO end local bN={Holder=bK,Left=bM(1),Right=bM(2),Counts={0,0},Stacked=false}local bO=self.Window local function bP()local bQ=bK.AbsoluteSize.X/bO.Scale.Scale if bQ<=0 then return end local bR=bQ<O local bS=bL.Padding.Offset if bR==bN.Stacked and bS==bN.Gap then return end bN.Stacked=bR bN.Gap=bS bL.FillDirection=bR and Enum.FillDirection.Vertical or Enum.FillDirection.Horizontal local bT=bR and UDim2.new(1,0,0,0)or UDim2.new(0.5,-bS/2,0,0)bN.Left.Size=bT bN.Right.Size=bT end bK:GetPropertyChangedSignal('AbsoluteSize'):Connect(bP)bL:GetPropertyChangedSignal('Padding'):Connect(bP)task.defer(bP)self._columnSet=bN return bN end function aS:Groupbox(bK,bL)if self._groupbox then return self.Parent:Groupbox(bK,bL)end bK=l(bK,{Title='Name'})if bL~=nil and bK.Icon==nil then bK.Icon=bL end local bM=self.Window local bN=self:_columns()local bO=bK.Side if bO=='Left'or bO==1 then bO=1 elseif bO=='Right'or bO==2 then bO=2 else bO=bN.Counts[1]<=bN.Counts[2]and 1 or 2 end bN.Counts[bO]+=1 local bP=ai('Frame',{Size=UDim2.new(1,0,0,0),AutomaticSize=Enum.AutomaticSize.Y,BackgroundColor3=z.Surface2,BorderSizePixel=0,LayoutOrder=bN.Counts[bO],Parent=bO==1 and bN.Left or bN.Right})bP:SetAttribute('NoDrag',true)aj(bP,UDim.new(0,10))ak(bP)ai('UIListLayout',{SortOrder=Enum.SortOrder.LayoutOrder,Parent=bP})local bQ=ai('TextButton',{Size=UDim2.new(1,0,0,40),BackgroundColor3=z.Surface3,BorderSizePixel=0,Text='',AutoButtonColor=false,LayoutOrder=1,Parent=bP})aj(bQ,UDim.new(0,10))local bR=ai('Frame',{AnchorPoint=Vector2.new(0,1),Position=UDim2.fromScale(0,1),Size=UDim2.new(1,0,0,10),BackgroundColor3=z.Surface3,BorderSizePixel=0,Parent=bQ})local bS=14 if bK.Icon then local bT=ai('ImageLabel',{AnchorPoint=Vector2.new(0,0.5),Position=UDim2.new(0,14,0.5,0),Size=UDim2.fromOffset(14,14),BackgroundTransparency=1,ImageColor3=z.Accent,ScaleType=Enum.ScaleType.Fit,ZIndex=2,Parent=bQ})aq(bT,bK.Icon)bS=37 end local bT=ai('ImageLabel',{AnchorPoint=Vector2.new(1,0.5),Position=UDim2.new(1,-14,0.5,0),Size=UDim2.fromOffset(14,14),BackgroundTransparency=1,ImageColor3=z.Muted,ScaleType=Enum.ScaleType.Fit,ZIndex=2,Parent=bQ})aq(bT,'chevron-down')local bU=bK.PopOut~=false local bV,bW if bU then bV=ai('TextButton',{AnchorPoint=Vector2.new(1,0.5),Position=UDim2.new(1,-34,0.5,0),Size=UDim2.fromOffset(24,24),BackgroundColor3=z.Surface2,BackgroundTransparency=1,BorderSizePixel=0,Text='',AutoButtonColor=false,ZIndex=3,Parent=bQ})aj(bV,UDim.new(0,6))bW=ai('ImageLabel',{AnchorPoint=Vector2.new(0.5,0.5),Position=UDim2.fromScale(0.5,0.5),Size=UDim2.fromOffset(13,13),BackgroundTransparency=1,ImageColor3=z.Muted,ImageTransparency=E and 0 or 0.45,ScaleType=Enum.ScaleType.Fit,ZIndex=3,Parent=bV})aq(bW,'picture-in-picture-2')end local bX=am({Position=UDim2.fromOffset(bS,0),Size=UDim2.new(1,-(bS+(bU and 66 or 40)),1,0),Text=bK.Name or'Groupbox',TextSize=13,FontFace=D.Bold,ZIndex=2,Parent=bQ})local bY=ai('Frame',{Size=UDim2.new(1,0,0,1),BackgroundColor3=z.Stroke,BorderSizePixel=0,LayoutOrder=2,Parent=bP})local bZ=ai('Frame',{Size=UDim2.new(1,0,0,0),AutomaticSize=Enum.AutomaticSize.Y,BackgroundTransparency=1,ClipsDescendants=true,LayoutOrder=3,Parent=bP})local b_=ai('Frame',{Size=UDim2.new(1,0,0,0),AutomaticSize=Enum.AutomaticSize.Y,BackgroundTransparency=1,Parent=bZ})k._space(al(b_,0,0,6,8),{0,0,6,8})k._space(ai('UIListLayout',{SortOrder=Enum.SortOrder.LayoutOrder,Padding=UDim.new(0,2),Parent=b_}),2)local b0=setmetatable({Name=bK.Name or'Groupbox',Window=bM,Parent=self,List=b_,Frame=bP,_frame=bP,_order=0,_groupbox=true,_metrics=P.Row,_items={}},aS)table.insert(self._groupboxes,b0)local b1=false local b2=0 local function b3(b4,b5)b4=b4==true if b4==b1 then return end b1=b4 b2+=1 local b6=b2 local b7=b5 and 0 or 0.32 if b4 then for b8,b9 in ipairs(b0._items)do if b9._onHide then b9._onHide()end if b9.Open and type(b9.SetOpen)=='function'then b9:SetOpen(false)end end end bM._controlsDirty=true local b8=bM.Scale.Scale if b4 then bZ.AutomaticSize=Enum.AutomaticSize.None bZ.Size=UDim2.new(1,0,0,bZ.AbsoluteSize.Y/b8)ah(bZ,{Size=UDim2.new(1,0,0,0)},b7,Enum.EasingStyle.Quint)else ah(bZ,{Size=UDim2.new(1,0,0,b_.AbsoluteSize.Y/b8)},b7,Enum.EasingStyle.Quint)local function b9()if b2==b6 and not b1 then bZ.AutomaticSize=Enum.AutomaticSize.Y bZ.Size=UDim2.new(1,0,0,0)end end if b7>0 then task.delay(b7,b9)else b9()end end local b9=b5 and 0 or 0.3 if b4 then local function ca()if b2==b6 and b1 then bY.Visible=false bR.Visible=false end end if b7>0 then task.delay(b7,ca)else ca()end else bY.Visible=true bR.Visible=true end ah(bT,{Rotation=b4 and-90 or 0},b9,Enum.EasingStyle.Quint)end local function b4(b5)local b6=b5 and 0.15 or 0.25 ah(bT,{ImageColor3=b5 and z.Text or z.Muted},b6)if bW and not E then ah(bW,{ImageTransparency=b5 and 0 or 0.45},b6)end end bQ.MouseEnter:Connect(function()b4(true)end)bQ.MouseLeave:Connect(function()b4(false)end)local b5=ay(bQ,function()return bP:FindFirstAncestorWhichIsA('ScrollingFrame')end)local b6,b7=false,0 local b8,b9,ca,cb,cc local cd,ce,cf,cg=nil,nil,false,false local ch=false local function ci()return math.max(bM.Scale.Scale,0.05)end local function cj(ck)return(ck-bM._popLayer.AbsolutePosition)/ci()end local function ck(cl,cm,cn)local co=bM._popLayer.AbsoluteSize/ci()local cp=8 local cq=math.clamp(cl.X,cm/2+cp,math.max(co.X-cm/2-cp,cm/2+cp))local cr=math.clamp(cl.Y,cp,math.max(co.Y-math.min(cn,120)-cp,cp))return Vector2.new(cq,cr)end local function cl()for cm,cn in ipairs(b0._items)do if cn._onHide then cn._onHide()end if cn.Open and type(cn.SetOpen)=='function'then cn:SetOpen(false)end end end local function cm(cn)if bW then aq(bW,cn and'minimize-2'or'picture-in-picture-2')end end local function cn()if b6 or not bU or not bP.Parent or b0._destroyed then return end if b0._settleDock then b0._settleDock()end local co=bM:_popoutLayer()b6=true b0._popped=true b7+=1 local cp=b7 cl()bM:_closePopups()local cq=ci()local cr=bP.Parent local cs=cj(bP.AbsolutePosition)local ct=bP.AbsoluteSize.X/cq local cu=bP.AbsoluteSize.Y/cq cb=ai('TextButton',{Size=UDim2.new(1,0,0,cu),BackgroundColor3=z.Surface2,BackgroundTransparency=0.6,BorderSizePixel=0,Text='',AutoButtonColor=false,ClipsDescendants=true,LayoutOrder=bP.LayoutOrder,Parent=cr})cb:SetAttribute('NoDrag',true)aj(cb,UDim.new(0,10))ak(cb,z.Stroke,1).Transparency=0.3 local cv=am({Size=UDim2.new(1,-24,0,40),Position=UDim2.fromOffset(12,0),Text=k._rich(b0.Name)..'<font transparency="0.4">  \u{b7}  popped out, click to dock</font>',TextSize=12,FontFace=D.Regular,TextColor3=z.Muted,TextXAlignment=Enum.TextXAlignment.Center,RichText=true,TextTransparency=1,Parent=cb})local cw=cb cb.MouseEnter:Connect(function()ah(cw,{BackgroundTransparency=0.35},0.15)end)cb.MouseLeave:Connect(function()ah(cw,{BackgroundTransparency=0.6},0.25)end)cb.MouseButton1Click:Connect(function()if cb==cw then b0:Dock()end end)ah(cb,{Size=UDim2.new(1,0,0,40)},0.42,Enum.EasingStyle.Quint)ah(cv,{TextTransparency=0},0.3)cb.Visible=bP.Visible b8=ai('Frame',{Name='PopOut',AnchorPoint=Vector2.new(0.5,0),Position=UDim2.fromOffset(cs.X+ct/2,cs.Y),Size=UDim2.fromOffset(ct,cu),BackgroundTransparency=1,Parent=co})b8:SetAttribute('NoDrag',true)b9=ai('UIScale',{Parent=b8})ca=ai('ImageLabel',{Position=UDim2.fromOffset(-24,-18),Size=UDim2.new(1,48,1,44),BackgroundTransparency=1,Image=A.Shadow,ImageColor3=Color3.new(0,0,0),ImageTransparency=1,ScaleType=Enum.ScaleType.Slice,SliceCenter=Rect.new(49,49,450,450),ZIndex=0,Parent=b8})table.insert(bM._popPanels,b8)bP.Parent=b8 bM._controlsDirty=true cm(true)local cx=ck(b0._popSpot or Vector2.new(cs.X+ct/2+22,cs.Y-14),ct,cu)ch=true b9.Scale=0.97 ah(b8,{Position=UDim2.fromOffset(cx.X,cx.Y)},0.5,Enum.EasingStyle.Quint)ah(b9,{Scale=1},0.55,Enum.EasingStyle.Back)ah(ca,{ImageTransparency=0.35},0.4)task.delay(0.5,function()if b7==cp then ch=false end end)local cy=b8 cc=bM:_listen('Render',function()if b8~=cy or not cy.Parent then return end local cz=bP.AbsoluteSize.Y/ci()if math.abs(cy.Size.Y.Offset-cz)>0.5 then cy.Size=UDim2.fromOffset(cy.Size.X.Offset,cz)end cy.Visible=bP.Visible if cb then cb.Visible=bP.Visible end if not ch and not cd then local cA=Vector2.new(cy.Position.X.Offset,cy.Position.Y.Offset)local cB=ck(cA,cy.Size.X.Offset,cz)if(cB-cA).Magnitude>0.5 then cy.Position=UDim2.fromOffset(cB.X,cB.Y)end end end)end local function co(cp)if not b6 then return end b6=false b0._popped=false b7+=1 cd,cf,cg=nil,false,false cl()bM:_closePopups()local cq,cr,cs,ct,cu=b8,cb,cc,b9,ca b8,cb,cc=nil,nil,nil cm(false)b0._popSpot=Vector2.new(cq.Position.X.Offset,cq.Position.Y.Offset)local cv=false local function cw()if cv then return end cv=true if b0._settleDock==cw then b0._settleDock=nil end if cs then cs()end local cx=table.find(bM._popPanels,cq)if cx then table.remove(bM._popPanels,cx)end if bP.Parent==cq then if cr and cr.Parent and not b0._destroyed then bP.Parent=cr.Parent bP.LayoutOrder=cr.LayoutOrder end end if cr then cr:Destroy()end if bP.Parent~=cq then cq:Destroy()end ch=false bM._controlsDirty=true end b0._settleDock=cw local cx=not cp and cr and cr.Parent and bM.Root.Visible and bP.Visible and cr.AbsoluteSize.X>0 and a3(cr,bM.Body,cr.AbsolutePosition+cr.AbsoluteSize/2)if not cx then cw()return end ch=true local cy=ci()local cz=bP.AbsoluteSize.Y/cy local cA=cr.AbsoluteSize.X/cy ah(cr,{Size=UDim2.new(1,0,0,cz)},0.36,Enum.EasingStyle.Quint)local cB=cr:FindFirstChildWhichIsA('TextLabel')if cB then ah(cB,{TextTransparency=1},0.12)end local cC=cj(cr.AbsolutePosition)ah(cq,{Position=UDim2.fromOffset(cC.X+cA/2,cC.Y),Size=UDim2.fromOffset(cA,cz)},0.36,Enum.EasingStyle.Quint)ah(ct,{Scale=1},0.2)ah(cu,{ImageTransparency=1},0.3)task.delay(0.37,cw)end bQ.InputBegan:Connect(function(cp)if not b6 or not aw(cp)or not b8 then return end cd=Vector2.new(cp.Position.X,cp.Position.Y)ce=Vector2.new(b8.Position.X.Offset,b8.Position.Y.Offset)cf=false cg=false end)bM:_listen('Changed',function(cp)if not cd or not b8 or not aA(cp)then return end local cq=Vector2.new(cp.Position.X,cp.Position.Y)-cd if not cf then if cq.Magnitude<(E and 8 or 5)then return end cf,cg=true,true ch=false cl()bM:_closePopups()ah(b9,{Scale=1.025},0.18,Enum.EasingStyle.Quint)ah(ca,{ImageTransparency=0.15},0.18)end local cr=ck(ce+cq/ci(),b8.Size.X.Offset,b8.Size.Y.Offset)b8.Position=UDim2.fromOffset(cr.X,cr.Y)end,b0)bM:_listen('Ended',function(cp)if not cd or not aw(cp)then return end cd=nil if cf and b8 then cf=false ah(b9,{Scale=1},0.4,Enum.EasingStyle.Back)ah(ca,{ImageTransparency=0.35},0.3)b0._popSpot=Vector2.new(b8.Position.X.Offset,b8.Position.Y.Offset)end end,b0)if bV then bV.MouseEnter:Connect(function()ah(bV,{BackgroundTransparency=0},0.15)ah(bW,{ImageColor3=z.Text},0.15)end)bV.MouseLeave:Connect(function()ah(bV,{BackgroundTransparency=1},0.25)ah(bW,{ImageColor3=z.Muted},0.25)end)bV.MouseButton1Click:Connect(function()if b6 then co()else cn()end end)end bQ.MouseButton1Click:Connect(function()if cg then cg=false return end if b5()then b3(not b1)end end)function b0:PopOut()cn()end function b0:Dock()co()end function b0:IsPoppedOut()return b6 end function b0:SetCollapsed(cp)b3(cp)end function b0:Collapse()b3(true)end function b0:Expand()b3(false)end function b0:IsCollapsed()return b1 end function b0:SetTitle(cp)b0.Name=tostring(cp)bX.Text=b0.Name end b0._userVisible=bK.Visible~=false function b0:IsVisible()return b0._userVisible end function b0:SetVisible(cp)cp=cp and true or false if cp==b0._userVisible then return end b0._userVisible=cp if not cp then for cq,cr in ipairs(b0._items)do if cr._onHide then cr._onHide()end if cr.Open and type(cr.SetOpen)=='function'then cr:SetOpen(false)end end end bP.Visible=cp bM._controlsDirty=true end if not b0._userVisible then bP.Visible=false end function b0:Destroy()for cp=#b0._items,1,-1 do local cq=b0._items[cp]if type(cq.Destroy)=='function'then cq:Destroy()end end local cp=b0.Parent local cq=table.find(cp._groupboxes,b0)if cq then table.remove(cp._groupboxes,cq)end bN.Counts[bO]=math.max(bN.Counts[bO]-1,0)co(true)b0._destroyed=true bM._controlsDirty=true bP:Destroy()end if bK.Collapsed then b3(true,true)end if bK.PoppedOut then task.defer(cn)end return b0 end local function bK(bL)return function(bM,bN,bO)bN=l(bN,{Title='Name'})bN.Side=bL return bM:Groupbox(bN,bO)end end aS.CreateGroupbox=aS.Groupbox aS.AddGroupbox=aS.Groupbox aS.AddLeftGroupbox=bK('Left')aS.AddRightGroupbox=bK('Right') aS.CreateToggle=aS.Toggle aS.AddToggle=aS.Toggle aS.CreateSlider=aS.Slider aS.AddSlider=aS.Slider aS.CreateDropdown=aS.Dropdown aS.AddDropdown=aS.Dropdown aS.CreateInput=aS.Input aS.AddInput=aS.Input aS.CreateButton=aS.Button aS.AddButton=aS.Button aS.CreateLabel=aS.Label aS.AddLabel=aS.Label aS.CreateDivider=aS.Divider aS.AddDivider=aS.Divider aS.CreateKeybind=aS.Keybind aS.AddKeybind=aS.Keybind aS.CreateStatus=aS.Status aS.AddStatus=aS.Status aS.CreateParagraph=aS.Paragraph aS.AddParagraph=aS.Paragraph aS.CreateColorPicker=aS.ColorPicker aS.AddColorPicker=aS.ColorPicker aS.CreateSubTab=aS.SubTab aS.AddSubTab=aS.SubTab aS.CreateLeftGroupbox=bK('Left') aS.CreateRightGroupbox=bK('Right') a2.CreateTab=a2.Tab a2.AddTab=a2.Tab function aS:ButtonRow(bL)local bM=type(bL)=='table'and(bL.Buttons or bL)or{}local bN=aM(self).Compact local bO=E and 34 or 30 local bP=aO(self,'Frame',bO+(bN and 4 or 14),{})local bQ=bN and 14 or 7 local bR=ai('Frame',{Position=UDim2.fromOffset(bQ,bN and 2 or 7),Size=UDim2.new(1,-bQ*2,0,bO),BackgroundTransparency=1,Parent=bP})local bS=math.max(#bM,1)local bT={Buttons={}}local bU={}for bV,bW in ipairs(bM)do if type(bW)=='string'then bW={Name=bW}end local bX=bW.Name or bW.Title or'Button'table.insert(bU,bX)local bY,bZ=bF(bR,bX,{Position=UDim2.new((bV-1)/bS,(bV-1)*6/bS,0,0),Size=UDim2.new(1/bS,-6*(bS-1)/bS,1,0)},function()aJ(bW.Callback)end)bZ.TextSize=13 if bW.Style=='Primary'then ah(bY,{BackgroundColor3=z.Accent,BackgroundTransparency=0.12},0)ah(bZ,{TextColor3=z.AccentDark},0)elseif bW.Style=='Danger'then ah(bZ,{TextColor3=z.Error},0)end bT.Buttons[bV]={Button=bY,Label=bZ}end function bT:SetText(bV,bW)local bX=bT.Buttons[bV]if bX then bX.Label.Text=tostring(bW)end end return m(self,{Name=table.concat(bU,' '),Visible=not(type(bL)=='table'and bL.Visible==false)},bT,bP,'ButtonRow')end local function bL(bM,bN,bO,bP)local bQ=E and 34 or 30 local bR=aO(bM,'Frame',bQ+4,{})local bS=aM(bM).Compact and 14 or 7 local bT local bU=bO and bF(bR,bO,{AnchorPoint=Vector2.new(1,0),Position=UDim2.new(1,-bS,0,2),Size=UDim2.fromOffset(0,bQ),AutomaticSize=Enum.AutomaticSize.X},function()aJ(bP,bT.Text)end)local bV=ai('Frame',{Position=UDim2.fromOffset(bS,2),Size=UDim2.new(1,-(bS*2+(bU and 70 or 0)),0,bQ),BackgroundColor3=z.Surface,BorderSizePixel=0,Parent=bR})aj(bV,UDim.new(0,6))local bW=ak(bV)bT=ai('TextBox',{Position=UDim2.fromOffset(8,0),Size=UDim2.new(1,-16,1,0),BackgroundTransparency=1,Text='',PlaceholderText=bN,PlaceholderColor3=z.Muted,TextColor3=z.Text,TextSize=13,FontFace=D.Regular,TextXAlignment=Enum.TextXAlignment.Center,TextTruncate=Enum.TextTruncate.AtEnd,ClearTextOnFocus=false,Parent=bV})bT.Focused:Connect(function()ah(bW,{Color=z.StrokeHover},0.15)end)bT.FocusLost:Connect(function(bX)ah(bW,{Color=z.Stroke},0.2)if bX and bT.Text~=''then aJ(bP,bT.Text)end end)if bU then local function bX()local bY=bU.AbsoluteSize.X/bM.Window.Scale.Scale bV.Size=UDim2.new(1,-(bS*2+bY+6),0,bQ)end bU:GetPropertyChangedSignal('AbsoluteSize'):Connect(bX)task.defer(bX)end return m(bM,{Name=bN},{Get=function()return bT.Text end,Set=function(bX,bY)bT.Text=tostring(bY or'')end},bR,'ActionInput')end local function bM(bN)return(tostring(bN or''):match('^%s*(.-)%s*$'))end local function bN(bO,bP,bQ,bR)if bO._groupbox then return bO end local bS=bO:Groupbox({Name=bP.Name or bQ,Icon=bP.Icon or bR,Side=bP.Side})bS._manager=true return bS end function aS:ConfigManager(bO)bO=l(bO,{Title='Name'})local bP=bN(self,bO,'Configs','folder')local bQ=self.Window local bR={}local bS,bT,bU local function bV(bW,bX,bY)bQ:Notify({Title=bX,Content=bY,Type=bW and'Success'or'Error',Duration=3})end local function bW()bT:Set(('loaded: %s   |   autoload: %s'):format(bQ.LoadedConfig or'none',bQ:GetAutoload()or'none'))end local function bX()local bY=bS:Get()if not bY then bV(false,'No config selected','Pick one from the list first')end return bY end local bY=bL(bP,bO.Placeholder or'config name',nil,function(bY)bR:Create(bY)end)local bZ=bQ:ListConfigs()local b_=bQ.LoadedConfig or bQ:GetAutoload()bS=bP:Dropdown({Stacked=true,Options=bZ,Default=table.find(bZ,b_)and b_ or nil,EmptyText='--',NoneText='--'})bP:ButtonRow({{Name='Create',Callback=function()bR:Create(bY:Get())end},{Name='Save',Callback=function()bR:Save()end}})bP:ButtonRow({{Name='Load',Callback=function()bR:Load()end},{Name='Delete',Style='Danger',Callback=function()bR:Delete()end}})bP:ButtonRow({{Name='Set autoload',Callback=function()bR:SetAutoload()end},{Name='Clear autoload',Callback=function()bR:ClearAutoload()end}})bP:ButtonRow({{Name='Rename',Callback=function()bR:Rename(nil,bY:Get())end},{Name='Reset',Style='Danger',Callback=function()bR:Reset()end}})bT=bP:Label('loaded: none   |   autoload: none')bU=bP:Dropdown({Name='Autoload mode',Stacked=true,Options={'All accounts','This account'},Default=bQ:GetAutoloadMode()=='Account'and'This account'or'All accounts',AllowNone=false,Callback=function(b0)bR:SetAutoloadMode(b0=='This account'and'Account'or'Global')end})bP:Button({Name='Refresh list',Callback=function()bR:Refresh()end})bP:Divider({Text='share'})bP:Button({Name='Copy code',Callback=function()bR:Export()end})local b0=bL(bP,'paste a config code...',nil,function(b0)bR:Import(b0)end)bP:Button({Name='Import code',Callback=function()bR:Import(b0:Get())end})function bR:Refresh()local b1=bQ:ListConfigs()local b2=bS:Get()bS:Refresh(b1,true)if b2 and not table.find(b1,b2)then bS:Set(bQ.LoadedConfig and table.find(b1,bQ.LoadedConfig)and bQ.LoadedConfig or nil,true)end bW()end local function b1(b2)bR:Refresh()bS:Set(b2,true)end function bR:Create(b2)b2=bM(b2)if b2==''then bV(false,'Name the config','Type a name before creating it')return end if not bi(b2)then bV(false,'Invalid name','Names cannot contain \\ / : * ? " < > |')return end local b3,b4=bQ:SaveConfig(b2)if b3 then bQ.LoadedConfig=b2 bY:Set('')b1(b2)end bV(b3,b3 and'Config created'or'Create failed',b3 and b2 or tostring(b4))end function bR:Save(b2)b2=b2 or bS:Get()if not b2 then local b3=bM(bY:Get())if b3==''then bV(false,'No config selected','Pick one from the list or type a name')return end return bR:Create(b3)end local b3,b4=bQ:SaveConfig(b2)if b3 then bQ.LoadedConfig=b2 bW()end bV(b3,b3 and'Config saved'or'Save failed',b3 and b2 or tostring(b4))end function bR:Load(b2)b2=b2 or bX()if not b2 then return end local b3,b4=bQ:LoadConfig(b2)bV(b3,b3 and'Config loaded'or'Load failed',b3 and b2 or tostring(b4))end function bR:Delete(b2)b2=b2 or bX()if not b2 then return end bQ:Confirm({Title='Delete config',Content='Remove '..b2..'? This cannot be undone.',Icon='trash-2',ConfirmText='Delete',Callback=function()local b3,b4=bQ:DeleteConfig(b2)if b3 then if bQ:GetAutoload('Account')==b2 then bQ:SetAutoload(nil,'Account')end if bQ:GetAutoload('Global')==b2 then bQ:SetAutoload(nil,'Global')end bS:Set(nil,true)end bR:Refresh()bV(b3,b3 and'Config deleted'or'Delete failed',b3 and b2 or tostring(b4))end})end function bR:Rename(b2,b3)b2=b2 or bX()if not b2 then return end b3=bM(b3)if b3==''then bV(false,'Name the config','Type the new name in the name box')return end if not bi(b3)then bV(false,'Invalid name','Names cannot contain \\ / : * ? " < > |')return end local b4,b5=bQ:RenameConfig(b2,b3)if b4 then bY:Set('')b1(b3)end bV(b4,b4 and'Config renamed'or'Rename failed',b4 and(b2..' -> '..b3)or tostring(b5))end function bR:Reset()bQ:Confirm({Title='Reset settings',Content=[[Put every setting back to its default and delete this script's folder? Saved configs, themes and autoload are removed for good.]],Icon='rotate-ccw',ConfirmText='Reset',Callback=function()bQ:ResetConfig()local b2=bQ:ClearWorkspace()bQ:_applyDefaultTheme()bS:Set(nil,true)bR:Refresh()bU:Set('All accounts',true)bV(b2,b2 and'Settings reset'or'Reset incomplete',b2 and'Everything is back to its default'or'Some files in '..bQ.ConfigFolder..' could not be deleted')end})end function bR:SetAutoload(b2)b2=b2 or bX()if not b2 then return end local b3,b4=bQ:SetAutoload(b2)bV(b3,b3 and'Autoload set'or'Autoload failed',b3 and b2 or tostring(b4))end function bR:ClearAutoload()local b2=bQ:GetAutoload()if not b2 then bV(false,'No autoload','Nothing is set to autoload')return end local b3,b4=bQ:SetAutoload(nil)bV(b3,b3 and'Autoload cleared'or'Clear failed',b3 and b2 or tostring(b4))end function bR:ToggleAutoload(b2)b2=b2 or bX()if not b2 then return end if bQ:GetAutoload()==b2 then bR:ClearAutoload()else bR:SetAutoload(b2)end end function bR:SetAutoloadMode(b2)local b3,b4=bQ:SetAutoloadMode(b2)local b5=b2=='Account'and'This account'or'All accounts'if bU:Get()~=b5 then bU:Set(b5,true)end bV(b3~=false,b3~=false and'Autoload mode'or'Mode change failed',b3~=false and b5 or tostring(b4))end function bR:Export(b2)local b3,b4=bQ:ExportConfig(b2)if not b3 then bV(false,'Export failed',tostring(b4))return nil end bQ:CopyToClipboard(b3,'Config code')return b3 end function bR:Import(b2)b2=bM(b2)if b2==''then bV(false,'Nothing to import','Paste a config code first')return end local b3,b4=bQ:DecodeConfig(b2)if not b3 then bV(false,'Import failed','Invalid config code')return end local b5=bM(bY:Get())if b5==''then b5=nil if bi(b4.Name)then b5=b4.Name local b6=2 while bQ:ConfigExists(b5)do b5=('%s (%d)'):format(b4.Name,b6)b6+=1 end end elseif not bi(b5)then bV(false,'Invalid name','Names cannot contain \\ / : * ? " < > |')return end local function b6()local b7,b8=bQ:ImportConfig(b2,b5,true)if b7 then b0:Set('')if b5 then bY:Set('')b1(b5)end end bV(b7,b7 and'Config imported'or'Import failed',b7 and(b5 or'Applied to current settings')or tostring(b8))end if b4.Folder and b4.Folder~=bQ.ConfigFolder then bQ:Confirm({Title='Different script',Content=([[This config was made for %s. Import it anyway? Only matching settings are applied.]]):format(b4.Folder),Icon='triangle-alert',ConfirmText='Import',Callback=b6})return end b6()end local b2=bQ:OnConfigChanged(function()bR:Refresh()if bQ.LoadedConfig and bS:Get()==nil then bS:Set(bQ.LoadedConfig,true)end end)bT._listeners=bT._listeners or{}table.insert(bT._listeners,b2)bW()return bR end local bO={'Spectre','Frost','Ocean','Abyss','Midnight','Mono','Nebula','Synthwave','Sakura','Velvet','Rose','Crimson','Sunset','Amber','Gold','Cyber','Toxic','Matcha','Emerald','Aurora','Ocean','Frost','Abyss','Mono','Halloween','Haunted','Christmas','Valentine','Lunar','Tropical','Dracula','Coffee'}local function bP()local bQ,bR={},{}for bS,bT in ipairs(bO)do if k.ThemePresets[bT]then table.insert(bQ,bT)bR[bT]=true end end local bS={}for bT in pairs(k.ThemePresets)do if not bR[bT]then table.insert(bS,bT)end end table.sort(bS)for bT,bU in ipairs(bS)do table.insert(bQ,bU)end return bQ end function aS:ThemeManager(bQ)bQ=l(bQ,{Title='Name'})local bR=bN(self,bQ,'Themes','palette')local bS=self.Window local bT={}local bU,bV,bW,bX local bY,bZ,b_,b0,b1,b2 local b3,b4,b5,b6 local b7,b8,b9,ca local function cb(cc,cd,ce)bS:Notify({Title=cd,Content=ce,Type=cc and'Success'or'Error',Duration=3})end local function cc()local cd=bS:GetDefaultTheme()bV:Set('Default theme: '..(cd or'none'))local ce=bU:Get()or bX:Get()bW:SetText(2,(ce and ce==cd)and'Clear Default'or'Set Default')end local function cd()local ce=bU:Get()if not ce then cb(false,'No theme selected','Pick one from the list first')end return ce end bX=bR:Dropdown({Name='Preset',Options=bP(),Default=k.ThemePresets[k.ThemeName or'']and k.ThemeName or nil,NoneText='custom',AllowNone=false,Callback=function(ce)if ce then k:SetTheme(ce)bU:Set(nil,true)cc()end end})local ce={None='None',Snow='Snow',Rain='Rain',Ember='Hell Fire',Sakura='Sakura',Fireflies='Fireflies',Matrix='Matrix'}if bS._backdrop and bQ.Weather~=false then bY=bR:Dropdown({Name='Weather',Options={'Snow','Rain','Hell Fire','Sakura','Fireflies','Matrix','None'},Default=ce[bS.Weather]or'None',AllowNone=false,Callback=function(cf)if cf then bS:SetWeather(cf)end end})end if bS._backdrop and bQ.Weather~=false then bZ=bR:Dropdown({Name='Weather Mode',Options={'Screen','UI'},Default=bS.WeatherMode,AllowNone=false,Callback=function(cf)if cf then bS:SetWeatherMode(cf)end end})end if bS._backdrop and bQ.Dim~=false then b_=bR:Toggle({Name='Dim',Default=bS._backdropDim,Callback=function(cf)bS:SetDim(cf)end})end if bQ.Transparent~=false then b0=bR:Toggle({Name='Transparent',Default=bS.Transparent==true,Callback=function(cf)bS:SetTransparent(cf)end})end if bQ.DragSkeleton~=false and bQ.DragStyle~=false then b1=bR:Dropdown({Name='Drag Style',Options=k.DragStyles,Default=bS.DragStyle,AllowNone=false,Callback=function(cf)if cf then bS:SetDragStyle(cf)end end})end if bQ.IslandStyle~=false then b2=bR:Dropdown({Name='Dynamic Island',Options=k.IslandStyles,Default=bS.IslandStyle,AllowNone=false,Callback=function(cf)if cf then bS:SetIslandStyle(cf)end end})end if bQ.AdaptiveSize~=false then b9=bR:Toggle({Name='Adaptive Size',Default=bS:GetAdaptiveSize(),Callback=function(cf)bS:SetAdaptiveSize(cf)end})end if bQ.Scale~=false then b7=bR:Slider({Name='UI Scale',Min=60,Max=150,Increment=5,Default=math.floor(bS:GetUIScale()*100+0.5),Suffix='%',Callback=function(cf)if not(b7 and b7.Dragging)then bS:SetUIScale(cf/100)end end,OnRelease=function(cf)bS:SetUIScale(cf/100)end})end if bQ.Density~=false then b8=bR:Dropdown({Name='Density',Options={'Compact','Default','Comfortable'},Default=k.Density,AllowNone=false,Callback=function(cf)if cf then k:SetDensity(cf)end end})end if bQ.CornerRadius~=false then ca=bR:Slider({Name='Corner Radius',Min=0,Max=20,Increment=1,Default=k:GetCornerRadius(),Suffix='px',Callback=function(cf)k:SetCornerRadius(cf)end})end if bQ.Background~=false then b6=function(cf)if cf==nil or cf==''then return'None'end return table.find(bS:ListBackgrounds(),cf)and cf or nil end local function cf(cg,ch)task.spawn(function()local ci,cj=bS:SetBackground(cg)if ci and not ch then b3:Set(b6(bS.Background),true)elseif not ci and cj~='replaced by a newer background'then cb(false,'Background failed',tostring(cj))end end)end local cg=bS:ListBackgrounds()table.insert(cg,1,'None')b3=bR:Dropdown({Name='Background',Options=cg,Default=b6(bS.Background),NoneText='custom',AllowNone=false,Callback=function(ch)if ch then cf(ch,true)end end})b4=bL(bR,'image id or url','Set',function(ch)ch=bM(ch)if ch==''then cb(false,'No image','Paste an image id or link first')return end cf(ch)end)b5=bR:Slider({Name='Background Opacity',Min=0,Max=100,Default=math.floor((1-bS.BackgroundTransparency)*100+0.5),Suffix='%',Callback=function(ch)bS:SetBackgroundTransparency(1-ch/100)end})end local cf=bL(bR,bQ.Placeholder or'theme name','Create',function(cf)bT:Create(cf)end)bU=bR:Dropdown({Name='Theme',Options=bS:ListThemes(),Default=(function()local cg=bS:GetDefaultTheme()return cg and not k.ThemePresets[cg]and cg or nil end)(),EmptyText='no themes',NoneText='select',Callback=function()cc()end})bR:ButtonRow({{Name='Save',Callback=function()bT:Save()end},{Name='Load',Callback=function()bT:Load()end}})bW=bR:ButtonRow({{Name='Delete',Callback=function()bT:Delete()end},{Name='Set Default',Callback=function()bT:ToggleDefault()end}})bV=bR:Label('Default theme: none')function bT:Refresh()bU:Refresh(bS:ListThemes(),true)if b3 then local cg=bS:ListBackgrounds()table.insert(cg,1,'None')b3:Refresh(cg,true,true)end cc()end function bT:Create(cg)cg=bM(cg)if cg==''then cb(false,'Name the theme','Type a name before creating it')return end if k.ThemePresets[cg]then cb(false,'Name taken',cg..' is a built-in preset')return end local ch,ci=bS:SaveTheme(cg)bT:Refresh()if ch then bU:Set(cg,true)cf:Set('')cc()end cb(ch,ch and'Theme created'or'Create failed',ch and cg or tostring(ci))end function bT:Save(cg)cg=cg or cd()if not cg then return end local ch,ci=bS:SaveTheme(cg)cb(ch,ch and'Theme saved'or'Save failed',ch and cg or tostring(ci))end function bT:Load(cg)cg=cg or cd()if not cg then return end local ch,ci=bS:LoadTheme(cg)if ch then bX:Set(nil,true)end cb(ch~=false,ch and'Theme loaded'or'Load failed',ch and cg or tostring(ci))end function bT:Delete(cg)cg=cg or cd()if not cg then return end bS:Confirm({Title='Delete theme',Content='Remove '..cg..'? This cannot be undone.',Icon='trash-2',ConfirmText='Delete',Callback=function()local ch,ci=bS:DeleteTheme(cg)bT:Refresh()cb(ch,ch and'Theme deleted'or'Delete failed',ch and cg or tostring(ci))end})end function bT:ToggleDefault(cg)cg=cg or bU:Get()or bX:Get()if not cg then cb(false,'Nothing selected','Pick a theme or a preset first')return end local ch=bS:GetDefaultTheme()==cg local ci,cj=bS:SetDefaultTheme(not ch and cg or nil)cc()cb(ci~=false,ch and'Default cleared'or'Default theme set',ci~=false and cg or tostring(cj))end if bQ.Customize~=false then bR:Divider()local cg=bQ.Colors or{{'Accent','Accent'},{'Background','Background'},{'Surface2','Surface'},{'Text','Text'},{'Muted','Muted text'}}for ch,ci in ipairs(cg)do local cj,ck=ci[1],ci[2]or ci[1]local cl,cm=nil,false local cn cn=bR:ColorPicker({Name=ck,Default=z[cj],Callback=function(co)cl=co if cm then return end cm=true task.delay(0.08,function()cm=false k:SetTheme({[cj]=cl},true)bX:Set(nil,true)end)end})table.insert(k._themeListeners,function()if cn.Value~=z[cj]then cn:Set(z[cj],true)end end)end end if bQ.Flag~=false then local cg=type(bQ.Flag)=='string'and bQ.Flag or'__Theme'local ch={_type='Theme',_searchName='Theme',_searchKey='theme',_listeners={}}function ch:Get()local ci={}for cj,ck in ipairs(n)do ci[ck]=bc(z[ck])end return{Name=bX:Get()or bU:Get(),Colors=ci,Weather=bY and bS.Weather or nil,WeatherMode=bZ and bS.WeatherMode or nil,Dim=if b_ then bS._backdropDim==true else nil,Transparent=if b0 then bS.Transparent==true else nil,DragStyle=b1 and bS.DragStyle or nil,IslandStyle=b2 and bS.IslandStyle or nil,CornerRadius=ca and k:GetCornerRadius()or nil,UIScale=b7 and bS:GetUIScale()or nil,AdaptiveSize=if b9 then bS:GetAdaptiveSize()else nil,Density=b8 and k.Density or nil,Background=b3 and(bS.Background or'')or nil,BackgroundTransparency=b3 and bS.BackgroundTransparency or nil}end function ch:Set(ci)if type(ci)~='table'then return end if type(ci.Colors)=='table'then k:SetTheme(ci.Colors)end local cj=type(ci.Name)=='string'and ci.Name or nil if cj and k.ThemePresets[cj]then k.ThemeName=cj bX:Set(cj,true)bU:Set(nil,true)else if cj then k.ThemeName=cj end bX:Set(nil,true)bU:Set(cj and table.find(bS:ListThemes(),cj)and cj or nil,true)end if bY and type(ci.Weather)=='string'then bS:SetWeather(ci.Weather)bY:Set(ce[bS.Weather]or'None',true)end if bZ and type(ci.WeatherMode)=='string'then bS:SetWeatherMode(ci.WeatherMode)bZ:Set(bS.WeatherMode,true)end if b_ and type(ci.Dim)=='boolean'then bS:SetDim(ci.Dim)b_:Set(ci.Dim,true)end if b0 and type(ci.Transparent)=='boolean'then bS:SetTransparent(ci.Transparent)b0:Set(ci.Transparent,true)end if b1 and type(ci.DragStyle)=='string'then b1:Set(bS:SetDragStyle(ci.DragStyle),true)elseif b1 and type(ci.DragSkeleton)=='boolean'then bS:SetDragSkeleton(ci.DragSkeleton)b1:Set(bS.DragStyle,true)end if b2 and type(ci.IslandStyle)=='string'then b2:Set(bS:SetIslandStyle(ci.IslandStyle),true)end if ca and tonumber(ci.CornerRadius)then ca:Set(k:SetCornerRadius(ci.CornerRadius),true)end if b9 and type(ci.AdaptiveSize)=='boolean'then bS:SetAdaptiveSize(ci.AdaptiveSize)b9:Set(ci.AdaptiveSize,true)end if b7 and tonumber(ci.UIScale)then bS:SetUIScale(tonumber(ci.UIScale))b7:Set(math.floor(bS:GetUIScale()*100+0.5),true)end if b8 and type(ci.Density)=='string'then b8:Set(k:SetDensity(ci.Density),true)end if b3 and tonumber(ci.BackgroundTransparency)then bS:SetBackgroundTransparency(tonumber(ci.BackgroundTransparency))b5:Set(math.floor((1-bS.BackgroundTransparency)*100+0.5),true)end if b3 and type(ci.Background)=='string'and ci.Background~=(bS.Background or'')then local ck=ci.Background b3:Set(b6(ck),true)task.spawn(bS.SetBackground,bS,ck)end cc()end k.Flags[cg]=ch bS:_flagCreated(cg,ch)end bS._workspaceListeners=bS._workspaceListeners or{}table.insert(bS._workspaceListeners,function()bU:Set(nil,true)bT:Refresh()end)cc()return bT end aS.CreateButtonRow=aS.ButtonRow aS.CreateConfigManager=aS.ConfigManager aS.CreateThemeManager=aS.ThemeManager local bQ={Plain=22,Row=24,Badge=28,Dot=24,Bar=38,Stat=46}local function bR(bS)return k._color(bS)or z.Accent end local function bS(bT)if bT==math.floor(bT)then return tostring(math.floor(bT))end return string.format('%.1f',bT)end local function bT(bU,bV)if type(bU)=='number'and type(bV)=='number'then return bU,bV end if type(bU)=='string'then local bW=(bU:gsub(',',''))local bX,bY=bW:match('^%s*(%-?[%d%.]+)%s*/%s*(%-?[%d%.]+)')if bX then return tonumber(bX),tonumber(bY)end end return nil,nil end function aS:Status(bU)bU=l(bU,{Title='Name',Text='Value',Content='Value',CurrentValue='Value',Default='Value'})local bV=bQ[bU.Style]and bU.Style or'Plain'local bW=aM(self).Compact local bX=self.Window local bY=bQ[bV]local bZ=bW and 0 or 8 local b_=aO(self,'Frame',bY+bZ*2,bU)local b0=ai('Frame',{Position=UDim2.fromOffset(14,bZ),Size=UDim2.new(1,-28,0,bY),BackgroundTransparency=1,Parent=b_})local b1={Value=bU.Value,Max=bU.Max,Tone=bU.Tone or'Accent',Name=bU.Name or'',Color=bU.Color or bU.ValueColor}local b2,b3,b4,b5,b6,b7,b8 local b9=false local function ca()return bV=='Plain'and(b1.Name..':')or b1.Name end if bV=='Plain'then ai('UIListLayout',{FillDirection=Enum.FillDirection.Horizontal,VerticalAlignment=Enum.VerticalAlignment.Center,SortOrder=Enum.SortOrder.LayoutOrder,Padding=UDim.new(0,5),Parent=b0})b2=am({Size=UDim2.new(0,0,1,0),AutomaticSize=Enum.AutomaticSize.X,TextSize=12,FontFace=D.Regular,TextColor3=z.Muted,TextTruncate=Enum.TextTruncate.None,LayoutOrder=1,Parent=b0})b3=am({Size=UDim2.new(0,0,1,0),AutomaticSize=Enum.AutomaticSize.X,TextSize=12,TextColor3=z.Text,TextTruncate=Enum.TextTruncate.None,LayoutOrder=2,Parent=b0})elseif bV=='Stat'then b2=am({Position=UDim2.fromOffset(0,3),Size=UDim2.new(1,0,0,14),TextSize=11,TextColor3=z.Muted,Parent=b0})b3=am({Position=UDim2.fromOffset(0,18),Size=UDim2.new(1,0,0,24),TextSize=20,FontFace=D.Bold,TextColor3=z.Text,Parent=b0})else local cb=0 if bV=='Dot'then cb=18 b7=ai('Frame',{AnchorPoint=Vector2.new(0.5,0.5),Position=UDim2.new(0,5,0.5,0),Size=UDim2.fromOffset(8,8),BackgroundColor3=bR(b1.Tone),BackgroundTransparency=0.4,BorderSizePixel=0,Parent=b0})aj(b7,UDim.new(1,0))b6=ai('Frame',{AnchorPoint=Vector2.new(0.5,0.5),Position=UDim2.new(0,5,0.5,0),Size=UDim2.fromOffset(8,8),BackgroundColor3=bR(b1.Tone),BorderSizePixel=0,Parent=b0})aj(b6,UDim.new(1,0))if bU.Pulse~=false then a:Create(b7,TweenInfo.new(1.4,Enum.EasingStyle.Quad,Enum.EasingDirection.Out,-1),{Size=UDim2.fromOffset(20,20),BackgroundTransparency=1}):Play()else b7.Visible=false end end local cc=bV=='Bar'and 18 or bY b2=am({Position=UDim2.fromOffset(cb,0),Size=UDim2.new(0.55,-cb,0,cc),TextSize=12,FontFace=D.Regular,TextColor3=z.Muted,Parent=b0})if bV=='Badge'then b9=true b4=ai('Frame',{AnchorPoint=Vector2.new(1,0.5),Position=UDim2.new(1,0,0.5,0),Size=UDim2.fromOffset(0,22),AutomaticSize=Enum.AutomaticSize.X,BackgroundColor3=bR(b1.Tone),BackgroundTransparency=0.86,BorderSizePixel=0,Parent=b0})aj(b4,UDim.new(1,0))b5=ak(b4,bR(b1.Tone),0.6)al(b4,10,10)b3=am({Size=UDim2.new(0,0,1,0),AutomaticSize=Enum.AutomaticSize.X,TextSize=12,TextColor3=bR(b1.Tone),TextTruncate=Enum.TextTruncate.None,Parent=b4})else b3=am({AnchorPoint=Vector2.new(1,0),Position=UDim2.new(1,0,0,0),Size=UDim2.new(0.45,0,0,cc),TextSize=12,TextColor3=z.Text,TextXAlignment=Enum.TextXAlignment.Right,Parent=b0})end if bV=='Bar'then local cd=ai('Frame',{Position=UDim2.fromOffset(0,25),Size=UDim2.new(1,0,0,5),BackgroundColor3=z.Surface3,BorderSizePixel=0,ClipsDescendants=true,Parent=b0})aj(cd,UDim.new(1,0))b8=ai('Frame',{Size=UDim2.new(0,0,1,0),BackgroundColor3=bR(b1.Tone),BorderSizePixel=0,Parent=cd})aj(b8,UDim.new(1,0))end end local cb=nil local function cc(cd)b2.Text=k._rich(ca())local ce=b1.Value local cf=ce==nil and(bU.Placeholder or'-')or tostring(ce)if bV=='Bar'then local cg,ch=bT(ce,b1.Max)if cg and ch then b1.Max=ch cf=bS(cg)..' / '..bS(ch)local ci=ch>0 and math.clamp(cg/ch,0,1)or 0 ah(b8,{Size=UDim2.new(ci,0,1,0)},cd and 0.4 or 0,Enum.EasingStyle.Quint)elseif type(ce)=='number'and ce<=1 then cf=string.format('%d%%',math.floor(ce*100+0.5))ah(b8,{Size=UDim2.new(math.clamp(ce,0,1),0,1,0)},cd and 0.4 or 0,Enum.EasingStyle.Quint)end end cf=k._rich((bU.Prefix or'')..cf..(bU.Suffix or''))local cg=cb~=nil and cf~=cb cb=cf b3.Text=cf local ch=bR(b1.Tone)local ci=cd and 0.25 or 0 local cj=not b9 and k._color(b1.Color)or z.Text if not b9 and not(cg and cd and bU.Flash~=false)then ah(b3,{TextColor3=cj},ci)end if b4 then ah(b4,{BackgroundColor3=ch},ci)ah(b5,{Color=ch},ci)ah(b3,{TextColor3=ch},ci)end if b6 then ah(b6,{BackgroundColor3=ch},ci)ah(b7,{BackgroundColor3=ch},0)end if b8 then ah(b8,{BackgroundColor3=ch},ci)end if cg and cd and not b9 and bU.Flash~=false then ah(b3,{TextColor3=z.Accent},0.08)task.delay(0.1,function()if b3.Parent then ah(b3,{TextColor3=k._color(b1.Color)or z.Text},0.45)end end)end end b2.RichText=true b3.RichText=true ag(b0,function()if cb~=nil then cc(false)end end)function b1:Set(cd,ce)b1.Value=cd if ce~=nil then b1.Max=ce end cc(true)end function b1:Get()return b1.Value end function b1:SetTone(cd)b1.Tone=cd cc(true)end function b1:SetColor(cd)b1.Color=cd cc(true)end function b1:SetName(cd)b1.Name=tostring(cd)cc(false)end function b1:Text()return b3.Text end function b1._shownColor()if b1.Color~=nil then return k._color(b1.Color)or z.Text end if bV=='Badge'or bV=='Dot'or bV=='Bar'then return bR(b1.Tone)end return z.Text end b1._listeners={}if type(bU.Update)=='function'then local cd=math.max(tonumber(bU.UpdateRate)or 1,0.05)local ce=true table.insert(b1._listeners,function()ce=false end)task.spawn(function()while ce and b_.Parent do local cf,cg,ch=aK(bU.Update)if cf then if cg~=nil then b1.Value=cg end if type(ch)=='number'then b1.Max=ch elseif type(ch)=='string'or typeof(ch)=='Color3'then b1.Tone=ch end cc(true)else warn('[AirFlow] status update error: '..tostring(cg))end task.wait(cd)end end)function b1:SetUpdateRate(cf)cd=math.max(tonumber(cf)or cd,0.05)end end if bU.Pin then table.insert(bX._pinned,b1)table.insert(b1._listeners,function()local cd=table.find(bX._pinned,b1)if cd then table.remove(bX._pinned,cd)end end)end cc(false)return m(self,bU,b1,b_,'Status')end function aS:Statuses(bU,bV)local bW={}for bX,bY in ipairs(bU or{})do local bZ=type(bY)=='table'and table.clone(bY)or{Name=tostring(bY)}for b_,b0 in pairs(bV or{})do if bZ[b_]==nil then bZ[b_]=b0 end end local b_=self:Status(bZ)bW[bZ.Name or bZ.Title or bX]=b_ end return bW end function aS:StatusList(bU)bU=l(bU,{Title='Name'})local bV=aM(self).Compact local bW=self.Window local bX=math.max(math.floor(tonumber(bU.MaxRows)or 5),1)local bY=aO(self,'Frame',0,bU)bY.AutomaticSize=Enum.AutomaticSize.Y if bV then al(bY,14,14,6,8)else al(bY,14,14,11,12)end ai('UIListLayout',{SortOrder=Enum.SortOrder.LayoutOrder,Padding=UDim.new(0,4),Parent=bY})local bZ=am({Size=UDim2.new(1,0,0,16),Text=string.upper(tostring(bU.Name or'')),TextSize=11,TextColor3=z.Muted,Visible=tostring(bU.Name or'')~='',LayoutOrder=1,Parent=bY})local b_=ai('ScrollingFrame',{Size=UDim2.new(1,0,0,0),BackgroundTransparency=1,BorderSizePixel=0,ScrollBarThickness=2,ScrollBarImageColor3=z.Accent,ScrollBarImageTransparency=0.4,ScrollingDirection=Enum.ScrollingDirection.Y,AutomaticCanvasSize=Enum.AutomaticSize.Y,CanvasSize=UDim2.new(),ScrollingEnabled=false,LayoutOrder=2,Parent=bY})b_:SetAttribute('NoDrag',true)local b0=ai('Frame',{Size=UDim2.new(1,0,0,0),AutomaticSize=Enum.AutomaticSize.Y,BackgroundTransparency=1,Parent=b_})local b1=al(b0,0,0,0,0)ai('UIListLayout',{SortOrder=Enum.SortOrder.LayoutOrder,Padding=UDim.new(0,2),Parent=b0})local b2=am({Size=UDim2.new(1,0,0,24),AutomaticSize=Enum.AutomaticSize.Y,Text=tostring(bU.EmptyText or'Nothing yet'),TextSize=13,LineHeight=1.1,FontFace=D.Regular,TextColor3=z.Muted,TextWrapped=true,TextTruncate=Enum.TextTruncate.None,LayoutOrder=0,Parent=b0})local b3,b4,b5,b6={},{},nil,{}local b7={_listeners={}}local function b8()if b7._destroyed then return end local b9=bW.Scale.Scale local ca=#b4 local cb=0 if ca==0 then cb=b2.AbsoluteSize.Y/b9 else local cc=math.min(ca,bX)for cd=1,cc do cb+=b3[cd].Frame.AbsoluteSize.Y/b9 end cb+=(cc-1)*2 end cb=math.ceil(cb)local cc=ca>bX b_.ScrollingEnabled=cc b1.PaddingRight=UDim.new(0,cc and 8 or 0)if b_.Size.Y.Offset~=cb then b_.Size=UDim2.new(1,0,0,cb)end local cd=math.max(b_.AbsoluteCanvasSize.Y-b_.AbsoluteWindowSize.Y,0)/b9 if b_.CanvasPosition.Y>cd then b_.CanvasPosition=Vector2.new(0,cd)end end local function b9(ca)if ca.Value.Visible then ca.Text.Size=UDim2.new(1,-(math.ceil(ca.Value.AbsoluteSize.X/bW.Scale.Scale)+12),0,24)else ca.Text.Size=UDim2.new(1,0,0,24)end end local function ca(cb)local cc=ai('Frame',{Size=UDim2.new(1,0,0,0),AutomaticSize=Enum.AutomaticSize.Y,BackgroundTransparency=1,LayoutOrder=cb,Parent=b0})local cd={Frame=cc,Text=am({Size=UDim2.new(1,0,0,24),AutomaticSize=Enum.AutomaticSize.Y,Text='',TextSize=13,LineHeight=1.1,FontFace=D.Regular,TextColor3=z.Muted,TextWrapped=true,TextTruncate=Enum.TextTruncate.None,RichText=true,Parent=cc}),Value=am({AnchorPoint=Vector2.new(1,0),Position=UDim2.new(1,0,0,0),Size=UDim2.new(0,0,0,24),AutomaticSize=Enum.AutomaticSize.X,Text='',TextSize=12,FontFace=D.Medium,TextColor3=z.Text,RichText=true,TextXAlignment=Enum.TextXAlignment.Right,TextTruncate=Enum.TextTruncate.None,Visible=false,Parent=cc})}cd.Connections={cc:GetPropertyChangedSignal('AbsoluteSize'):Connect(b8),cd.Value:GetPropertyChangedSignal('AbsoluteSize'):Connect(function()b9(cd)end)}return cd end local function cb(cc)if type(cc)=='table'then local cd=cc.Text or cc.Name or cc[1]local ce=cc.Tone or cc.Color return{Text=tostring(cd==nil and''or cd),Value=cc.Value~=nil and tostring(cc.Value)or nil,Tone=(type(ce)=='string'or typeof(ce)=='Color3')and ce or nil}end return{Text=tostring(cc)}end local function cc(cd)return cd.Text..'\0'..(cd.Value or'\1')..'\0'..tostring(cd.Tone or'')end local function cd(ce,cf)local cg=cc(cf)if ce.Key==cg then return end ce.Key=cg ce.Text.Text=k._rich(cf.Text)local ch=cf.Tone and k._color(cf.Tone)or nil if cf.Value then ce.Value.Text=k._rich(cf.Value)ce.Value.Visible=true ah(ce.Value,{TextColor3=ch or z.Text},0)ah(ce.Text,{TextColor3=z.Muted},0)else ce.Value.Visible=false ah(ce.Text,{TextColor3=ch or z.Muted},0)end b9(ce)end local function ce(cf)for cg,ch in ipairs(cf.Connections)do ch:Disconnect()end cf.Frame:Destroy()end function b7:Set(cf)if type(cf)~='table'or b7._destroyed then return end local cg,ch={},{}b6={}for ci,cj in ipairs(cf)do b6[ci]=type(cj)=='table'and table.clone(cj)or cj local ck=cb(cj)cg[ci]=ck ch[ci]=cc(ck)end local ci=table.concat(ch,'\2')..'#'..#cg if ci==b5 then return end b5=ci b4=cg for cj,ck in ipairs(b4)do local cl=b3[cj]if not cl then cl=ca(cj)b3[cj]=cl end cd(cl,ck)end for cj=#b3,#b4+1,-1 do ce(b3[cj])b3[cj]=nil end b2.Visible=#b4==0 b8()end function b7:Get()local cf={}for cg,ch in ipairs(b6)do cf[cg]=type(ch)=='table'and table.clone(ch)or ch end return cf end function b7:Clear()b7:Set({})end function b7:SetName(cf)cf=tostring(cf or'')bZ.Text=string.upper(cf)bZ.Visible=cf~=''b7._searchName=cf b7._searchKey=string.lower(cf)end local cf=math.max(tonumber(bU.UpdateRate)or 1,0.05)function b7:SetUpdateRate(cg)cf=math.max(tonumber(cg)or cf,0.05)end ag(b0,function()for cg,ch in ipairs(b3)do if b4[cg]then ch.Key=nil cd(ch,b4[cg])end end end)local cg=b2:GetPropertyChangedSignal('AbsoluteSize'):Connect(b8)table.insert(b7._listeners,function()b7._destroyed=true cg:Disconnect()for ch,ci in ipairs(b3)do for cj,ck in ipairs(ci.Connections)do ck:Disconnect()end end end)local function ch()if bW._destroyed or not bW.Open or bW.Minimized or not b7._userVisible then return false end local ci=self if ci._groupbox then if ci._userVisible==false then return false end ci=ci.Parent end if ci._isSubTab then if ci.Parent.CurrentSubTab~=ci then return false end ci=ci.Parent end return bW.CurrentTab==ci end if type(bU.Update)=='function'then local ci=true table.insert(b7._listeners,function()ci=false end)task.defer(function()local cj=true while ci and bY.Parent do if cj or ch()then cj=false local ck,cl=aK(bU.Update)if ck then if cl~=nil then b7:Set(cl)end else warn('[AirFlow] status list update error: '..tostring(cl))end end task.wait(cf)end end)end b7:Set(bU.Rows or{})return m(self,bU,b7,bY,'StatusList')end aS.CreateStatus=aS.Status aS.AddStatus=aS.Status aS.CreateStatuses=aS.Statuses aS.CreateStatusList=aS.StatusList aS.AddStatusList=aS.StatusList function aS:_mediaCard(bU,bV)bU=l(bU,{Title='Name',Description='Desc'})local bW=aM(self)local bX=bW.Compact local bY=math.clamp(tonumber(bU.Height)or bV,40,600)local bZ=bX and 14 or 8 local b_=type(bU.Name)=='string'and bU.Name~=''local b0=bX and 4 or 10 local b1=b_ and(b0+(bU.Desc and 38 or 22))or(bX and 4 or bZ)local b2=b1+bY+(bX and 6 or bZ)local b3,b4=aO(self,'Frame',b2,bU)aG(b3,b4)local b5,b6 if b_ then b5=am({Position=UDim2.fromOffset(14,b0),Size=UDim2.new(1,-28,0,bW.TitleHeight),Text=bU.Name,TextSize=bW.TextSize,Parent=b3})if bU.Desc then b6=am({Position=UDim2.fromOffset(14,b0+bW.TitleHeight+1),Size=UDim2.new(1,-28,0,bW.DescLine),Text=bU.Desc,TextSize=bW.DescSize,FontFace=D.Regular,TextColor3=z.Muted,Parent=b3})end end local b7=ai('Frame',{Position=UDim2.fromOffset(bZ,b1),Size=UDim2.new(1,-bZ*2,0,bY),BackgroundColor3=z.Surface3,BackgroundTransparency=0.5,BorderSizePixel=0,ClipsDescendants=true,Parent=b3})aj(b7,UDim.new(0,6))ak(b7,z.Stroke)local b8=ai('ImageLabel',{AnchorPoint=Vector2.new(0.5,0.5),Position=UDim2.fromScale(0.5,0.5),Size=UDim2.fromOffset(22,22),BackgroundTransparency=1,ImageColor3=z.Muted,ImageTransparency=0.3,ScaleType=Enum.ScaleType.Fit,Parent=b7})local b9=ai('Frame',{AnchorPoint=Vector2.new(0,1),Position=UDim2.fromScale(0,1),Size=UDim2.new(1,0,0,30),BackgroundColor3=Color3.new(0,0,0),BackgroundTransparency=0.35,BorderSizePixel=0,Visible=false,ZIndex=3,Parent=b7})ai('UIGradient',{Rotation=90,Transparency=NumberSequence.new(1,0),Parent=b9})local ca=am({Position=UDim2.fromOffset(10,8),Size=UDim2.new(1,-20,1,-10),TextSize=12,TextColor3=Color3.new(1,1,1),ZIndex=4,Parent=b9})local function cb(cc)cc=cc~=nil and tostring(cc)or''ca.Text=cc b9.Visible=cc~=''end cb(bU.Caption)return bU,{Frame=b3,Stroke=b4,Media=b7,Placeholder=b8,Title=b5,Desc=b6,SetCaption=cb}end function aS:Image(bU)local bV bU,bV=self:_mediaCard(bU,160)local bW=self.Window local bX=bV.Media aq(bV.Placeholder,'image')local function bY(bZ,b_)local b0,b1=pcall(function()return Enum.ScaleType[tostring(bZ)]end)return b0 and b1 or b_ end local bZ=ai('ImageLabel',{Size=UDim2.fromScale(1,1),BackgroundTransparency=1,ImageTransparency=1,ScaleType=bY(bU.ScaleType or'Crop',Enum.ScaleType.Crop),ZIndex=2,Parent=bX})aj(bZ,UDim.new(0,6))if bU.Color then bZ.ImageColor3=bU.Color end local b_={Value=nil}local b0=0 function b_:SetImage(b1)b0+=1 local b2=b0 b_.Value=b1 if b1==nil or b1==''or b1=='None'then ah(bZ,{ImageTransparency=1},0.2)ah(bV.Placeholder,{ImageTransparency=0.3},0.2)return true end local b3,b4 if type(b1)=='number'then b3='rbxassetid://'..math.floor(b1)elseif type(b1)=='string'and({avatar=true,headshot=true})[b1:lower()]then b3='rbxthumb://type=AvatarHeadShot&id='..j.UserId..'&w=420&h=420'else local b5,b6,b7=pcall(bW._resolveBackground,bW,tostring(b1))if b5 then b3,b4=b6,b7 else b4=tostring(b6)end end if b0~=b2 then return false,'replaced by a newer image'end if not b3 then warn('[AirFlow] image: '..tostring(b4))return false,b4 end bZ.ImageTransparency=1 bZ.Image=b3 task.spawn(function()local b5=0 while not bZ.IsLoaded and b5<4 and b0==b2 and bZ.Parent do b5+=task.wait(0.05)end if b0==b2 and bZ.Parent then ah(bZ,{ImageTransparency=0},0.35)ah(bV.Placeholder,{ImageTransparency=1},0.2)end end)return true end b_.Set=b_.SetImage function b_:Get()return b_.Value end function b_:SetCaption(b1)bV.SetCaption(b1)end function b_:SetScaleType(b1)bZ.ScaleType=bY(b1,bZ.ScaleType)end function b_:SetColor(b1)bZ.ImageColor3=typeof(b1)=='Color3'and b1 or Color3.new(1,1,1)end function b_:SetTitle(b1)if bV.Title then bV.Title.Text=tostring(b1)end end if bU.Image~=nil then task.spawn(b_.SetImage,b_,bU.Image)end return m(self,bU,b_,bV.Frame,'Image')end function aS:Viewport(bU)local bV bU,bV=self:_mediaCard(bU,180)local bW=self.Window local bX=bV.Media aq(bV.Placeholder,'box')local bY=ai('ViewportFrame',{Size=UDim2.fromScale(1,1),BackgroundTransparency=1,ImageTransparency=1,Ambient=bU.Ambient or Color3.fromRGB(165,160,175),LightColor=bU.LightColor or Color3.fromRGB(255,250,245),LightDirection=Vector3.new(-0.6,-1,-0.8),ZIndex=2,Parent=bX})local bZ=Instance.new('Camera')bZ.FieldOfView=math.clamp(tonumber(bU.FieldOfView)or 35,10,90)bZ.Parent=bY bY.CurrentCamera=bZ local b_=Instance.new('WorldModel')b_.Parent=bY local b0={Model=nil,Spin=bU.Spin~=false,SpinSpeed=tonumber(bU.SpinSpeed)or 25}local b1=math.rad(tonumber(bU.Angle)or 0)local b2=math.rad(tonumber(bU.Pitch)or 10)local b3=tonumber(bU.Distance)or 1 local b4,b5,b6=nil,10,CFrame.new()local b7=nil local b8=0 local b9,ca,cb=false,0,0 local function cc()if not b4 then return end local cd=b6:VectorToWorldSpace(Vector3.new(math.sin(b1)*math.cos(b2),math.sin(b2),-math.cos(b1)*math.cos(b2)))bZ.CFrame=CFrame.lookAt(b4+cd*b5,b4)end local function cd(ce)local cf,cg if ce:IsA('Model')then cf,cg=ce:GetBoundingBox()b6=ce:GetPivot().Rotation elseif ce:IsA('BasePart')then cf,cg=ce.CFrame,ce.Size b6=ce.CFrame.Rotation else return false end b4=cf.Position local ch=math.max(cg.Magnitude/2,0.5)b5=ch/math.tan(math.rad(bZ.FieldOfView/2))*b3 cc()return true end local function ce(cf)local cg=cf if bU.Clone~=false then local ch=cf.Archivable pcall(function()cf.Archivable=true end)local ci,cj=pcall(cf.Clone,cf)pcall(function()cf.Archivable=ch end)cg=ci and cj or nil end if not cg then return nil end local function ch(ci)if ci:IsA('LuaSourceContainer')or ci:IsA('Sound')or ci:IsA('ForceField')then ci:Destroy()elseif ci:IsA('BasePart')then ci.Anchored=true ci.CanCollide=false end end for ci,cj in ipairs(cg:GetDescendants())do pcall(ch,cj)end if cg:IsA('BasePart')then cg.Anchored=true end local ci=cg:FindFirstChildOfClass('Humanoid')if ci then ci.DisplayDistanceType=Enum.HumanoidDisplayDistanceType.None end return cg end local function cf(cg)if type(cg)=='function'then local ch,ci=pcall(cg)cg=ch and ci or nil end if type(cg)=='string'and({avatar=true,player=true,character=true})[cg:lower()]then cg=j end if typeof(cg)=='Instance'and cg:IsA('Player')then local ch=cg.Character if not ch then ch=cg.CharacterAdded:Wait()task.wait(0.5)end cg=ch end return typeof(cg)=='Instance'and cg or nil end function b0:SetModel(cg)b8+=1 local ch=b8 b7=cg if b0.Model then b0.Model:Destroy()b0.Model=nil end b4=nil if cg==nil then ah(bY,{ImageTransparency=1},0.2)ah(bV.Placeholder,{ImageTransparency=0.3},0.2)return true end local ci=cf(cg)if b8~=ch then return false,'replaced by a newer model'end if not ci then return false,'no model to show'end local cj=ce(ci)if not cj then return false,'could not copy the model'end cj.Parent=b_ b0.Model=cj if not cd(cj)then cj:Destroy()b0.Model=nil return false,'not a Model or a part'end bY.ImageTransparency=1 ah(bY,{ImageTransparency=0},0.35)ah(bV.Placeholder,{ImageTransparency=1},0.2)return true end b0.Set=b0.SetModel function b0:Get()return b0.Model end function b0:Refresh()return b0:SetModel(b7)end function b0:SetSpin(cg)b0.Spin=cg~=false end function b0:SetSpinSpeed(cg)b0.SpinSpeed=tonumber(cg)or b0.SpinSpeed end function b0:SetAngle(cg)b1=math.rad(tonumber(cg)or 0)cc()end function b0:SetCaption(cg)bV.SetCaption(cg)end function b0:SetTitle(cg)if bV.Title then bV.Title.Text=tostring(cg)end end bX.InputBegan:Connect(function(cg)if aw(cg)and b0.Model then b9=true ca=av().X end end)bW:_listen('Changed',function(cg)if b9 and aA(cg)then local ch=av().X b1-=(ch-ca)*0.012 ca=ch cc()end end,b0)bW:_listen('Ended',function(cg)if b9 and aw(cg)then b9=false cb=os.clock()+1.5 end end,b0)bW:_listen('Render',function(cg)if b0.Spin and b4 and not b9 and os.clock()>=cb and bW.Open and not bW.Minimized and bV.Frame.Visible then b1+=math.rad(b0.SpinSpeed)*cg cc()end end,b0)if bU.Model~=nil then task.spawn(b0.SetModel,b0,bU.Model)end return m(self,bU,b0,bV.Frame,'Viewport')end function aS:Table(bU)bU=l(bU,{Title='Name',Description='Desc',Data='Rows',OnRowClick='Callback'})local bV=self.Window local bW=aM(self)local bX=bW.Compact local bY=tonumber(bU.RowHeight)or(E and 32 or 26)local bZ=math.max(math.floor(tonumber(bU.MaxRows)or 8),1)local b_=E and 28 or 24 local b0=bX and 12 or 13 local b1=bX and 14 or 8 local b2=type(bU.Name)=='string'and bU.Name~=''local b3=bX and 4 or 10 local b4=bU.Search~=false local b5=E and 30 or 26 local b6=b2 and(b3+(bU.Desc and 38 or 22))or(bX and 4 or b1)local b7=b6+(b4 and b5+6 or 0)local b8=bX and 6 or b1 local b9,ca=aO(self,'Frame',b7+b_+bY+b8,bU)aG(b9,ca)local cb if b2 then cb=am({Position=UDim2.fromOffset(14,b3),Size=UDim2.new(1,-28,0,bW.TitleHeight),Text=bU.Name,TextSize=bW.TextSize,Parent=b9})if bU.Desc then am({Position=UDim2.fromOffset(14,b3+bW.TitleHeight+1),Size=UDim2.new(1,-28,0,bW.DescLine),Text=bU.Desc,TextSize=bW.DescSize,FontFace=D.Regular,TextColor3=z.Muted,Parent=b9})end end local cc=''local cd,ce if b4 then local cf=ai('Frame',{Position=UDim2.fromOffset(b1,b6),Size=UDim2.new(1,-b1*2,0,b5),BackgroundColor3=z.Surface,BorderSizePixel=0,Parent=b9})cf:SetAttribute('NoDrag',true)aj(cf,UDim.new(0,6))local cg=ak(cf)local ch,ci=aB(cf,'search',z.Muted,UDim2.new(0,9,0.5,0))ch.Size=UDim2.fromOffset(13,13)ce=am({AnchorPoint=Vector2.new(1,0),Position=UDim2.new(1,-9,0,0),Size=UDim2.new(0,0,1,0),AutomaticSize=Enum.AutomaticSize.X,Text='',TextSize=11,FontFace=D.Regular,TextColor3=z.Muted,TextTruncate=Enum.TextTruncate.None,Visible=false,Parent=cf})cd=ai('TextBox',{Position=UDim2.fromOffset(29,0),Size=UDim2.new(1,-90,1,0),BackgroundTransparency=1,Text='',PlaceholderText=bU.SearchPlaceholder or'Search',PlaceholderColor3=z.Muted,TextColor3=z.Text,TextSize=12,FontFace=D.Regular,TextXAlignment=Enum.TextXAlignment.Left,TextTruncate=Enum.TextTruncate.AtEnd,ClearTextOnFocus=false,Parent=cf})cd.Focused:Connect(function()ah(cg,{Color=z.StrokeHover},0.15)ah(ci,{ImageColor3=z.Accent},0.15)end)cd.FocusLost:Connect(function()ah(cg,{Color=z.Stroke},0.2)ah(ci,{ImageColor3=z.Muted},0.2)end)end local cf=ai('Frame',{Position=UDim2.fromOffset(b1,b7),Size=UDim2.new(1,-b1*2,0,b_+bY),BackgroundColor3=z.Surface,BackgroundTransparency=0.2,BorderSizePixel=0,ClipsDescendants=true,Parent=b9})aj(cf,UDim.new(0,6))ak(cf,z.Stroke)local cg=ai('Frame',{Size=UDim2.new(1,0,0,b_),BackgroundColor3=z.Surface3,BackgroundTransparency=0.45,BorderSizePixel=0,Parent=cf})ai('Frame',{AnchorPoint=Vector2.new(0,1),Position=UDim2.fromScale(0,1),Size=UDim2.new(1,0,0,1),BackgroundColor3=z.Stroke,BorderSizePixel=0,Parent=cg})local ch=ai('ScrollingFrame',{Position=UDim2.fromOffset(0,b_),Size=UDim2.new(1,0,1,-b_),BackgroundTransparency=1,BorderSizePixel=0,ScrollBarThickness=2,ScrollBarImageColor3=z.Accent,ScrollBarImageTransparency=0.4,ScrollingDirection=Enum.ScrollingDirection.Y,AutomaticCanvasSize=Enum.AutomaticSize.Y,CanvasSize=UDim2.new(),Parent=cf})ai('UIListLayout',{SortOrder=Enum.SortOrder.LayoutOrder,Parent=ch})local ci=am({Position=UDim2.fromOffset(0,b_),Size=UDim2.new(1,0,0,bY),Text=bU.EmptyText or'Nothing here yet',TextSize=12,FontFace=D.Regular,TextColor3=z.Muted,TextXAlignment=Enum.TextXAlignment.Center,Parent=cf})local cj={Rows={}}local ck=nil local cl,cm={},{}local cn={}local co,cp=nil,false local cq=nil local cr={Color3.fromRGB(245,200,90),Color3.fromRGB(200,206,218),Color3.fromRGB(214,146,96)}local function cs(ct)local cu=type(ct.Align)=='string'and ct.Align:lower()or nil if cu=='right'then return Enum.TextXAlignment.Right elseif cu=='center'or cu=='centre'then return Enum.TextXAlignment.Center end return Enum.TextXAlignment.Left end local function ct()local cu,cv,cw=0,0,0 for cx,cy in ipairs(cl)do local cz=tonumber(cy.Width)if cz and cz>1 then cu+=cz elseif cz and cz>0 then cv+=cz else cw+=1 end end local cx=math.max(1-cv,0)for cy,cz in ipairs(cl)do local cA=tonumber(cz.Width)local cB if cA and cA>1 then cz.UDim=UDim.new(0,cA)else cB=(cA and cA>0)and cA or(cw>0 and cx/cw or 0)cz.UDim=UDim.new(cB,-cu*cB)end end end local function cu(cv,cw)if cw.Rank then return nil end if cv[1]~=nil or cw.Key==nil then return cv[cw.Index]end return cv[cw.Key]end local function cv(cw,cx,cy)if type(cx.Format)=='function'then local cz,cA=pcall(cx.Format,cw,cy)if cz and cA~=nil then return tostring(cA)end end if type(cw)=='number'then local cz=cw==math.floor(cw)local cA=cz and string.format('%d',cw)or string.format('%.2f',cw)local cB,cC,cD=cA:match('^(%-?)(%d+)(.*)$')if cC then cC=cC:reverse():gsub('(%d%d%d)','%1,'):reverse():gsub('^,','')return cB..cC..cD end return cA end if cw==nil then return''end return tostring(cw)end local function cw()for cx,cy in ipairs(cm)do local cz=cy.Column local cA=co~=nil and co==cz ah(cy.Label,{TextColor3=cA and z.Text or z.Muted},0.15)cy.Arrow.Visible=cA if cA then ah(cy.Arrow,{Rotation=cp and 0 or 180},0.2,Enum.EasingStyle.Quint)end end end local function cx()local cy={}for cz,cA in ipairs(cj.Rows)do cy[cz]={Row=cA,Index=cz}end if co then local cz=co table.sort(cy,function(cA,cB)local cC,cD=cu(cA.Row,cz),cu(cB.Row,cz)local cE,cF=tonumber(cC),tonumber(cD)if cE and cF then if cE~=cF then if cp then return cE>cF end return cE<cF end elseif cC~=nil and cD~=nil then local cG,cH=string.lower(tostring(cC)),string.lower(tostring(cD))if cG~=cH then if cp then return cG>cH end return cG<cH end elseif cC~=cD then return cC~=nil end return cA.Index<cB.Index end)end for cz,cA in ipairs(cy)do cA.Rank=cz end if cc==''then return cy end local cz={}for cA,cB in ipairs(cy)do for cC,cD in ipairs(cl)do if not cD.Rank then local cE=cv(cu(cB.Row,cD),cD,cB.Row)cE=string.lower((string.gsub(cE,'<[^>]->','')))if string.find(cE,cc,1,true)then table.insert(cz,cB)break end end end end return cz end local function cy()local cz=ai('TextButton',{Size=UDim2.new(1,0,0,bY),BackgroundColor3=z.Surface3,BackgroundTransparency=1,BorderSizePixel=0,AutoButtonColor=false,Text='',Parent=ch})local cA=ai('Frame',{Position=UDim2.new(0,3,0.5,0),AnchorPoint=Vector2.new(0,0.5),Size=UDim2.new(0,2,1,-10),BackgroundColor3=z.Accent,BackgroundTransparency=1,BorderSizePixel=0,Parent=cz})aj(cA,UDim.new(1,0))local cB=ai('Frame',{Size=UDim2.fromScale(1,1),BackgroundTransparency=1,Parent=cz})al(cB,10,10)ai('UIListLayout',{FillDirection=Enum.FillDirection.Horizontal,VerticalAlignment=Enum.VerticalAlignment.Center,SortOrder=Enum.SortOrder.LayoutOrder,Parent=cB})local cC={Frame=cz,Marker=cA,Cells={},Hover=false}for cD,cE in ipairs(cl)do local cF=ai('Frame',{Size=UDim2.new(cE.UDim.Scale,cE.UDim.Offset,1,0),BackgroundTransparency=1,LayoutOrder=cD,Parent=cB})local cG=am({Size=UDim2.new(1,-6,1,0),TextSize=b0,FontFace=cE.Rank and D.Bold or D.Regular,TextColor3=z.Text,TextXAlignment=cs(cE),RichText=not cE.Rank,Parent=cF})local cH if cE.Rank then cG.Size=UDim2.fromScale(1,1)cG.TextXAlignment=Enum.TextXAlignment.Center cH=ai('Frame',{AnchorPoint=Vector2.new(0.5,0.5),Position=UDim2.fromScale(0.5,0.5),Size=UDim2.fromOffset(bY-8,bY-8),BackgroundTransparency=1,BorderSizePixel=0,ZIndex=0,Parent=cF})aj(cH,UDim.new(1,0))end cC.Cells[cD]={Label=cG,Badge=cH}end local cD=ay(cz,function()return ch end)cz.MouseEnter:Connect(function()cC.Hover=true ah(cz,{BackgroundTransparency=0.35},0.1)end)cz.MouseLeave:Connect(function()cC.Hover=false ah(cz,{BackgroundColor3=cC.Highlighted and z.Accent or z.Surface3,BackgroundTransparency=cC.Rest or 1},0.2)end)cz.MouseButton1Click:Connect(function()if cC.Data and cD()then aJ(bU.Callback,cC.Data,cC.Index)end end)return cC end local function cz(cA)local cB=ck or#cj.Rows local cC=math.clamp(cB,1,bZ)local cD=b_+cC*bY local cE=b7+cD+b8 if cq==cE then return end local cF=(cA or cq==nil)and 0 or 0.25 cq=cE ah(cf,{Size=UDim2.new(1,-b1*2,0,cD)},cF,Enum.EasingStyle.Quint)ah(b9,{Size=UDim2.new(1,0,0,cE)},cF,Enum.EasingStyle.Quint)end local function cA()local cB=cx()for cC,cD in ipairs(cB)do local cE=cn[cC]if not cE then cE=cy()cn[cC]=cE end local cF=cD.Row cE.Data=cF cE.Index=cD.Index cE.Frame.LayoutOrder=cC cE.Frame.Visible=true local cG=cF.Highlight==true if not cG and type(bU.Highlight)=='function'then local cH,cI=pcall(bU.Highlight,cF,cD.Index)cG=cH and cI==true end cE.Highlighted=cG cE.Rest=cG and 0.86 or(cC%2==0 and 0.78 or 1)if not cE.Hover then cE.Frame.BackgroundColor3=cG and z.Accent or z.Surface3 cE.Frame.BackgroundTransparency=cE.Rest aa(cE.Frame,{BackgroundColor3=cE.Frame.BackgroundColor3})end cE.Marker.BackgroundTransparency=cG and 0 or 1 for cH,cI in ipairs(cl)do local cJ=cE.Cells[cH]if cI.Rank then local cK=cr[cD.Rank]cJ.Label.Text=tostring(cD.Rank)cJ.Label.TextColor3=cK and Color3.fromRGB(28,22,18)or z.Muted aa(cJ.Label,{TextColor3=cJ.Label.TextColor3})cJ.Badge.BackgroundColor3=cK or z.Surface3 cJ.Badge.BackgroundTransparency=cK and 0.05 or 1 else local cK=cu(cF,cI)cJ.Label.Text=k._rich(cv(cK,cI,cF))local cL=cI.Color if type(cL)=='function'then local cM,cN=pcall(cL,cK,cF)cL=cM and cN or nil end if type(cF.Colors)=='table'then local cM=cF.Colors[cI.Key or cI.Index]if cM==nil then cM=cF.Colors[cI.Index]end if cM~=nil then cL=cM end end local cM=k._color(cL)or(cG and z.Accent or z.Text)cJ.Label.TextColor3=cM aa(cJ.Label,{TextColor3=cM})end end end for cC=#cB+1,#cn do cn[cC].Frame.Visible=false cn[cC].Data=nil end ck=#cB ci.Visible=#cB==0 ci.Text=(#cB==0 and cc~=''and#cj.Rows>0)and(bU.NoMatchText or'No rows match')or(bU.EmptyText or'Nothing here yet')if ce then ce.Visible=cc~=''ce.Text=#cB..' / '..#cj.Rows end cz()end local function cB()for cC,cD in ipairs(cm)do cD.Frame:Destroy()end table.clear(cm)for cC,cD in ipairs(cn)do cD.Frame:Destroy()end table.clear(cn)local cC=cg:FindFirstChild('Cells')or ai('Frame',{Name='Cells',Size=UDim2.fromScale(1,1),BackgroundTransparency=1,Parent=cg})if not cC:FindFirstChildOfClass('UIListLayout')then al(cC,10,10)ai('UIListLayout',{FillDirection=Enum.FillDirection.Horizontal,VerticalAlignment=Enum.VerticalAlignment.Center,SortOrder=Enum.SortOrder.LayoutOrder,Parent=cC})end for cD,cE in ipairs(cl)do local cF=ai('TextButton',{Size=UDim2.new(cE.UDim.Scale,cE.UDim.Offset,1,0),BackgroundTransparency=1,AutoButtonColor=false,Text='',LayoutOrder=cD,Parent=cC})local cG=cE.Rank and Enum.TextXAlignment.Center or cs(cE)local cH=cG==Enum.TextXAlignment.Right local cI=am({Size=UDim2.new(1,cG==Enum.TextXAlignment.Center and 0 or-16,1,0),Position=UDim2.fromOffset(cH and 16 or 0,0),Text=string.upper(cE.Name),TextSize=11,FontFace=D.Bold,TextColor3=z.Muted,TextXAlignment=cG,Parent=cF})local cJ=ai('ImageLabel',{AnchorPoint=Vector2.new(0,0.5),Position=UDim2.new(0,0,0.5,0),Size=UDim2.fromOffset(12,12),BackgroundTransparency=1,ImageColor3=z.Accent,ScaleType=Enum.ScaleType.Fit,Visible=false,Parent=cF})aq(cJ,'chevron-down')local function cK()local cL=cI.TextBounds.X if cH then cJ.Position=UDim2.new(1,-(cL+15),0.5,0)elseif cG==Enum.TextXAlignment.Center then cJ.Position=UDim2.new(0.5,cL/2+3,0.5,0)else local cM=cF.AbsoluteSize.X/math.max(bV.Scale.Scale,0.01)cJ.Position=UDim2.new(0,math.clamp(cL+4,0,math.max(cM-12,0)),0.5,0)end end cI:GetPropertyChangedSignal('TextBounds'):Connect(cK)cF:GetPropertyChangedSignal('AbsoluteSize'):Connect(cK)task.defer(cK)local cL=cE.Sortable and not cE.Rank if cL then cF.MouseEnter:Connect(function()if co~=cE then ah(cI,{TextColor3=z.Text},0.12)end end)cF.MouseLeave:Connect(function()if co~=cE then ah(cI,{TextColor3=z.Muted},0.2)end end)cF.MouseButton1Click:Connect(function()if co~=cE then local cM=false for cN,cO in ipairs(cj.Rows)do local cP=cu(cO,cE)if cP~=nil then cM=tonumber(cP)~=nil break end end co,cp=cE,cM cE.FirstDescending=cM elseif cp==cE.FirstDescending then cp=not cp else co=nil end cw()cA()end)end table.insert(cm,{Frame=cF,Label=cI,Arrow=cJ,Column=cE})end cw()end function cj:SetColumns(cC)table.clear(cl)if bU.Rank then table.insert(cl,{Name='#',Rank=true,Width=E and 40 or 36,Sortable=false})end for cD,cE in ipairs(type(cC)=='table'and cC or{})do if type(cE)~='table'then cE={Name=tostring(cE)}end local cF=cE.Name or cE.Title or('Column '..cD)table.insert(cl,{Name=cF,Key=cE.Key or cF,Index=cD,Width=cE.Width,Align=cE.Align,Format=cE.Format,Color=cE.Color,Sortable=cE.Sortable~=false and bU.Sortable~=false})end co=nil ct()cB()cA()end local function cC(cD)if type(cD)=='number'then return cl[cD+(bU.Rank and 1 or 0)]end for cE,cF in ipairs(cl)do if not cF.Rank and(cF.Key==cD or cF.Name==cD)then return cF end end return nil end function cj:SetRows(cD)cj.Rows={}for cE,cF in ipairs(type(cD)=='table'and cD or{})do cj.Rows[cE]=type(cF)=='table'and cF or{cF}end cA()end cj.Set=cj.SetRows function cj:GetRows()return cj.Rows end cj.Get=cj.GetRows function cj:AddRow(cD,cE)cD=type(cD)=='table'and cD or{cD}if tonumber(cE)then table.insert(cj.Rows,math.clamp(math.floor(cE),1,#cj.Rows+1),cD)else table.insert(cj.Rows,cD)end cA()return#cj.Rows end function cj:UpdateRow(cD,cE)if not cj.Rows[cD]then return false end cj.Rows[cD]=type(cE)=='table'and cE or{cE}cA()for cF,cG in ipairs(cn)do if cG.Index==cD and cG.Frame.Visible then local cH=cG.Highlighted and z.Accent or z.Surface3 ah(cG.Frame,{BackgroundColor3=z.Accent,BackgroundTransparency=0.7},0.08)task.delay(0.1,function()if not cG.Hover then ah(cG.Frame,{BackgroundColor3=cH,BackgroundTransparency=cG.Rest},0.5)end end)break end end return true end function cj:RemoveRow(cD)if not cj.Rows[cD]then return false end table.remove(cj.Rows,cD)cA()return true end function cj:Clear()cj:SetRows({})end function cj:Sort(cD,cE)co=cD~=nil and cC(cD)or nil cp=cE==true if co then co.FirstDescending=cp end cw()cA()end function cj:SetTitle(cD)if cb then cb.Text=tostring(cD)end end function cj:SetMaxRows(cD)bZ=math.max(math.floor(tonumber(cD)or bZ),1)cz()end cj:SetColumns(bU.Columns or{})cj:SetRows(bU.Rows or{})if bU.SortBy~=nil then cj:Sort(bU.SortBy,bU.SortDescending~=false)end cz(true)if cd then cd:GetPropertyChangedSignal('Text'):Connect(function()local cD=string.lower(bM(cd.Text))if cD~=cc then cc=cD ch.CanvasPosition=Vector2.zero cA()end end)end function cj:SetSearch(cD)if cd then cd.Text=tostring(cD or'')end end ag(cf,cA)return m(self,bU,cj,b9,'Table')end aS.CreateImage=aS.Image aS.AddImage=aS.Image aS.CreateViewport=aS.Viewport aS.AddViewport=aS.Viewport aS.CreateTable=aS.Table aS.AddTable=aS.Table aS.CreateLeaderboard=aS.Table local function bU(bV)if bV.OutFrame then bV.OutFrame.Parent=bV.Area bV.OutFrame.Visible=false bV.OutFrame=nil end bV.Out.Visible=false end local function bV(bW)if bW.InFrame then bW.InFrame.Parent=bW.Area bW.InFrame.Position=UDim2.fromOffset(0,0)bW.InFrame=nil end bW.In.Visible=false end function aS:_setupSubTabs()local bW=self._headerBottom local bX=self._page local bY=ai('ScrollingFrame',{Name='SubTabs',Position=UDim2.fromOffset(24,bW-4),Size=UDim2.new(1,-48,0,32),BackgroundTransparency=1,BorderSizePixel=0,ScrollBarThickness=0,ScrollingDirection=Enum.ScrollingDirection.X,AutomaticCanvasSize=Enum.AutomaticSize.X,CanvasSize=UDim2.new(),Parent=bX})bY:SetAttribute('NoDrag',true)local bZ=ai('Frame',{Size=UDim2.fromOffset(0,32),BackgroundColor3=z.Surface3,BackgroundTransparency=0.35,BorderSizePixel=0,Visible=false,Parent=bY})aj(bZ,UDim.new(0,8))ak(bZ,z.Stroke)local b_=ai('Frame',{Size=UDim2.new(0,0,1,0),AutomaticSize=Enum.AutomaticSize.X,BackgroundTransparency=1,ZIndex=2,Parent=bY})ai('UIListLayout',{FillDirection=Enum.FillDirection.Horizontal,VerticalAlignment=Enum.VerticalAlignment.Center,SortOrder=Enum.SortOrder.LayoutOrder,Padding=UDim.new(0,4),Parent=b_})self.Window:_overflowHint(bX,bY,b_,false,z.Background)local b0=bW+36 local b1=ai('Frame',{Name='SubPages',Position=UDim2.fromOffset(0,b0),Size=UDim2.new(1,0,1,-b0),BackgroundTransparency=1,ClipsDescendants=true,Parent=bX})local b2={Strip=bY,Row=b_,Highlight=bZ,Area=b1,Out=ai('CanvasGroup',{Size=UDim2.fromScale(1,1),BackgroundTransparency=1,Visible=false,ZIndex=2,Parent=b1}),In=ai('CanvasGroup',{Size=UDim2.fromScale(1,1),BackgroundTransparency=1,Visible=false,ZIndex=3,Parent=b1}),Generation=0}self._sub=b2 self._subTabs={}self.List.Visible=false self:_refreshEmpty()b_:GetPropertyChangedSignal('AbsoluteSize'):Connect(function()if self.CurrentSubTab and not b2.Moving then self:_placeSubHighlight(self.CurrentSubTab,true)end end)end function aS:_placeSubHighlight(bW,bX)local bY=self._sub local bZ=self.Window.Scale.Scale local b_=bW._button local b0=b_.AbsoluteSize.X/bZ if b0<=0 then return end local b1=(b_.AbsolutePosition.X-bY.Row.AbsolutePosition.X)/bZ local b2={Position=UDim2.fromOffset(b1,0),Size=UDim2.fromOffset(b0,32)}if bX or not bY.Highlight.Visible then bY.Highlight.Visible=true bY.Highlight.Position=b2.Position bY.Highlight.Size=b2.Size else bY.Moving=true ah(bY.Highlight,b2,0.35,Enum.EasingStyle.Quint)task.delay(0.36,function()bY.Moving=false end)end local b3=bY.Strip.AbsoluteSize.X/bZ local b4=bY.Strip.CanvasPosition.X if b1<b4 then ah(bY.Strip,{CanvasPosition=Vector2.new(math.max(b1-8,0),0)},0.3,Enum.EasingStyle.Quint)elseif b1+b0>b4+b3 then ah(bY.Strip,{CanvasPosition=Vector2.new(b1+b0-b3+8,0)},0.3,Enum.EasingStyle.Quint)end end function aS:SubTab(bW,bX)if self._groupbox or self._isSubTab then return self.Parent:SubTab(bW,bX)end bW=l(bW,{Title='Name',Description='Desc'})if bX~=nil and bW.Icon==nil then bW.Icon=bX end if not self._subTabs then self:_setupSubTabs()end local bY=self._sub local bZ=#self._subTabs+1 local b_=setmetatable({Name=bW.Name or('Page '..bZ),Window=self.Window,Parent=self,_order=0,_isSubTab=true,_index=bZ,_iconName=bW.Icon},aS)local b0=ai('Frame',{Name=b_.Name,Size=UDim2.fromScale(1,1),BackgroundTransparency=1,Visible=false,Parent=bY.Area})b_._frame=b0 bJ(b_,b0,0,bW.Icon or self._iconName or'layout-grid',bW.EmptyText or'Nothing here yet')local b1=ai('TextButton',{Size=UDim2.new(0,0,1,0),AutomaticSize=Enum.AutomaticSize.X,BackgroundTransparency=1,Text='',AutoButtonColor=false,LayoutOrder=bZ,Parent=bY.Row})al(b1,14,14)ai('UIListLayout',{FillDirection=Enum.FillDirection.Horizontal,VerticalAlignment=Enum.VerticalAlignment.Center,SortOrder=Enum.SortOrder.LayoutOrder,Padding=UDim.new(0,6),Parent=b1})if bW.Icon then local b2=ai('ImageLabel',{Size=UDim2.fromOffset(14,14),BackgroundTransparency=1,ImageColor3=z.Muted,ScaleType=Enum.ScaleType.Fit,LayoutOrder=1,Parent=b1})aq(b2,bW.Icon)if b2:GetAttribute('CustomIcon')then b2.ImageTransparency=0.4 end b_._iconImage=b2 end b_._label=am({Size=UDim2.new(0,0,1,0),AutomaticSize=Enum.AutomaticSize.X,Text=b_.Name,TextSize=13,TextColor3=z.Muted,TextTruncate=Enum.TextTruncate.None,LayoutOrder=2,Parent=b1})b_._button=b1 b1.MouseEnter:Connect(function()if self.CurrentSubTab~=b_ then ah(b_._label,{TextColor3=z.Text},0.12)end end)b1.MouseLeave:Connect(function()if self.CurrentSubTab~=b_ then ah(b_._label,{TextColor3=z.Muted},0.2)end end)b1.MouseButton1Click:Connect(function()self:SelectSubTab(b_)end)table.insert(self._subTabs,b_)if bZ==1 then self:SelectSubTab(b_,true)end return b_ end aS.CreateSubTab=aS.SubTab aS.AddSubTab=aS.SubTab function aS:SelectSubTab(bW,bX)if type(bW)~='table'then for bY,bZ in ipairs(self._subTabs or{})do if bZ.Name==bW or bY==bW then bW=bZ break end end end if type(bW)~='table'or not self._sub then return end local bY=self.CurrentSubTab if bY==bW then return end self.Window:_resetSearch()self.Window:_closePopups()self.CurrentSubTab=bW local bZ=self._sub bU(bZ)bV(bZ)bZ.Generation+=1 local b_=bZ.Generation local b0=bX and 0 or 0.2 if bY then ah(bY._label,{TextColor3=z.Muted},b0)if bY._iconImage then ar(bY._iconImage,z.Muted,false,b0)end end ah(bW._label,{TextColor3=z.Text},b0)if bW._iconImage then ar(bW._iconImage,z.Accent,true,b0)end self:_placeSubHighlight(bW,bX)if bX or not bY then if bY then bY._frame.Visible=false end bW._frame.Visible=true return end local b1=bW._index>bY._index and 1 or-1 bZ.OutFrame=bY._frame bY._frame.Parent=bZ.Out bZ.Out.GroupTransparency=0 bZ.Out.Position=UDim2.fromOffset(0,0)bZ.Out.Visible=true ah(bZ.Out,{GroupTransparency=1,Position=UDim2.fromOffset(-b1*28,0)},0.2)bZ.InFrame=bW._frame bW._frame.Visible=true bW._frame.Parent=bZ.In bZ.In.GroupTransparency=1 bZ.In.Position=UDim2.fromOffset(b1*28,0)bZ.In.Visible=true ah(bZ.In,{GroupTransparency=0,Position=UDim2.fromOffset(0,0)},0.34,Enum.EasingStyle.Quint)task.delay(0.2,function()if bZ.Generation==b_ then bU(bZ)end end)task.delay(0.34,function()if bZ.Generation==b_ then bV(bZ)end end)end a2._searchIcons={Tab='app-window',Page='panels-top-left',Groupbox='layout-grid',Button='mouse-pointer-click',ButtonRow='mouse-pointer-click',Toggle='toggle-right',Slider='sliders-horizontal',Dropdown='list',Input='text-cursor-input',Keybind='keyboard',ColorPicker='palette',Stepper='chevrons-up-down',Progress='activity',Status='activity',StatusList='activity',Label='type',Paragraph='type',OrderList='list-ordered'}function a2:_searchResults(bW)local bX={}local function bY(bZ,b_)if type(bZ)~='string'or bZ==''then return end local b0=string.find(string.lower(bZ),bW,1,true)if not b0 then return end b_.Name=bZ b_.At=b0 b_.Rank=b0==1 and 0 or(string.find(string.sub(bZ,b0-1,b0-1),'[%s%p]')and 1 or 2)b_.Order=#bX+1 table.insert(bX,b_)end local function bZ(b_)return not b_._destroyed and b_._type~='Section'and b_._type~='Divider'and(b_._isShown==nil or b_:_isShown())end for b_,b0 in ipairs(self.Tabs)do bY(b0.Name,{Kind='Tab',Tab=b0,Icon=b0._iconName})for b1,b2 in ipairs(b0._subTabs or{b0})do local b3=b2._isSubTab and b2 or nil local b4=b0.Name if b3 then bY(b3.Name,{Kind='Page',Tab=b0,Sub=b3,Path=b0.Name})b4=b0.Name..'  \u{203a}  '..b3.Name end if not b2._noSearch then for b5,b6 in ipairs(b2._items or{})do if bZ(b6)then bY(b6._searchName,{Kind=b6._type,Tab=b0,Sub=b3,Target=b6,Path=b4})end end for b5,b6 in ipairs(b2._groupboxes or{})do if b6._userVisible~=false then bY(b6.Name,{Kind='Groupbox',Tab=b0,Sub=b3,Target=b6,Path=b4})local b7=b4..'  \u{203a}  '..b6.Name for b8,b9 in ipairs(b6._items)do if bZ(b9)then bY(b9._searchName,{Kind=b9._type,Tab=b0,Sub=b3,Target=b9,Group=b6,Path=b7})end end end end end end end table.sort(bX,function(b_,b0)if b_.Rank~=b0.Rank then return b_.Rank<b0.Rank end return b_.Order<b0.Order end)return bX end function a2:_flash(bW,bX)for bY,bZ in ipairs({'SearchFlash','SearchGlow'})do local b_=bW:FindFirstChild(bZ)if b_ then b_:Destroy()end end bX=bX or 8 local bY=z.Accent local bZ=bY:Lerp(Color3.new(1,1,1),0.65)local b_=ai('Frame',{Name='SearchGlow',Size=UDim2.fromScale(1,1),BackgroundTransparency=1,ZIndex=10,Parent=bW})aj(b_,UDim.new(0,bX))local b0=ai('UIStroke',{Color=bY,Thickness=1,Transparency=1,ApplyStrokeMode=Enum.ApplyStrokeMode.Border,Parent=b_})local b1=ai('Frame',{Name='SearchFlash',Size=UDim2.fromScale(1,1),BackgroundColor3=bY,BackgroundTransparency=1,BorderSizePixel=0,ZIndex=10,Parent=bW})aj(b1,UDim.new(0,bX))local b2=ai('UIGradient',{Transparency=NumberSequence.new({NumberSequenceKeypoint.new(0,0.7),NumberSequenceKeypoint.new(0.4,0.55),NumberSequenceKeypoint.new(0.5,0),NumberSequenceKeypoint.new(0.6,0.55),NumberSequenceKeypoint.new(1,0.7)}),Rotation=18,Offset=Vector2.new(-1,0),Parent=b1})local b3=ai('UIStroke',{Color=Color3.new(1,1,1),Thickness=1.6,Transparency=1,ApplyStrokeMode=Enum.ApplyStrokeMode.Border,Parent=b1})local b4=ai('UIGradient',{Color=ColorSequence.new({ColorSequenceKeypoint.new(0,bY),ColorSequenceKeypoint.new(0.5,bZ),ColorSequenceKeypoint.new(1,bY)}),Transparency=NumberSequence.new({NumberSequenceKeypoint.new(0,0.45),NumberSequenceKeypoint.new(0.5,0),NumberSequenceKeypoint.new(1,0.45)}),Parent=b3})local b5=pcall(function()b0.BorderStrokePosition=Enum.BorderStrokePosition.Inner b3.BorderStrokePosition=Enum.BorderStrokePosition.Inner end)local b6=b5 and 6 or 3 if not b5 then b_.Position=UDim2.fromOffset(b6+1,b6+1)b_.Size=UDim2.new(1,-(b6+1)*2,1,-(b6+1)*2)b1.Position=UDim2.fromOffset(2,2)b1.Size=UDim2.new(1,-4,1,-4)end local b7 if not bW:FindFirstChildOfClass('UIScale')then b7=ai('UIScale',{Scale=0.975,Parent=bW})ah(b7,{Scale=1},0.4,Enum.EasingStyle.Quint)end ah(b1,{BackgroundTransparency=0.8},0.2,Enum.EasingStyle.Quad)ah(b3,{Transparency=0},0.2,Enum.EasingStyle.Quad)ah(b0,{Thickness=b6,Transparency=0.72},0.35,Enum.EasingStyle.Quint)ah(b2,{Offset=Vector2.new(1,0)},0.8,Enum.EasingStyle.Quad,Enum.EasingDirection.InOut)ah(b4,{Rotation=540},2.2,Enum.EasingStyle.Quad)task.spawn(function()task.wait(0.75)ah(b1,{BackgroundTransparency=0.9},0.35,Enum.EasingStyle.Sine)ah(b0,{Thickness=b6/2,Transparency=0.85},0.35,Enum.EasingStyle.Sine)task.wait(0.35)ah(b1,{BackgroundTransparency=0.84},0.3,Enum.EasingStyle.Sine)ah(b0,{Thickness=b6*0.85,Transparency=0.76},0.3,Enum.EasingStyle.Sine)task.wait(0.4)ah(b1,{BackgroundTransparency=1},0.55,Enum.EasingStyle.Quad)ah(b3,{Transparency=1},0.65,Enum.EasingStyle.Quad)ah(b0,{Thickness=b6,Transparency=1},0.65,Enum.EasingStyle.Quad)task.wait(0.7)b1:Destroy()b_:Destroy()if b7 then b7:Destroy()end end)end function a2:_revealResult(bW)local bX,bY,bZ,b_=bW.Tab,bW.Sub,bW.Target,bW.Group if self.CurrentTab~=bX then self:SelectTab(bX)end if bY then bX:SelectSubTab(bY)end if not bZ then local b0=bY and bY._button or bX._button task.delay(0.1,function()if b0.Parent then self:_flash(b0,bY and 8 or 10)end end)return end local b0=b_~=nil and b_:IsCollapsed()if b0 then b_:Expand()end local b1=(bY or bX).List task.spawn(function()task.wait()task.wait()if b0 then task.wait(0.3)end local b2=bZ._frame if self._destroyed or bZ._destroyed or not b2 or not b2.Parent or not b1 then return end local b3=self.Scale.Scale local b4=(b2.AbsolutePosition.Y-b1.AbsolutePosition.Y)/b3+b1.CanvasPosition.Y local b5=b2.AbsoluteSize.Y/b3 local b6=b1.AbsoluteWindowSize.Y/b3 local b7=math.max(b1.AbsoluteCanvasSize.Y/b3-b6,0)local b8=math.clamp(b4+b5/2-b6/2,0,b7)if math.abs(b8-b1.CanvasPosition.Y)>2 then ah(b1,{CanvasPosition=Vector2.new(0,b8)},0.45,Enum.EasingStyle.Quint)task.wait(0.25)end if b2.Parent then self:_flash(b2,bZ._groupbox and 10 or 8)end end)end function a2:_resetSearch()if self.SearchBox and self.SearchBox.Text~=''then self.SearchBox.Text=''end end function a2:_fitTitle(bW)local bX=self.SearchBox and(self._searchWidth or N)+72 or 56 local bY=bW._titleX+bX bW._title.Size=UDim2.new(1,-bY,0,24)if bW._desc then bW._desc.Size=UDim2.new(1,-bY,0,16)end end function a2:_buildSearch(bW)local bX=ai('Frame',{AnchorPoint=Vector2.new(1,0),Position=UDim2.new(1,-56,0,14),Size=UDim2.fromOffset(N,34),BackgroundTransparency=1,BorderSizePixel=0,ZIndex=5,Parent=bW})bX:SetAttribute('NoDrag',true)local bY=ai('Frame',{AnchorPoint=Vector2.new(0,1),Position=UDim2.new(0,0,1,-2),Size=UDim2.new(1,0,0,1),BackgroundColor3=z.Stroke,BorderSizePixel=0,Parent=bX})local bZ=ai('Frame',{AnchorPoint=Vector2.new(0.5,1),Position=UDim2.new(0.5,0,1,-1),Size=UDim2.new(0,0,0,2),BackgroundColor3=z.Accent,BorderSizePixel=0,ZIndex=2,Parent=bX})aj(bZ,UDim.new(1,0))local b_,b0=aB(bX,'search',z.Muted,UDim2.new(0,2,0.5,-1))b0.Parent.Size=UDim2.fromOffset(15,15)local b1=ai('TextBox',{Position=UDim2.fromOffset(26,0),Size=UDim2.new(1,-28,1,-2),BackgroundTransparency=1,Text='',PlaceholderText='Search',PlaceholderColor3=z.Muted,TextColor3=z.Text,TextSize=13,FontFace=D.Regular,TextXAlignment=Enum.TextXAlignment.Left,TextTruncate=Enum.TextTruncate.AtEnd,ClearTextOnFocus=false,Parent=bX})bX.MouseEnter:Connect(function()if not b1:IsFocused()then ah(bY,{BackgroundColor3=z.StrokeHover},0.15)end end)bX.MouseLeave:Connect(function()ah(bY,{BackgroundColor3=z.Stroke},0.25)end)self.SearchBox=b1 local b2=E and 40 or 34 local b3=8 local b4=ai('Frame',{AnchorPoint=Vector2.new(1,0),Size=UDim2.fromOffset(300,0),BackgroundTransparency=1,Visible=false,ZIndex=45,Parent=self.Body})b4:SetAttribute('NoDrag',true)local b5=ai('ImageLabel',{Position=UDim2.fromOffset(-18,-12),Size=UDim2.new(1,36,1,36),BackgroundTransparency=1,Image=A.Shadow,ImageColor3=Color3.new(0,0,0),ImageTransparency=1,ScaleType=Enum.ScaleType.Slice,SliceCenter=Rect.new(49,49,450,450),Parent=b4})local b6=ai('Frame',{Size=UDim2.fromScale(1,1),BackgroundColor3=z.Background,BorderSizePixel=0,ClipsDescendants=true,Parent=b4})aj(b6,UDim.new(0,10))local b7=ak(b6,z.Stroke,1)ao(b6)local b8=ai('ScrollingFrame',{Position=UDim2.fromOffset(6,6),Size=UDim2.new(1,-12,1,-12),BackgroundTransparency=1,BorderSizePixel=0,ScrollBarThickness=E and 4 or 3,ScrollBarImageColor3=z.Accent,ScrollBarImageTransparency=0.4,ScrollingDirection=Enum.ScrollingDirection.Y,CanvasSize=UDim2.new(),Parent=b6})ai('UIListLayout',{SortOrder=Enum.SortOrder.LayoutOrder,Padding=UDim.new(0,2),Parent=b8})local b9=am({Size=UDim2.new(1,0,0,b2),Text='No results',TextSize=13,FontFace=D.Regular,TextColor3=z.Muted,TextXAlignment=Enum.TextXAlignment.Center,LayoutOrder=0,Visible=false,Parent=b8})local ca={}local cb={}local cc=1 local cd=false local ce=0 local cf=Vector2.new(300,0)local cg=nil local ch local function ci()local cj=self.Scale.Scale local ck=self.Body.AbsolutePosition local cl=self.Body.AbsoluteSize.X/cj local cm=(bX.AbsolutePosition.X+bX.AbsoluteSize.X-ck.X)/cj local cn=(bX.AbsolutePosition.Y+bX.AbsoluteSize.Y-ck.Y)/cj+6 cm=math.clamp(cm,cf.X+8,math.max(cl-8,cf.X+8))b4.Position=UDim2.fromOffset(cm,cn)end local function cj()local ck=self.Scale.Scale local cl=self.Body.AbsoluteSize/ck local cm=(bX.AbsolutePosition.Y+bX.AbsoluteSize.Y-self.Body.AbsolutePosition.Y)/ck+6 local cn=math.max(#ca,1)local co=math.min(cn,b3)*(b2+2)-2+12 co=math.max(math.min(co,cl.Y-cm-12),b2+12)local cp=math.min(math.max(bX.AbsoluteSize.X/ck,300),math.max(cl.X-16,160))cf=Vector2.new(cp,co)end local function ck()for cl,cm in ipairs(ca)do local cn=cl==cc ah(cm.Button,{BackgroundTransparency=cn and 0.35 or 1},0.12)ar(cm.Icon,cn and z.Accent or z.Muted,cn,0.12)end end local function cl()local cm=(cc-1)*(b2+2)local cn=b8.AbsoluteWindowSize.Y/self.Scale.Scale local co=b8.CanvasPosition.Y if cm<co then co=cm elseif cm+b2>co+cn then co=cm+b2-cn else return end b8.CanvasPosition=Vector2.new(0,math.max(co,0))end local function cm(cn)if cn==cd then return end cd=cn ce+=1 local co=ce if cn then if self._closePopup and self._closePopup~=ch then self._closePopup()end self._closePopup=ch ci()b4.Size=UDim2.fromOffset(cf.X,0)b4.Visible=true ah(b4,{Size=UDim2.fromOffset(cf.X,cf.Y)},0.26,Enum.EasingStyle.Quint)ah(b7,{Transparency=0},0.12)ah(b5,{ImageTransparency=0.55},0.26)if not cg then cg=self:_listen('Render',ci)end else if self._closePopup==ch then self._closePopup=nil end ah(b4,{Size=UDim2.fromOffset(cf.X,0)},0.18,Enum.EasingStyle.Quint)ah(b5,{ImageTransparency=1},0.14)task.delay(0.19,function()if ce==co and not cd then b4.Visible=false b7.Transparency=1 if cg then cg()cg=nil end end end)end end ch=function()cm(false)end local function cn(co)if not co then return end cm(false)b1.Text=''if b1:IsFocused()then b1:ReleaseFocus()end self:_revealResult(co)end local function co(cp)return(string.gsub(string.gsub(string.gsub(cp,'&','&amp;'),'<','&lt;'),'>','&gt;'))end local function cp(cq)for cr,cs in ipairs(ca)do cs.Button:Destroy()end table.clear(ca)cb=self:_searchResults(cq)cc=1 local cr=bc(z.Accent)for cs,ct in ipairs(cb)do if cs>50 then break end local cu=ai('TextButton',{Size=UDim2.new(1,0,0,b2),BackgroundColor3=z.Surface3,BackgroundTransparency=1,Text='',AutoButtonColor=false,LayoutOrder=cs,Parent=b8})aj(cu,UDim.new(0,7))local cv=ai('Frame',{Position=UDim2.fromOffset(10,0),Size=UDim2.new(1,-20,1,0),BackgroundTransparency=1,ClipsDescendants=true,Parent=cu})ai('UIListLayout',{FillDirection=Enum.FillDirection.Horizontal,VerticalAlignment=Enum.VerticalAlignment.Center,SortOrder=Enum.SortOrder.LayoutOrder,Padding=UDim.new(0,5),Parent=cv})local cw=0 local cx=nil local function cy(cz)if not cz then return end cw+=1 local cA=ai('ImageLabel',{Size=UDim2.fromOffset(14,14),BackgroundTransparency=1,ImageColor3=z.Muted,ScaleType=Enum.ScaleType.Fit,LayoutOrder=cw,Parent=cv})aq(cA,cz)cx=cx or cA end local function cz(cA,cB,cC)cw+=1 return am({Size=UDim2.new(0,0,1,0),AutomaticSize=Enum.AutomaticSize.X,Text=cA,RichText=cC==true,TextSize=13,FontFace=cB and D.Medium or D.Regular,TextColor3=cB or z.Muted,TextTruncate=Enum.TextTruncate.None,LayoutOrder=cw,Parent=cv})end local function cA()cz('>')end local cB,cC,cD=ct.Tab,ct.Sub,ct.Group local cE=ct.Kind=='Tab'local cF=ct.Kind=='Page'local cG=ct.Kind=='Groupbox'cy(cB._iconName or'layout-grid')if not cE then cz(cB.Name)if cC then cA()cy(cC._iconName or'layers')if not cF then cz(cC.Name)end end if cD and not cG then cA()cz(cD.Name)end if not cF then cA()end end local cH=ct.Name local cI=ct.At+#cq local cJ=co(string.sub(cH,1,ct.At-1))..'<b>'..co(string.sub(cH,ct.At,cI-1))..'</b>'..co(string.sub(cH,cI))cz(cJ,z.Accent,true)local cK=cx local cL=ay(cu,function()return b8 end)cu.MouseEnter:Connect(function()if not ax()then cc=cs ck()end end)cu.MouseButton1Click:Connect(function()if cL()then cn(ct)end end)table.insert(ca,{Button=cu,Icon=cK})end b9.Visible=#ca==0 b8.CanvasSize=UDim2.fromOffset(0,math.max(#ca,1)*(b2+2)-2)b8.CanvasPosition=Vector2.zero ck()cj()if cd then ci()ah(b4,{Size=UDim2.fromOffset(cf.X,cf.Y)},0.2,Enum.EasingStyle.Quint)end end local function cq()local cr=string.match(string.lower(b1.Text),'^%s*(.-)%s*$')if cr==''then cm(false)return end cp(cr)cm(true)end b1.Focused:Connect(function()ah(bZ,{Size=UDim2.new(1,0,0,2)},0.35,Enum.EasingStyle.Quint)ah(b0,{ImageColor3=z.Accent},0.15)if b1.Text~=''then cq()end end)b1.FocusLost:Connect(function(cr)ah(bZ,{Size=UDim2.new(0,0,0,2)},0.3,Enum.EasingStyle.Quint)ah(b0,{ImageColor3=z.Muted},0.2)if cr and cd then cn(cb[cc])end end)b1:GetPropertyChangedSignal('Text'):Connect(cq)self:_listen('Began',function(cr)if not cd then return end if cr.KeyCode==Enum.KeyCode.Up or cr.KeyCode==Enum.KeyCode.Down then if#ca>0 then local cs=cr.KeyCode==Enum.KeyCode.Up and-1 or 1 cc=math.clamp(cc+cs,1,#ca)ck()cl()end elseif cr.KeyCode==Enum.KeyCode.Escape then cm(false)elseif aw(cr)then local cs=av()if not az(cs,b4)and not az(cs,bX)then cm(false)end end end)local function cr()local cs=bW.AbsoluteSize.X/self.Scale.Scale local ct=math.clamp(math.floor(cs*0.32),110,N)bX.Size=UDim2.fromOffset(ct,34)if ct~=self._searchWidth then self._searchWidth=ct for cu,cv in ipairs(self.Tabs)do self:_fitTitle(cv)end end end bW:GetPropertyChangedSignal('AbsoluteSize'):Connect(cr)task.defer(cr)end function a2:_trackName(bW,bX)table.insert(self._identity.Names,{Label=bW,Kind=bX})self:_renderIdentity()end function a2:_trackAvatar(bW,bX)table.insert(self._identity.Avatars,{Image=bW,Placeholder=bX})self:_renderIdentity(true)end function a2:_renderIdentity(bW)for bX,bY in ipairs(self._identity.Names)do if bY.Kind=='User'then bY.Label.Text=self._hideName and'@hidden'or('@'..j.Name)else bY.Label.Text=self._hideName and'Hidden'or j.DisplayName end end local bX=bW and 0 or 0.2 for bY,bZ in ipairs(self._identity.Avatars)do ah(bZ.Image,{ImageTransparency=self._hideAvatar and 1 or 0},bX)ah(bZ.Placeholder,{ImageTransparency=self._hideAvatar and 0.2 or 1},bX)end end function a2:SetHideName(bW)self._hideName=bW==true self:_renderIdentity()end function a2:SetHideAvatar(bW)self._hideAvatar=bW==true self:_renderIdentity()end local function bW(bX,bY,bZ,b_,b0,b1)local b2=ai('Frame',{BackgroundColor3=z.Surface3,BorderSizePixel=0,Parent=bY})for b3,b4 in pairs(bZ)do b2[b3]=b4 end aj(b2,UDim.new(1,0))ak(b2,b_ or z.Stroke,b0 or 0,b1 or 1)local b3=ai('ImageLabel',{Size=UDim2.fromScale(1,1),BackgroundTransparency=1,Image='rbxthumb://type=AvatarHeadShot&id='..tostring(j.UserId)..'&w=150&h=150',Parent=b2})aj(b3,UDim.new(1,0))local b4=ai('ImageLabel',{AnchorPoint=Vector2.new(0.5,0.5),Position=UDim2.fromScale(0.5,0.5),Size=UDim2.fromScale(0.45,0.45),BackgroundTransparency=1,ImageColor3=z.Muted,ImageTransparency=1,ScaleType=Enum.ScaleType.Fit,Parent=b2})aq(b4,'user')bX:_trackAvatar(b3,b4)return b2 end function a2:_buildProfile(bX)ai('Frame',{AnchorPoint=Vector2.new(0.5,1),Position=UDim2.new(0.5,0,1,-M),Size=UDim2.new(1,-20,0,1),BackgroundColor3=z.Stroke,BorderSizePixel=0,Parent=bX})local bY=ai('TextButton',{AnchorPoint=Vector2.new(0.5,1),Position=UDim2.new(0.5,0,1,-8),Size=UDim2.new(1,-16,0,M-16),BackgroundColor3=z.Surface2,BackgroundTransparency=0,Text='',AutoButtonColor=false,Parent=bX})aj(bY,UDim.new(0,8))local bZ=ak(bY,z.Stroke,0)local b_=bW(self,bY,{AnchorPoint=Vector2.new(0,0.5),Position=UDim2.new(0,8,0.5,0),Size=UDim2.fromOffset(32,32)})local b0=ai('Frame',{AnchorPoint=Vector2.new(1,1),Position=UDim2.new(1,1,1,1),Size=UDim2.fromOffset(9,9),BackgroundColor3=z.Success,BorderSizePixel=0,ZIndex=2,Parent=b_})aj(b0,UDim.new(1,0))ak(b0,z.Surface2,0,2)local b1=am({Position=UDim2.new(0,48,0.5,-15),Size=UDim2.new(1,-74,0,15),TextSize=12,FontFace=D.Bold,Parent=bY})self:_trackName(b1,'Display')local b2=am({Position=UDim2.new(0,48,0.5,1),Size=UDim2.new(1,-74,0,13),Text='\u{2026}',TextSize=11,FontFace=D.Regular,TextColor3=z.Muted,Parent=bY})local b3=ai('ImageLabel',{AnchorPoint=Vector2.new(1,0.5),Position=UDim2.new(1,-8,0.5,0),Size=UDim2.fromOffset(14,14),BackgroundTransparency=1,ImageColor3=z.Muted,ScaleType=Enum.ScaleType.Fit,Parent=bY})aq(b3,'chevron-right')task.spawn(function()b2.Text=aZ()end)bY.MouseEnter:Connect(function()if ax()then return end ah(bZ,{Color=z.StrokeHover},0.12)ah(b3,{ImageColor3=z.Text,Position=UDim2.new(1,-6,0.5,0)},0.15)end)bY.MouseLeave:Connect(function()ah(bZ,{Color=z.Stroke},0.2)ah(b3,{ImageColor3=z.Muted,Position=UDim2.new(1,-8,0.5,0)},0.2)end)bY.MouseButton1Click:Connect(function()if self.Home then self:SelectTab(self.Home)end end)self.Profile=bY end function a2:Rejoin()self:Notify({Title='Rejoining',Content='Teleporting back into this server',Icon='refresh-cw',Duration=3})task.spawn(function()local bX,bY=pcall(function()if#f:GetPlayers()<=1 or game.JobId==''then g:Teleport(game.PlaceId,j)else g:TeleportToPlaceInstance(game.PlaceId,game.JobId,j)end end)if not bX then self:Notify({Title='Rejoin failed',Content=tostring(bY),Type='Error',Duration=4})end end)end local function bX(bY,bZ,b_,b0)task.spawn(function()local b1=bD(bZ)if not b1 then bY:Notify({Title=b0..' failed',Content='Could not load the server list',Type='Error',Duration=4})return end local b2={}for b3,b4 in ipairs(b1)do if type(b4)=='table'and b4.id~=game.JobId then local b5,b6=tonumber(b4.playing),tonumber(b4.maxPlayers)if b5 and b6 and b5<b6 then table.insert(b2,b4)end end end local b3=#b2>0 and b_(b2)or nil if not b3 then bY:Notify({Title=b0..' failed',Content='No other open server found',Type='Warning',Duration=4})return end bY:Notify({Title=b0,Content=string.format('Joining a server with %d/%d players',b3.playing,b3.maxPlayers),Icon='server',Duration=3})local b4,b5=pcall(function()g:TeleportToPlaceInstance(game.PlaceId,b3.id,j)end)if not b4 then bY:Notify({Title=b0..' failed',Content=tostring(b5),Type='Error',Duration=4})end end)end function a2:ServerHop()bX(self,'Desc',function(bY)return bY[math.random(1,#bY)]end,'Server hop')end function a2:JoinLowestServer()bX(self,'Asc',function(bY)table.sort(bY,function(bZ,b_)return bZ.playing<b_.playing end)return bY[1]end,'Lowest server')end function a2:CopyToClipboard(bY,bZ)local b_=bC(bY)self:Notify({Title=b_ and'Copied'or'Clipboard unavailable',Content=b_ and(bZ or tostring(bY))or'Your executor has no setclipboard',Type=b_ and'Success'or'Error',Icon=b_ and'clipboard-check'or nil,Duration=2.5})return b_ end function a2:_homeCard(bY,bZ)local b_=bG(bY,0,bZ)b_.AutomaticSize=Enum.AutomaticSize.Y al(b_,16,16,14,14)ai('UIListLayout',{SortOrder=Enum.SortOrder.LayoutOrder,Parent=b_})return b_ end function a2:_homeCaption(bY,bZ,b_)return am({Size=UDim2.new(1,0,0,22),Text=string.upper(bZ),TextSize=10,TextColor3=z.Muted,TextYAlignment=Enum.TextYAlignment.Top,LayoutOrder=b_,Parent=bY})end function a2:_homeChip(bY,bZ,b_,b0,b1)local b2=ai('TextButton',{Size=UDim2.fromOffset(0,24),AutomaticSize=Enum.AutomaticSize.X,BackgroundColor3=z.Surface3,BackgroundTransparency=0.2,BorderSizePixel=0,Text='',AutoButtonColor=false,LayoutOrder=bZ,Parent=bY})aj(b2,UDim.new(0,6))local b3=ak(b2)al(b2,8,9)ai('UIListLayout',{FillDirection=Enum.FillDirection.Horizontal,VerticalAlignment=Enum.VerticalAlignment.Center,SortOrder=Enum.SortOrder.LayoutOrder,Padding=UDim.new(0,6),Parent=b2})local b4=ai('ImageLabel',{Size=UDim2.fromOffset(12,12),BackgroundTransparency=1,ImageColor3=b1 or z.Muted,ScaleType=Enum.ScaleType.Fit,LayoutOrder=1,Parent=b2})aq(b4,b_)local b5=am({Size=UDim2.new(0,0,1,0),AutomaticSize=Enum.AutomaticSize.X,Text=b0,TextSize=12,TextColor3=b1 or z.Muted,TextTruncate=Enum.TextTruncate.None,LayoutOrder=2,Parent=b2})return b2,b5,b4,b3 end function a2:_homeToggleChip(bY,bZ,b_,b0,b1,b2)local b3,b4,b5,b6=self:_homeChip(bY,bZ,b_,b0)local b7=b1==true local function b8(b9)ah(b3,{BackgroundColor3=b7 and z.Accent or z.Surface3,BackgroundTransparency=b7 and 0.85 or 0.2},b9)ah(b6,{Color=b7 and z.Accent or z.Stroke,Transparency=b7 and 0.6 or 0},b9)ah(b4,{TextColor3=b7 and z.Accent or z.Muted},b9)ah(b5,{ImageColor3=b7 and z.Accent or z.Muted},b9)end b8(0)b3.MouseButton1Click:Connect(function()b7=not b7 b8(0.2)aJ(b2,b7)end)return b3 end function a2:_homeProfile(bY,bZ,b_)local b0=bG(bY,140,b_)b0.ClipsDescendants=true local b1=ai('ImageLabel',{AnchorPoint=Vector2.new(1,1),Position=UDim2.new(1,-16,1,0),Size=UDim2.fromOffset(140,140),BackgroundTransparency=1,Image='rbxthumb://type=AvatarBust&id='..tostring(j.UserId)..'&w=420&h=420',ScaleType=Enum.ScaleType.Fit,Parent=b0})ai('UIGradient',{Transparency=NumberSequence.new({NumberSequenceKeypoint.new(0,1),NumberSequenceKeypoint.new(0.45,0),NumberSequenceKeypoint.new(1,0)}),Parent=b1})local b2=ai('ImageLabel',{AnchorPoint=Vector2.new(0.5,0.5),Position=UDim2.fromScale(0.6,0.55),Size=UDim2.fromOffset(40,40),BackgroundTransparency=1,ImageColor3=z.Muted,ImageTransparency=1,ScaleType=Enum.ScaleType.Fit,Parent=b1})aq(b2,'user')self:_trackAvatar(b1,b2)local b3=UDim2.new(1,-190,0,0)am({Position=UDim2.fromOffset(22,20),Size=b3+UDim2.fromOffset(0,14),Text=string.upper(bZ.Welcome or'Welcome back'),TextSize=10,TextColor3=z.Muted,Parent=b0})local b4=am({Position=UDim2.fromOffset(22,35),Size=b3+UDim2.fromOffset(0,32),TextSize=26,FontFace=D.Bold,Parent=b0})self:_trackName(b4,'Display')local b5=am({Position=UDim2.fromOffset(22,67),Size=b3+UDim2.fromOffset(0,16),TextSize=13,FontFace=D.Regular,TextColor3=z.Muted,Parent=b0})self:_trackName(b5,'User')local b6=ai('Frame',{Position=UDim2.new(0,22,1,-40),Size=UDim2.new(1,-44,0,24),BackgroundTransparency=1,Parent=b0})ai('UIListLayout',{FillDirection=Enum.FillDirection.Horizontal,VerticalAlignment=Enum.VerticalAlignment.Center,SortOrder=Enum.SortOrder.LayoutOrder,Padding=UDim.new(0,6),Parent=b6})local b7=bZ.Tier if b7==nil then b7='Free'end if b7 then local b8,b9,ca=self:_homeChip(b6,1,bZ.TierIcon or self._logoIcon,tostring(b7),z.Accent)b8.Active=false b9.FontFace=D.Bold ca.Size=UDim2.fromOffset(13,13)self.TierLabel=b9 end local b8,b9=self:_homeChip(b6,2,'clock','')b8.Active=false b8.Visible=false self:_homeToggleChip(b6,3,'eye-off','Name',self._hideName,function(ca)self:SetHideName(ca)end)self:_homeToggleChip(b6,4,'user-x','Avatar',self._hideAvatar,function(ca)self:SetHideAvatar(ca)end)return function()local ca=bZ.Expiry if type(ca)=='function'then local cb,cc=pcall(ca)ca=cb and cc or nil end if type(ca)=='number'then local cb=ca-os.time()b9.Text=cb>0 and(bA(cb)..' left')or'Expired'elseif ca~=nil then b9.Text=tostring(ca)end b8.Visible=b9.Text~=''end end function a2:_homeGraph(bY,bZ,b_,b0,b1)local b2=ai('Frame',{BackgroundTransparency=1,LayoutOrder=bZ,Parent=bY})local b3=aB(b2,b_,z.Muted,UDim2.new(0,0,0,7))b3.Size=UDim2.fromOffset(12,12)am({Position=UDim2.fromOffset(18,0),Size=UDim2.new(1,-18,0,14),Text=string.upper(b0),TextSize=10,TextColor3=z.Muted,Parent=b2})local b4=am({Position=UDim2.fromOffset(0,16),Size=UDim2.new(1,0,0,28),Text='\u{2026}',TextSize=24,FontFace=D.Bold,RichText=true,Parent=b2})local b5=ai('Frame',{Position=UDim2.fromOffset(0,50),Size=UDim2.new(1,0,0,26),BackgroundTransparency=1,Parent=b2})ai('UIListLayout',{FillDirection=Enum.FillDirection.Horizontal,VerticalAlignment=Enum.VerticalAlignment.Bottom,SortOrder=Enum.SortOrder.LayoutOrder,Padding=UDim.new(0,2),Parent=b5})local b6=24 local b7,b8={},{}for b9=1,b6 do local ca=ai('Frame',{Size=UDim2.new(1/b6,-2,0,2),BackgroundColor3=z.Surface3,BorderSizePixel=0,LayoutOrder=b9,Parent=b5})aj(ca,UDim.new(0,2))b7[b9]=ca end local function b9(ca,cb)table.insert(b8,ca)if#b8>b6 then table.remove(b8,1)end local cc=b1 or 1 for cd,ce in ipairs(b8)do cc=math.max(cc,ce)end local cd=b6-#b8 for ce,cf in ipairs(b7)do local cg=b8[ce-cd]local ch=ce==b6 local ci=cg and math.max(cg/cc,0.08)or 0 ah(cf,{Size=UDim2.new(1/b6,-2,ci,cg and 0 or 2),BackgroundColor3=(ch and cb)or(cg and z.Muted or z.Surface3),BackgroundTransparency=ch and 0 or(cg and 0.6 or 0)},0.35,Enum.EasingStyle.Quint)end end return b4,b9 end function a2:_homeFigure(bY,bZ,b_)local b0=ai('Frame',{BackgroundTransparency=1,LayoutOrder=bZ,Parent=bY})local b1=am({Size=UDim2.new(1,-8,0,20),Text='\u{2026}',TextSize=15,FontFace=D.Bold,RichText=true,Parent=b0})am({Position=UDim2.fromOffset(0,21),Size=UDim2.new(1,-8,0,14),Text=string.upper(b_),TextSize=10,TextColor3=z.Muted,Parent=b0})return b1 end function a2:_homeAction(bY,bZ,b_,b0,b1)local b2=ai('TextButton',{BackgroundColor3=z.Surface3,BackgroundTransparency=0.5,BorderSizePixel=0,Text='',AutoButtonColor=false,ClipsDescendants=true,LayoutOrder=bZ,Parent=bY})aj(b2,UDim.new(0,8))local b3=ak(b2)local b4=ai('ImageLabel',{AnchorPoint=Vector2.new(0.5,0),Position=UDim2.new(0.5,0,0,11),Size=UDim2.fromOffset(16,16),BackgroundTransparency=1,ImageColor3=z.Text,ScaleType=Enum.ScaleType.Fit,Parent=b2})aq(b4,b_)am({Position=UDim2.new(0,4,0,32),Size=UDim2.new(1,-8,0,14),Text=b0,TextSize=11,TextColor3=z.Muted,TextXAlignment=Enum.TextXAlignment.Center,Parent=b2})b2.MouseEnter:Connect(function()ah(b2,{BackgroundTransparency=0},0.15,Enum.EasingStyle.Quint)ah(b3,{Color=z.StrokeHover},0.15)ah(b4,{ImageColor3=z.Accent},0.15)end)b2.MouseLeave:Connect(function()ah(b2,{BackgroundTransparency=0.5},0.25,Enum.EasingStyle.Quint)ah(b3,{Color=z.Stroke},0.25)ah(b4,{ImageColor3=z.Text},0.25)end)b2.MouseButton1Click:Connect(function()aE(b2)aJ(b1)end)return b2 end function a2:_homeGame(bY,bZ)local b_=self:_homeCard(bY,bZ)local b0=ai('Frame',{Size=UDim2.new(1,0,0,46),BackgroundTransparency=1,LayoutOrder=1,Parent=b_})local b1=ai('ImageLabel',{Size=UDim2.fromOffset(44,44),BackgroundColor3=z.Surface3,BorderSizePixel=0,Image='rbxthumb://type=GameIcon&id='..tostring(game.GameId)..'&w=150&h=150',Parent=b0})aj(b1,UDim.new(0,10))ak(b1)local b2=am({Position=UDim2.fromOffset(56,3),Size=UDim2.new(1,-56,0,20),Text='Loading',TextSize=15,FontFace=D.Bold,Parent=b0})local b3=am({Position=UDim2.fromOffset(56,24),Size=UDim2.new(1,-56,0,16),Text='',TextSize=12,FontFace=D.Regular,TextColor3=z.Muted,Parent=b0})local b4=nil task.spawn(function()local b5=aY()b2.Text=b5 and b5.Name or aZ()b4=b5 and type(b5.Creator)=='table'and b5.Creator.Name or nil end)local b5=ai('Frame',{Size=UDim2.new(1,0,0,0),AutomaticSize=Enum.AutomaticSize.Y,BackgroundTransparency=1,LayoutOrder=2,Parent=b_})al(b5,0,0,12,0)ai('UIGridLayout',{CellPadding=UDim2.fromOffset(6,6),CellSize=UDim2.new(0.25,-5,0,54),SortOrder=Enum.SortOrder.LayoutOrder,Parent=b5})self:_homeAction(b5,1,'refresh-cw','Rejoin',function()self:Rejoin()end)self:_homeAction(b5,2,'shuffle','Hop',function()self:ServerHop()end)self:_homeAction(b5,3,'users','Lowest',function()self:JoinLowestServer()end)self:_homeAction(b5,4,'copy','Job ID',function()self:CopyToClipboard(game.JobId,'Job ID')end)am({Size=UDim2.new(1,0,0,26),Text='Job '..bB(game.JobId)..'  \u{b7}  Place '..tostring(game.PlaceId),TextSize=11,FontFace=D.Regular,TextColor3=z.Muted,TextYAlignment=Enum.TextYAlignment.Bottom,LayoutOrder=3,Parent=b_})return function()local b6=#f:GetPlayers()..'/'..f.MaxPlayers..' players'b3.Text=b4 and('by '..b4..'  \u{b7}  '..b6)or b6 end end function a2:_homeLink(bY,bZ,b_,b0,b1,b2,b3)local b4=ai('Frame',{Size=UDim2.new(1,0,0,46),BackgroundTransparency=1,LayoutOrder=bZ,Parent=bY})ai('Frame',{Name='Rule',Size=UDim2.new(1,0,0,1),BackgroundColor3=z.Stroke,BorderSizePixel=0,Parent=b4})local b5=aB(b4,b_,z.Accent,UDim2.new(0,0,0.5,0))b5.Size=UDim2.fromOffset(16,16)local b6=am({Position=UDim2.fromOffset(28,6),Size=UDim2.new(1,-68,0,18),Text=b0,TextSize=13,Parent=b4})local b7=am({Position=UDim2.fromOffset(28,24),Size=UDim2.new(1,-68,0,15),Text=b1,TextSize=12,FontFace=D.Regular,TextColor3=z.Muted,Parent=b4})local b8=ai('TextButton',{AnchorPoint=Vector2.new(1,0.5),Position=UDim2.new(1,0,0.5,0),Size=UDim2.fromOffset(30,30),BackgroundColor3=z.Surface3,BackgroundTransparency=0.5,BorderSizePixel=0,Text='',AutoButtonColor=false,Parent=b4})aj(b8,UDim.new(0,8))local b9=ak(b8)local ca=ai('ImageLabel',{AnchorPoint=Vector2.new(0.5,0.5),Position=UDim2.fromScale(0.5,0.5),Size=UDim2.fromOffset(14,14),BackgroundTransparency=1,ImageColor3=z.Muted,ScaleType=Enum.ScaleType.Fit,Parent=b8})aq(ca,b2)b8.MouseEnter:Connect(function()ah(b8,{BackgroundTransparency=0},0.15,Enum.EasingStyle.Quint)ah(b9,{Color=z.StrokeHover},0.15)ah(ca,{ImageColor3=z.Accent},0.15)end)b8.MouseLeave:Connect(function()ah(b8,{BackgroundTransparency=0.5},0.25,Enum.EasingStyle.Quint)ah(b9,{Color=z.Stroke},0.25)ah(ca,{ImageColor3=z.Muted},0.25)end)b8.MouseButton1Click:Connect(function()aJ(b3)end)return b4,b6,b7 end function a2:_homeLinks(bY,bZ,b_)local b0={}if bZ.Discord then table.insert(b0,{Icon=bZ.DiscordIcon or'message-circle',Title=bZ.DiscordTitle or'Community',Text=bZ.Discord})end if bZ.Website then table.insert(b0,{Icon=bZ.WebsiteIcon or'globe',Title=bZ.WebsiteTitle or'Website',Text=bZ.Website})end for b1,b2 in ipairs(bZ.Links or{})do table.insert(b0,b2)end local b1=bZ.Features if#b0==0 and b1==false then return nil,function()end end local b2=self:_homeCard(bY,b_)self:_homeCaption(b2,'Links',0)for b3,b4 in ipairs(b0)do local b5=type(b4.Callback)=='function'self:_homeLink(b2,b3,b4.Icon or'link',b4.Title or'',b4.Text or'',b5 and'arrow-up-right'or'copy',function()if b5 then aJ(b4.Callback)else self:CopyToClipboard(b4.Copy or b4.Text,b4.Title)end end)end local b3=function()end if b1~=false then if type(b1)=='table'then self._featuresTitle=b1.Title self._features=b1.List or(#b1>0 and b1 or nil)end local b4,b5,b6=self:_homeLink(b2,100,type(b1)=='table'and b1.Icon or'list-checks',type(b1)=='table'and b1.Title or'Feature list','','chevron-right',function()self:ShowFeatures()end)b3=function()local b7=type(b1)=='table'and b1.Desc b6.Text=b7 or(self:_featureSummary())end task.defer(b3)end local b5=nil for b6,b7 in ipairs(b2:GetChildren())do if b7:IsA('Frame')and b7:FindFirstChild('Rule')and(not b5 or b7.LayoutOrder<b5.LayoutOrder)then b5=b7 end end if b5 then b5.Rule.Visible=false end return b2,b3 end function a2:_homeExecutor(bY,bZ,b_)local b0=ai('Frame',{Size=UDim2.new(1,0,0,26),BackgroundTransparency=1,LayoutOrder=b_,Parent=bY})local b1,b2,b3=aV(bZ)local b5=ai('Frame',{AnchorPoint=Vector2.new(0,0.5),Position=UDim2.new(0,4,0.5,0),Size=UDim2.fromOffset(7,7),BackgroundColor3=b2 and z.Success or z.Warning,BorderSizePixel=0,Parent=b0})aj(b5,UDim.new(1,0))local b6=ai('Frame',{Position=UDim2.fromOffset(18,0),Size=UDim2.new(1,-170,1,0),BackgroundTransparency=1,ClipsDescendants=true,Parent=b0})ai('UIListLayout',{FillDirection=Enum.FillDirection.Horizontal,VerticalAlignment=Enum.VerticalAlignment.Center,SortOrder=Enum.SortOrder.LayoutOrder,Padding=UDim.new(0,8),Parent=b6})am({Size=UDim2.new(0,0,1,0),AutomaticSize=Enum.AutomaticSize.X,Text=b1,TextSize=12,TextTruncate=Enum.TextTruncate.None,LayoutOrder=1,Parent=b6})am({Size=UDim2.new(0,0,1,0),AutomaticSize=Enum.AutomaticSize.X,Text=b3,TextSize=12,FontFace=D.Regular,TextColor3=b2 and z.Muted or z.Warning,TextTruncate=Enum.TextTruncate.None,LayoutOrder=2,Parent=b6})local b7=ai('Frame',{AnchorPoint=Vector2.new(1,0.5),Position=UDim2.new(1,-2,0.5,0),Size=UDim2.fromOffset(0,22),AutomaticSize=Enum.AutomaticSize.X,BackgroundTransparency=1,Parent=b0})ai('UIListLayout',{FillDirection=Enum.FillDirection.Horizontal,VerticalAlignment=Enum.VerticalAlignment.Center,SortOrder=Enum.SortOrder.LayoutOrder,Padding=UDim.new(0,6),Parent=b7})am({Size=UDim2.new(0,0,1,0),AutomaticSize=Enum.AutomaticSize.X,Text=E and'Tap the pill or'or'Hide with',TextSize=12,FontFace=D.Regular,TextColor3=z.Muted,TextTruncate=Enum.TextTruncate.None,LayoutOrder=1,Parent=b7})local b8=ai('Frame',{Size=UDim2.fromOffset(0,20),AutomaticSize=Enum.AutomaticSize.X,BackgroundColor3=z.Surface3,BorderSizePixel=0,LayoutOrder=2,Parent=b7})aj(b8,UDim.new(0,5))ak(b8)al(b8,6,6)self._keyChipLabel=am({Size=UDim2.new(0,0,1,0),AutomaticSize=Enum.AutomaticSize.X,Text=aI(self.Keybind),TextSize=11,FontFace=D.Bold,TextTruncate=Enum.TextTruncate.None,Parent=b8})end a2._featureKinds={Toggle=true,Slider=true,Dropdown=true,Input=true,Keybind=true,ColorPicker=true,Stepper=true,Button=true,ButtonRow=true,OrderList=true}function a2:_featureGroups()local bY,bZ={},{}for b_,b0 in ipairs(self.Tabs)do if b0~=self.Home and b0._userVisible~=false then local b1={Name=b0.Name,Icon=b0._iconName,Items={}}for b2,b3 in ipairs(b0._subTabs or{b0})do local b5=b3._isSubTab and b3 or nil local function b6(b7,b8,b9,ca)if type(b7)~='string'or b7==''then return end local cb={Name=b7,Kind=b8._type=='ButtonRow'and'Button'or b8._type,Path=ca,Result={Tab=b0,Sub=b5,Target=b8,Group=b9}}table.insert(b1.Items,cb)bZ[string.lower(b7)]=bZ[string.lower(b7)]or cb end local function b7(b8,b9,ca)if b8._destroyed or not self._featureKinds[b8._type]or(b8._isShown and not b8:_isShown())then return end if b8._type=='ButtonRow'and b8.Buttons then for cb,cc in ipairs(b8.Buttons)do b6(cc.Label.Text,b8,b9,ca)end else b6(b8._searchName,b8,b9,ca)end end if not b3._noSearch then for b8,b9 in ipairs(b3._items or{})do b7(b9,nil,b5 and b5.Name or nil)end for b8,b9 in ipairs(b3._groupboxes or{})do if b9._userVisible~=false and not b9._manager then for ca,cb in ipairs(b9._items)do b7(cb,b9,b5 and(b5.Name..'  \u{203a}  '..b9.Name)or b9.Name)end end end end end if#b1.Items>0 then table.insert(bY,b1)end end end local b_=self._features if type(b_)~='table'then return bY end local function b0(b1)if type(b1)~='table'then b1={Name=b1}end local b2=tostring(b1.Name or b1.Title or b1[1]or'')local b3=bZ[string.lower(b2)]return{Name=b2,Desc=b1.Desc or b1.Description,Tag=b1.Tag,Icon=b1.Icon,Kind=b3 and b3.Kind,Path=b3 and b3.Path,Result=b3 and b3.Result,Callback=b1.Callback}end local b1,b2={},nil for b3,b5 in ipairs(b_)do if type(b5)=='table'and type(b5.Items)=='table'then local b6={Name=tostring(b5.Name or b5.Title or'Features'),Icon=b5.Icon,Items={}}for b7,b8 in ipairs(b5.Items)do table.insert(b6.Items,b0(b8))end table.insert(b1,b6)else if not b2 then b2={Name=self._featuresTitle or'Features',Items={}}table.insert(b1,b2)end table.insert(b2.Items,b0(b5))end end return b1 end function a2:_featureSummary()local bY=self:_featureGroups()local bZ=0 for b_,b0 in ipairs(bY)do bZ+=#b0.Items end local b_=bZ..(bZ==1 and' feature'or' features')if type(self._features)~='table'and#bY>0 then b_..=' across '..#bY..(#bY==1 and' tab'or' tabs')end return b_,bY,bZ end function a2:ShowFeatures()if self._dialog then self._dialog.Close()end local bY,bZ,b_=self:_featureSummary()local b0=16 local b1=E and 44 or 38 local b2=self.Body local b3=ai('TextButton',{Size=UDim2.fromScale(1,1),BackgroundColor3=Color3.new(0,0,0),BackgroundTransparency=1,Text='',AutoButtonColor=false,ZIndex=40,Parent=b2})local b5=ai('CanvasGroup',{AnchorPoint=Vector2.new(0.5,0.5),Position=UDim2.new(0.5,0,0.5,10),Size=UDim2.fromOffset(420,460),BackgroundColor3=z.Background,BorderSizePixel=0,GroupTransparency=1,Active=true,Parent=b3})aj(b5,UDim.new(0,12))local b6=ak(b5,z.Stroke,1)local b7=ai('UIScale',{Scale=0.94,Parent=b5})local function b8()local b9=self.Scale.Scale local ca=b2.AbsoluteSize/b9 b5.Size=UDim2.fromOffset(math.min(440,ca.X-24),math.min(480,ca.Y-24))end b8()local b9=b2:GetPropertyChangedSignal('AbsoluteSize'):Connect(b8)local ca=aB(b5,'list-checks',z.Accent,UDim2.new(0,b0,0,b0+10))ca.Size=UDim2.fromOffset(18,18)am({Position=UDim2.fromOffset(b0+28,b0),Size=UDim2.new(1,-(b0*2+28+36),0,18),Text=self._featuresTitle or'Features',TextSize=15,Parent=b5})am({Position=UDim2.fromOffset(b0+28,b0+19),Size=UDim2.new(1,-(b0*2+28+36),0,14),Text=bY,TextSize=12,FontFace=D.Regular,TextColor3=z.Muted,Parent=b5})local cb=ai('TextButton',{AnchorPoint=Vector2.new(1,0),Position=UDim2.new(1,-(b0-6),0,b0-6),Size=E and UDim2.fromOffset(40,40)or UDim2.fromOffset(32,32),BackgroundColor3=z.Surface3,BackgroundTransparency=1,Text='',AutoButtonColor=false,Parent=b5})aj(cb,UDim.new(0,8))local cc=ai('ImageLabel',{AnchorPoint=Vector2.new(0.5,0.5),Position=UDim2.fromScale(0.5,0.5),Size=UDim2.fromOffset(16,16),BackgroundTransparency=1,ImageColor3=z.Muted,ScaleType=Enum.ScaleType.Fit,Parent=cb})aq(cc,'x')if cc.Image==''then cc:Destroy()am({Size=UDim2.fromScale(1,1),Text='\u{d7}',TextSize=20,TextColor3=z.Muted,TextXAlignment=Enum.TextXAlignment.Center,Parent=cb})end cb.MouseEnter:Connect(function()ah(cb,{BackgroundTransparency=0.5},0.12)end)cb.MouseLeave:Connect(function()ah(cb,{BackgroundTransparency=1},0.2)end)local cd=b0+44 local ce=ai('Frame',{Position=UDim2.fromOffset(b0,cd),Size=UDim2.new(1,-b0*2,0,E and 36 or 32),BackgroundColor3=z.Surface,BorderSizePixel=0,Parent=b5})aj(ce,UDim.new(0,7))local cf=ak(ce)local cg,ch=aB(ce,'search',z.Muted,UDim2.new(0,10,0.5,0))ch.Parent.Size=UDim2.fromOffset(14,14)local ci=ai('TextBox',{Position=UDim2.fromOffset(32,0),Size=UDim2.new(1,-40,1,0),BackgroundTransparency=1,Text='',PlaceholderText='Search features',PlaceholderColor3=z.Muted,TextColor3=z.Text,TextSize=13,FontFace=D.Regular,TextXAlignment=Enum.TextXAlignment.Left,TextTruncate=Enum.TextTruncate.AtEnd,ClearTextOnFocus=false,Parent=ce})ci.Focused:Connect(function()ah(cf,{Color=z.StrokeHover},0.15)ah(ch,{ImageColor3=z.Accent},0.15)end)ci.FocusLost:Connect(function()ah(cf,{Color=z.Stroke},0.2)ah(ch,{ImageColor3=z.Muted},0.2)end)cd+=(E and 36 or 32)+10 local cj=ai('ScrollingFrame',{Position=UDim2.fromOffset(b0,cd),Size=UDim2.new(1,-b0*2+6,1,-(cd+b0-4)),BackgroundTransparency=1,BorderSizePixel=0,ScrollBarThickness=E and 4 or 3,ScrollBarImageColor3=z.Accent,ScrollBarImageTransparency=0.4,ScrollingDirection=Enum.ScrollingDirection.Y,CanvasSize=UDim2.new(),Parent=b5})local ck=ai('Frame',{Size=UDim2.new(1,-10,0,0),AutomaticSize=Enum.AutomaticSize.Y,BackgroundTransparency=1,Parent=cj})local cl=ai('UIListLayout',{SortOrder=Enum.SortOrder.LayoutOrder,Padding=UDim.new(0,2),Parent=ck})cl:GetPropertyChangedSignal('AbsoluteContentSize'):Connect(function()cj.CanvasSize=UDim2.fromOffset(0,cl.AbsoluteContentSize.Y/self.Scale.Scale+4)end)local cm=am({Size=UDim2.new(1,0,0,60),Text=b_==0 and'No features yet'or'No matches',TextSize=13,FontFace=D.Regular,TextColor3=z.Muted,TextXAlignment=Enum.TextXAlignment.Center,LayoutOrder=0,Visible=b_==0,Parent=ck})local cn={}local co=false local cp=nil function cn.Close()if co then return end co=true if self._dialog==cn then self._dialog=nil end b9:Disconnect()if cp then task.defer(cp)end if ci:IsFocused()then ci:ReleaseFocus()end ah(b3,{BackgroundTransparency=1},0.18)ah(b5,{Position=UDim2.new(0.5,0,0.5,8),GroupTransparency=1},0.18,Enum.EasingStyle.Quint)ah(b7,{Scale=0.96},0.18,Enum.EasingStyle.Quint)ah(b6,{Transparency=1},0.12)task.delay(0.2,function()b3:Destroy()end)end local cq={}local cr=0 for cs,ct in ipairs(bZ)do cr+=1 local cu=ai('Frame',{Size=UDim2.new(1,0,0,30),BackgroundTransparency=1,LayoutOrder=cr,Parent=ck})local cv=aB(cu,ct.Icon or'layout-grid',z.Accent,UDim2.new(0,2,0,18))cv.Size=UDim2.fromOffset(14,14)am({Position=UDim2.fromOffset(24,10),Size=UDim2.new(1,-70,0,16),Text=string.upper(ct.Name),TextSize=11,TextColor3=z.Muted,Parent=cu})local cw=am({AnchorPoint=Vector2.new(1,0),Position=UDim2.new(1,-4,0,10),Size=UDim2.new(0,40,0,16),Text=tostring(#ct.Items),TextSize=11,TextColor3=z.Muted,TextXAlignment=Enum.TextXAlignment.Right,Parent=cu})local cx={Header=cu,Count=cw,Rows={}}for cy,cz in ipairs(ct.Items)do cr+=1 local cA=cz.Desc or cz.Path local cB=cz.Result~=nil or type(cz.Callback)=='function'local cC=ai('TextButton',{Size=UDim2.new(1,0,0,cA and b1+4 or b1-4),BackgroundColor3=z.Surface2,BackgroundTransparency=1,BorderSizePixel=0,Text='',AutoButtonColor=false,LayoutOrder=cr,Parent=ck})aj(cC,UDim.new(0,8))local cD=aB(cC,cz.Icon or self._searchIcons[cz.Kind]or'check',z.Muted,UDim2.new(0,10,0.5,0))cD.Size=UDim2.fromOffset(14,14)local cE=12+(cB and 22 or 0)local cF if cz.Tag then cF=ai('Frame',{AnchorPoint=Vector2.new(1,0.5),Position=UDim2.new(1,-(cB and 30 or 10),0.5,0),Size=UDim2.fromOffset(0,20),AutomaticSize=Enum.AutomaticSize.X,BackgroundColor3=z.Accent,BackgroundTransparency=0.85,BorderSizePixel=0,Parent=cC})aj(cF,UDim.new(0,5))al(cF,7,7)am({Size=UDim2.new(0,0,1,0),AutomaticSize=Enum.AutomaticSize.X,Text=tostring(cz.Tag),TextSize=11,TextColor3=z.Accent,TextTruncate=Enum.TextTruncate.None,Parent=cF})end local cG=am({Position=UDim2.fromOffset(34,cA and 5 or 0),Size=UDim2.new(1,-(34+cE),0,cA and 18 or b1-4),Text=cz.Name,TextSize=13,Parent=cC})local cH if cA then cH=am({Position=UDim2.fromOffset(34,23),Size=UDim2.new(1,-(34+cE),0,14),Text=cA,TextSize=11,FontFace=D.Regular,TextColor3=z.Muted,Parent=cC})end if cF then local function cI()local cJ=34+cE+cF.AbsoluteSize.X/self.Scale.Scale+8 cG.Size=UDim2.new(1,-cJ,0,cG.Size.Y.Offset)if cH then cH.Size=UDim2.new(1,-cJ,0,14)end end cF:GetPropertyChangedSignal('AbsoluteSize'):Connect(cI)task.defer(cI)end if cB then local cI=ai('ImageLabel',{AnchorPoint=Vector2.new(1,0.5),Position=UDim2.new(1,-10,0.5,0),Size=UDim2.fromOffset(14,14),BackgroundTransparency=1,ImageColor3=z.Muted,ImageTransparency=0.4,ScaleType=Enum.ScaleType.Fit,Parent=cC})aq(cI,'arrow-up-right')end local cI=ay(cC,function()return cj end)cC.MouseEnter:Connect(function()if not ax()then ah(cC,{BackgroundTransparency=0.3},0.12)end end)cC.MouseLeave:Connect(function()ah(cC,{BackgroundTransparency=1},0.2)end)cC.MouseButton1Click:Connect(function()if not cB or not cI()then return end cn.Close()if cz.Result then self:_revealResult(cz.Result)end aJ(cz.Callback)end)table.insert(cx.Rows,{Frame=cC,Key=string.lower(cz.Name..' '..(cA or''))})end table.insert(cq,cx)end ci:GetPropertyChangedSignal('Text'):Connect(function()local cs=string.lower(ci.Text)local ct=false for cu,cv in ipairs(cq)do local cw=0 for cx,cy in ipairs(cv.Rows)do local cz=cs==''or string.find(cy.Key,cs,1,true)~=nil cy.Frame.Visible=cz if cz then cw+=1 end end cv.Header.Visible=cw>0 cv.Count.Text=tostring(cw)ct=ct or cw>0 end cm.Visible=not ct cj.CanvasPosition=Vector2.zero end)cb.MouseButton1Click:Connect(cn.Close)b3.MouseButton1Click:Connect(cn.Close)cp=self:_listen('Began',function(cs)if cs.KeyCode==Enum.KeyCode.Escape then cn.Close()end end)self._dialog=cn ah(b3,{BackgroundTransparency=0.45},0.25)ah(b5,{Position=UDim2.fromScale(0.5,0.5),GroupTransparency=0},0.3,Enum.EasingStyle.Quint)ah(b7,{Scale=1},0.4,Enum.EasingStyle.Back)return cn end function a2:_homeStats(bY,bZ,b_,b0)local b1=bZ.Stats or{'Players','Execs','Session','FPS','Ping'}local b2=self:_homeCard(bY,b_)local b3=ai('Frame',{Size=UDim2.new(1,0,0,76),BackgroundTransparency=1,LayoutOrder=1,Parent=b2})ai('UIGridLayout',{CellPadding=UDim2.fromOffset(24,0),CellSize=UDim2.new(0.5,-12,0,76),SortOrder=Enum.SortOrder.LayoutOrder,Parent=b3})local b5=ai('Frame',{Size=UDim2.new(1,0,0,1),BackgroundColor3=z.Stroke,BorderSizePixel=0,LayoutOrder=2,Parent=b2})local b6=ai('Frame',{Size=UDim2.new(1,0,0,0),AutomaticSize=Enum.AutomaticSize.Y,BackgroundTransparency=1,LayoutOrder=3,Parent=b2})al(b6,0,0,12,0)local b7=ai('UIGridLayout',{CellPadding=UDim2.fromOffset(0,8),CellSize=UDim2.new(0.25,0,0,36),SortOrder=Enum.SortOrder.LayoutOrder,Parent=b6})local b8,b9={},{}local ca,cb=0,0 for cc,cd in ipairs(b1)do local ce=bH[cd]if ce and not b8[cd]then if cd=='FPS'or cd=='Ping'then ca+=1 b8[cd],b9[cd]=self:_homeGraph(b3,cc,ce[1],ce[2],cd=='FPS'and 60 or 100)else cb+=1 b8[cd]=self:_homeFigure(b6,cc,ce[2])end end end b3.Visible=ca>0 b6.Visible=cb>0 b5.Visible=ca>0 and cb>0 if ca==0 then al(b6,0,0,0,0)end local function cc()local cd=b6.AbsoluteSize.X/self.Scale.Scale local ce=math.clamp(cb,1,cd>=440 and 5 or 3)b7.CellSize=UDim2.new(1/ce,0,0,36)end b6:GetPropertyChangedSignal('AbsoluteSize'):Connect(cc)task.defer(cc)if b8.Executor then b8.Executor.Text=aU()end if b8.Game then b8.Game.Text='Loading'task.spawn(function()b8.Game.Text=aZ()end)end if b8.Region then b8.Region.Text='Loading'a0(function(cd)b8.Region.Text=cd end)end if b8.Execs then local cd=bI(bZ.StatsFolder or self.ConfigFolder)b8.Execs.Text=cd and tostring(cd)or'\u{2014}'end if b8.Friends then local cd={}local function ce()local cf=0 for cg,ch in ipairs(f:GetPlayers())do if ch~=j then local ci=cd[ch.UserId]if ci==nil then local cj,ck=pcall(function()return j:IsFriendsWith(ch.UserId)end)ci=cj and ck==true cd[ch.UserId]=ci end if ci then cf+=1 end end end b8.Friends.Text=tostring(cf)end task.spawn(ce)table.insert(self._connections,f.PlayerAdded:Connect(function()task.spawn(ce)end))table.insert(self._connections,f.PlayerRemoving:Connect(function()task.defer(ce)end))end local cd=b8.Session or b8.Uptime local ce=os.clock()local cf=0 self:_listen('Render',function()cf+=1 end)local cg=bZ.StatColors~=false local function ch(ci,cj)if cg and ci.TextColor3~=cj then ah(ci,{TextColor3=cj},0.3)end end return function()if b8.FPS then b8.FPS.Text=tostring(cf)ch(b8.FPS,k._healthColor(cf,50,30))b9.FPS(cf,k._healthColor(cf,50,30))end cf=0 if b8.Ping then local ci,cj=pcall(function()return math.floor(j:GetNetworkPing()*1000)end)cj=ci and cj or 0 b8.Ping.Text=cj..'ms'ch(b8.Ping,k._healthColor(cj,90,180,true))b9.Ping(cj,k._healthColor(cj,90,180,true))end if b8.Players then b8.Players.Text=#f:GetPlayers()..'/'..f.MaxPlayers end if cd then cd.Text=bA(os.clock()-ce)end if b8.Time then b8.Time.Text=os.date(bZ.TimeFormat or'%H:%M')end if b8.ServerAge then b8.ServerAge.Text=bA(workspace.DistributedGameTime)end if b8.Memory then local ci,cj=pcall(function()return i:GetTotalMemoryUsageMb()end)b8.Memory.Text=ci and string.format('%d MB',cj)or'\u{2014}'ch(b8.Memory,ci and k._healthColor(cj,1500,3000,true)or z.Text)end end,function()cf=0 end end local function bY(bZ,b_)local b0=bZ.List if type(b_.Content)=='string'then local b1=bG(b0,0,1)b1.AutomaticSize=Enum.AutomaticSize.Y al(b1,16,16,14,16)am({Size=UDim2.new(1,0,0,0),AutomaticSize=Enum.AutomaticSize.Y,Text=b_.Content,TextSize=13,FontFace=D.Regular,TextColor3=z.Muted,TextWrapped=true,TextTruncate=Enum.TextTruncate.None,TextYAlignment=Enum.TextYAlignment.Top,Parent=b1})end if type(b_.Entries)=='table'then for b1,b2 in ipairs(b_.Entries)do local b3=bG(b0,0,b1+1)b3.AutomaticSize=Enum.AutomaticSize.Y al(b3,16,16,14,16)ai('UIListLayout',{SortOrder=Enum.SortOrder.LayoutOrder,Padding=UDim.new(0,6),Parent=b3})local b5=ai('Frame',{Size=UDim2.new(1,0,0,20),BackgroundTransparency=1,LayoutOrder=1,Parent=b3})am({Size=UDim2.new(1,-90,1,0),Text=b2.Title or b2.Version or'Update',TextSize=15,Parent=b5})if b2.Date or b2.Tag then local b6=ai('Frame',{AnchorPoint=Vector2.new(1,0.5),Position=UDim2.new(1,0,0.5,0),Size=UDim2.fromOffset(0,20),AutomaticSize=Enum.AutomaticSize.X,BackgroundColor3=z.Surface,BorderSizePixel=0,Parent=b5})aj(b6,UDim.new(0,5))ak(b6)al(b6,8,8)am({Size=UDim2.new(0,0,1,0),AutomaticSize=Enum.AutomaticSize.X,Text=b2.Tag or b2.Date,TextSize=11,TextColor3=z.Muted,TextTruncate=Enum.TextTruncate.None,Parent=b6})end local b6=b2.Content or b2.Body if type(b2.Changes)=='table'then b6='\u{2022} '..table.concat(b2.Changes,'\n\u{2022} ')end if b6 then am({Size=UDim2.new(1,0,0,0),AutomaticSize=Enum.AutomaticSize.Y,Text=b6,TextSize=13,FontFace=D.Regular,TextColor3=z.Muted,TextWrapped=true,TextTruncate=Enum.TextTruncate.None,TextYAlignment=Enum.TextYAlignment.Top,LayoutOrder=2,Parent=b3})end end end if type(b_.Build)=='function'then aJ(b_.Build,bZ,b0)else bZ._noSearch=true end end function a2:_buildHome(bZ)self._hideName=bZ.HideName==true self._hideAvatar=bZ.HideAvatar==true self:_renderIdentity(true)local b_=self:Tab({Name=bZ.Name or'Home',Desc=bZ.Desc,Icon=bZ.Icon or'house',PageTitle=bZ.Title or'Home'})b_._order=100 self.Home=b_ local b0=bZ.Pages or bZ.Tabs local b1=b_ if type(b0)=='table'and#b0>0 then b1=b_:SubTab({Name=bZ.OverviewName or'Overview',Icon=bZ.TabIcon or'layout-grid'})end b1._noSearch=true b1._order=100 local b2=b1.List local b3=self:_homeProfile(b2,bZ,1)local b5,b6=self:_homeStats(b2,bZ,2,b_)local b7=ai('Frame',{Size=UDim2.new(1,0,0,0),AutomaticSize=Enum.AutomaticSize.Y,BackgroundTransparency=1,LayoutOrder=3,Parent=b2})local b8=ai('UIListLayout',{SortOrder=Enum.SortOrder.LayoutOrder,Padding=UDim.new(0,10),Parent=b7})local function b9(ca)local cb=ai('Frame',{Size=UDim2.new(1,0,0,0),AutomaticSize=Enum.AutomaticSize.Y,BackgroundTransparency=1,LayoutOrder=ca,Parent=b7})ai('UIListLayout',{SortOrder=Enum.SortOrder.LayoutOrder,Parent=cb})return cb end local ca,cb=b9(1),b9(2)local cc=self:_homeGame(ca,1)local cd,ce=self:_homeLinks(cb,bZ,1)if not cd then cb:Destroy()end local function cf()local cg=cd~=nil and b7.AbsoluteSize.X/self.Scale.Scale>=540 b8.FillDirection=cg and Enum.FillDirection.Horizontal or Enum.FillDirection.Vertical local ch=cg and UDim2.new(0.5,-5,0,0)or UDim2.new(1,0,0,0)ca.Size=ch if cd then cb.Size=ch end end b7:GetPropertyChangedSignal('AbsoluteSize'):Connect(cf)task.defer(cf)self:_homeExecutor(b2,bZ,4)if type(b0)=='table'then for cg,ch in ipairs(b0)do bY(b_:SubTab({Name=ch.Name or ch.Title or'Page',Icon=ch.Icon}),ch)end end b3()b5()cc()task.spawn(function()while not self._destroyed and b_._page.Parent do task.wait(1)if self.Open and self.CurrentTab==b_ then b5()b3()cc()ce()else b6()end end end)return b_ end function a2:Tab(bZ,b_)bZ=l(bZ,{Title='Name',Description='Desc'})if b_~=nil and bZ.Icon==nil then bZ.Icon=b_ end local b0=setmetatable({Name=bZ.Name or'Tab',Window=self,_order=0},aS)local b1=ai('TextButton',{Size=UDim2.new(1,0,0,H),BackgroundColor3=z.Surface3,BackgroundTransparency=1,Text='',AutoButtonColor=false,LayoutOrder=#self.Tabs+1,Parent=self._tabStack})aj(b1,UDim.new(0,7))local b2=ak(b1,z.Stroke,1)b2.Enabled=false b0._button=b1 local b3=bZ.Icon~=nil if b3 then local b5=ai('ImageLabel',{AnchorPoint=Vector2.new(0.5,0.5),Position=UDim2.new(0,20,0.5,0),Size=UDim2.fromOffset(16,16),BackgroundTransparency=1,ImageColor3=z.Muted,ScaleType=Enum.ScaleType.Fit,Parent=b1})aq(b5,bZ.Icon)if b5:GetAttribute('CustomIcon')then b5.ImageTransparency=0.4 end b0._icon=b5 end b0._label=am({Position=UDim2.fromOffset(b3 and 38 or 14,0),Size=UDim2.new(1,b3 and-46 or-22,1,0),Text=b0.Name,TextSize=13,TextColor3=z.Muted,Parent=b1})local b5=ai('Frame',{Name=b0.Name,Size=UDim2.fromScale(1,1),BackgroundTransparency=1,Visible=false,Parent=self.Content})b0._page=b5 local b6=24 if b3 then local b7=aB(b5,bZ.Icon,z.Accent,UDim2.new(0,24,0,32))b7.Size=UDim2.fromOffset(20,20)b6=54 end b0._titleX=b6 b0._title=am({Position=UDim2.fromOffset(b6,20),Size=UDim2.new(1,-b6,0,24),Text=bZ.PageTitle or b0.Name,TextSize=22,Parent=b5})if bZ.Desc then b0._desc=am({Position=UDim2.fromOffset(b6,44),Size=UDim2.new(1,-b6,0,16),Text=bZ.Desc,TextSize=13,FontFace=D.Regular,TextColor3=z.Muted,Parent=b5})end local b7=bZ.Desc and 70 or 58 b0._headerBottom=b7 b0._iconName=bZ.Icon bJ(b0,b5,b7,bZ.Icon or'layout-grid',bZ.EmptyText or'Nothing here yet')local b8=ai('UIScale',{Parent=b1})local function b9()ah(b8,{Scale=1},0.3,Enum.EasingStyle.Quint)end b1.MouseEnter:Connect(function()if self.CurrentTab~=b0 and not ax()then ah(b1,{BackgroundTransparency=0.75},0.2,Enum.EasingStyle.Quint)ah(b0._label,{TextColor3=z.Text},0.2)if b0._icon then ar(b0._icon,z.Text,true,0.2)end end end)b1.MouseLeave:Connect(function()b9()if self.CurrentTab~=b0 then ah(b1,{BackgroundTransparency=1},0.3,Enum.EasingStyle.Quint)ah(b0._label,{TextColor3=z.Muted},0.3)if b0._icon then ar(b0._icon,z.Muted,false,0.3)end end end)b1.MouseButton1Down:Connect(function()ah(b8,{Scale=0.97},0.15,Enum.EasingStyle.Quint)end)b1.MouseButton1Up:Connect(b9)local ca=ay(b1,function()return self.TabList end)b1.MouseButton1Click:Connect(function()b9()if ca()then self:SelectTab(b0)end end)b0._stroke=b2 self:_fitTitle(b0)if not self._introDone then b1.Visible=false end table.insert(self.Tabs,b0)if#self.Tabs==1 then task.defer(function()if not self.CurrentTab then self:SelectTab(b0)end end)end return b0 end a2.CreateTab=a2.Tab function a2:CloudConfigs(bZ)bZ=l(bZ,{Title='Name',Description='Desc'})local b_=self local b0=self:Tab({Name=bZ.Name or'Cloud',Desc=bZ.Desc,Icon=bZ.Icon or'cloud',PageTitle=bZ.PageTitle})b0._noSearch=true b0.List.Visible=false if b0._empty then b0._empty:Destroy()b0._empty=nil end local b1=116 local b2=E and 36 or 32 local b3=E and 30 or 26 local b5={'Popular','New','Top','Installs'}local b6={Popular='Popular',New='Newest',Top='Top rated',Installs='Most installed'}local b7={'All','Favorites','Mine','Installed'}local b8=40 local b9=math.max(math.floor(tonumber(bZ.DescriptionLimit)or 300),20)local ca=math.max(math.floor(tonumber(bZ.PageSize)or 20),1)local cb=type(bZ.Tags)=='table'and bZ.Tags or{}local cc=math.max(math.floor(tonumber(bZ.MaxTags)or 3),0)local cd=tostring(bZ.StreamerName or'Ouroboros User')local ce={Tab=b0}local cf,cg={},{}local ch={}local ci,cj,ck=false,0,0 local cl=false local cm={Search='',Sort='Popular',Filter='All',Tag=nil}local cn,co={},nil local cp,cq,cr={},nil,0 local cs=b_:_readConfigSettings()local ct=type(cs.CloudFavorites)=='table'and cs.CloudFavorites or{}local cu=type(cs.CloudInstalled)=='table'and cs.CloudInstalled or{}if table.find(b5,cs.CloudSort)then cm.Sort=cs.CloudSort elseif table.find(b5,bZ.Sort)then cm.Sort=bZ.Sort end local function cv(cw,cx)b_:_writeConfigSettings({[cw]=cx})end local function cw(cx,cy,cz)b_:Notify({Title=cy,Content=cz,Type=cx and'Success'or'Error',Duration=3})end local function cx()return b_._hideName==true end local function cy(cz)local cA=type(cz)=='string'and b_:DecodeConfig(cz)if not cA then return nil end local cB=0 for cC in pairs(cA)do cB+=1 end return cB end local function cz(cA)cA=math.max(math.floor(tonumber(cA)or 0),0)if cA>=1e6 then return(('%.1f'):format(cA/1e6):gsub('%.0$',''))..'m'elseif cA>=1e3 then return(('%.1f'):format(cA/1e3):gsub('%.0$',''))..'k'end return tostring(cA)end local function cA(cB)cB=tonumber(cB)if not cB then return nil end local cC=os.time()-cB if cC<60 then return'just now'elseif cC<3600 then return math.floor(cC/60)..'m ago'elseif cC<86400 then return math.floor(cC/3600)..'h ago'elseif cC<604800 then return math.floor(cC/86400)..'d ago'elseif cC<2592000 then return math.floor(cC/604800)..'w ago'end return os.date('%d %b %Y',cB)end local function cB(cC)return(cC:gsub('&','&amp;'):gsub('<','&lt;'):gsub('>','&gt;'):gsub('"','&quot;'):gsub("'",'&apos;'))end local function cC(cD)local cE=string.lower(cm.Search)if cE==''then return cB(cD)end local cF=string.lower(cD)local cG=bc(z.Accent)local cH,cI={},1 while true do local cJ,cK=string.find(cF,cE,cI,true)if not cJ then break end table.insert(cH,cB(cD:sub(cI,cJ-1)))table.insert(cH,('<font color="#%s"><b>%s</b></font>'):format(cG,cB(cD:sub(cJ,cK))))cI=cK+1 end table.insert(cH,cB(cD:sub(cI)))return table.concat(cH)end local function cD(cE)if type(cE)~='table'then return nil end local cF=cE.Id~=nil and tostring(cE.Id)or e:GenerateGUID(false)local cG=cg[cF]or{Id=cF}for cH,cI in pairs(cE)do if cH~='Id'then cG[cH]=cI end end cG.Name=tostring(cG.Name or'Untitled')cG.Author=tostring(cG.Author or'Unknown')cG.Description=cG.Description~=nil and tostring(cG.Description)or''local cH={}for cI,cJ in ipairs(type(cG.Tags)=='table'and cG.Tags or{})do table.insert(cH,tostring(cJ))end cG.Tags=cH cG.Installs=tonumber(cG.Installs)or 0 cG.Likes=tonumber(cG.Likes)or 0 cG.Updated=tonumber(cG.Updated or cG.Created)cG.Liked=cG.Liked==true if type(cG.Code)~='string'or cG.Code==''then cG.Code=nil end cG.Count=tonumber(cG.Count)or cy(cG.Code)cG.Mine=cG.Mine==true or tonumber(cG.AuthorId)==j.UserId or tonumber(cG.OwnerId)==j.UserId cg[cF]=cG return cG end local function cE(cF)return{Id=cF.Id,Name=cF.Name,Description=cF.Description,Author=cF.Author,AuthorId=cF.AuthorId,Tags=table.clone(cF.Tags),Installs=cF.Installs,Likes=cF.Likes,Liked=cF.Liked,Updated=cF.Updated,Code=cF.Code,Count=cF.Count,Folder=cF.Folder,Mine=cF.Mine}end local function cF(cG)local cH=cE(cG)cH.Code=nil cH.Liked=nil return cH end local function cG(cH)local cI=cu[cH.Id]if type(cI)~='table'then return nil end if cH.Updated and tonumber(cI.Updated)and cH.Updated>tonumber(cI.Updated)then return'Update'end return'Installed'end local function cH(cI)return type(cI.Folder)=='string'and cI.Folder~=b_.ConfigFolder end local function cI(cJ,cK,cL,cM,cN)local cO=ai('TextButton',{Size=UDim2.fromOffset(cM,cM),BackgroundColor3=z.Surface2,BackgroundTransparency=cN and 1 or 0,Text='',AutoButtonColor=false,Parent=cJ})aj(cO,UDim.new(0,8))if not cN then aG(cO,ak(cO))end local cP=ai('ImageLabel',{AnchorPoint=Vector2.new(0.5,0.5),Position=UDim2.fromScale(0.5,0.5),Size=UDim2.fromOffset(15,15),BackgroundTransparency=1,ImageColor3=z.Muted,ScaleType=Enum.ScaleType.Fit,Parent=cO})aq(cP,cK)if cP.Image==''then cP:Destroy()cP=am({Size=UDim2.fromScale(1,1),Text=cL,TextSize=15,TextColor3=z.Muted,TextXAlignment=Enum.TextXAlignment.Center,TextTruncate=Enum.TextTruncate.None,Parent=cO})end return cO,cP end local function cJ(cK,cL)ah(cK,{BackgroundColor3=z.Accent,BackgroundTransparency=0.12},0)ah(cL,{TextColor3=z.AccentDark},0)cL.FontFace=D.Bold end local function cK(cL)for cM,cN in ipairs(cL:GetChildren())do if cN:IsA('GuiObject')then cN:Destroy()end end end local function cL(cM,cN,cO,cP)local cQ=ai('TextButton',{Size=UDim2.fromOffset(0,b3),AutomaticSize=Enum.AutomaticSize.X,BackgroundColor3=z.Surface2,Text='',AutoButtonColor=false,LayoutOrder=cO,Parent=cM})cQ:SetAttribute('NoDrag',true)aj(cQ,UDim.new(1,0))local cR=ak(cQ)al(cQ,12,12)local cS=am({Size=UDim2.new(0,0,1,0),AutomaticSize=Enum.AutomaticSize.X,Text=cN,TextSize=12,TextColor3=z.Muted,TextTruncate=Enum.TextTruncate.None,Parent=cQ})local cT={Button=cQ,Label=cS}function cT.Set(cU,cV)local cW=cV and 0 or 0.15 ah(cQ,{BackgroundColor3=cU and z.Accent or z.Surface2},cW)ah(cS,{TextColor3=cU and z.AccentDark or z.Muted},cW)ah(cR,{Transparency=cU and 1 or 0},cW)end if cP then cQ.MouseButton1Click:Connect(cP)else cQ.Active=false end return cT end local function cM(cN,cO,cP)local cQ=am({Size=UDim2.fromOffset(0,18),AutomaticSize=Enum.AutomaticSize.X,BackgroundColor3=z.Surface3,BackgroundTransparency=0.2,Text=cO,TextSize=11,TextColor3=z.Muted,TextXAlignment=Enum.TextXAlignment.Center,TextTruncate=Enum.TextTruncate.None,LayoutOrder=cP,Parent=cN})aj(cQ,UDim.new(0,5))al(cQ,7,7)return cQ end local function cN(cO,cP,cQ)return ai('UIListLayout',{FillDirection=Enum.FillDirection.Horizontal,VerticalAlignment=Enum.VerticalAlignment.Center,SortOrder=Enum.SortOrder.LayoutOrder,Padding=UDim.new(0,cP),Wraps=cQ==true,Parent=cO})end local function cO(cP,cQ)return ai('UIListLayout',{SortOrder=Enum.SortOrder.LayoutOrder,Padding=UDim.new(0,cQ),Parent=cP})end local function cP(cQ,cR,cS,cT,cU,cV)return am({Size=UDim2.new(1,0,0,0),AutomaticSize=Enum.AutomaticSize.Y,Text=cR,TextSize=cS,FontFace=cV or D.Regular,TextColor3=cT or z.Text,TextWrapped=true,TextTruncate=Enum.TextTruncate.None,TextYAlignment=Enum.TextYAlignment.Top,LayoutOrder=cU,Parent=cQ})end local function cQ(cR,cS)local cT=ai('ScrollingFrame',{Size=UDim2.fromScale(1,1),BackgroundTransparency=1,BorderSizePixel=0,ScrollBarThickness=3,ScrollBarImageColor3=z.Accent,ScrollBarImageTransparency=0.4,ScrollingDirection=Enum.ScrollingDirection.Y,AutomaticCanvasSize=Enum.AutomaticSize.Y,CanvasSize=UDim2.new(),Visible=cS~=false,Parent=cR})cT:SetAttribute('NoDrag',true)return cT end local function cR(cS,cT,cU,cV,cW)local cX=cV>b2 local cY=ai('Frame',{Size=UDim2.new(1,0,0,cV),BackgroundColor3=z.Surface,BorderSizePixel=0,ClipsDescendants=true,LayoutOrder=cT,Parent=cS})aj(cY,UDim.new(0,8))local cZ=ak(cY)local c_=ai('TextBox',{Position=UDim2.fromOffset(10,cX and 8 or 0),Size=UDim2.new(1,-20,1,cX and-24 or 0),BackgroundTransparency=1,Text='',PlaceholderText=cU,PlaceholderColor3=z.Muted,TextColor3=z.Text,TextSize=13,FontFace=D.Regular,TextXAlignment=Enum.TextXAlignment.Left,TextYAlignment=cX and Enum.TextYAlignment.Top or Enum.TextYAlignment.Center,MultiLine=cX,TextWrapped=cX,ClearTextOnFocus=false,Parent=cY})local c0=cX and am({AnchorPoint=Vector2.new(1,1),Position=UDim2.new(1,-10,1,-4),Size=UDim2.fromOffset(0,14),AutomaticSize=Enum.AutomaticSize.X,Text='',TextSize=11,FontFace=D.Regular,TextColor3=z.Muted,TextTruncate=Enum.TextTruncate.None,Parent=cY})c_.Focused:Connect(function()ah(cZ,{Color=z.StrokeHover},0.15)end)c_.FocusLost:Connect(function()ah(cZ,{Color=z.Stroke},0.2)end)c_:GetPropertyChangedSignal('Text'):Connect(function()local c1=c_.Text local c2=utf8.len(c1)or#c1 if cW and c2>cW then local c3=utf8.offset(c1,cW+1)c_.Text=c3 and c1:sub(1,c3-1)or c1:sub(1,cW)return end if c0 then c0.Text=cW and(c2..'/'..cW)or''end end)if c0 and cW then c0.Text='0/'..cW end return c_,cZ end local function cS(cT)cT=bM((tostring(cT or''):gsub('[\\/:%*%?"<>|]','')))if cT==''then cT='Cloud config'end local cU,cV=cT,2 while b_:ConfigExists(cU)do cU=('%s (%d)'):format(cT,cV)cV+=1 end return cU end local cT=b0._headerBottom local cU=ai('Frame',{Position=UDim2.fromOffset(23,cT-1),Size=UDim2.new(1,-46,1,-(cT+14)),BackgroundTransparency=1,ClipsDescendants=true,Parent=b0._page})for cV,cW in ipairs({'Browse','Detail','Publish'})do cn[cW]=ai('Frame',{Size=UDim2.fromScale(1,1),BackgroundTransparency=1,Visible=false,Parent=cU})al(cn[cW],1,1,1,1)end local function cV(cW)if co==cW then return end local cX=co co=cW if cX then cX.Visible=false end local cY=cW==cn.Browse and-24 or 24 cW.Position=UDim2.fromOffset(cY,0)cW.Visible=true ah(cW,{Position=UDim2.fromOffset(0,0)},0.3,Enum.EasingStyle.Quint)end local cW=cn.Browse local cX=ai('Frame',{Size=UDim2.new(1,0,0,b2),BackgroundTransparency=1,Parent=cW})local cY,cZ=bF(cX,'Publish',{AnchorPoint=Vector2.new(1,0),Position=UDim2.fromScale(1,0),Size=UDim2.new(0,0,1,0),AutomaticSize=Enum.AutomaticSize.X},function()ce:OpenPublish()end)cJ(cY,cZ)cY.Visible=type(bZ.OnPublish)=='function'local c_,c0=cI(cX,'refresh-cw','R',b2)c_.AnchorPoint=Vector2.new(1,0)local c1=ai('Frame',{Size=UDim2.new(1,-(b2+8),1,0),BackgroundColor3=z.Surface2,BorderSizePixel=0,Parent=cX})aj(c1,UDim.new(0,8))local c2=ak(c1)local c3,c4=aB(c1,'search',z.Muted,UDim2.new(0,10,0.5,0))c3.Size=UDim2.fromOffset(14,14)local c5=ai('TextBox',{Position=UDim2.fromOffset(32,0),Size=UDim2.new(1,-62,1,0),BackgroundTransparency=1,Text='',PlaceholderText=bZ.SearchPlaceholder or(E and'Search configs...'or'Search configs...   ( / )'),PlaceholderColor3=z.Muted,TextColor3=z.Text,TextSize=13,FontFace=D.Regular,TextXAlignment=Enum.TextXAlignment.Left,ClearTextOnFocus=false,ClipsDescendants=true,Parent=c1})local c6=cI(c1,'x','x',24,true)c6.AnchorPoint=Vector2.new(1,0.5)c6.Position=UDim2.new(1,-4,0.5,0)c6.Visible=false local c7 local c8=0 local c9=type(cs.CloudRecent)=='table'and cs.CloudRecent or{}local da=ai('Frame',{Position=UDim2.fromOffset(0,b2+4),Size=UDim2.new(1,0,0,0),AutomaticSize=Enum.AutomaticSize.Y,BackgroundColor3=z.Surface2,BorderSizePixel=0,Visible=false,ZIndex=5,Parent=cW})aj(da,UDim.new(0,8))ak(da)al(da,6,6,6,6)cO(da,2)local function db(dc)dc=bM(dc)if#dc<2 then return end for dd=#c9,1,-1 do if string.lower(c9[dd])==string.lower(dc)then table.remove(c9,dd)end end table.insert(c9,1,dc)while#c9>6 do table.remove(c9)end cv('CloudRecent',c9)end local function dc(dd)dd=dd and#c9>0 and c5.Text==''if dd==da.Visible then return end da.Visible=dd if not dd then return end cK(da)local de=ai('Frame',{Size=UDim2.new(1,0,0,20),BackgroundTransparency=1,LayoutOrder=0,Parent=da})am({Position=UDim2.fromOffset(8,0),Size=UDim2.new(1,-60,1,0),Text='Recent searches',TextSize=11,TextColor3=z.Muted,Parent=de})local df=ai('TextButton',{AnchorPoint=Vector2.new(1,0),Position=UDim2.new(1,-6,0,0),Size=UDim2.fromOffset(0,20),AutomaticSize=Enum.AutomaticSize.X,BackgroundTransparency=1,Text='Clear',TextSize=11,FontFace=D.Medium,TextColor3=z.Accent,AutoButtonColor=false,Parent=de})df.MouseButton1Down:Connect(function()c9={}cv('CloudRecent',c9)dc(false)end)for dg,dh in ipairs(c9)do local di=ai('TextButton',{Size=UDim2.new(1,0,0,E and 32 or 28),BackgroundColor3=z.Surface3,BackgroundTransparency=1,Text='',AutoButtonColor=false,LayoutOrder=dg,Parent=da})aj(di,UDim.new(0,6))local dj=aB(di,'history',z.Muted,UDim2.new(0,8,0.5,0))dj.Size=UDim2.fromOffset(13,13)am({Position=UDim2.fromOffset(28,0),Size=UDim2.new(1,-34,1,0),Text=dh,TextSize=13,FontFace=D.Regular,Parent=di})di.MouseEnter:Connect(function()ah(di,{BackgroundTransparency=0.5},0.1)end)di.MouseLeave:Connect(function()ah(di,{BackgroundTransparency=1},0.15)end)di.MouseButton1Down:Connect(function()c8+=1 c5.Text=dh cm.Search=dh db(dh)dc(false)c5:ReleaseFocus()c7(false)end)end end local function dd()local de=b_.Scale.Scale local df=cY.Visible and(cY.AbsoluteSize.X/de+8)or 0 c_.Position=UDim2.new(1,-df,0,0)c1.Size=UDim2.new(1,-(df+b2+8),1,0)da.Size=UDim2.new(1,-(df+b2+8),0,0)end cY:GetPropertyChangedSignal('AbsoluteSize'):Connect(dd)task.defer(dd)local de=ai('Frame',{Position=UDim2.fromOffset(0,b2+7),Size=UDim2.new(1,0,0,b3+2),BackgroundTransparency=1,Parent=cW})local df=ai('TextButton',{AnchorPoint=Vector2.new(1,0),Position=UDim2.new(1,-1,0,1),Size=UDim2.fromOffset(0,b3),AutomaticSize=Enum.AutomaticSize.X,BackgroundColor3=z.Surface2,Text='',AutoButtonColor=false,Parent=de})aj(df,UDim.new(1,0))aG(df,ak(df))al(df,10,12)cN(df,6)local dg=aB(df,'arrow-down-up',z.Accent,UDim2.new())dg.Size=UDim2.fromOffset(13,13)local dh=am({Size=UDim2.new(0,0,1,0),AutomaticSize=Enum.AutomaticSize.X,Text=b6[cm.Sort],TextSize=12,TextTruncate=Enum.TextTruncate.None,LayoutOrder=2,Parent=df})local di=ai('ScrollingFrame',{Size=UDim2.new(1,-120,1,0),BackgroundTransparency=1,BorderSizePixel=0,ScrollBarThickness=0,ScrollingDirection=Enum.ScrollingDirection.X,AutomaticCanvasSize=Enum.AutomaticSize.X,CanvasSize=UDim2.new(),Parent=de})di:SetAttribute('NoDrag',true)cN(di,6)al(di,1,1,1,1)local function dj()local dk=df.AbsoluteSize.X/b_.Scale.Scale di.Size=UDim2.new(1,-(dk+8),1,0)end df:GetPropertyChangedSignal('AbsoluteSize'):Connect(dj)task.defer(dj)local dk=b2+8+b3+10 local dl=cQ(cW)dl.Position=UDim2.fromOffset(0,dk)dl.Size=UDim2.new(1,0,1,-dk)al(dl,1,6,1,12)cO(dl,10)local dm=ai('Frame',{Size=UDim2.new(1,0,0,16),BackgroundTransparency=1,LayoutOrder=0,Parent=dl})local dn=am({Size=UDim2.new(1,-100,1,0),Text='',RichText=true,TextSize=12,FontFace=D.Regular,TextColor3=z.Muted,Parent=dm})local dp=ai('TextButton',{AnchorPoint=Vector2.new(1,0),Position=UDim2.fromScale(1,0),Size=UDim2.fromOffset(0,16),AutomaticSize=Enum.AutomaticSize.X,BackgroundTransparency=1,Text='Clear filters',TextSize=12,FontFace=D.Medium,TextColor3=z.Accent,AutoButtonColor=false,Visible=false,Parent=dm})local dq local function dr()return cm.Search~=''or cm.Tag~=nil or cm.Filter~='All'end local function ds(dt)local du={}if cm.Filter~='All'then table.insert(du,'in '..cm.Filter)end if cm.Tag then table.insert(du,'tagged '..cB(cm.Tag))end if cm.Search~=''then table.insert(du,('matching <font color="#%s">"%s"</font>'):format(bc(z.Accent),cB(cm.Search)))end local dv=#du>0 and(' '..table.concat(du,', '))or''if dt or(cl and#cf==0)then dn.Text='Searching'..dv..'...'else local dw=#cf dn.Text=('%d%s config%s%s'):format(dw,ci and'+'or'',(dw==1 and not ci)and''or's',dv)end dp.Visible=dr()end local dt=nil local function du(dv)cl=dv if dv and not dt then c0.Rotation=0 dt=a:Create(c0,TweenInfo.new(0.9,Enum.EasingStyle.Linear,Enum.EasingDirection.In,-1),{Rotation=360})dt:Play()elseif not dv and dt then dt:Cancel()dt=nil ah(c0,{Rotation=360},0.35,Enum.EasingStyle.Quint)end ds()end local dv=ai('Frame',{Size=UDim2.new(1,0,0,0),AutomaticSize=Enum.AutomaticSize.Y,BackgroundTransparency=1,LayoutOrder=1,Parent=dl})local dw=ai('UIGridLayout',{CellSize=UDim2.new(1,0,0,b1),CellPadding=UDim2.fromOffset(8,8),SortOrder=Enum.SortOrder.LayoutOrder,Parent=dv})local function dx()local dy=dl.AbsoluteSize.X/b_.Scale.Scale local dz=dy>=620 and 2 or 1 dw.CellSize=UDim2.new(1/dz,-(dz-1)*8/dz,0,b1)end dl:GetPropertyChangedSignal('AbsoluteSize'):Connect(dx)task.defer(dx)local dy=bF(dl,'Load more',{Size=UDim2.new(1,0,0,32),LayoutOrder=2,Visible=false},function()ce:LoadMore()end)local dz=ai('Frame',{Size=UDim2.new(1,0,0,180),BackgroundTransparency=1,Visible=false,LayoutOrder=3,Parent=dl})local dA={}local function dB(dC)for dD=1,dC do local dE=ai('Frame',{BackgroundColor3=z.Surface2,BorderSizePixel=0,LayoutOrder=100000+#dA,Parent=dv})aj(dE,UDim.new(0,10))ak(dE)for dF,dG in ipairs({{14,0.45},{36,0.3},{58,0.8},{76,0.6}})do local dH=ai('Frame',{Position=UDim2.fromOffset(14,dG[1]),Size=UDim2.new(dG[2],-14,0,dF==1 and 14 or 10),BackgroundColor3=z.Surface3,BorderSizePixel=0,Parent=dE})aj(dH,UDim.new(0,4))a:Create(dH,TweenInfo.new(0.75,Enum.EasingStyle.Sine,Enum.EasingDirection.InOut,-1,true),{BackgroundTransparency=0.65}):Play()end table.insert(dA,dE)end end local function dC()for dD,dE in ipairs(dA)do dE:Destroy()end dA={}end local function dD(dE,dF)cK(dz)dz.Visible=dE~=nil if not dE then return end local dG,dH=by(dz,dE=='error'and'cloud-off'or'search-x',dF)dG.Size=UDim2.fromOffset(280,70)dG.Position=UDim2.new(0.5,0,0,60)dH.TextWrapped=true dH.TextTruncate=Enum.TextTruncate.None dH.Size=UDim2.new(1,0,0,32)if dE=='error'or dr()then bF(dz,dE=='error'and'Try again'or'Clear filters',{AnchorPoint=Vector2.new(0.5,0),Position=UDim2.new(0.5,0,0,132),Size=UDim2.fromOffset(0,30),AutomaticSize=Enum.AutomaticSize.X},function()if dE=='error'then ce:Refresh()else dq()end end)end ds()end local dE,dF,dG local function dH(dI)local dJ=dI.Record dI.Title.Text=cC(dJ.Name)local dK={'by '..dJ.Author}local dL=cA(dJ.Updated)if dL then table.insert(dK,dL)end if dJ.Count then table.insert(dK,dJ.Count..(dJ.Count==1 and' setting'or' settings'))end dI.Meta.Text=table.concat(dK,'  \u{b7}  ')dI.Desc.Text=dJ.Description~=''and cC(dJ.Description)or'No description'dI.Desc.TextTransparency=dJ.Description~=''and 0.2 or 0.55 dI.Likes.Text=cz(dJ.Likes)dI.Installs.Text=cz(dJ.Installs)ah(dI.Heart,{ImageColor3=dJ.Liked and z.Accent or z.Muted},0.15)local dM=cG(dJ)local dN,dO if dM=='Update'then dN,dO='UPDATE',z.Accent elseif dM=='Installed'then dN,dO='INSTALLED',z.Success elseif dJ.Mine then dN,dO='YOURS',z.Accent elseif cH(dJ)then dN,dO='OTHER SCRIPT',z.Warning end dI.Badge.Visible=dN~=nil if dN then dI.Badge.Text=dN ah(dI.Badge,{TextColor3=dO,BackgroundColor3=dO},0)end dI.Star.Visible=ct[dJ.Id]~=nil dI.InstallText.Text=dM=='Update'and'Update'or(dM=='Installed'and'Reinstall'or'Install')cK(dI.TagRow)for dP,dQ in ipairs(dJ.Tags)do if dP>3 then cM(dI.TagRow,'+'..(#dJ.Tags-3),dP)break end cM(dI.TagRow,dQ,dP)end end local function dI(dJ,dK)local dL=ai('TextButton',{BackgroundColor3=z.Surface2,BorderSizePixel=0,Text='',AutoButtonColor=false,LayoutOrder=dK,Parent=dv})dL:SetAttribute('NoDrag',true)aj(dL,UDim.new(0,10))aG(dL,ak(dL))al(dL,14,14,12,12)local dM={Record=dJ,Frame=dL}dM.Title=am({Size=UDim2.new(1,-110,0,18),RichText=true,TextSize=14,FontFace=D.Bold,Parent=dL})local dN=ai('Frame',{AnchorPoint=Vector2.new(1,0),Position=UDim2.fromScale(1,0),Size=UDim2.fromOffset(0,18),AutomaticSize=Enum.AutomaticSize.X,BackgroundTransparency=1,Parent=dL})local dO=cN(dN,6)dO.HorizontalAlignment=Enum.HorizontalAlignment.Right dM.Star=am({Size=UDim2.fromOffset(14,18),Text='\u{2605}',TextSize=13,TextColor3=z.Accent,TextXAlignment=Enum.TextXAlignment.Center,TextTruncate=Enum.TextTruncate.None,LayoutOrder=1,Parent=dN})dM.Badge=am({Size=UDim2.fromOffset(0,17),AutomaticSize=Enum.AutomaticSize.X,BackgroundTransparency=0.85,TextSize=10,FontFace=D.Bold,TextXAlignment=Enum.TextXAlignment.Center,TextTruncate=Enum.TextTruncate.None,LayoutOrder=2,Parent=dN})aj(dM.Badge,UDim.new(0,5))al(dM.Badge,6,6)dM.Meta=am({Position=UDim2.fromOffset(0,20),Size=UDim2.new(1,0,0,16),TextSize=12,FontFace=D.Regular,TextColor3=z.Muted,Parent=dL})dM.Desc=am({Position=UDim2.fromOffset(0,41),RichText=true,Size=UDim2.new(1,0,0,30),TextSize=12,FontFace=D.Regular,TextWrapped=true,TextYAlignment=Enum.TextYAlignment.Top,Parent=dL})local dP=ai('Frame',{AnchorPoint=Vector2.new(0,1),Position=UDim2.fromScale(0,1),Size=UDim2.new(1,0,0,26),BackgroundTransparency=1,Parent=dL})dM.TagRow=ai('Frame',{Size=UDim2.new(1,-190,1,0),BackgroundTransparency=1,ClipsDescendants=true,Parent=dP})cN(dM.TagRow,4)local dQ,dR=bF(dP,'Install',{AnchorPoint=Vector2.new(1,0.5),Position=UDim2.new(1,0,0.5,0),Size=UDim2.fromOffset(76,26)},function()dF(dJ)end)cJ(dQ,dR)dM.InstallText=dR local dS=ai('Frame',{AnchorPoint=Vector2.new(1,0.5),Position=UDim2.new(1,-86,0.5,0),Size=UDim2.fromOffset(0,20),AutomaticSize=Enum.AutomaticSize.X,BackgroundTransparency=1,Parent=dP})cN(dS,4)local function dT(dU,dV)local dW,dX=aB(dS,dU,z.Muted,UDim2.new())dW.Size=UDim2.fromOffset(12,12)dW.LayoutOrder=dV local dY=am({Size=UDim2.fromOffset(0,20),AutomaticSize=Enum.AutomaticSize.X,TextSize=12,TextColor3=z.Muted,TextTruncate=Enum.TextTruncate.None,LayoutOrder=dV+1,Parent=dS})return dY,dX end dM.Likes,dM.Heart=dT('heart',1)ai('Frame',{Size=UDim2.fromOffset(4,1),BackgroundTransparency=1,LayoutOrder=3,Parent=dS})dM.Installs=dT('download',4)local dU=ay(dL,function()return dl end)dL.MouseButton1Click:Connect(function()if dU()then if cm.Search~=''then db(cm.Search)end dE(dJ)end end)ch[dJ.Id]=dM dH(dM)return dM end local function dJ()for dK,dL in pairs(ch)do dL.Frame:Destroy()end ch={}for dK,dL in ipairs(cf)do dI(dL,dK)end end local function dK()local dL=cm.Filter=='Favorites'and ct or cu local dM=string.lower(cm.Search)local dN={}for dO,dP in pairs(dL)do local dQ=cm.Filter=='Favorites'and dP or(type(dP)=='table'and dP.Record)if type(dQ)=='table'then dQ=table.clone(dQ)dQ.Id=dO local dR=cD(dQ)local dS=dM==''or string.find(string.lower(dR.Name),dM,1,true)or string.find(string.lower(dR.Description),dM,1,true)if dS and cm.Tag then dS=table.find(dR.Tags,cm.Tag)~=nil end if dS then table.insert(dN,dR)end end end table.sort(dN,function(dO,dP)if cm.Sort=='New'then return(dO.Updated or 0)>(dP.Updated or 0)elseif cm.Sort=='Installs'then return dO.Installs>dP.Installs end return dO.Likes>dP.Likes end)return dN end local function dL()if cm.Filter=='Favorites'then return[[No favorites yet. Open a config and press Favorite to keep it here.]]elseif cm.Filter=='Installed'then return'Nothing installed from the cloud yet'elseif cm.Filter=='Mine'then return"You haven't published anything yet"elseif cm.Search~=''or cm.Tag then return'No configs match your search'end return tostring(bZ.EmptyText or'No configs shared yet. Be the first!')end function c7(dM)ck+=1 local dN=ck if cm.Filter=='Favorites'or cm.Filter=='Installed'then du(false)dC()cf=dK()ci=false dJ()dy.Visible=false dD(#cf==0 and'empty'or nil,dL())return end if type(bZ.OnFetch)~='function'then dJ()dD(#cf==0 and'empty'or nil,dL())return end if dM then if not ci then return end cj+=1 else cj=1 cf={}dJ()dl.CanvasPosition=Vector2.zero end du(true)dC()dB(dM and 2 or 4)dy.Visible=false dD(nil)local dO={Search=cm.Search,Sort=cm.Sort,Filter=cm.Filter,Tag=cm.Tag,Page=cj,PageSize=ca,Folder=b_.ConfigFolder,UserId=j.UserId}task.spawn(function()local dP,dQ,dR=aK(function()return bZ.OnFetch(dO)end)if dN~=ck then return end du(false)dC()if not dP or type(dQ)~='table'then if dM then cj-=1 end if not dP then warn('[AirFlow] cloud OnFetch error: '..tostring(dQ))end ci=dM and ci or false dy.Visible=false dD('error',not dP and'Could not load configs'or tostring(dR or'Could not load configs'))return end ci=dR==true local dS={}for dT,dU in ipairs(cf)do dS[dU]=true end for dT,dU in ipairs(dQ)do local dV=cD(dU)if dV and not dS[dV]then dS[dV]=true table.insert(cf,dV)dI(dV,#cf)end end dy.Visible=ci dD(#cf==0 and'empty'or nil,dL())end)end dl:GetPropertyChangedSignal('CanvasPosition'):Connect(function()if not ci or cl then return end local dM=b_.Scale.Scale local dN=dl.AbsoluteCanvasSize.Y/dM-dl.AbsoluteWindowSize.Y/dM-dl.CanvasPosition.Y if dN<160 then c7(true)end end)local dM,dN={},{}local function dO(dP)for dQ,dR in pairs(dM)do dR.Set(cm.Filter==dQ,dP)end for dQ,dR in pairs(dN)do dR.Set(cm.Tag==dQ,dP)end dh.Text=b6[cm.Sort]end for dP,dQ in ipairs(b7)do if not(dQ=='Mine'and bZ.MineFilter==false)then dM[dQ]=cL(di,dQ,dP,function()if cm.Filter~=dQ then cm.Filter=dQ dO()c7(false)end end)end end if#cb>0 then ai('Frame',{Size=UDim2.fromOffset(1,16),BackgroundColor3=z.Stroke,BorderSizePixel=0,LayoutOrder=10,Parent=di})end for dP,dQ in ipairs(cb)do dQ=tostring(dQ)dN[dQ]=cL(di,dQ,10+dP,function()cm.Tag=cm.Tag~=dQ and dQ or nil dO()c7(false)end)end df.MouseButton1Click:Connect(function()local dP=table.find(b5,cm.Sort)or 1 cm.Sort=b5[dP%#b5+1]cv('CloudSort',cm.Sort)dO()c7(false)end)function dq()c8+=1 c5.Text=''cm.Search,cm.Tag,cm.Filter='',nil,'All'dO()c7(false)end dp.MouseButton1Click:Connect(dq)c5:GetPropertyChangedSignal('Text'):Connect(function()c6.Visible=c5.Text~=''dc(c5:IsFocused())c8+=1 local dP=c8 local dQ=bM(c5.Text)if dQ~=cm.Search then ds(true)end task.delay(0.35,function()dQ=bM(c5.Text)if dP==c8 and dQ~=cm.Search then cm.Search=dQ c7(false)end end)end)c5.Focused:Connect(function()ah(c2,{Color=z.Accent},0.15)ah(c4,{ImageColor3=z.Accent},0.15)dc(true)end)c5.FocusLost:Connect(function(dP)ah(c2,{Color=z.Stroke},0.2)ah(c4,{ImageColor3=z.Muted},0.2)db(c5.Text)task.delay(0.15,function()if not c5:IsFocused()then dc(false)end end)if dP then c8+=1 local dQ=bM(c5.Text)if dQ~=cm.Search then cm.Search=dQ c7(false)end end end)c6.MouseButton1Click:Connect(function()c8+=1 c5.Text=''if cm.Search~=''then cm.Search=''c7(false)end end)b_:_listen('Began',function(dP,dQ)if dQ or dP.KeyCode~=Enum.KeyCode.Slash then return end if b_.Open and b_.CurrentTab==b0 and co==cn.Browse and not b:GetFocusedTextBox()then task.defer(function()c5:CaptureFocus()c5.Text=c5.Text:gsub('/$','')end)end end,ce)c_.MouseButton1Click:Connect(function()ce:Refresh()end)local function dP(dQ,dR,dS)if dQ.Code then dR(dQ.Code)return end local function dT(dU)if dS then dS(dU)else cw(false,'Could not load config',dU)end end if type(bZ.OnFetchCode)~='function'then dT('This config has no code')return end task.spawn(function()local dU,dV,dW=aK(function()return bZ.OnFetchCode(cE(dQ))end)if dU and type(dV)=='string'and dV~=''then dQ.Code=dV dQ.Count=dQ.Count or cy(dV)dR(dV)else dT(tostring(dW or(not dU and'the request failed')or'no code came back'))end end)end function dF(dQ)if dQ._busy then return end dQ._busy=true dP(dQ,function(dR)dQ._busy=nil local dS,dT=b_:DecodeConfig(dR)if not dS then cw(false,'Install failed','The config code is invalid')return end local dU=0 for dV in pairs(dS)do dU+=1 end local dV=cu[dQ.Id]local dW=nil if ba()then dW=type(dV)=='table'and type(dV.Name)=='string'and b_:ConfigExists(dV.Name)and dV.Name or cS(dQ.Name)end local dX=dT.Folder and dT.Folder~=b_.ConfigFolder local function dY(dZ)local d_=dZ and dW or nil local d0,d1=b_:ImportConfig(dR,d_,true)if not d0 then cw(false,'Install failed',tostring(d1))return end cu[dQ.Id]={Updated=dQ.Updated or os.time(),Name=d_,At=os.time(),Record=cF(dQ)}cv('CloudInstalled',cu)dQ.Installs+=1 dG(dQ)cw(true,'Config installed',d_ and('Saved as '..d_)or'Applied to your current settings')if bZ.OnInstall then task.spawn(aJ,bZ.OnInstall,cE(dQ),d_)end end local dZ=('%s by %s changes %d setting%s.'):format(dQ.Name,dQ.Author,dU,dU==1 and''or's')if dX then dZ..=(' It was made for %s, so only matching settings apply.'):format(dT.Folder)end if dW then dZ..=(" Install also saves it as %s; Apply only doesn't."):format(dW)end local d_={{Title='Cancel'}}table.insert(d_,{Title='Apply only',Variant=not dW and'Primary'or nil,Callback=function()dY(false)end})if dW then table.insert(d_,{Title='Install',Variant='Primary',Callback=function()dY(true)end})end b_:Dialog({Title=cG(dQ)=='Update'and'Update config'or'Install config',Content=dZ,Icon=dX and'triangle-alert'or'download',Buttons=d_})end,function(dR)dQ._busy=nil cw(false,'Could not load config',dR)end)end local function dQ(dR)if type(bZ.OnLike)~='function'or dR._liking then return end local dS=not dR.Liked dR.Liked=dS dR.Likes=math.max(dR.Likes+(dS and 1 or-1),0)dR._liking=true dG(dR)task.spawn(function()local dT,dU,dV=aK(function()return bZ.OnLike(cE(dR),dS)end)dR._liking=nil if not dT or dU==false then dR.Liked=not dS dR.Likes=math.max(dR.Likes+(dS and-1 or 1),0)dG(dR)cw(false,'Like not saved',tostring(dV or'Try again in a moment'))end end)end local function dR(dS)local dT=ct[dS.Id]==nil ct[dS.Id]=dT and cF(dS)or nil cv('CloudFavorites',ct)dG(dS)b_:Notify({Title=dT and'Added to favorites'or'Removed from favorites',Content=dS.Name,Icon='star',Duration=2})end local function dS(dT)local dU=table.find(cf,dT)if dU then table.remove(cf,dU)end cg[dT.Id]=nil local dV=ch[dT.Id]if dV then dV.Frame:Destroy()ch[dT.Id]=nil end if#cf==0 and not cl then dD('empty',dL())end end local function dT(dU)b_:Confirm({Title='Delete config',Content=([[Remove %s from the cloud? People who installed it keep their copy.]]):format(dU.Name),Icon='trash-2',ConfirmText='Delete',Callback=function()task.spawn(function()local dV,dW,dX=aK(function()return bZ.OnDelete(cE(dU))end)if not dV or dW==false then cw(false,'Delete failed',tostring(dX or'Try again in a moment'))return end ct[dU.Id]=nil cv('CloudFavorites',ct)dS(dU)cV(cn.Browse)cw(true,'Config deleted',dU.Name)end)end})end local function dU(dV)local dW=type(bZ.ReportReasons)=='table'and bZ.ReportReasons or{'Broken','Spam','Inappropriate'}local dX={{Title='Cancel'}}for dY,dZ in ipairs(dW)do table.insert(dX,{Title=tostring(dZ),Callback=function()task.spawn(function()local d_,d0=aK(function()return bZ.OnReport(cE(dV),tostring(dZ))end)local d1=d_ and d0~=false cw(d1,d1 and'Report sent'or'Report failed',d1 and'Thanks for letting us know'or'Try again in a moment')end)end})end b_:Dialog({Title='Report config',Content=("What's wrong with %s?"):format(dV.Name),Icon='flag',Buttons=dX})end local dV=cQ(cn.Detail)al(dV,1,8,1,16)cO(dV,10)local function dW(dX)local dY=type(dX)=='table'and dX.Value or nil if dY==nil then return'None'elseif type(dY)=='boolean'then return dY and'On'or'Off'elseif type(dY)=='number'then return(('%.2f'):format(dY):gsub('%.?0+$',''))elseif type(dY)=='table'then if type(dY.Hex)=='string'then return'#'..string.upper(dY.Hex)elseif type(dY.Colors)=='table'then local dZ=type(dY.Name)=='string'and dY.Name or'Custom'if type(dY.Background)=='string'and dY.Background~=''then dZ..=', image'end return dZ end local dZ={}for d_,d0 in ipairs(dY)do dZ[d_]=tostring(d0)end return#dZ>0 and table.concat(dZ,', ')or'None'end return tostring(dY)end local function dX(dY)local dZ,d_=pcall(e.JSONEncode,e,type(dY)=='table'and dY.Value or nil)return dZ and d_ or tostring(dY)end local function dY()local dZ=cq if not dZ or not cp.Meta then return end cp.Title.Text=dZ.Name local d_={'by '..dZ.Author}local d0=cA(dZ.Updated)if d0 then table.insert(d_,'updated '..d0)end if cH(dZ)then table.insert(d_,'made for '..dZ.Folder)end cp.Meta.Text=table.concat(d_,'  \u{b7}  ')cp.Stats.Text=('%s like%s  \u{b7}  %s install%s'):format(cz(dZ.Likes),dZ.Likes==1 and''or's',cz(dZ.Installs),dZ.Installs==1 and''or's')if cp.BuiltFor~=dZ or cp.BuiltMine~=dZ.Mine then cp.BuiltFor,cp.BuiltMine=dZ,dZ.Mine local d1=cp.Actions cK(d1)local d2=0 local function d3(d4,d5,d6)d2+=1 local d7,d8=bF(d1,d4,{Size=UDim2.new(0,0,0,30),AutomaticSize=Enum.AutomaticSize.X,LayoutOrder=d2},d6)d8.TextSize=13 if d5=='Primary'then cJ(d7,d8)elseif d5=='Danger'then ah(d8,{TextColor3=z.Error},0)end return d8 end cp.InstallLabel=d3('Install','Primary',function()dF(dZ)end)if type(bZ.OnLike)=='function'then cp.LikeLabel=d3('Like',nil,function()dQ(dZ)end)end cp.FavoriteLabel=d3('Favorite',nil,function()dR(dZ)end)d3('Copy code',nil,function()dP(dZ,function(d4)b_:CopyToClipboard(d4,'Config code')end)end)if dZ.Mine then if type(bZ.OnUpdate)=='function'then d3('Edit',nil,function()ce:OpenPublish(dZ)end)end if type(bZ.OnDelete)=='function'then d3('Delete','Danger',function()dT(dZ)end)end elseif type(bZ.OnReport)=='function'then d3('Report','Danger',function()dU(dZ)end)end end local d1=cG(dZ)cp.InstallLabel.Text=d1=='Update'and'Update'or(d1=='Installed'and'Reinstall'or'Install')if cp.LikeLabel then cp.LikeLabel.Text=(dZ.Liked and'Liked'or'Like')..'  \u{b7}  '..cz(dZ.Likes)end cp.FavoriteLabel.Text=ct[dZ.Id]and'Favorited'or'Favorite'end local function dZ(d_,d0)local function d1(d2)if cr==d0 then cp.Summary.Text=d2 end end dP(d_,function(d2)if cr~=d0 then return end local d3=b_:DecodeConfig(d2)if not d3 then d1('The config code is invalid')return end local d4=bh(b_)local d5={}local d6=0 for d7,d8 in pairs(d3)do local d9=k.Flags[d7]local ea=d9~=nil local eb=ea and dX(d8)~=dX(d4[d7])if eb then d6+=1 end table.insert(d5,{Name=d9 and d9._searchName~=''and d9._searchName or d7,Value=dW(d8),Known=ea,Changed=eb,Rank=eb and 0 or(ea and 1 or 2)})end table.sort(d5,function(d7,d8)if d7.Rank~=d8.Rank then return d7.Rank<d8.Rank end return string.lower(d7.Name)<string.lower(d8.Name)end)d_.Count=#d5 cp.Summary.Text=d6==0 and('%d settings, all the same as yours'):format(#d5)or('%d settings, %d different from yours'):format(#d5,d6)cK(cp.Rows)for d7,d8 in ipairs(d5)do if d7>150 then cP(cp.Rows,('and %d more'):format(#d5-150),12,z.Muted,d7)break end local d9=ai('Frame',{Size=UDim2.new(1,0,0,30),BackgroundColor3=z.Surface2,BackgroundTransparency=d8.Changed and 0 or 0.5,BorderSizePixel=0,LayoutOrder=d7,Parent=cp.Rows})aj(d9,UDim.new(0,7))if d8.Changed then local ea=ai('Frame',{AnchorPoint=Vector2.new(0,0.5),Position=UDim2.new(0,10,0.5,0),Size=UDim2.fromOffset(6,6),BackgroundColor3=z.Accent,BorderSizePixel=0,Parent=d9})aj(ea,UDim.new(1,0))end am({Position=UDim2.fromOffset(24,0),Size=UDim2.new(0.55,-24,1,0),Text=d8.Known and d8.Name or(d8.Name..'  (not in this script)'),TextSize=12,TextColor3=d8.Known and z.Text or z.Muted,Parent=d9})am({AnchorPoint=Vector2.new(1,0),Position=UDim2.new(1,-10,0,0),Size=UDim2.new(0.45,-10,1,0),Text=d8.Value,TextSize=12,FontFace=D.Regular,TextColor3=d8.Changed and z.Accent or z.Muted,TextXAlignment=Enum.TextXAlignment.Right,Parent=d9})end if ch[d_.Id]then dH(ch[d_.Id])end end,d1)end function dE(d_)cq=d_ cr+=1 local d0=cr cK(dV)cp={}dV.CanvasPosition=Vector2.zero bF(dV,'Back',{Size=UDim2.new(0,0,0,28),AutomaticSize=Enum.AutomaticSize.X,LayoutOrder=1},function()cV(cn.Browse)end)cp.Title=cP(dV,d_.Name,20,z.Text,2,D.Bold)cp.Meta=cP(dV,'',12,z.Muted,3)if d_.Description~=''then cP(dV,d_.Description,13,z.Text,4)end if#d_.Tags>0 then local d1=ai('Frame',{Size=UDim2.new(1,0,0,0),AutomaticSize=Enum.AutomaticSize.Y,BackgroundTransparency=1,LayoutOrder=5,Parent=dV})cN(d1,4,true)for d2,d3 in ipairs(d_.Tags)do cM(d1,d3,d2)end end cp.Stats=cP(dV,'',12,z.Muted,6)cp.Actions=ai('Frame',{Size=UDim2.new(1,0,0,0),AutomaticSize=Enum.AutomaticSize.Y,BackgroundTransparency=1,LayoutOrder=7,Parent=dV})cN(cp.Actions,6,true)ai('Frame',{Size=UDim2.new(1,0,0,1),BackgroundColor3=z.Stroke,BorderSizePixel=0,LayoutOrder=8,Parent=dV})cP(dV,'Settings',14,z.Text,9,D.Bold)cp.Summary=cP(dV,'Loading settings...',12,z.Muted,10)cp.Rows=ai('Frame',{Size=UDim2.new(1,0,0,0),AutomaticSize=Enum.AutomaticSize.Y,BackgroundTransparency=1,LayoutOrder=11,Parent=dV})cO(cp.Rows,4)dY()cV(cn.Detail)dZ(d_,d0)end function dG(d_)local d0=ch[d_.Id]if d0 then dH(d0)end if cq==d_ and co==cn.Detail then dY()end end local d_={Mode='Publish',Record=nil,Source=false,Tags={},Busy=false}local d0=cQ(cn.Publish)al(d0,1,8,1,16)cO(d0,8)bF(d0,'Back',{Size=UDim2.new(0,0,0,28),AutomaticSize=Enum.AutomaticSize.X,LayoutOrder=1},function()cV(d_.Mode=='Edit'and d_.Record and cn.Detail or cn.Browse)end)local d1=cP(d0,'Publish a config',20,z.Text,2,D.Bold)cP(d0,'Name',12,z.Muted,3)local d2=cR(d0,4,'What is it for?',b2,b8)cP(d0,'Description',12,z.Muted,5)local d3=cR(d0,6,'What does it do, and how should people use it?',90,b9)local d4=cP(d0,'Tags',12,z.Muted,7)local d5=ai('Frame',{Size=UDim2.new(1,0,0,0),AutomaticSize=Enum.AutomaticSize.Y,BackgroundTransparency=1,LayoutOrder=8,Parent=d0})cN(d5,6,true)d4.Visible=#cb>0 and cc>0 d5.Visible=d4.Visible cP(d0,'Settings to share',12,z.Muted,9)local d6=ai('Frame',{Size=UDim2.new(1,0,0,0),AutomaticSize=Enum.AutomaticSize.Y,BackgroundTransparency=1,LayoutOrder=10,Parent=d0})cN(d6,6,true)local d7=cP(d0,'',12,z.Muted,11)local d8=cP(d0,'',12,z.Muted,12)local d9=cP(d0,'',12,z.Error,13)d9.Visible=false local ea=ai('Frame',{Size=UDim2.new(1,0,0,32),BackgroundTransparency=1,LayoutOrder=14,Parent=d0})cN(ea,6)local eb,ec=bF(ea,'Publish',{Size=UDim2.new(0,0,1,0),AutomaticSize=Enum.AutomaticSize.X,LayoutOrder=1},function()ce:_submit()end)cJ(eb,ec)bF(ea,'Cancel',{Size=UDim2.new(0,0,1,0),AutomaticSize=Enum.AutomaticSize.X,LayoutOrder=2},function()cV(d_.Mode=='Edit'and d_.Record and cn.Detail or cn.Browse)end)local ed={}local function ee()for ef,eg in pairs(ed)do eg.Set(table.find(d_.Tags,ef)~=nil)end d4.Text=cc>0 and('Tags  (%d/%d)'):format(#d_.Tags,cc)or'Tags'end for ef,eg in ipairs(cb)do eg=tostring(eg)ed[eg]=cL(d5,eg,ef,function()local eh=table.find(d_.Tags,eg)if eh then table.remove(d_.Tags,eh)elseif#d_.Tags<cc then table.insert(d_.Tags,eg)else cw(false,'Too many tags',('Pick up to %d'):format(cc))end ee()end)end local function ef(eg)if d_.Source=='Keep'then return nil,d_.Record and d_.Record.Count elseif d_.Source then local eh,ei=b_:ExportConfig(d_.Source)if not eh then return nil,nil,ei end return eh,cy(eh)end local eh,ei=pcall(bj,b_,eg~=''and eg or'Cloud config',bh(b_))if not eh then return nil,nil,'could not encode your settings'end return ei,cy(ei)end local eg={}local function eh()for ei,ej in pairs(eg)do ej.Set(ei==(d_.Source or'*current'))end local ei,ej,ek=ef(bM(d2.Text))if ek then d7.Text=tostring(ek)elseif d_.Source=='Keep'then d7.Text='Keeps the settings already published'..(ej and(' ('..ej..')')or'')else d7.Text=('%d setting%s from %s'):format(ej or 0,ej==1 and''or's',d_.Source or'your current settings')end end local function ei()cK(d6)eg={}local ej=0 local function ek(el,em)ej+=1 eg[el]=cL(d6,em,ej,function()d_.Source=el~='*current'and el or false eh()end)end if d_.Mode=='Edit'then ek('Keep','Keep published settings')end ek('*current','Current settings')for el,em in ipairs(b_:ListConfigs())do ek(em,em)end eh()end local function ej(ek)d9.Text=tostring(ek)d9.Visible=true end function ce:OpenPublish(ek)local el=type(ek)=='table'and ek.Id and cg[ek.Id]or nil if el then d_.Mode,d_.Record='Edit',el d_.Source='Keep'd_.Tags=table.clone(el.Tags)d2.Text=el.Name d3.Text=el.Description elseif d_.Mode=='Edit'then d_.Mode,d_.Record,d_.Source,d_.Tags='Publish',nil,false,{}d2.Text=''d3.Text=''end d1.Text=el and'Edit config'or'Publish a config'ec.Text=el and'Save changes'or'Publish'd9.Visible=false local em=cx()d8.Text=em and('Your name is hidden, so you publish as '..cd)or('You publish as '..j.DisplayName)ee()ei()d0.CanvasPosition=Vector2.zero cV(cn.Publish)end d2:GetPropertyChangedSignal('Text'):Connect(function()d9.Visible=false end)function ce:_submit()if d_.Busy then return end local ek=bM(d2.Text)if ek==''then ej('Give your config a name')return end local el,em,en=ef(ek)if en then ej(en)return end if d_.Source~='Keep'and(em or 0)==0 then ej('There are no settings to share')return end local eo=d_.Mode=='Edit'and d_.Record or nil local ep=eo and bZ.OnUpdate or bZ.OnPublish if type(ep)~='function'then ej(eo and"Editing isn't available"or"Publishing isn't available")return end local eq=cx()local er={Name=ek,Description=bM(d3.Text),Tags=table.clone(d_.Tags),Code=el,Count=em,Folder=b_.ConfigFolder,Author=eq and cd or j.DisplayName,AuthorId=not eq and j.UserId or nil,OwnerId=j.UserId,Streamer=eq}d_.Busy=true ec.Text=eo and'Saving...'or'Publishing...'d9.Visible=false task.spawn(function()local es,et,eu=aK(function()if eo then return ep(cE(eo),er)end return ep(er)end)d_.Busy=false ec.Text=eo and'Save changes'or'Publish'if not es or et==false then if not es then warn('[AirFlow] cloud publish error: '..tostring(et))end ej(es and eu and tostring(eu)or'Something went wrong, try again')return end local ev=table.clone(er)ev.Code=el or(eo and eo.Code)ev.Updated=os.time()if type(et)=='table'then for ew,ex in pairs(et)do ev[ew]=ex end end if eo then ev.Id=eo.Id cD(ev)if ct[eo.Id]then ct[eo.Id]=cF(eo)cv('CloudFavorites',ct)end dG(eo)cw(true,'Config updated',ek)dE(eo)else d2.Text=''d3.Text=''d_.Tags={}d_.Source=false if type(et)=='table'then ev.Mine=true local ew=cD(ev)if cm.Filter=='All'or cm.Filter=='Mine'then table.insert(cf,1,ew)dJ()dD(nil)end cw(true,'Config published',ek)dE(ew)else cw(true,'Config published',ek)cV(cn.Browse)c7(false)end end end)end function ce:Refresh()c7(false)end function ce:LoadMore()if not cl then c7(true)end end function ce:SetConfigs(ek,el)ck+=1 du(false)dC()cf={}for em,en in ipairs(type(ek)=='table'and ek or{})do local eo=cD(en)if eo then table.insert(cf,eo)end end ci=el==true dJ()dy.Visible=ci dD(#cf==0 and'empty'or nil,dL())end function ce:AddConfigs(ek,el)ck+=1 du(false)dC()for em,en in ipairs(type(ek)=='table'and ek or{})do local eo=cD(en)if eo and not table.find(cf,eo)then table.insert(cf,eo)dI(eo,#cf)end end ci=el==true dy.Visible=ci dD(#cf==0 and'empty'or nil,dL())end function ce:UpdateConfig(ek,el)local em=cg[tostring(ek)]if em and type(el)=='table'then local en=table.clone(el)en.Id=em.Id cD(en)dG(em)end end function ce:RemoveConfig(ek)local el=cg[tostring(ek)]if el then dS(el)if cq==el and co==cn.Detail then cV(cn.Browse)end end end function ce:SetLoading(ek)ck+=1 du(ek==true)dC()if cl then dB(4)dD(nil)end end function ce:SetError(ek)ck+=1 du(false)dC()dD(ek and'error'or nil,tostring(ek or''))end function ce:Open(ek)local el=cg[tostring(ek)]if el then b_:SelectTab(b0)dE(el)end end function ce:Back()cV(cn.Browse)end function ce:GetQuery()return table.clone(cm)end function ce:GetFavorites()local ek={}for el,em in pairs(ct)do local en=table.clone(em)en.Id=el table.insert(ek,en)end return ek end function ce:GetInstalled()local ek={}for el,em in pairs(cu)do table.insert(ek,{Id=el,Name=em.Name,Updated=em.Updated,Record=em.Record})end return ek end dO(true)cV(cn.Browse)local ek=false local function el()if not ek and b0._page.Visible then ek=true c7(false)end end b0._page:GetPropertyChangedSignal('Visible'):Connect(el)if type(bZ.OnFetch)~='function'then ek=true dD('empty',dL())else task.defer(el)end return ce end a2.CreateCloudConfigs=a2.CloudConfigs a2.CloudConfig=a2.CloudConfigs a2.CreateCloudConfig=a2.CloudConfigs function aS:SetBadge()end function aS:GetBadge()return nil end function a2:Dialog(bZ)bZ=l(bZ,{Text='Content',Message='Content'})if self._dialog then self._dialog.Close()end local b_=300 local b0=18 local b1=ai('TextButton',{Size=UDim2.fromScale(1,1),BackgroundColor3=Color3.new(0,0,0),BackgroundTransparency=1,Text='',AutoButtonColor=false,ZIndex=40,Parent=self.Body})local b2=ai('Frame',{AnchorPoint=Vector2.new(0.5,0.5),Position=UDim2.new(0.5,0,0.5,10),Size=UDim2.fromOffset(b_,120),BackgroundColor3=z.Background,BackgroundTransparency=1,BorderSizePixel=0,ZIndex=41,Parent=b1})aj(b2,UDim.new(0,10))local b3=ak(b2,z.Stroke,1)local b5=ai('UIScale',{Scale=0.94,Parent=b2})local b6={}local b7=0 if bZ.Icon then local b8,b9=aB(b2,bZ.Icon,z.Accent,UDim2.new(0,b0,0,b0+9))b9.ImageTransparency=1 b8.ZIndex=42 b9.ZIndex=42 table.insert(b6,{b9,'ImageTransparency',0})b7=24 end local b8=am({Position=UDim2.fromOffset(b0+b7,b0),Size=UDim2.new(1,-(b0*2+b7),0,18),Text=bZ.Title or'Are you sure?',TextSize=15,TextTransparency=1,ZIndex=42,Parent=b2})table.insert(b6,{b8,'TextTransparency',0})local b9=0 if bZ.Content then local ca=am({Position=UDim2.fromOffset(b0,b0+24),Size=UDim2.new(1,-b0*2,0,0),AutomaticSize=Enum.AutomaticSize.Y,Text=bZ.Content,TextSize=13,FontFace=D.Regular,TextColor3=z.Muted,TextWrapped=true,TextTransparency=1,TextTruncate=Enum.TextTruncate.None,TextYAlignment=Enum.TextYAlignment.Top,ZIndex=42,Parent=b2})table.insert(b6,{ca,'TextTransparency',0})b9=math.max(ca.TextBounds.Y,16)+6 ca:GetPropertyChangedSignal('TextBounds'):Connect(function()local cb=math.max(ca.TextBounds.Y,16)+6 if cb~=b9 then b9=cb b2.Size=UDim2.fromOffset(b_,b0+24+b9+12+34+b0)local cc=b2:FindFirstChild('ButtonRow')if cc then cc.Position=UDim2.fromOffset(b0,b0+24+b9+12)end end end)end local ca=ai('Frame',{Name='ButtonRow',Position=UDim2.fromOffset(b0,b0+24+b9+12),Size=UDim2.new(1,-b0*2,0,34),BackgroundTransparency=1,ZIndex=42,Parent=b2})ai('UIListLayout',{FillDirection=Enum.FillDirection.Horizontal,HorizontalAlignment=Enum.HorizontalAlignment.Right,SortOrder=Enum.SortOrder.LayoutOrder,Padding=UDim.new(0,8),Parent=ca})b2.Size=UDim2.fromOffset(b_,b0+24+b9+12+34+b0)local cb={}local cc=false function cb.Close()if cc then return end cc=true if self._dialog==cb then self._dialog=nil end ah(b1,{BackgroundTransparency=1},0.18)ah(b2,{BackgroundTransparency=1,Position=UDim2.new(0.5,0,0.5,8)},0.18,Enum.EasingStyle.Quint)ah(b5,{Scale=0.96},0.18,Enum.EasingStyle.Quint)ah(b3,{Transparency=1},0.12)for cd,ce in ipairs(b6)do ah(ce[1],{[ce[2] ]=1},0.12)end task.delay(0.2,function()b1:Destroy()end)end for cd,ce in ipairs(bZ.Buttons or{})do local cf=ce.Variant=='Primary'local cg=ai('TextButton',{Size=UDim2.fromOffset(0,34),AutomaticSize=Enum.AutomaticSize.X,BackgroundColor3=cf and z.Accent or z.Surface2,BackgroundTransparency=1,BorderSizePixel=0,Text='',AutoButtonColor=false,ClipsDescendants=true,LayoutOrder=cd,ZIndex=43,Parent=ca})aj(cg,UDim.new(0,7))local ch=ak(cg,cf and z.Accent or z.Stroke,1)al(cg,14,14)local ci=am({Size=UDim2.new(0,0,1,0),AutomaticSize=Enum.AutomaticSize.X,Text=ce.Title or ce.Name or'OK',TextSize=13,TextColor3=cf and z.AccentDark or z.Text,TextXAlignment=Enum.TextXAlignment.Center,TextTransparency=1,ZIndex=44,Parent=cg})local cj=cf and 0.12 or 0 local ck=cf and 0.4 or 0 table.insert(b6,{cg,'BackgroundTransparency',cj})table.insert(b6,{ch,'Transparency',ck})table.insert(b6,{ci,'TextTransparency',0})cg.MouseEnter:Connect(function()if cc then return end if cf then ah(cg,{BackgroundTransparency=0},0.12)ah(ch,{Transparency=0},0.12)else ah(ch,{Color=z.StrokeHover},0.12)end end)cg.MouseLeave:Connect(function()if cc then return end if cf then ah(cg,{BackgroundTransparency=cj},0.2)ah(ch,{Transparency=ck},0.2)else ah(ch,{Color=z.Stroke},0.2)end end)cg.MouseButton1Click:Connect(function()cb.Close()aJ(ce.Callback)end)end if bZ.CloseOnBackdrop~=false then b1.MouseButton1Click:Connect(function()cb.Close()aJ(bZ.OnCancel)end)end self._dialog=cb ah(b1,{BackgroundTransparency=0.45},0.25)ah(b2,{BackgroundTransparency=0,Position=UDim2.fromScale(0.5,0.5)},0.3,Enum.EasingStyle.Quint)ah(b3,{Transparency=0},0.25)ah(b5,{Scale=1},0.4,Enum.EasingStyle.Back)for cd,ce in ipairs(b6)do ah(ce[1],{[ce[2] ]=ce[3]},0.25)end return cb end function a2:Confirm(bZ)bZ=l(bZ,{Text='Content',Message='Content'})return self:Dialog({Title=bZ.Title or'Are you sure?',Content=bZ.Content,Icon=bZ.Icon,OnCancel=bZ.OnCancel,Buttons={{Title=bZ.CancelText or'Cancel',Callback=bZ.OnCancel},{Title=bZ.ConfirmText or'Confirm',Variant='Primary',Callback=bZ.Callback}}})end function a2:_listen(bZ,b_,b0)local b1=self._inputListeners[bZ]table.insert(b1,b_)local function b2()for b3,b5 in ipairs(b1)do if b5==b_ then table.remove(b1,b3)break end end end if b0 then b0._listeners=b0._listeners or{}table.insert(b0._listeners,b2)end return b2 end function a2:_indicatorY(bZ)local b_=self._tabStack return(bZ._button.AbsolutePosition.Y-b_.AbsolutePosition.Y)/self.Scale.Scale+b_.Position.Y.Offset end function a2:_placeIndicator(bZ)local b_=self.Indicator local b0=self:_indicatorY(bZ)if not b_.Visible then b_.Visible=true b_.Position=UDim2.fromOffset(8,b0)b_.BackgroundTransparency=1 ah(b_,{BackgroundTransparency=0.35},0.3)end ah(b_,{Position=UDim2.fromOffset(8,b0)},0.45,Enum.EasingStyle.Quint)end function a2:_overflowHint(bZ,b_,b0,b1,b2)local b3=ai('Frame',{AnchorPoint=b_.AnchorPoint,Position=b_.Position,Size=b_.Size,BackgroundTransparency=1,ZIndex=3,Parent=bZ})local function b5()b3.Position=b_.Position b3.Size=b_.Size b3.Visible=b_.Visible end for b6,b7 in ipairs({'Position','Size','Visible'})do b_:GetPropertyChangedSignal(b7):Connect(b5)end local function b6(b7)return b1 and b7.Y or b7.X end local function b7()return self.Scale and self.Scale.Scale or 1 end local function b8(b9)local ca=b6(b_.AbsoluteWindowSize)/b7()local cb=math.max(b6(b_.AbsoluteCanvasSize)/b7()-ca,0)local cc=math.clamp(b6(b_.CanvasPosition)+b9*ca*0.75,0,cb)ah(b_,{CanvasPosition=b1 and Vector2.new(0,cc)or Vector2.new(cc,0)},0.35,Enum.EasingStyle.Quint)end local b9={}for ca,cb in ipairs({-1,1})do local cc=cb>0 local cd=ai('Frame',{AnchorPoint=b1 and Vector2.new(0,cc and 1 or 0)or Vector2.new(cc and 1 or 0,0),Position=b1 and UDim2.fromScale(0,cc and 1 or 0)or UDim2.fromScale(cc and 1 or 0,0),Size=b1 and UDim2.new(1,0,0,34)or UDim2.new(0,48,1,0),BackgroundColor3=b2,BackgroundTransparency=1,BorderSizePixel=0,Visible=false,Parent=b3})ai('UIGradient',{Rotation=b1 and(cc and 270 or 90)or(cc and 180 or 0),Transparency=NumberSequence.new({NumberSequenceKeypoint.new(0,0),NumberSequenceKeypoint.new(0.4,0.2),NumberSequenceKeypoint.new(1,1)}),Parent=cd})local ce=b1 and UDim2.new(0.5,0,cc and 1 or 0,cc and-5 or 5)or UDim2.new(cc and 1 or 0,cc and-2 or 2,0.5,0)local cf=ai('TextButton',{AnchorPoint=b1 and Vector2.new(0.5,cc and 1 or 0)or Vector2.new(cc and 1 or 0,0.5),Position=ce,Size=UDim2.fromOffset(0,20),AutomaticSize=Enum.AutomaticSize.X,BackgroundColor3=z.Surface3,BackgroundTransparency=1,BorderSizePixel=0,Text='',AutoButtonColor=false,Visible=false,ZIndex=2,Parent=b3})aj(cf,UDim.new(1,0))local cg=ak(cf,z.Stroke,1)al(cf,7,7)ai('UIListLayout',{FillDirection=Enum.FillDirection.Horizontal,VerticalAlignment=Enum.VerticalAlignment.Center,SortOrder=Enum.SortOrder.LayoutOrder,Padding=UDim.new(0,3),Parent=cf})local ch=ai('ImageLabel',{Size=UDim2.fromOffset(12,12),BackgroundTransparency=1,ImageColor3=z.Accent,ImageTransparency=1,ScaleType=Enum.ScaleType.Fit,LayoutOrder=1,ZIndex=2,Parent=cf})aq(ch,b1 and(cc and'chevron-down'or'chevron-up')or(cc and'chevron-right'or'chevron-left'))local ci='ImageTransparency'if ch.Image==''then ch:Destroy()ch=am({Size=UDim2.fromOffset(10,20),Text='\u{203a}',TextSize=16,TextColor3=z.Accent,TextTransparency=1,TextXAlignment=Enum.TextXAlignment.Center,TextTruncate=Enum.TextTruncate.None,Rotation=b1 and(cc and 90 or-90)or(cc and 0 or 180),LayoutOrder=1,ZIndex=2,Parent=cf})ci='TextTransparency'end local cj=am({Size=UDim2.new(0,0,1,0),AutomaticSize=Enum.AutomaticSize.X,Text='',TextSize=11,TextColor3=z.Text,TextTransparency=1,TextTruncate=Enum.TextTruncate.None,Visible=false,LayoutOrder=2,ZIndex=2,Parent=cf})cf.MouseEnter:Connect(function()if not ax()then ah(cg,{Color=z.StrokeHover},0.12)end end)cf.MouseLeave:Connect(function()ah(cg,{Color=z.Stroke},0.2)end)cf.MouseButton1Click:Connect(function()b8(cb)end)b9[cb]={Direction=cb,Fade=cd,Chip=cf,Stroke=cg,Arrow=ch,ArrowFade=ci,Count=cj,Home=ce,Shown=false,Generation=0}end local function ca(cb,cc)if cb.Shown==cc then return end cb.Shown=cc cb.Generation+=1 local cd=cb.Home+(b1 and UDim2.fromOffset(0,cb.Direction*6)or UDim2.fromOffset(cb.Direction*6,0))local ce=cc and 0 or 1 if cc then cb.Fade.Visible=true cb.Chip.Visible=true cb.Chip.Position=cd ah(cb.Chip,{Position=cb.Home,BackgroundTransparency=0.08},0.3,Enum.EasingStyle.Quint)else ah(cb.Chip,{Position=cd,BackgroundTransparency=1},0.2,Enum.EasingStyle.Quint)local cf=cb.Generation task.delay(0.21,function()if cb.Generation==cf then cb.Fade.Visible=false cb.Chip.Visible=false end end)end ah(cb.Fade,{BackgroundTransparency=ce},0.2)ah(cb.Stroke,{Transparency=ce},0.2)ah(cb.Arrow,{[cb.ArrowFade]=ce},0.2)ah(cb.Count,{TextTransparency=ce},0.2)end local function cb()local cc=b6(b_.AbsoluteWindowSize)local cd=(b6(b_.AbsoluteCanvasSize)-cc)/b7()local ce=b6(b_.CanvasPosition)local cf=b6(b_.AbsolutePosition)local cg,ch=0,0 for ci,cj in ipairs(b0:GetChildren())do if cj:IsA('GuiObject')and cj.Visible and b6(cj.AbsoluteSize)>0 then local ck=b6(cj.AbsolutePosition)+b6(cj.AbsoluteSize)/2-cf if ck<0 then cg+=1 elseif ck>cc then ch+=1 end end end for ci,cj in pairs(b9)do local ck=ci<0 and cg or ch cj.Count.Text=tostring(ck)cj.Count.Visible=ck>0 ca(cj,cd>1 and(ci<0 and ce>1 or ci>0 and ce<cd-1))end end for cc,cd in ipairs({'CanvasPosition','AbsoluteCanvasSize','AbsoluteWindowSize'})do b_:GetPropertyChangedSignal(cd):Connect(cb)end task.defer(cb)end function a2:_scrollTabIntoView(bZ)local b_=self.TabList local b0=self.Scale.Scale local b1=(bZ._button.AbsolutePosition.Y-b_.AbsolutePosition.Y)/b0+b_.CanvasPosition.Y local b2=b1+bZ._button.AbsoluteSize.Y/b0 local b3=b_.AbsoluteWindowSize.Y/b0 local b5=b_.CanvasPosition.Y if b1-8<b5 then b5=b1-8 elseif b2+8>b5+b3 then b5=b2+8-b3 else return end ah(b_,{CanvasPosition=Vector2.new(0,math.max(0,b5))},0.35,Enum.EasingStyle.Quint)end function a2:_closePopups()if self._closePopup then self._closePopup()end end function a2:_popoutLayer()if self._popLayer then return self._popLayer end local bZ=ai('Frame',{Name='PopOuts',Size=UDim2.fromScale(1,1),BackgroundTransparency=1,ZIndex=20,Parent=self.Gui})local b_=ai('UIScale',{Parent=bZ})self._popLayer=bZ self._popPanels={}self:_listen('Render',function()local b0=math.max(self.Scale.Scale,0.05)if math.abs(b_.Scale-b0)>1e-4 then b_.Scale=b0 bZ.Size=UDim2.fromScale(1/b0,1/b0)end bZ.Visible=self.Open==true and not self._destroyed end)return bZ end function a2:_popupHost(bZ)local b_=self._popLayer if b_ and bZ and bZ:IsDescendantOf(b_)then return b_ end return self.Body end function a2:_overPopout(bZ)local b_=self._popLayer if not b_ or not b_.Visible then return false end for b0,b1 in ipairs(self._popPanels)do if b1.Parent and b1.Visible and az(bZ,b1)then return true end end return false end function a2:_fade(bZ,b_)local b0,b1=self._fader,self.Body self._fadeGeneration=(self._fadeGeneration or 0)+1 local b2=self._fadeGeneration if b1.Parent~=b0 then b0.GroupTransparency=self._bodyAlpha b1.Parent=b0 end b0.Visible=true self._bodyAlpha=bZ ah(b0,{GroupTransparency=bZ},b_)task.delay(b_+0.03,function()if self._fadeGeneration==b2 and bZ<=0 and not self._destroyed then b1.Parent=self.Root b0.Visible=false end end)end function a2:SelectTab(bZ)if self.CurrentTab==bZ then return end local b_=self.CurrentTab self:_resetSearch()self:_closePopups()self.CurrentTab=bZ self:_settleTransition()local b0=(self._transitionGeneration or 0)+1 self._transitionGeneration=b0 if b_ then ah(b_._label,{TextColor3=z.Muted},0.3)if b_._icon then ar(b_._icon,z.Muted,false,0.3)end local b1=self._outLayer b_._page.Parent=b1 self._outPage=b_._page b1.GroupTransparency=0 b1.Position=UDim2.fromOffset(0,0)b1.Visible=true ah(b1,{GroupTransparency=1,Position=UDim2.fromOffset(0,-6)},0.2,Enum.EasingStyle.Quint)task.delay(0.18,function()if self._transitionGeneration==b0 then self:_settleOut()end end)end ah(bZ._button,{BackgroundTransparency=1},0.2)ah(bZ._stroke,{Transparency=1},0.2)ah(bZ._label,{TextColor3=z.Text},0.3)if bZ._icon then ar(bZ._icon,z.Text,true,0.3)end self:_placeIndicator(bZ)self:_scrollTabIntoView(bZ)local b1=bZ._page b1.Position=UDim2.fromOffset(0,0)b1.Visible=true b1.Parent=self._inLayer self._inPage=b1 bz(self._inLayer)task.delay(0.32,function()if self._transitionGeneration==b0 then self:_settleIn()end end)end function a2:_settleOut()local bZ=self._outPage if bZ then bZ.Parent=self.Content bZ.Visible=false self._outPage=nil end self._outLayer.Visible=false end function a2:_settleIn()local bZ=self._inPage if bZ then bZ.Parent=self.Content bZ.Position=UDim2.fromOffset(0,0)self._inPage=nil end self._inLayer.Visible=false end function a2:_settleTransition()self:_settleOut()self:_settleIn()end local bZ={Rain={Image='rbxassetid://241868005',Count=90,Stretch=true},Snow={Image='rbxassetid://99851851',Count=60},Ember={Image='rbxassetid://242205518',Count=55},Sakura={Petal=true,Count=46,Glow=Color3.fromRGB(255,150,190),GlowAmount=0.1},Fireflies={Image=A.Glow,Count=34,Glow=Color3.fromRGB(70,150,60),GlowAmount=0.16},Matrix={Text=true,Count=38,Glow=Color3.fromRGB(30,200,90),GlowAmount=0.07,Glyphs='01234567890123456789\u{30a2}\u{30a4}\u{30a6}\u{30a8}\u{30aa}\u{30ab}\u{30ad}\u{30af}\u{30b1}\u{30b3}\u{30b5}\u{30b7}\u{30b9}\u{30bb}\u{30bd}\u{30bf}\u{30c1}\u{30c4}\u{30c6}\u{30c8}\u{30ca}\u{30cb}\u{30cc}\u{30cd}\u{30ce}\u{30cf}\u{30d2}\u{30d5}\u{30d8}\u{30db}\u{30de}\u{30df}\u{30e0}\u{30e1}\u{30e2}\u{30e4}\u{30e6}\u{30e8}\u{30e9}\u{30ea}\u{30eb}\u{30ec}\u{30ed}\u{30ef}\u{30f3}+-*=<>:'}}local b_={rain='Rain',snow='Snow',ember='Ember',embers='Ember',fire='Ember',hellfire='Ember',sakura='Sakura',petals='Sakura',cherryblossom='Sakura',firefly='Fireflies',fireflies='Fireflies',matrix='Matrix',matrixrain='Matrix',code='Matrix'}local b0=Vector2.new(7/420,151/263)local b1=Random.new()local function b2(b3)if type(b3)=='string'and({ui=true,window=true,inside=true})[b3:lower()]then return'UI'end return'Screen'end local function b3(b5)if type(b5)~='string'then return'None'end return b_[(b5:lower():gsub('[%s_%-]',''))]or'None'end local function b5(b6,b7)return b1:NextNumber(b6,b7)end local function b6(b7,b8,b9,ca,cb)b8.Time=b5(0,10)b8.Phase=b5(0,math.pi*2)if b7=='Rain'then local cc=b5(2,3.5)b8.Size=Vector2.new(cc,b5(26,52))b8.VY=b5(950,1400)b8.VX=b8.VY*0.12 b8.Sway,b8.Spin=0,0 b8.Rotation=-math.deg(math.atan2(b8.VX,b8.VY))b8.Alpha=b5(0,0.35)b8.X=b5(-0.15*b9,b9)b8.Y=cb and b5(-40,ca)or b5(-120,-b8.Size.Y)elseif b7=='Snow'then local cc=b5(6,17)b8.Size=Vector2.new(cc,cc)b8.VY=b5(30,55)*(0.6+cc/17)b8.VX=b5(-8,14)b8.Sway=b5(12,38)b8.Frequency=b5(0.5,1.3)b8.Spin=b5(-60,60)b8.Rotation=b5(0,360)b8.Alpha=b5(0.05,0.45)b8.X=b5(0,b9)b8.Y=cb and b5(-20,ca)or b5(-60,-cc)elseif b7=='Sakura'then local cc=b5(7,14)b8.Size=Vector2.new(cc,cc*b5(0.55,0.75))b8.VY=b5(35,70)b8.VX=b5(18,45)b8.Sway=b5(14,34)b8.Frequency=b5(0.6,1.4)b8.Flutter=b5(1.2,2.6)b8.Spin=b5(-90,90)b8.Rotation=b5(0,360)b8.Alpha=b5(0.05,0.35)b8.Color=Color3.fromRGB(255,205,220):Lerp(Color3.fromRGB(255,140,180),b5(0,1))b8.X=b5(-0.25*b9,b9)b8.Y=cb and b5(-20,ca)or b5(-60,-cc)elseif b7=='Fireflies'then local cc=b5(14,28)b8.Size=Vector2.new(cc,cc)b8.VY=b5(-14,8)b8.VX=b5(-12,12)b8.Sway=b5(10,30)b8.SwayY=b5(8,22)b8.Frequency=b5(0.3,0.8)b8.Spin,b8.Rotation=0,0 b8.Alpha=b5(0,0.25)b8.Life=b5(5,11)b8.Age=cb and b5(0,b8.Life)or 0 b8.Pulse=b5(1.5,3.5)b8.Color=Color3.fromRGB(200,255,120):Lerp(Color3.fromRGB(255,230,120),b5(0,1))b8.X=b5(0,b9)b8.Y=b5(ca*0.15,ca)elseif b7=='Matrix'then local cc=bZ.Matrix if not cc.List then cc.List={}for cd,ce in utf8.codes(cc.Glyphs)do table.insert(cc.List,utf8.char(ce))end end local cd=cc.List local ce=math.floor(b5(12,19))local cf=math.floor(b5(8,20))b8.TextSize=ce b8.Size=Vector2.new(ce+6,ce*cf)b8.VY=b5(160,360)*(ce/15)b8.VX,b8.Sway,b8.Spin,b8.Rotation=0,0,0,0 b8.Alpha=b5(0,0.25)+(19-ce)*0.04 b8.X=math.floor(b5(0,b9)/18)*18+9 b8.Y=cb and b5(-b8.Size.Y/2,ca)or-b8.Size.Y/2-b5(0,240)b8.Chars={}for cg=1,cf do b8.Chars[cg]=cd[math.random(#cd)]end b8.Shuffle=b5(0.05,0.2)else local cc=b5(4,12)b8.Size=Vector2.new(cc,cc)b8.VY=-b5(60,170)b8.VX=b5(-12,12)b8.Sway=b5(8,28)b8.Frequency=b5(1,2.4)b8.Spin=b5(-140,140)b8.Rotation=b5(0,360)b8.Alpha=b5(0,0.3)b8.Color=Color3.fromRGB(255,70,20):Lerp(Color3.fromRGB(255,190,70),b5(0,1))b8.X=b5(0,b9)b8.Y=cb and b5(ca*0.2,ca+10)or ca+b5(10,80)end local cc=b8.Label if b7=='Rain'then cc.Size=UDim2.fromOffset(b8.Size.X/b0.X,b8.Size.Y/b0.Y)else cc.Size=UDim2.fromOffset(b8.Size.X,b8.Size.Y)end if b7=='Matrix'then cc.TextSize=b8.TextSize cc.Text=table.concat(b8.Chars,'\n')elseif b7=='Sakura'then cc.BackgroundColor3=b8.Color else cc.ImageColor3=b8.Color or(b7=='Rain'and Color3.fromRGB(190,210,245)or Color3.new(1,1,1))end end function a2:_buildBackdrop(b7)local b8=ai('Frame',{Name='Backdrop',Size=UDim2.fromScale(1,1),BackgroundTransparency=1,Visible=false,ZIndex=0,Parent=self.Gui})local b9=ai('Frame',{Size=UDim2.fromScale(1,1),BackgroundColor3=Color3.new(0,0,0),BackgroundTransparency=1,BorderSizePixel=0,ZIndex=0,Parent=b8})ai('UIGradient',{Rotation=90,Transparency=NumberSequence.new({NumberSequenceKeypoint.new(0,0),NumberSequenceKeypoint.new(0.5,0.3),NumberSequenceKeypoint.new(1,0)}),Parent=b9})local ca=ai('Frame',{AnchorPoint=Vector2.new(0,1),Position=UDim2.fromScale(0,1),Size=UDim2.fromScale(1,0.5),BackgroundColor3=Color3.fromRGB(255,60,15),BackgroundTransparency=1,BorderSizePixel=0,ZIndex=1,Parent=b8})ai('UIGradient',{Rotation=90,Transparency=NumberSequence.new(1,0),Parent=ca})local cb=ai('Frame',{Size=UDim2.fromScale(1,1),BackgroundTransparency=1,ClipsDescendants=true,ZIndex=2,Parent=b8})ca.Parent=cb self._backdrop=b8 self._backdropTintFrame=b9 self._backdropHeat=ca self._weatherField=cb self._weatherParticles={}self._backdropFade=0 self._weatherKick=0 self._backdropShown=false self._backdropEnabled=b7.Enabled~=false self._backdropTint=math.clamp(tonumber(b7.Tint)or 0.45,0,1)self._backdropDim=b7.Dim~=false self._dimLevel=self._backdropDim and 1 or 0 self._weatherDensity=math.clamp(tonumber(b7.Density)or 1,0,3)self._weatherSpeed=math.clamp(tonumber(b7.Speed)or 1,0.1,3)self.Weather=b3(b7.Weather==nil and'Snow'or b7.Weather)self.WeatherMode='Screen'self:SetWeatherMode(b7.Mode)self:_rebuildWeather()table.insert(self._frameSteps,function(cc)self:_stepBackdrop(cc)end)end function a2:_weatherSize()if self.WeatherMode=='UI'then return Vector2.new(self.Root.Size.X.Offset,self.Root.Size.Y.Offset)end return self.Gui.AbsoluteSize end function a2:_rebuildWeather()for b7,b8 in ipairs(self._weatherParticles)do b8.Label:Destroy()end self._weatherParticles={}local b7=bZ[self.Weather]if not b7 then return end self._backdropHeat.BackgroundColor3=b7.Glow or Color3.fromRGB(255,60,15)local b8=self:_weatherSize()local b9=b7.Count*self._weatherDensity*(self.WeatherMode=='UI'and 0.45 or 1)for ca=1,math.floor(b9+0.5)do local cb,cc if b7.Text then cc='TextTransparency'cb=ai('TextLabel',{AnchorPoint=Vector2.new(0.5,0.5),BackgroundTransparency=1,Text='',TextColor3=Color3.fromRGB(90,255,140),TextTransparency=1,FontFace=Font.fromEnum(Enum.Font.Code),TextXAlignment=Enum.TextXAlignment.Center,TextYAlignment=Enum.TextYAlignment.Top,LineHeight=1,ZIndex=2,Parent=self._weatherField})ai('UIGradient',{Rotation=90,Color=ColorSequence.new({ColorSequenceKeypoint.new(0,Color3.new(1,1,1)),ColorSequenceKeypoint.new(0.88,Color3.new(1,1,1)),ColorSequenceKeypoint.new(1,Color3.fromRGB(235,255,240))}),Transparency=NumberSequence.new({NumberSequenceKeypoint.new(0,1),NumberSequenceKeypoint.new(0.6,0.45),NumberSequenceKeypoint.new(1,0)}),Parent=cb})elseif b7.Petal then cc='BackgroundTransparency'cb=ai('Frame',{AnchorPoint=Vector2.new(0.5,0.5),BackgroundColor3=Color3.fromRGB(255,190,210),BackgroundTransparency=1,BorderSizePixel=0,ZIndex=2,Parent=self._weatherField})aj(cb,UDim.new(1,0))ai('UIGradient',{Rotation=35,Color=ColorSequence.new(Color3.new(1,1,1),Color3.fromRGB(235,200,215)),Parent=cb})else cc='ImageTransparency'cb=ai('ImageLabel',{AnchorPoint=Vector2.new(0.5,0.5),BackgroundTransparency=1,Image=b7.Image,ImageTransparency=1,ScaleType=b7.Stretch and Enum.ScaleType.Stretch or Enum.ScaleType.Fit,ZIndex=2,Parent=self._weatherField})end local cd={Label=cb,Property=cc}b6(self.Weather,cd,b8.X,b8.Y,true)table.insert(self._weatherParticles,cd)end end function a2:_stepBackdrop(b7)local b8=self._backdropShown and 1 or 0 local b9=self._backdropFade if b9==b8 and b8==0 then return end if b9<b8 then b9=math.min(b9+b7/0.45,b8)elseif b9>b8 then b9=math.max(b9-b7/0.25,b8)end self._backdropFade=b9 if b9<=0 then self._backdrop.Visible=false self._weatherField.Visible=false return end local ca=1-(1-b9)^3 local cb=self.Weather local cc=self._dimLevel if self._backdropDim then cc=math.min(cc+b7/0.3,1)else cc=math.max(cc-b7/0.3,0)end self._dimLevel=cc self._backdropTintFrame.BackgroundTransparency=1-self._backdropTint*ca*cc local cd=bZ[cb]self._backdropHeat.BackgroundTransparency=cb=='Ember'and 1-(0.22+math.sin(os.clock()*2.1)*0.05)*ca or cd and cd.GlowAmount and 1-(cd.GlowAmount+math.sin(os.clock()*0.8)*cd.GlowAmount*0.25)*ca or 1 local ce=self._weatherKick self._weatherKick=math.max(ce-b7*1.3,0)local cf=self._weatherSpeed*(1+ce*ce*2.5)local cg=self:_weatherSize()local ch,ci=cg.X,cg.Y for cj,ck in ipairs(self._weatherParticles)do ck.Time+=b7 ck.X+=ck.VX*b7*cf ck.Y+=ck.VY*b7*cf ck.Rotation+=ck.Spin*b7*cf local cl=math.max(ck.Size.X,ck.Size.Y)if ck.Life then ck.Age+=b7 end if(ck.Life and ck.Age>ck.Life)or(not ck.Life and((ck.VY>0 and ck.Y>ci+cl)or(ck.VY<0 and ck.Y<-cl)))then b6(cb,ck,ch,ci,false)elseif ck.X>ch+cl*4 then ck.X-=ch+cl*6 elseif ck.X<-cl*4 then ck.X+=ch+cl*6 end local cm=ck.X local cn=1-ck.Alpha if ck.Sway~=0 then cm+=math.sin(ck.Time*ck.Frequency+ck.Phase)*ck.Sway end local co=ck.Y local cp=ck.Label if cb=='Ember'then cn*=math.clamp(ck.Y/(ci*0.85),0,1)^0.6 cn*=0.75+math.sin(ck.Time*9+ck.Phase)*0.25 elseif cb=='Sakura'then local cq=math.abs(math.cos(ck.Time*ck.Flutter+ck.Phase))cp.Size=UDim2.fromOffset(ck.Size.X*(0.3+cq*0.7),ck.Size.Y)elseif cb=='Fireflies'then co+=math.cos(ck.Time*ck.Frequency*1.3+ck.Phase)*ck.SwayY local cq,cr=ck.Age,ck.Life cn*=math.clamp(math.min(cq/1.2,(cr-cq)/1.2),0,1)cn*=0.5+math.sin(ck.Time*ck.Pulse+ck.Phase)*0.5 elseif cb=='Matrix'then ck.Shuffle-=b7*cf if ck.Shuffle<=0 then ck.Shuffle=b5(0.05,0.2)local cq=bZ.Matrix.List local cr=ck.Chars cr[math.random(#cr)]=cq[math.random(#cq)]cr[#cr]=cq[math.random(#cq)]cp.Text=table.concat(cr,'\n')end end cp.Position=UDim2.fromOffset(cm,co)cp.Rotation=ck.Rotation cp[ck.Property or'ImageTransparency']=1-cn*ca end end function a2:_refreshBackdrop(b7)if not self._backdrop then return end local b8=self._backdropEnabled and self._introDone and self.Open and not self.Minimized and not self._destroyed if b8 and not self._backdropShown then self._backdrop.Visible=true self._weatherField.Visible=true if self._backdropFade<=0 then local b9=self:_weatherSize()for ca,cb in ipairs(self._weatherParticles)do b6(self.Weather,cb,b9.X,b9.Y,true)end end if b7 then self._weatherKick=1 end end self._backdropShown=b8==true end function a2:SetBackdrop(b7)if not self._backdrop then return end self._backdropEnabled=b7~=false self:_refreshBackdrop(true)end function a2:SetBackdropTint(b7)if not self._backdrop then return end self._backdropTint=math.clamp(tonumber(b7)or 0.45,0,1)end function a2:SetDim(b7)if not self._backdrop then return end self._backdropDim=b7~=false end function a2:SetWeatherMode(b7)if not self._backdrop then return end b7=b2(b7)local b8=self._weatherField if b7=='UI'then b8.ZIndex=0 b8.Parent=self.Body else b8.ZIndex=2 b8.Parent=self._backdrop end if b7==self.WeatherMode then return end self.WeatherMode=b7 self:_rebuildWeather()if self._backdropShown then self._weatherKick=1 end end function a2:SetWeather(b7)if not self._backdrop then return end local b8=b3(b7)if b8==self.Weather then return end self.Weather=b8 self:_rebuildWeather()if self._backdropShown then self._weatherKick=1 end end function a2:SetWeatherDensity(b7)if not self._backdrop then return end self._weatherDensity=math.clamp(tonumber(b7)or 1,0,3)self:_rebuildWeather()end function a2:SetWeatherSpeed(b7)if not self._backdrop then return end self._weatherSpeed=math.clamp(tonumber(b7)or 1,0.1,3)end local b7={Top=8,Width=E and 176 or 168,Height=E and 36 or 32,Wide=340,Radius=34,Bars=4,Pinned=6}local function b8(b9,ca,cb,cc)if b9._ghost then b9._ghost:Destroy()end local cd=ai('Frame',{Position=UDim2.fromOffset(ca.X,ca.Y),Size=UDim2.fromOffset(cb.X,cb.Y),BackgroundColor3=z.Background,BackgroundTransparency=1,BorderSizePixel=0,ZIndex=29,Parent=b9.Gui})local ce=k._fixedCorner(cd,UDim.new(0,cc))local cf=ak(cd,z.Stroke,1)b9._ghost=cd return cd,cf,ce end local function b9(ca,cb,cc,cd,ce,cf)ah(ca,{Position=UDim2.fromOffset(cc.X,cc.Y),Size=UDim2.fromOffset(cd.X,cd.Y)},cf,Enum.EasingStyle.Quint)ah(cb,{CornerRadius=UDim.new(0,ce)},cf,Enum.EasingStyle.Quint)end local function ca(cb,cc,cd,ce)ah(cc,{BackgroundTransparency=1},ce,Enum.EasingStyle.Quad)ah(cd,{Transparency=1},ce,Enum.EasingStyle.Quad)task.delay(ce+0.02,function()if cb._ghost==cc then cb._ghost=nil end cc:Destroy()end)end function a2:_buildMiniBar()if self.MiniBar then return self.MiniBar end local cb=self.Gui local cc=ai('CanvasGroup',{Name='Island',AnchorPoint=Vector2.new(0.5,0),Position=UDim2.new(0.5,0,0,b7.Top),Size=UDim2.fromOffset(b7.Width,b7.Height),BackgroundColor3=Color3.new(0,0,0),BorderSizePixel=0,GroupTransparency=1,Visible=false,ZIndex=30,Parent=cb})local cd=k._fixedCorner(cc,UDim.new(0,b7.Height/2))local ce=ai('UIScale',{Parent=cc})self._miniScale=ce local cf=ai('NumberValue',{Value=1})local cg self._miniOrb=cc local function ch(ci)return ai('CanvasGroup',{Name=ci,AnchorPoint=Vector2.new(0.5,0),Position=UDim2.fromScale(0.5,0),Size=UDim2.new(0,b7.Wide,0,400),BackgroundTransparency=1,GroupTransparency=1,Parent=cc})end local ci=ai('CanvasGroup',{Name='Compact',Size=UDim2.fromScale(1,1),BackgroundColor3=Color3.fromRGB(30,30,34),BorderSizePixel=0,Parent=cc})ai('UIGradient',{Rotation=90,Color=ColorSequence.new(Color3.fromRGB(255,255,255),Color3.fromRGB(120,120,120)),Parent=ci})local cj=ai('Frame',{AnchorPoint=Vector2.new(0,0.5),Position=UDim2.new(0,5,0.5,0),Size=UDim2.fromOffset(b7.Height-10,b7.Height-10),BackgroundColor3=z.Accent,BackgroundTransparency=0.82,BorderSizePixel=0,Parent=ci})aj(cj,UDim.new(1,0))local ck=ai('ImageLabel',{AnchorPoint=Vector2.new(0.5,0.5),Position=UDim2.fromScale(0.5,0.5),Size=UDim2.fromOffset(16,16),BackgroundTransparency=1,ImageColor3=z.Accent,ScaleType=Enum.ScaleType.Fit,Parent=cj})aq(ck,self._logoIcon,true)local cl=am({AnchorPoint=Vector2.new(0,0.5),Position=UDim2.new(0,b7.Height+2,0.5,0),Size=UDim2.new(1,-b7.Height-2-72,0,18),Text=self.Title,TextSize=13,FontFace=D.Bold,TextColor3=Color3.fromRGB(244,244,246),Parent=ci})local cm=ai('Frame',{AnchorPoint=Vector2.new(1,0.5),Position=UDim2.new(1,-14,0.5,0),Size=UDim2.fromOffset(0,18),AutomaticSize=Enum.AutomaticSize.X,BackgroundTransparency=1,Parent=ci})ai('UIListLayout',{FillDirection=Enum.FillDirection.Horizontal,HorizontalAlignment=Enum.HorizontalAlignment.Right,VerticalAlignment=Enum.VerticalAlignment.Center,SortOrder=Enum.SortOrder.LayoutOrder,Padding=UDim.new(0,7),Parent=cm})local cn=ai('Frame',{Size=UDim2.fromOffset(b7.Bars*3+(b7.Bars-1)*2,16),BackgroundTransparency=1,Visible=false,LayoutOrder=1,Parent=cm})local co={}for cp=1,b7.Bars do local cq=ai('Frame',{AnchorPoint=Vector2.new(0,0.5),Position=UDim2.new(0,(cp-1)*5,0.5,0),Size=UDim2.fromOffset(3,3),BackgroundColor3=z.Muted,BorderSizePixel=0,Parent=cn})aj(cq,UDim.new(1,0))co[cp]=cq end local cp=am({Size=UDim2.fromOffset(0,18),AutomaticSize=Enum.AutomaticSize.X,Text='',TextSize=13,FontFace=D.Bold,TextTruncate=Enum.TextTruncate.None,Visible=false,LayoutOrder=2,Parent=cm})local cq=ai('Frame',{Size=UDim2.fromOffset(6,6),BackgroundColor3=z.Accent,BorderSizePixel=0,LayoutOrder=-1,Parent=cm})aj(cq,UDim.new(1,0))local cr=am({Size=UDim2.fromOffset(0,18),AutomaticSize=Enum.AutomaticSize.X,Text='0s',TextSize=12,FontFace=D.Bold,TextColor3=Color3.fromRGB(220,220,224),TextTruncate=Enum.TextTruncate.None,LayoutOrder=0,Parent=cm})local cs=ch('Expanded')local ct=ai('Frame',{Position=UDim2.fromOffset(16,14),Size=UDim2.new(1,-32,0,0),AutomaticSize=Enum.AutomaticSize.Y,BackgroundTransparency=1,Parent=cs})ai('UIListLayout',{SortOrder=Enum.SortOrder.LayoutOrder,Padding=UDim.new(0,8),Parent=ct})local cu=ai('Frame',{Size=UDim2.new(1,0,0,48),BackgroundTransparency=1,LayoutOrder=1,Parent=ct})local cv=ai('ImageLabel',{Size=UDim2.fromOffset(48,48),BackgroundColor3=Color3.fromRGB(38,38,41),BorderSizePixel=0,Image='rbxthumb://type=AvatarHeadShot&id='..tostring(j.UserId)..'&w=150&h=150',Parent=cu})aj(cv,UDim.new(0,12))local cw=ai('ImageLabel',{AnchorPoint=Vector2.new(0.5,0.5),Position=UDim2.fromScale(0.5,0.5),Size=UDim2.fromOffset(20,20),BackgroundTransparency=1,ImageColor3=z.Muted,ImageTransparency=1,ScaleType=Enum.ScaleType.Fit,Parent=cv})aq(cw,'user')self:_trackAvatar(cv,cw)local cx=am({Position=UDim2.fromOffset(60,5),Size=UDim2.new(1,-150,0,20),TextSize=15,FontFace=D.Bold,TextColor3=Color3.fromRGB(244,244,246),Parent=cu})self:_trackName(cx,'Display')local cy=am({Position=UDim2.fromOffset(60,26),Size=UDim2.new(1,-150,0,15),Text='',TextSize=12,FontFace=D.Regular,TextColor3=z.Muted,Parent=cu})task.spawn(function()cy.Text=aZ()end)local cz=am({AnchorPoint=Vector2.new(1,0),Position=UDim2.new(1,0,0,3),Size=UDim2.fromOffset(90,24),Text='0s',TextSize=20,FontFace=D.Bold,TextColor3=Color3.fromRGB(244,244,246),TextXAlignment=Enum.TextXAlignment.Right,Parent=cu})am({AnchorPoint=Vector2.new(1,0),Position=UDim2.new(1,0,0,27),Size=UDim2.fromOffset(90,14),Text='session',TextSize=11,FontFace=D.Regular,TextColor3=z.Muted,TextXAlignment=Enum.TextXAlignment.Right,Parent=cu})local cA=ai('Frame',{Size=UDim2.new(1,0,0,42),BackgroundTransparency=1,LayoutOrder=2,Parent=ct})local function cB(cC,cD)local cE=ai('Frame',{Position=cC,Size=UDim2.new(0.5,-10,1,0),BackgroundTransparency=1,Parent=cA})local cF=am({Size=UDim2.new(1,-70,0,24),Text='',TextSize=20,FontFace=D.Bold,TextColor3=Color3.fromRGB(244,244,246),RichText=true,Parent=cE})am({AnchorPoint=Vector2.new(1,0),Position=UDim2.new(1,0,0,6),Size=UDim2.fromOffset(70,14),Text=cD,TextSize=10,TextColor3=z.Muted,TextXAlignment=Enum.TextXAlignment.Right,Parent=cE})local cG=ai('Frame',{AnchorPoint=Vector2.new(0,1),Position=UDim2.new(0,0,1,-4),Size=UDim2.new(1,0,0,3),BackgroundColor3=Color3.fromRGB(38,38,42),BorderSizePixel=0,Parent=cE})aj(cG,UDim.new(1,0))local cH=ai('Frame',{Size=UDim2.fromScale(0,1),BackgroundColor3=z.Success,BorderSizePixel=0,Parent=cG})aj(cH,UDim.new(1,0))return cH,cF end local cC,cD=cB(UDim2.fromScale(0,0),'FRAME RATE')local cE,cF=cB(UDim2.new(0.5,10,0,0),'PING')local cG=ai('Frame',{Size=UDim2.new(1,0,0,30),BackgroundTransparency=1,LayoutOrder=3,Parent=ct})ai('UIListLayout',{FillDirection=Enum.FillDirection.Horizontal,VerticalAlignment=Enum.VerticalAlignment.Center,SortOrder=Enum.SortOrder.LayoutOrder,Padding=UDim.new(0,8),Parent=cG})local function cH(cI,cJ,cK)local cL=ai('Frame',{Size=UDim2.fromOffset(0,30),AutomaticSize=Enum.AutomaticSize.X,BackgroundColor3=Color3.fromRGB(32,32,35),BorderSizePixel=0,LayoutOrder=cI,Parent=cG})aj(cL,UDim.new(1,0))al(cL,14,14)ai('UIListLayout',{FillDirection=Enum.FillDirection.Horizontal,VerticalAlignment=Enum.VerticalAlignment.Center,SortOrder=Enum.SortOrder.LayoutOrder,Padding=UDim.new(0,7),Parent=cL})am({Size=UDim2.new(0,0,1,0),AutomaticSize=Enum.AutomaticSize.X,Text=cJ,TextSize=12,FontFace=D.Regular,TextColor3=z.Muted,TextTruncate=Enum.TextTruncate.None,LayoutOrder=1,Parent=cL})return am({Size=UDim2.new(0,0,1,0),AutomaticSize=Enum.AutomaticSize.X,Text='',TextSize=12,FontFace=D.Bold,TextColor3=cK or Color3.fromRGB(244,244,246),TextTruncate=Enum.TextTruncate.None,LayoutOrder=2,Parent=cL})end local cI=cH(1,'Players')local cJ=cH(2,'Running',z.Accent)local cK=cH(3,'Tab')local cL=ai('Frame',{Size=UDim2.new(1,0,0,0),BackgroundTransparency=1,Visible=false,LayoutOrder=4,Parent=ct})ai('UIListLayout',{SortOrder=Enum.SortOrder.LayoutOrder,Padding=UDim.new(0,2),Parent=cL})local cM=am({Size=UDim2.new(1,0,0,15),Text='',TextSize=12,FontFace=D.Regular,TextColor3=Color3.fromRGB(200,200,206),RichText=true,Visible=false,LayoutOrder=4,Parent=ct})local cN=am({Size=UDim2.new(1,0,0,14),TextSize=11,FontFace=D.Regular,TextColor3=z.Muted,LayoutOrder=5,Parent=ct})local cO=self._sessionStart or os.clock()local cP,cQ,cR=0,os.clock(),60 self:_listen('Render',function()cP+=1 local cS=os.clock()if cS-cQ>=0.5 then cR=math.floor(cP/(cS-cQ)+0.5)cP,cQ=0,cS end end)local function cS()cz.Text=bA(os.clock()-cO)cr.Text=cz.Text ah(cq,{BackgroundColor3=k._healthColor(cR,50,30)},0.4)local cT='<font size="12" color="#8A8A93"> %s</font>'cD.Text=cR..string.format(cT,'fps')ah(cC,{Size=UDim2.fromScale(math.clamp(cR/60,0.05,1),1),BackgroundColor3=k._healthColor(cR,50,30)},0.4,Enum.EasingStyle.Quint)local cU,cV=pcall(function()return math.floor(j:GetNetworkPing()*1000)end)cV=cU and cV or 0 cF.Text=cV..string.format(cT,'ms')ah(cE,{Size=UDim2.fromScale(math.clamp(1-(cV-40)/360,0.05,1),1),BackgroundColor3=k._healthColor(cV,90,180,true)},0.4,Enum.EasingStyle.Quint)cI.Text=#f:GetPlayers()..'/'..f.MaxPlayers local cW=self.CurrentTab cK.Text=cW and cW.Name or'-'end task.spawn(function()while cc.Parent do if cc.Visible and self.Minimized then cS()end task.wait(0.5)end end)local cT=ch('Activity')local cU=ai('Frame',{Position=UDim2.fromOffset(16,13),Size=UDim2.new(1,-32,0,0),AutomaticSize=Enum.AutomaticSize.Y,BackgroundTransparency=1,Parent=cT})local cV=ai('Frame',{Size=UDim2.fromOffset(34,34),BackgroundColor3=z.Accent,BackgroundTransparency=0.85,BorderSizePixel=0,Parent=cU})aj(cV,UDim.new(1,0))local cW=ai('ImageLabel',{AnchorPoint=Vector2.new(0.5,0.5),Position=UDim2.fromScale(0.5,0.5),Size=UDim2.fromOffset(17,17),BackgroundTransparency=1,ImageColor3=z.Accent,ScaleType=Enum.ScaleType.Fit,Parent=cV})local cX=ai('Frame',{Position=UDim2.fromOffset(46,0),Size=UDim2.new(1,-46,0,0),AutomaticSize=Enum.AutomaticSize.Y,BackgroundTransparency=1,Parent=cU})ai('UIListLayout',{SortOrder=Enum.SortOrder.LayoutOrder,Padding=UDim.new(0,1),Parent=cX})local cY=am({Size=UDim2.new(1,0,0,18),TextSize=14,FontFace=D.Bold,LayoutOrder=1,Parent=cX})local cZ=am({Size=UDim2.new(1,0,0,0),AutomaticSize=Enum.AutomaticSize.Y,TextSize=12,FontFace=D.Regular,TextColor3=z.Muted,TextWrapped=true,TextTruncate=Enum.TextTruncate.None,TextYAlignment=Enum.TextYAlignment.Top,MaxVisibleGraphemes=140,LayoutOrder=2,Parent=cX})local c_=ai('TextButton',{Size=UDim2.fromScale(1,1),BackgroundTransparency=1,Text='',AutoButtonColor=false,ZIndex=10,Parent=cc})local c0={Compact=ci,Expanded=cs,Activity=cT}local c1='Compact'local c2=0 local c3,c4 local c5,c6=false,false local c7=0 local c8,c9,da,db=nil,nil,false,false local dc=0 local dd=false local function de(df)if df=='Expanded'then return Vector2.new(b7.Wide,math.floor(ct.AbsoluteSize.Y+28+0.5)),b7.Radius elseif df=='Activity'then return Vector2.new(b7.Wide,math.floor(math.max(cU.AbsoluteSize.Y,34)+26+0.5)),b7.Radius end return Vector2.new(b7.Width,b7.Height),b7.Height/2 end local df=self:_readConfigSettings().IslandPosition if type(df)=='table'and tonumber(df.X)and tonumber(df.Y)then self._islandAnchor=Vector2.new(math.clamp(tonumber(df.X),0,1),math.clamp(tonumber(df.Y),0,1))end local dg local function dh()local di=cb.AbsoluteSize local dj=self._islandAnchor if not dj then return Vector2.new(di.X/2,b7.Top)end return Vector2.new(dj.X*di.X,dj.Y*di.Y)end local function di(dj,dk)local dl=cb.AbsoluteSize local dm=dk or dh()local dn=6 local dp=math.clamp(dm.X,dj.X/2+dn,math.max(dl.X-dj.X/2-dn,dj.X/2+dn))local dq=math.clamp(dm.Y,dn,math.max(dl.Y-dj.Y-dn,dn))return Vector2.new(dp,dq)end local function dj(dk,dl,dm)local dn=di(dk)if dg then dg:Cancel()dg=nil end if dl and dl>0 then dg=ah(cc,{Position=UDim2.fromOffset(dn.X,dn.Y)},dl,dm or Enum.EasingStyle.Quint)else cc.Position=UDim2.fromOffset(dn.X,dn.Y)end end self._islandReset=function()self._islandAnchor=nil if cc.Visible then dj(Vector2.new(cc.Size.X.Offset,cc.Size.Y.Offset),0.35)end end local function dk(dl,dm)local dn,dp=de(dl)local dq=dl~=c1 c1=dl c2+=1 local dr=c2 local ds=Vector2.new(cc.Size.X.Offset,cc.Size.Y.Offset)local dt=dn.X>ds.X+1 or dn.Y>ds.Y+1 local du=dm and 0 or(dt and 0.5 or 0.38)if c3 then c3:Cancel()end if c4 then c4:Cancel()end dj(dn,du)c3=ah(cc,{Size=UDim2.fromOffset(dn.X,dn.Y)},du,dt and Enum.EasingStyle.Back or Enum.EasingStyle.Quint)c4=ah(cd,{CornerRadius=UDim.new(0,dp)},du,Enum.EasingStyle.Quint)if dq and not dm and not c6 and not da then ce.Scale=dt and 0.96 or 1.03 ah(ce,{Scale=1},dt and 0.55 or 0.4,Enum.EasingStyle.Back)end if dq or dm then if cg then cg:Cancel()cg=nil end if dm then cf.Value=dl=='Compact'and 1 or 0 elseif dl=='Compact'then task.delay(du*0.55,function()if c2==dr then cg=ah(cf,{Value=1},0.6,Enum.EasingStyle.Back)end end)else cg=ah(cf,{Value=0},0.2,Enum.EasingStyle.Quint)end end if not dq and not dm then local dv=c0[dl]if dv.GroupTransparency>0 then ah(dv,{GroupTransparency=0},0.22,Enum.EasingStyle.Quad)end if dv~=ci and dv.Position~=UDim2.fromScale(0.5,0)then ah(dv,{Position=UDim2.fromScale(0.5,0)},0.32,Enum.EasingStyle.Quint)end return end for dv,dw in pairs(c0)do if dv~=dl then ah(dw,{GroupTransparency=1},dm and 0 or 0.14,Enum.EasingStyle.Quad)end end local dv=c0[dl]if dm then dv.GroupTransparency=0 if dv~=ci then dv.Position=UDim2.fromScale(0.5,0)end else if dv~=ci then dv.Position=UDim2.new(0.5,0,0,6)end task.delay(0.1,function()if c2==dr then ah(dv,{GroupTransparency=0},0.22,Enum.EasingStyle.Quad)if dv~=ci then ah(dv,{Position=UDim2.fromScale(0.5,0)},0.32,Enum.EasingStyle.Quint)end end end)end end local function dl()if c5 and not E and not da then dk('Expanded')elseif dd then dk('Activity')elseif self.IslandStyle=='Always Show'and not da then self:_refreshMini()cS()dk('Expanded')else dk('Compact')end end self._islandSettle=function()if self.Minimized and cc.Visible and not da then dl()end end function self:_miniLand()c5,dd=false,false dc+=1 ce.Scale=1 dk('Compact',true)local dm=Vector2.new(b7.Width,b7.Height)local dn=di(dm)return Vector2.new(dn.X-dm.X/2,dn.Y),dm end c_.MouseEnter:Connect(function()if ax()or da then return end c5=true c7+=1 local dm=c7 if c1=='Expanded'then return end if not c6 then ah(ce,{Scale=1.04},0.18,Enum.EasingStyle.Quint)end task.delay(0.12,function()if c7==dm and c5 and self.Minimized and not da then self:_refreshMini()cS()dk('Expanded')end end)end)c_.MouseLeave:Connect(function()c5=false c7+=1 local dm=c7 if not c6 then ah(ce,{Scale=1},0.25,Enum.EasingStyle.Quint)end task.delay(c1=='Expanded'and 0.28 or 0.1,function()if c7==dm and not c5 and self.Minimized then dl()end end)end)c_.InputBegan:Connect(function(dm)if not aw(dm)then return end c6=true db=false ah(ce,{Scale=0.95},0.12,Enum.EasingStyle.Quad)if not self._islandLocked then c8=Vector2.new(dm.Position.X,dm.Position.Y)c9=di(Vector2.new(b7.Width,b7.Height))end end)self:_listen('Changed',function(dm)if not c8 or not aA(dm)or not self.Minimized then return end local dn=Vector2.new(dm.Position.X,dm.Position.Y)-c8 if not da then if dn.Magnitude<(E and 10 or 6)then return end da,db=true,true c5=false dk('Compact')ah(ce,{Scale=1.06},0.2,Enum.EasingStyle.Quint)end local dp=di(Vector2.new(b7.Width,b7.Height),c9+dn)local dq=cb.AbsoluteSize self._islandAnchor=Vector2.new(dp.X/math.max(dq.X,1),dp.Y/math.max(dq.Y,1))if dg then dg:Cancel()dg=nil end cc.Position=UDim2.fromOffset(dp.X,dp.Y)end)table.insert(self._connections,b.InputEnded:Connect(function(dm)if not aw(dm)then return end c8=nil if c6 then c6=false ah(ce,{Scale=1},0.35,Enum.EasingStyle.Back)end if da then da=false local dn=Vector2.new(cb.AbsoluteSize.X/2,b7.Top)local dp=di(Vector2.new(b7.Width,b7.Height))if(dp-dn).Magnitude<28 then self._islandAnchor=nil dj(Vector2.new(b7.Width,b7.Height),0.35,Enum.EasingStyle.Back)end local dq=self._islandAnchor self:_writeConfigSettings({IslandPosition=dq and{X=dq.X,Y=dq.Y}or false})c5=not ax()and az(av(),cc)task.delay(0.1,function()if self.Minimized and not da then dl()end end)end end))table.insert(self._connections,cb:GetPropertyChangedSignal('AbsoluteSize'):Connect(function()if cc.Visible and not da then dj(Vector2.new(cc.Size.X.Offset,cc.Size.Y.Offset),0)end end))c_.MouseButton1Click:Connect(function()if db then db=false return end if self.Minimized then self:Restore()end end)self._miniUnhover=function()c5,c6,dd=false,false,false c8,da=nil,false dc+=1 ce.Scale=1 task.delay(0.15,function()if not self.Minimized then dk('Compact',true)end end)end self._islandActivity=function(dm)if not self.Minimized or not cc.Visible then return end local dn=a1[dm.Type]or z.Accent cY.Text=tostring(dm.Title or'Notification')cY.TextColor3=a1[dm.Type]or z.Text cZ.Text=tostring(dm.Content or'')cZ.Visible=cZ.Text~=''local dp=dm.Icon if dp==nil then dp=({Success='circle-check',Warning='triangle-alert',Error='circle-x'})[dm.Type]or'bell'end aq(cW,dp)if not cW:GetAttribute('CustomIcon')then cW.ImageColor3=dn end cV.BackgroundColor3=dn dd=true dc+=1 local dq=dc task.defer(function()if dc==dq and not c5 and not da then dk('Activity')ce.Scale=0.96 ah(ce,{Scale=1},0.4,Enum.EasingStyle.Back)end end)task.delay(math.clamp(tonumber(dm.Duration)or 3,1.5,5),function()if dc==dq then dd=false if self.Minimized and not c5 then dl()end end end)end local dm=0 self:_listen('Render',function()if cc.Visible and dm>0 and c1=='Compact'then local dn=os.clock()for dp,dq in ipairs(co)do local dr=0.5+0.5*math.sin(dn*(6+dp*1.4)+dp*1.9)dq.Size=UDim2.fromOffset(3,math.floor(4+dr*11+0.5))end end end)local dn=am({AnchorPoint=Vector2.new(1,0.5),Position=UDim2.new(1,-14,0.5,0),Size=UDim2.new(1,-52,0,18),TextSize=13,FontFace=D.Bold,TextXAlignment=Enum.TextXAlignment.Right,RichText=true,TextTransparency=1,Parent=ci})local dp=ai('TextButton',{Name='IslandBubble',AnchorPoint=Vector2.new(0.5,0.5),Size=UDim2.fromOffset(0,0),BackgroundColor3=Color3.fromRGB(26,26,30),BorderSizePixel=0,Text='',AutoButtonColor=false,Visible=false,ZIndex=30,Parent=cb})aj(dp,UDim.new(1,0))local dq=ai('NumberValue',{Value=0})local dr=false local ds=nil local function dt(du)if du==dr then return end dr=du cn.Parent=du and dp or cm cn.AnchorPoint=du and Vector2.new(0.5,0.5)or Vector2.new(0,0)cn.Position=du and UDim2.fromScale(0.5,0.5)or UDim2.new()cm.Visible=not du ah(dn,{TextTransparency=du and 0 or 1},0.2,Enum.EasingStyle.Quad)ah(dq,{Value=du and 1 or 0},du and 0.55 or 0.3,du and Enum.EasingStyle.Back or Enum.EasingStyle.Quint)if du then ce.Scale=0.96 ah(ce,{Scale=1},0.45,Enum.EasingStyle.Back)end end self:_listen('Render',function()local du=dq.Value*cf.Value local dv=cc.Visible and du>0.02 and cc.GroupTransparency<0.5 dp.Visible=dv if not dv then return end local dw=cb.AbsolutePosition local dx,dy=cc.AbsolutePosition-dw,cc.AbsoluteSize local dz=math.min(dy.Y,b7.Height)local dA=6 local dB=dx.X+dy.X+dA+dz<=cb.AbsoluteSize.X local dC=dB and dx.X+dy.X or dx.X local dD=dB and 1 or-1 local dE=dC-dD*dz*0.6 local dF=dC+dD*(dA+dz/2)local dG=dE+(dF-dE)*du local dH=math.clamp(0.35+0.65*du,0,1.2)local dI=math.sin(math.clamp(du,0,1)*math.pi)dp.Position=UDim2.fromOffset(dG,dx.Y+dz/2)dp.Size=UDim2.fromOffset(dz*dH*(1+0.4*dI),dz*dH*(1-0.18*dI))dp.BackgroundTransparency=cc.GroupTransparency end)dp.MouseButton1Click:Connect(function()if self.Minimized then self:Restore()end end)local du={}function self:_refreshMini()local dv=0 for dw,dx in pairs(k.Flags)do if dx._type=='Toggle'and dx.Value==true then dv+=1 end end if dv~=dm then local dw=dv>dm dm=dv cp.Text=tostring(dv)for dx,dy in ipairs(co)do ah(dy,{BackgroundColor3=dv>0 and z.Accent or z.Muted},0.25)if dv==0 then ah(dy,{Size=UDim2.fromOffset(3,3)},0.25)end end if dw and c1=='Compact'and cc.Visible then ce.Scale=1.06 ah(ce,{Scale=1},0.4,Enum.EasingStyle.Back)end end cJ.Text=tostring(dv)local dw={}for dx,dy in pairs(k.Flags)do if dy._type=='Toggle'and dy.Value==true and dy._searchName~=''then table.insert(dw,dy._searchName)end end table.sort(dw)local dx={}for dy=1,math.min(#dw,3)do dx[dy]=k._rich(dw[dy])end local dy=#dw-#dx cM.Text='<font color="#8A8A93">Running </font>'..table.concat(dx,'<font color="#8A8A93"> \u{b7} </font>')..(dy>0 and string.format('<font color="#8A8A93">  +%d</font>',dy)or'')cM.Visible=#dw>0 ds=nil for dz,dA in ipairs(self._pinned)do if not dA._isShown or dA:_isShown()then ds=dA break end end if ds then local dz=tostring(ds:Text()or'')if dz:gsub('<[^>]*>',''):match('%S')then dn.Text=dz local dA=ds._shownColor and ds._shownColor()or z.Text local dB,dC,dD=dA:ToHSV()dn.TextColor3=dD<0.35 and z.Text or dA else ds=nil end end dt(dm>0 and ds~=nil)local dz=dm>0 and not dr cq.Visible=not dz cr.Visible=not dz cp.Visible=dz cn.Visible=dm>0 cm.Visible=not dr cl.Visible=not dr local dA=typeof(self.Keybind)=='EnumItem'and aI(self.Keybind)cN.Text=E and'Tap to open'or(dA and('Click or press '..dA..' to open')or'Click to open')local dC={}for dD,dE in ipairs(self._pinned)do if(not dE._isShown or dE:_isShown())and#dC<b7.Pinned then table.insert(dC,dE)end end cL.Visible=false for dD=1,math.max(#dC,#du)do local dE=dC[dD]local dF=du[dD]if dE then if not dF then local dG=ai('Frame',{Size=UDim2.new(1,0,0,18),BackgroundTransparency=1,LayoutOrder=dD,Parent=cL})dF={Frame=dG,Key=am({Size=UDim2.new(0.5,-4,1,0),TextSize=12,FontFace=D.Regular,TextColor3=z.Muted,RichText=true,Parent=dG}),Value=am({AnchorPoint=Vector2.new(1,0),Position=UDim2.fromScale(1,0),Size=UDim2.new(0.5,-4,1,0),TextSize=12,TextXAlignment=Enum.TextXAlignment.Right,RichText=true,Parent=dG})}du[dD]=dF end dF.Frame.Visible=true dF.Key.Text=k._rich(dE.Name)dF.Value.Text=dE:Text()local dG=dE._shownColor and dE._shownColor()or z.Text if dF.Value.TextColor3~=dG then ah(dF.Value,{TextColor3=dG},0.2)end elseif dF then dF.Frame.Visible=false end end if c1=='Expanded'and(c5 or self.IslandStyle=='Always Show')then task.defer(function()if c1=='Expanded'and(c5 or self.IslandStyle=='Always Show')and self.Minimized then local dD=de('Expanded')if math.abs(dD.Y-cc.Size.Y.Offset)>1 then dk('Expanded')end end end)end end self.MiniBar=cc self.Island=cc return cc end function a2:Minimize()if self.Minimized or not self._introDone or not self.Open or self._destroyed then return end self.Minimized=true self._minimizeGeneration=(self._minimizeGeneration or 0)+1 local cb=self._minimizeGeneration self:_closePopups()self:_refreshToggleButton()self:_refreshBackdrop()local cc=self:_buildMiniBar()self:_refreshMini()local cd=self.Gui local ce=self.Root.AbsolutePosition-cd.AbsolutePosition local cf=self.Root.AbsoluteSize local cg=1 if self._ghost then ce=self._ghost.AbsolutePosition-cd.AbsolutePosition cf=self._ghost.AbsoluteSize cg=self._ghost.BackgroundTransparency end local ch,ci,cj=b8(self,ce,cf,k._radius(10))ch.BackgroundTransparency=cg ci.Transparency=cg ah(ch,{BackgroundTransparency=0},0.11,Enum.EasingStyle.Quad)ah(ci,{Transparency=0},0.11,Enum.EasingStyle.Quad)ah(self.Scale,{Scale=(self._fitScale or 1)*0.985},0.11,Enum.EasingStyle.Quad)ah(self.Shadow,{ImageTransparency=1},0.2)cc.Visible=true cc.GroupTransparency=1 task.delay(0.11,function()if self._minimizeGeneration~=cb or self._destroyed then return end self.Root.Visible=false self.Scale.Scale=self._fitScale or 1 local ck,cl=self:_miniLand(ce+cf/2)b9(ch,cj,ck,cl,math.floor(cl.Y/2),0.36)task.delay(0.3,function()if self._minimizeGeneration~=cb or self._destroyed then return end self._miniScale.Scale=0.9 ah(self._miniScale,{Scale=1},0.3,Enum.EasingStyle.Quint)ah(cc,{GroupTransparency=0},0.18,Enum.EasingStyle.Quad)ca(self,ch,ci,0.2)if self.IslandStyle=='Always Show'then task.delay(0.22,function()if self._minimizeGeneration==cb and self._islandSettle then self._islandSettle()end end)end end)end)task.spawn(function()while self.Minimized and self._minimizeGeneration==cb and not self._destroyed do self:_refreshMini()task.wait(0.5)end end)end function a2:Restore()if not self.Minimized or self._destroyed then return end self.Minimized=false self._minimizeGeneration=(self._minimizeGeneration or 0)+1 local cb=self._minimizeGeneration self:_refreshToggleButton()self:_refreshBackdrop(true)local cc=self.Gui local cd=self.MiniBar local ce=self._fitScale or 1 local cf=Vector2.new(self.Root.Size.X.Offset,self.Root.Size.Y.Offset)*ce local cg=self.Root.AbsolutePosition+self.Root.AbsoluteSize/2-cc.AbsolutePosition local ch=cg-cf/2 local ci,cj=ch,cf local ck=1 if self._ghost then ci=self._ghost.AbsolutePosition-cc.AbsolutePosition cj=self._ghost.AbsoluteSize ck=self._ghost.BackgroundTransparency elseif cd and cd.Visible then ci=self._miniOrb.AbsolutePosition-cc.AbsolutePosition cj=self._miniOrb.AbsoluteSize end if cd and cd.Visible then if self._miniUnhover then self._miniUnhover()end ah(cd,{GroupTransparency=1},0.12,Enum.EasingStyle.Quad)task.delay(0.12,function()if self._minimizeGeneration==cb then cd.Visible=false end end)end local cl,cm,cn=b8(self,ci,cj,math.floor(math.min(cj.X,cj.Y)/2))cl.BackgroundTransparency=ck cm.Transparency=ck ah(cl,{BackgroundTransparency=0},0.1,Enum.EasingStyle.Quad)ah(cm,{Transparency=0},0.1,Enum.EasingStyle.Quad)b9(cl,cn,ch,cf,k._radius(10),0.4)ah(self.Shadow,{ImageTransparency=self._shadowRest},0.45)task.delay(0.3,function()if self._minimizeGeneration~=cb or self._destroyed then return end self.Scale.Scale=ce self.BodyStroke.Transparency=0 self.Root.Visible=true end)task.delay(0.4,function()if self._ghost==cl and self._minimizeGeneration==cb then ca(self,cl,cm,0.22)end end)end function a2:SetIslandDraggable(cb)self._islandLocked=cb==false end function a2:ResetIslandPosition()self._islandAnchor=nil if self._islandReset then self._islandReset()end self:_writeConfigSettings({IslandPosition=false})end function a2:SetMinimized(cb)if cb then self:Minimize()else self:Restore()end end function a2:Toggle(cb)if not self._introDone then return end if self.Minimized then if cb~=false then self:Restore()end return end if cb==nil then cb=not self.Open end if cb==self.Open then return end self.Open=cb self:_refreshToggleButton()self:_refreshBackdrop(cb)self._minimizeGeneration=(self._minimizeGeneration or 0)+1 local cc=self._minimizeGeneration local cd=self.Gui local ce=self._fitScale or 1 local cf=Vector2.new(self.Root.Size.X.Offset,self.Root.Size.Y.Offset)*ce local cg=self.Root.AbsolutePosition+self.Root.AbsoluteSize/2-cd.AbsolutePosition local ch=cf*0.94 local ci,cj,ck if self._ghost then ci=self._ghost.AbsolutePosition-cd.AbsolutePosition cj=self._ghost.AbsoluteSize ck=self._ghost.BackgroundTransparency end if cb then local cl,cm,cn=b8(self,ci or cg-ch/2,cj or ch,k._radius(10))cl.BackgroundTransparency=ck or 1 cm.Transparency=ck or 1 ah(cl,{BackgroundTransparency=0},0.12,Enum.EasingStyle.Quad)ah(cm,{Transparency=0},0.12,Enum.EasingStyle.Quad)b9(cl,cn,cg-cf/2,cf,k._radius(10),0.3)ah(self.Shadow,{ImageTransparency=self._shadowRest},0.3)task.delay(0.2,function()if self._minimizeGeneration~=cc or self._destroyed then return end self.Scale.Scale=ce self.BodyStroke.Transparency=0 self.Root.Visible=true end)task.delay(0.3,function()if self._ghost==cl and self._minimizeGeneration==cc then ca(self,cl,cm,0.18)end end)else self:_closePopups()local cl=ci or self.Root.AbsolutePosition-cd.AbsolutePosition local cm=cj or self.Root.AbsoluteSize local cn,co,cp=b8(self,cl,cm,k._radius(10))cn.BackgroundTransparency=ck or 1 co.Transparency=ck or 1 ah(cn,{BackgroundTransparency=0},0.08,Enum.EasingStyle.Quad)ah(co,{Transparency=0},0.08,Enum.EasingStyle.Quad)ah(self.Shadow,{ImageTransparency=1},0.16)task.delay(0.08,function()if self._minimizeGeneration~=cc or self._destroyed then return end self.Root.Visible=false b9(cn,cp,cg-ch/2,ch,k._radius(10),0.2)ca(self,cn,co,0.16)end)end end function a2:SetKeepOnScreen(cb)self.KeepOnScreen=cb~=false if self.KeepOnScreen then self:_clampToScreen()end end function a2:SetKeybind(cb)self.Keybind=cb if self._keyChipLabel then self._keyChipLabel.Text=aI(cb)end end function a2:Notify(cb)cb=l(cb,{Text='Content',Message='Content',Image='Icon'})if self.Minimized and self._islandActivity then self._islandActivity(cb)end local cc=cb.Duration or 4 local cd=a1[cb.Type]or z.Text self._notifyOrder=self._notifyOrder+1 local ce=ai('Frame',{Size=UDim2.new(1,0,0,0),BackgroundTransparency=1,LayoutOrder=self._notifyOrder,Parent=self.NotifyHolder})local cf=ai('Frame',{Position=UDim2.fromOffset(320,0),Size=UDim2.new(1,0,0,0),AutomaticSize=Enum.AutomaticSize.Y,BackgroundTransparency=1,Parent=ce})local cg=ai('ImageLabel',{Position=UDim2.fromOffset(-20,-20),Size=UDim2.new(1,40,1,40),BackgroundTransparency=1,Image=A.Shadow,ImageColor3=Color3.new(0,0,0),ImageTransparency=1,ScaleType=Enum.ScaleType.Slice,SliceCenter=Rect.new(49,49,450,450),ZIndex=0,Parent=cf})local ch=ai('CanvasGroup',{Size=UDim2.new(1,0,0,0),AutomaticSize=Enum.AutomaticSize.Y,BackgroundColor3=z.Background,BorderSizePixel=0,GroupTransparency=1,Parent=cf})aj(ch,UDim.new(0,10))local ci=ak(ch,z.Stroke)ao(ch)an(ch,UDim2.fromOffset(260,120),UDim2.new(1,-10,0,-10),0.86,90)local cj=ai('Frame',{Size=UDim2.new(1,0,0,0),AutomaticSize=Enum.AutomaticSize.Y,BackgroundTransparency=1,Parent=ch})al(cj,16,16,14,24)local ck=0 if cb.Icon then aB(cj,cb.Icon,cd==z.Text and z.Accent or cd,UDim2.new(0,0,0,8))ck=24 end am({Position=UDim2.fromOffset(ck,0),Size=UDim2.new(1,-28-ck,0,16),Text=cb.Title or'Notification',TextSize=14,TextColor3=cd,Parent=cj})local cl=ai('TextButton',{AnchorPoint=Vector2.new(1,0),Position=UDim2.new(1,6,0,-5),Size=UDim2.fromOffset(24,24),BackgroundTransparency=1,Text='\u{d7}',TextColor3=z.Muted,TextSize=22,FontFace=D.Bold,AutoButtonColor=false,Parent=cj})cl.MouseEnter:Connect(function()ah(cl,{TextColor3=z.Text},0.15)end)cl.MouseLeave:Connect(function()ah(cl,{TextColor3=z.Muted},0.2)end)if cb.Content then am({Position=UDim2.fromOffset(ck,21),Size=UDim2.new(1,-ck,0,0),AutomaticSize=Enum.AutomaticSize.Y,Text=cb.Content,TextSize=13,FontFace=D.Regular,TextColor3=z.Muted,TextWrapped=true,TextTruncate=Enum.TextTruncate.None,TextYAlignment=Enum.TextYAlignment.Top,Parent=cj})end local cm=ai('Frame',{AnchorPoint=Vector2.new(0,1),Position=UDim2.new(0,16,1,-8),Size=UDim2.new(1,-32,0,3),BackgroundColor3=z.Surface3,BorderSizePixel=0,Parent=ch})aj(cm,UDim.new(1,0))local cn=ai('Frame',{Size=UDim2.fromScale(1,1),BackgroundColor3=z.Accent,BorderSizePixel=0,Parent=cm})aj(cn,UDim.new(1,0))task.defer(function()if ce.Parent then ah(ce,{Size=UDim2.new(1,0,0,ch.AbsoluteSize.Y)},0.3,Enum.EasingStyle.Quint)end end)ah(cf,{Position=UDim2.fromOffset(0,0)},0.5,Enum.EasingStyle.Back)ah(ch,{GroupTransparency=0},0.3)ah(cg,{ImageTransparency=0.6},0.4)ah(cn,{Size=UDim2.fromScale(0,1)},cc,Enum.EasingStyle.Linear)local co=false local function cp()if co then return end co=true for cq,cr in ipairs(self._toasts)do if cr==cp then table.remove(self._toasts,cq)break end end ah(cf,{Position=UDim2.fromOffset(320,0)},0.3,Enum.EasingStyle.Quint)ah(ch,{GroupTransparency=1},0.2)ah(ci,{Transparency=1},0.15)ah(cg,{ImageTransparency=1},0.2)task.delay(0.22,function()ce.ClipsDescendants=true ah(ce,{Size=UDim2.new(1,0,0,-4)},0.22,Enum.EasingStyle.Quint)task.delay(0.24,function()ce:Destroy()end)end)end task.delay(cc,cp)cl.MouseButton1Click:Connect(cp)table.insert(self._toasts,cp)while#self._toasts>self.MaxNotifications do local cq=table.remove(self._toasts,1)cq()end return{Dismiss=cp}end function a2:Destroy()if self._destroyed then return end self._destroyed=true for cb,cc in ipairs(k.Windows)do if cc==self then table.remove(k.Windows,cb)break end end for cb,cc in ipairs(self._connections)do pcall(function()cc:Disconnect()end)end self._connections={}self._inputListeners={Began={},Changed={},Ended={},Render={}}self._frameSteps={}local cb=self.Gui local cc=false local function cd()if cc then return end cc=true if not pcall(cb.Destroy,cb)then pcall(function()cb.Enabled=false end)end end local ce,cf=pcall(function()if self._dialog then self._dialog.Close()end self:_closePopups()local ce=self._fitScale or 1 ah(self.Scale,{Scale=ce*0.92},0.22,Enum.EasingStyle.Quint)self:_fade(1,0.2)ah(self.BodyStroke,{Transparency=1},0.12)ah(self.Shadow,{ImageTransparency=1},0.2)if self.MiniBar and self.MiniBar.Visible then ah(self.MiniBar,{GroupTransparency=1},0.18)end if self._backdrop then self._weatherField.Visible=false ah(self._backdropTintFrame,{BackgroundTransparency=1},0.2)ah(self._backdropHeat,{BackgroundTransparency=1},0.2)end for cf,cg in ipairs({self.ToggleButton,self.OpenButton})do if typeof(cg)=='Instance'and cg:IsA('GuiObject')then ah(cg,{Size=UDim2.fromOffset(0,0)},0.2,Enum.EasingStyle.Quint)end end end)if not ce then warn([[[AirFlow] unload animation failed, removing the window directly: ]]..tostring(cf))cd()return end task.delay(0.24,cd)end a2.Unload=a2.Destroy function k:Destroy()for cb=#k.Windows,1,-1 do local cc=k.Windows[cb]if cc then cc:Destroy()end end end k.Unload=k.Destroy local cb=getthreadidentity or getidentity or get_thread_identity or(syn and syn.get_thread_identity)local cc=setthreadidentity or setidentity or set_thread_identity or(syn and syn.set_thread_identity)local cd=nil if cb then local ce,cf=pcall(cb)if ce and type(cf)=='number'then cd=cf end end local function ce()local cf=k.Windows[#k.Windows]local cg=cf and cf.Gui if typeof(cg)~='Instance'then return false end return not pcall(function()return cg.Name end)end local cf={}d.Heartbeat:Connect(function()if#cf==0 then return end local cg=cf cf={}for ch,ci in ipairs(cg)do ci()end end)local function cg(ch,...)local ci=table.pack(...)local cj=nil table.insert(cf,function()cj=table.pack(pcall(ch,table.unpack(ci,1,ci.n)))end)while cj==nil do task.wait()end if not cj[1]then error(cj[2],0)end return table.unpack(cj,2,cj.n)end local ch=setmetatable({},{__mode='k'})local ci local function cj(ck)return function(...)if ce()then if cc then pcall(cc,cd or 8)end if ce()then return ci(cg(ck,...))end end return ci(ck(...))end end function ci(...)for ck=1,select('#',...)do local cl=select(ck,...)if type(cl)=='table'and not ch[cl]then local cm=getmetatable(cl)if cm~=a2 and cm~=aS then ch[cl]=true for cn,co in pairs(cl)do if type(cn)=='string'and type(co)=='function'and cn:sub(1,1)~='_'then cl[cn]=cj(co)elseif type(cn)=='number'and type(co)=='table'then ci(co)end end end end end return...end for ck,cl in ipairs({k,a2,aS})do for cm,cn in pairs(cl)do if type(cm)=='string'and type(cn)=='function'and cm:sub(1,1)~='_'then cl[cm]=cj(cn)end end end return k end)()return a
+if not Library then
+	pcall(function()
+		local ok, res = pcall(function()
+			return game:HttpGet("https://raw.githubusercontent.com/SpectreWareZ/SpectreWare/refs/heads/main/Tools/Ui/SpectreUI.lua")
+		end)
+		if ok and type(res) == "string" and #res > 20000 then
+			Library = loadstring(res)()
+		end
+	end)
+end
+
+if not Library then
+	Library = (function()
+--[[
+    SpectreUI - dark/violet Roblox UI library  (beautified build)
+    Window / Sidebar tabs / Search / Sections / Toggle / Dropdown (+Multi) / Slider / Button / Label / Divider / Textbox / Keybind / ColorPicker / Paragraph / Notify / Toast / Dialog / Loading / Config
+
+    local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/SpectreWareZ/SpectreWare/refs/heads/main/Tools/Ui/SpectreUI.lua"))()   -- or require(module)
+    local Window  = Library:CreateWindow({ Title = "SpectreWare | Anime Astral" })
+    local Tab     = Window:CreateTab({ Name = "Main", Icon = "M" })
+    local Section = Tab:CreateSection({ Name = "Settings" })
+    Section:CreateToggle({ Name = "Example", Default = false, Flag = "ex", Callback = function(v) end })
+
+    Window options : Title, Logo (asset id), Width, Height, ToggleKey (Enum.KeyCode), Theme (table), OnClose
+    Tab options    : Name, Icon (text glyph, asset id number / "rbxassetid://..", or an icon name like "lucide:home" / "home")
+    Section options: Name, Column (1|2), Collapsible (default true), Collapsed
+    Controls       : CreateToggle / CreateDropdown / CreateSlider / CreateButton / CreateLabel / CreateDivider
+                     CreateTextbox / CreateKeybind / CreateColorPicker / CreateParagraph
+    Every control  : Flag (stores value in Library.Flags[Flag]); returned object has :Set / :Get where it makes sense
+
+    New API (v3)
+    - Dropdown   : Multi = true  -> pick many; Default = { "a", "b" }; :Get() returns an array; Callback(array)
+    - Textbox    : Name, Default, Placeholder, ClearOnFocus, Numeric, Min, Max, MaxLength, Live, EnterOnly, Callback(value)
+    - Keybind    : Name, Default (Enum.KeyCode | "F"), Mode = "Press" | "Hold" | "Toggle", Callback(...), Changed(key)
+                   click the button, press a key to bind (Esc = cancel, Backspace/Delete = clear)
+    - ColorPicker: Name, Default (Color3), Callback(Color3)   -> :Set(Color3) / :Get()
+    - Paragraph  : Title, Content   -> :Set(title, content)
+    - Library:SaveConfig(name) / LoadConfig(name) / DeleteConfig(name) / ListConfigs()   (needs writefile support)
+    - Library:ExportConfig() -> json string,  Library:ImportConfig(json)   (e.g. for the clipboard)
+    - Library:Unload()  destroys every window and clears Flags
+    - Config only stores controls that have a Flag.
+
+    New API (v3.1) — all work on mouse and touch
+    - Controls   : CreateBadge / CreateProgress / CreateSeparator / CreateKeybindToggle
+                   CreateLabel now takes Color, Bold, TextSize; CreateButton takes Color / Gradient / TextColor
+    - Window     : SetTitle("Brand | Sub") · GetTab(name) · SetTab(name) · SetSize(w, h) · Center() · Flash(color)
+                   Tooltip(frame, "text") · Success/Warning/Error/Info(title, content, dur)
+                   Notify({ Title, Content, Duration, Color, Flash })  -> click to dismiss
+    - Tab        : SetBadge("3")  -> a count pill on the sidebar tab
+    - Library    : Confirm({ Title, Content, Yes, No, OnYes, OnNo })   modal yes/no dialog
+                   Banner({ Title, Content, Duration, Color })          top toast, works while closed
+                   OnFlag(function(flag, value, prev))                  one handler for every flag change
+                   AutoloadConfig(name) / SaveAuto(name)                startup load / quick snapshot
+    - Every control returns a table with .Frame, so Window:Tooltip(obj.Frame, "...") works.
+
+    Theme additions (visual build)
+    - Theme.Accent2 (gradient partner), Theme.Sheen (highlight), Theme.Glow on/off, Theme.Animate shimmer
+    - Rounded 12 window with a soft accent halo, gradient headers, glowing toggles/sliders, gradient active tab.
+
+    New API (v3.5)
+    - Tab lock   : Window:CreateTab({ Name = "VIP", Locked = true, LockReason = "Premium only", OnLockedClick = fn(tab) })
+                   Tab:Lock(reason) / Tab:Unlock() / Tab:SetLocked(bool, reason) / Tab:IsLocked() / Tab:SetLockReason(text)
+                   Window:LockTab(nameOrTab, reason) / UnlockTab(nameOrTab) / IsTabLocked(nameOrTab)
+                   A locked tab shows a padlock, is dimmed and cannot be opened (click, SetTab, palette).
+                   If it was the open tab the window jumps to the first unlocked tab.  LockedNotify = false  -> no toast.
+    - Dropdown images : options can carry a picture, in every Dropdown (single + Multi)
+                   Options = { { Name = "Sword", Image = 123456 }, { Name = "Bow", Image = "rbxassetid://789" }, "Plain text" }
+                   or  Images = { Sword = 123456, Bow = "lucide:target", Red = Color3.fromRGB(255,0,0) }
+                   Image = asset id | "rbxassetid://.." | https url | "lucide:name" icon | Color3 swatch.   ImageSize = 40 (optional)
+                   The selected option's picture is shown on the closed dropdown too.  Callback / Get() still return the Name.
+                   dd:Refresh(options, keep, imagesTable)   dd:SetImage(optionName, image)
+
+    Themes (default = Rose / sakura pink)
+    - Library:CreateWindow({ Theme = "Rose" | "Violet" | "Cyber" | "Crimson" | "Matrix" })
+    - Library:SetTheme("Cyber")      default for windows created afterwards
+    - Theme = { Accent = Color3..., Accent2 = ... }   override single colors on top of the default palette
+    - Library.Themes.MyTheme = { ...all colors... }   add your own preset
+
+    New API (v3.2)
+    - Every control (old + new) now also has:
+        :SetVisible(bool) / :IsVisible()        hide or show (works with the search filter)
+        :ShowIf("flag" [, value | fn(v, flags)]) / :ShowIf({ "a", "b" }, fn(flags))   conditional visibility
+        :SetEnabled(bool) / :Lock() / :Unlock()  dim + block input
+        :OnChange(fn(value, prev))               per-control watcher (needs Flag)
+        :Reset() / :IsModified()                 back to the value it was created with
+        :SetTooltip(text)  or  Tooltip = "..." in the config
+        :Destroy()
+      A small accent dot appears on a control whose value differs from its default.
+    - Right-click (PC) or hold a finger (mobile) on a control: Reset / Copy value / Lock / What is this?
+        extra items:  ContextMenu = { { Name = "x", Callback = function(obj) end } }   NoMenu = true to disable
+        Library:ShowMenu(items, anchorFrame)   Library.ContextMenu = false to turn it off globally
+    - Command palette  Window:OpenPalette()  /  Ctrl+K   (Library.PaletteKey)
+        fuzzy search over every control in every tab; toggles flip in place, buttons run, others jump + highlight
+        quick set:  "walkspeed = 50"  "esp = on"
+        Library:AddCommand({ Name, Desc, Keywords, Callback })     Window:Goto(obj | "flag" | "name")
+    - Undo / redo of setting changes (Ctrl+Z / Ctrl+Y)
+        Library:Undo() / Redo() / CanUndo() / CanRedo() / GetHistory() / ClearHistory() / Library.History.Max
+        Library:Transaction("label", fn)   many changes = one undo step (config loads already are)
+    - Library:ResetAll() / GetModified() / Tab:ResetAll() / Section:ResetAll()
+    - Library:Snapshot("a") / Restore("a") / Diff("a", "b"|nil)   in-memory profiles, no writefile needed
+    - Library:Watch("flag", fn(value, prev))
+    - New controls
+        CreateSegmented({ Name, Options, Default, Flag, Callback })
+        CreateRangeSlider({ Name, Min, Max, Increment, MinGap, Default = { lo, hi }, Flag, Callback(lo, hi) })
+        CreateTagInput({ Name, Default, Max, Lower, Flag, Callback(list) })     :Add / :Remove / :Has
+        CreateHoldButton({ Name, Duration, Color, Callback })                   hold to confirm
+        CreateGraph({ Name, Points, Height, Min, Max, Suffix })                 :Push(n) / :Clear()
+        CreateConsole({ Name, Height, MaxLines })                               :Print / :Info / :Warn / :Error / :Clear / :Copy
+
+    Performance / devices (v3.2.1)
+    - Library:SetQuality("low" | "high" | "auto")   low power also turns off the decorative background gradients
+    - PC: Up / Down + Enter in the command palette, drag the bottom-right corner to resize the window (Resizable = false to disable)
+    - Mobile: bigger touch rows in the palette / chips, shorter palette list, long-press menu only on touch devices
+    - Right-click hooks only on devices with a mouse; the "modified" dot is created lazily
+
+    Performance
+    - On mobile the library auto-enables low power (no shimmer, no halo rings, no open/close
+      scale tween, no tab slide) so the UI stays smooth on phones.
+    - Override at any time:  Library.Perf.LowPower = true / false   (nil = auto)
+
+    Backdrop FX + smooth motion (v3.3)
+    - Animated theme-matched backdrop behind the whole window (aurora wash + drifting particles):
+        Rose -> "petals"   Violet -> "orbs"   Cyber -> "grid"   Crimson -> "embers"   Matrix -> "rain"
+      Library:CreateWindow({ FX = "rain" })        pick a style for one window
+      Library:CreateWindow({ Background = false }) turn it off
+      Window:SetBackground("orbs" | false | nil)   change at runtime (nil = theme default)
+      Library.Themes.MyTheme = { ..., FX = "orbs" } for custom presets
+    - Lite version (fewer particles, one aurora band) in low power / mobile; Library.Perf.Backdrop = false disables it there. Paused while the window is closed (no idle cost).
+    - Motion: sine easing for fades / colors, quint for size / position, eased window drag (PC),
+      softer open / close / tab-switch, seamless looping tweens instead of re-chained ones.
+      Library.Anim.Speed = 1.25  -> every animation 25% slower (0.8 = faster)
+
+    Feedback UI (v3.4)  - every call returns a handle; all work on mouse + touch, PC + mobile
+    - Notify  : Window:Notify({ Title, Content, Kind = "Success"|"Warning"|"Error"|"Info", Duration, Icon, Color,
+                  Progress = true|false (countdown bar) | 0..1 (determinate), Key (same Key = update in place),
+                  Position = "BottomRight"|"TopCenter"|..., OnClick, OnClose(reason), Closable, Merge })
+                Duration = 0 / false / math.huge (or Dismiss = false) stays until dismissed. Success/Warning/Error/Info(title, content, dur) still work.
+                handle: :Update{...} :SetProgress(n) :Dismiss() :IsAlive() :OnClose(fn)     Window:DismissAll()
+                Hover pauses the countdown on PC; identical notifications merge into "x2"; max visible + queue; auto top-right on touch.
+    - Toast   : Window:Toast("Saved") / ("Saved", "Success") / ("Saved", 3) / ("Saved", { Kind, Duration, Icon })   small pill, bottom-center
+    - Banner  : Library:Banner({ Title, Content, Duration, Color })    top-center
+    - Loading : local l = Window:Loading({ Title, Text, Progress })   l:Set(0.5, "text") l:SetText(t) l:Complete(t, secs) l:Fail(t, secs) l:Close()
+    - Dialog  : Window:Dialog({ Title, Content, Kind, Buttons = { { Text, Value, Style = "Primary"|"Secondary"|"Danger", Callback, Close } },
+                  Input = true|{ Placeholder, Default, MaxLength, Numeric }, Build = function(container, theme, handle) end, Dismissable, OnClose })
+                handle: :Close(value) :Update{} :IsOpen() :GetInput() :Wait() -> value, input
+                Shortcuts: Confirm({ Title, Content, Yes, No, OnYes, OnNo, Danger })  Alert(title, content)  Prompt({ Title, Placeholder, OnSubmit(text) })
+    - Library:Notify / Toast / Banner / Loading / Dialog / Confirm / Alert / Prompt / DismissAll also work with no window yet.
+    - Library.NotifyConfig : Position, MaxVisible, Duration, Gap, Margin, Width, Merge, PauseOnHover, Animate
+    - Theme   : Library:RegisterTheme(name, tbl) / GetTheme(name?) / ListThemes() / SetStatusColors{ Success = c, ... } / GetStatusColor(kind)
+                Window:SetNotifyTheme("Cyber" | tbl | nil)   own palette for that window's notifications + dialogs
+    - Anim    : Library.Anim.Tween / Show(obj, { From, Distance, Time, Scale }) / Hide(obj, { To, Destroy }) / Pulse(obj) / Stop(obj)   (+ Speed)
+    - Responsive : Library.Responsive.IsTouch / Viewport(win) / Breakpoint(win) -> "phone"|"tablet"|"desktop" / Width(win, max, margin) / Touch(pc, touch) / Scale(n) / OnChange(win, fn)
+                   Window:OnResize(fn)
+    - Util    : Library.Util.Bag / Dispose / Opt / Debounce / Throttle / Round / FormatNumber / FormatTime / Truncate / Lighten / Darken / ToHex / FromHex / Contrast / Create
+    - Fixed   : cards no longer jump when one closes (slot collapses), Duration 0 no longer closes instantly, bad Duration / Title types no longer error,
+                stack can no longer grow off screen, notifications sit above dialogs, modal card no longer closes when you tap inside it,
+                Confirm overlay tap now counts as "No", Banners no longer overlap, every tween / connection / task is cleaned on close and on Unload.
+
+    Theme manager (v3.5)
+    - Window:SetTheme("Aurora" | { Accent = ... }, remember)   recolor the whole window LIVE (no rebuild)
+    - Library:RenameTheme("Rose", "Sakura Night")  /  Window:RenameTheme("new name")  -> ok, err   (renames the preset, windows follow)
+    - Library:CloneTheme("Rose", "My Pink", { Accent = Color3... })   Library:DeleteTheme(name)  (custom themes only)
+    - Window:GetThemeName() / Library.ThemeName / Library:OnThemeChange(function(event, a, b) end)
+    - Section:CreateThemeManager({ Name, Flag, Remember = true, Random = true, Delete = true })
+                  ready UI: dropdown + rename textbox + Rename / Duplicate / Random / Delete buttons  (Random / Delete = false hides them)
+    - Window:CycleTheme(dir, remember) (dir = 1 next / -1 previous)  Window:RandomTheme(remember)  Window:DeleteTheme(name?)  -> ok, err
+    - Names, custom themes and the chosen theme are saved to <ConfigFolder>/themes.json (writefile) and restored next launch
+      Library:SaveThemes() / LoadThemes()
+
+    Fonts
+    - Library:CreateWindow({ Font = "Nunito" })     font chosen when the window is created (name | Enum.Font | { Font, Bold })
+    - Window:SetFont("Ubuntu" | Enum.Font.Code | { Font = Enum.Font.X, Bold = Enum.Font.Y }, remember)
+                  changes the font of the WHOLE window live, like Window:SetTheme  -> ok, name | err
+    - Window:GetFontName() / Window:CycleFont(dir, remember) / Library:SetFont(font)   (Library:SetFont = default for windows created later)
+    - Library:RegisterFont("Mine", Enum.Font.Ubuntu, Enum.Font.Ubuntu)   Library:ListFonts()   Library.Fonts = the presets
+    - Section:CreateFontPicker({ Name, Flag, Remember = true })   ready dropdown (the Theme tab already contains it: CreateThemeTab({ Fonts = false }) hides it)
+    - The chosen font is saved next to the theme in themes.json and restored next launch
+    - Note: Roblox fonts only cover Latin text; Thai (and other scripts) always fall back to the default font
+    - Tab buttons are smaller on phones (38 px).  Window option TabHeight = <px> overrides the height.
+    - New presets: Aurora, Dracula, Nord, TokyoNight, Mocha, Synthwave, Jade, Gold, Lavender, Candy, Peach
+      (plus Midnight, Ocean, Sunset, Mono from before)
+
+    Ready-made tabs (v3.7)
+    - Window:CreateThemeTab({ Name, Icon, Text = {..}, Manager = {..}, Maker = false, Effects = false, Fonts = false, Keys = false })      -> tab, parts
+    - Window:CreateSettingsTab({ Name, Icon, Text = {..}, Sections = { Theme, Hotkeys, Config, Window, History = false } })      -> tab, parts
+    - Window:CreateDefaultTabs({ Theme = {..} | false, Settings = {..} | false })                                       -> themeTab, settingsTab
+      Text = { key = "..." } renames / translates any label (see README_SpectreUI_Tabs.md for the key list)
+
+    Icons (v3.8)  - icon packs from github.com/Footagesus/Icons (Main-v2)
+    - Packs: lucide (default) / solar / craft / geist / sfsymbols / gravity.   "lucide:home"  "solar:settings-bold"  or just "home" (default pack)
+    - Works in: Window:CreateTab({ Icon = "lucide:swords" }), Notify / Toast / Dialog / Confirm ({ Icon = "lucide:bell" }),
+      and the default Theme / Settings tabs (lucide:palette / lucide:settings).
+    - Loaded lazily on first use (6 packs = a few seconds once). If it fails or the name does not exist, the old text glyph is used.
+    - Library.IconLib.Default = "solar"      default pack for names without "pack:"
+      Library.IconLib.Url = "..."            another copy of Main-v2.lua
+      Library:PreloadIcons()                 download now, e.g. before creating the window
+      Library:SetIconModule(mod)             reuse a module you already loaded
+      Library:AddIcons("mine", { home = 123456 })  ->  Icon = "mine:home"
+      Library:ResolveIcon(name) / MakeIcon(desc, color)   raw helpers (ImageLabel with rect offsets)
+    - Section / Button:  Tab:CreateSection({ Name = "ESP", Icon = "lucide:eye" })   Section:CreateButton({ Name = "Save", Icon = "lucide:save" })
+      (a section with an Icon shows it instead of the accent dot; the button icon sits on the left)
+    - Ready-made tabs have icons on every section + button. Change or remove any of them:
+        Window:CreateSettingsTab({ Icons = { Theme = "solar:palette-bold", Save = "lucide:download", Delete = false } })
+        keys: ThemeSection UISection ConfigSection WindowSection HistorySection RandomButton Palette Save Load Delete SaveAuto Copy Import Center Unload Undo Redo Modified Snapshot Restore
+        theme tab keys: ThemeSection FontSection MakerSection FxSection CreateButton
+    - Built-in glyphs still work: "check" "cross" "spinner" "!" "i" "M" ...
+
+    Load API (v3.9)
+    - Library:Load(source, opts) / Window:Load(source, opts) -> ok, result      source = url | file | raw Lua | function
+    - Library:LoadMany({ src, { Source = src, Name = "x" }, ... }, opts) -> ok, results
+    - opts: Name, Args, Retries, RetryDelay, Silent, Async, OnDone(ok, result), OnProgress(p, text), Cache, Title, SuccessText, FailText
+    - Shows a Loading card with progress (download -> compile -> run) and Complete / Fail at the end.
+
+    Auto UI check (v3.10)
+    - Runs by itself after the window is built / a tab switch / a resize. Reports only NEW problems (console + one card), silent when clean.
+    - Window:Audit({ Print, Notify, Visual, Fix, Skip }) -> issues     Library:Audit(opts)     Palette command: "Run UI check"
+    - Library.AutoCheck = { Enabled, Delay, Notify, Print, Visual, Fix, Skip }     CreateWindow({ AutoCheck = false | { ... } })
+    - Rules: Library.AuditCodes (DupFlag, DefaultName, BadCallback, BadDefault, BadRange, EmptyTab, EmptySection, LowContrast, Overflow, TextClip, Offscreen ...)
+
+    HUD + Tour (v3.11)
+    - Window:Watermark({ Text, Fields = { "FPS", "Ping", "Time", "Date", "Players", fn, { Name, Get } }, Position, Interval, Draggable }) -> handle
+        live FPS / ping pill, draggable, follows the theme.   :SetText :SetFields :AddField :SetVisible :Toggle :SetPosition :Destroy
+    - Window:KeybindList({ Title, Position, OnlyActive, HideWhenEmpty, IncludeUI, Draggable }) -> handle
+        lists every Keybind / KeybindToggle, active ones highlighted.   :Add(name, key, stateFn, mode) :Remove(id) :SetVisible :Toggle :Destroy
+    - Window:Tour({ { Target = "flag", Tab = "Main", Title, Content }, ... }, { Position, Keys, OnDone }) -> handle
+        guided tour: jumps to + highlights each control, step card with progress.   :Next :Prev :Goto(i) :Stop :Finish :IsRunning
+    - Library:Watermark / KeybindList / Tour(...) = same on the newest window.  Palette: "Toggle watermark", "Toggle keybind list".
+
+    Stepper + Stat (v3.12)
+    - Section:CreateStepper({ Name, Min, Max, Step, Default, Suffix, Wrap, Flag, Callback }) -> [ - ] value [ + ], hold to repeat.  :Set :Get :Increment(n) :SetRange(min, max)
+    - Section:CreateStat({ Name, Get = fn, Interval, Format, Prefix, Suffix, Color, Delta }) -> live read-out row.  :Refresh :SetGet(fn) :Get
+    - Both get the usual extras (ShowIf / OnChange / Reset / Tooltip / Destroy / right-click menu); Stepper is saved in configs, Stat is not.
+
+    Flags, hotkeys, theme sharing, text size (v3.13)
+    - Library:GetControl(flag) / SetFlag(flag, value, silent) / ToggleFlag(flag) / SetFlags({ flag = value, ... }, silent) / GetFlags()
+        SetFlags is ONE undo step.  GetFlags returns a copy of every flag (same as Snapshot()).
+    - Library:Hotkey(Enum.KeyCode.X, fn, { Ctrl, Shift, Alt, Desc, AllowTyping }) -> { Disconnect, SetKey, SetEnabled }   global hotkey, not tied to a control
+      Library:ListHotkeys() -> { { Key = "Ctrl+X", Desc = "..." } }
+    - Library:ExportTheme(nameOrTheme?) -> "SPT1:{...}" string   Library:ImportTheme(str, name?) -> ok, name | err   (registers + saves the theme)
+      Window:ExportTheme() / Window:ImportTheme(str, name, apply = true)
+    - Window:SetTextScale(0.7 .. 1.4, remember) / Window:GetTextScale()   scale every text in the window (call after the UI is built; the THEME tab has a "Text size" switch)
+
+    More controls + helpers (v3.14)
+    - Section:CreateButtonRow({ Buttons = { { Name, Callback, Color, TextColor, Bold }, ... } })     several buttons in one row   :SetText(i, text)
+    - Section:CreateInputButton({ Name, Placeholder, Button, ButtonWidth, Default, MaxLength, ClearOnSubmit, Trim, Flag, Callback(text) })
+        text box + submit button (Enter also submits)   :Get() last submitted  :GetText() typed now  :Set(text, silent)  :Clear()  :Focus()  :SetButtonText(t)
+    - Section:CreateKeyValue({ Name, Value, Color, Copyable = true })     "name ... value" row, tap to copy   :Set(v) :Get() :SetColor(c)
+    - Section:CreateCodeBlock({ Name, Text, Height, Copy = true, MaxChars, AutoScroll })     monospace box + Copy button   :Set :Get :Append(line) :Clear :Copy
+    - Section:CreateCountdown({ Name, Target = os.time() + n | Seconds = n, Format = fn(sec), ExpiredText, WarnAt, Color, OnDone(obj) })
+        live time-left row (key expiry ...)   :SetTarget(epoch) :SetSeconds(n) :Add(n) :Get() :IsExpired()
+    - Section:CreateListBox({ Name, Items, Height, Multi, Search, AllowDeselect, Default, Empty, Flag, Callback(value) })
+        scrolling pick list (saved in configs when it has a Flag)   :Get :Set(value, silent) :Clear :Refresh(items, keep) :Add :Remove :GetItems :Count
+    - Section:CreateTable({ Name, Columns = { "A", { Name = "B", Width = 0.3 } }, Rows, Height, RowHeight, Zebra, OnRowClick(row, i) })
+        :SetRows :AddRow :RemoveRow(i) :SetCell(i, col, v) :Clear :Count :GetRows
+    - Section:CreateImage({ Image = id | "rbxassetid://.." | "lucide:name", Name, Height, Fit = "Fit"|"Crop"|"Stretch", Corner, Color })     :Set(image) :Get()
+    - Window:RemoveTab(nameOrTab) / RenameTab(nameOrTab, newName) / ListTabs()      Tab:Remove() / Tab:Rename(name)
+    - Window:SetToggleKey(Enum.KeyCode | "F4") / GetToggleKey()      Window:Open() / Close() / IsOpen()
+    - Library:Copy(text, title)   clipboard + "Copied" card
+    - The new controls get the usual extras too (ShowIf / SetVisible / Lock / Tooltip / Destroy / right-click menu).
+
+    v2 notes
+    - Window is draggable by its header (mouse + touch), clamped to the screen, position kept on resize / rotation.
+    - The floating "open" button (shown while the window is closed) is draggable too; a tap still opens the window.
+      It stays where you drop it (no jump / snap). CreateWindow({ OpenSnap = true }) brings back the glide to the nearest screen edge.
+    - Everything is event-driven: only TweenService + input events (the only per-frame work is the tiny
+      frame-rate governor below, and the drag-follow loop while a drag is in progress).
+    - Smooth-motion engine (v3.5): while the window opens / closes / maximizes / switches tab, the looping
+      backdrop and the halo rings are paused for the length of that motion, so the transition owns the frame
+      budget; they fade back in right after.  Open = slide + fade (the scale "pop" is opt-in:
+      Library.Anim.Pop = true, it re-rasterizes every stroke each frame and is the usual cause of stutter).
+    - Frame-rate governor: if the window itself runs choppy (many slow frames over 2 s) it steps down by itself:
+      lite backdrop -> no backdrop -> no halo.  Library.Perf.Adaptive = false turns it off;
+      Library.Perf.SlowFrame (default 1/18 s) / Library.Perf.SlowShare (default 0.25) tune the trigger;
+      Library.Perf.Warmup (default 3 s) = grace period after the window is created / shown.
+      CreateWindow({ OnDegrade = function(level) end }) tells you when it steps down.
+]]
+
+local Players = game:GetService("Players")
+local SoundService = game:GetService("SoundService")
+local UserInputService = game:GetService("UserInputService")
+local TweenService = game:GetService("TweenService")
+local CoreGui = game:GetService("CoreGui")
+local HttpService = game:GetService("HttpService")
+local RunService = game:GetService("RunService")
+
+local Library = { Flags = {}, Objects = {}, Windows = {}, ConfigFolder = "SpectreUI/configs", Version = "3.15", _flagCbs = {} }
+Library.__index = Library
+
+-- Stability: parent a ScreenGui safely. gethui -> CoreGui -> PlayerGui, and never wait forever for PlayerGui.
+function Library._mount(gui)
+	local ok = pcall(function() gui.Parent = (gethui and gethui()) or CoreGui end)
+	if ok and gui.Parent then return true end
+	local lp = Players.LocalPlayer
+	local pg = lp and (lp:FindFirstChildOfClass("PlayerGui") or lp:WaitForChild("PlayerGui", 10))
+	ok = pcall(function() gui.Parent = pg or CoreGui end)
+	return ok and gui.Parent ~= nil
+end
+
+-- Stability: running the script twice must not stack two UIs. Unload the previous copy and sweep leftovers.
+do
+	local genv = (getgenv and getgenv()) or _G
+	local old = genv.__SpectreUI_Lib
+	if old and old ~= Library and type(old.Unload) == "function" then pcall(old.Unload, old) end
+	local roots = { CoreGui }
+	if gethui then
+		local okh, h = pcall(gethui)
+		if okh and h then table.insert(roots, h) end
+	end
+	local lp0 = Players.LocalPlayer
+	local pg0 = lp0 and lp0:FindFirstChildOfClass("PlayerGui")
+	if pg0 then table.insert(roots, pg0) end
+	local stale = { SpectreUI = true, SpectreUI_Notify = true, SpectreUI_Host = true, SpectreUI_HUD = true, SpectreUI_Splash = true }
+	for _, r in ipairs(roots) do
+		pcall(function()
+			for _, c in ipairs(r:GetChildren()) do
+				if stale[c.Name] and c:IsA("ScreenGui") then c:Destroy() end
+			end
+		end)
+	end
+	genv.__SpectreUI_Lib = Library
+end
+
+-- Theme presets. Pick one per window:  Library:CreateWindow({ Theme = "Cyber" })
+-- or change the default for every new window:  Library:SetTheme("Crimson")
+-- or override single colors:  Library:CreateWindow({ Theme = { Accent = Color3.fromRGB(...) } })
+-- Optional extra keys (derived automatically when missing): Top, Deep, Lift, Wash, Knob
+local function rgb(r, g, b) return Color3.fromRGB(r, g, b) end
+
+Library.Themes = {
+	Rose = {   -- sakura pink (default)
+		Background = rgb(13, 9, 12),   Panel = rgb(20, 14, 18),   Card = rgb(26, 19, 24),   Control = rgb(37, 27, 34),
+		Border = rgb(74, 46, 62),      Accent = rgb(244, 114, 182), Accent2 = rgb(251, 146, 190), AccentSoft = rgb(70, 28, 52),
+		Sheen = rgb(255, 208, 226),    Text = rgb(253, 242, 248), SubText = rgb(196, 152, 174),
+		FX = "petals",
+	},
+	Violet = {
+		Background = rgb(8, 7, 14),    Panel = rgb(14, 12, 23),   Card = rgb(18, 16, 29),   Control = rgb(24, 21, 38),
+		Border = rgb(52, 42, 94),      Accent = rgb(139, 92, 246), Accent2 = rgb(217, 70, 239), AccentSoft = rgb(40, 26, 78),
+		Sheen = rgb(190, 170, 255),    Text = rgb(240, 238, 250), SubText = rgb(152, 148, 180),
+		FX = "orbs",
+	},
+	Cyber = {
+		Background = rgb(6, 10, 16),   Panel = rgb(10, 17, 27),   Card = rgb(13, 22, 35),   Control = rgb(19, 31, 48),
+		Border = rgb(30, 78, 110),     Accent = rgb(34, 211, 238), Accent2 = rgb(59, 130, 246), AccentSoft = rgb(10, 46, 70),
+		Sheen = rgb(165, 243, 252),    Text = rgb(236, 248, 255), SubText = rgb(140, 170, 190),
+		FX = "grid",
+	},
+	Crimson = {
+		Background = rgb(12, 6, 7),    Panel = rgb(20, 10, 12),   Card = rgb(26, 13, 16),   Control = rgb(36, 20, 24),
+		Border = rgb(100, 36, 44),     Accent = rgb(239, 68, 68), Accent2 = rgb(249, 115, 22), AccentSoft = rgb(70, 20, 24),
+		Sheen = rgb(254, 202, 202),    Text = rgb(254, 242, 242), SubText = rgb(190, 150, 150),
+		FX = "embers",
+	},
+	Matrix = {
+		Background = rgb(5, 10, 7),    Panel = rgb(9, 18, 12),    Card = rgb(12, 24, 16),   Control = rgb(18, 34, 24),
+		Border = rgb(30, 92, 56),      Accent = rgb(34, 197, 94), Accent2 = rgb(132, 204, 22), AccentSoft = rgb(12, 52, 30),
+		Sheen = rgb(187, 247, 208),    Text = rgb(240, 253, 244), SubText = rgb(140, 180, 155),
+		FX = "rain",
+	},
+	Midnight = {   -- deep navy + indigo glass
+		Background = rgb(7, 9, 18),    Panel = rgb(12, 15, 28),   Card = rgb(16, 20, 36),   Control = rgb(24, 29, 50),
+		Border = rgb(44, 54, 96),      Accent = rgb(99, 102, 241), Accent2 = rgb(56, 189, 248), AccentSoft = rgb(30, 34, 84),
+		Sheen = rgb(199, 210, 254),    Text = rgb(238, 242, 255), SubText = rgb(148, 158, 196),
+		FX = "orbs",
+	},
+	Ocean = {
+		Background = rgb(5, 12, 16),   Panel = rgb(9, 20, 26),   Card = rgb(12, 27, 34),   Control = rgb(18, 40, 50),
+		Border = rgb(28, 74, 90),      Accent = rgb(45, 212, 191), Accent2 = rgb(56, 189, 248), AccentSoft = rgb(10, 52, 60),
+		Sheen = rgb(153, 246, 228),    Text = rgb(236, 254, 255), SubText = rgb(136, 178, 188),
+		FX = "grid",
+	},
+	Sunset = {
+		Background = rgb(15, 9, 8),    Panel = rgb(24, 14, 12),   Card = rgb(31, 19, 16),   Control = rgb(44, 28, 23),
+		Border = rgb(94, 54, 40),      Accent = rgb(251, 146, 60), Accent2 = rgb(244, 63, 94), AccentSoft = rgb(78, 36, 24),
+		Sheen = rgb(254, 215, 170),    Text = rgb(255, 247, 237), SubText = rgb(196, 160, 140),
+		FX = "embers",
+	},
+	Mono = {   -- clean graphite, minimal
+		Background = rgb(10, 10, 12),  Panel = rgb(17, 17, 20),   Card = rgb(22, 22, 26),   Control = rgb(32, 32, 38),
+		Border = rgb(58, 58, 68),      Accent = rgb(228, 228, 237), Accent2 = rgb(161, 161, 178), AccentSoft = rgb(44, 44, 54),
+		Sheen = rgb(255, 255, 255),    Text = rgb(244, 244, 248), SubText = rgb(150, 150, 164),
+		FX = "orbs",
+	},
+	-- ===== new presets (v3.5) =====
+	Aurora = {   -- mint -> violet northern lights
+		Background = rgb(7, 11, 18),   Panel = rgb(12, 18, 28),   Card = rgb(16, 24, 37),   Control = rgb(24, 34, 52),
+		Border = rgb(42, 66, 98),      Accent = rgb(110, 231, 183), Accent2 = rgb(167, 139, 250), AccentSoft = rgb(22, 56, 70),
+		Sheen = rgb(209, 250, 229),    Text = rgb(240, 253, 250), SubText = rgb(146, 174, 188),
+		FX = "orbs",
+	},
+	Dracula = {   -- purple + hot pink
+		Background = rgb(20, 21, 30),  Panel = rgb(27, 28, 40),   Card = rgb(33, 34, 49),   Control = rgb(44, 46, 66),
+		Border = rgb(70, 73, 104),     Accent = rgb(189, 147, 249), Accent2 = rgb(255, 121, 198), AccentSoft = rgb(58, 44, 94),
+		Sheen = rgb(233, 220, 255),    Text = rgb(248, 248, 242), SubText = rgb(160, 164, 198),
+		FX = "orbs",
+	},
+	Nord = {   -- frosty blue-grey
+		Background = rgb(20, 24, 32),  Panel = rgb(27, 32, 43),   Card = rgb(33, 39, 52),   Control = rgb(44, 52, 68),
+		Border = rgb(67, 80, 102),     Accent = rgb(136, 192, 208), Accent2 = rgb(129, 161, 193), AccentSoft = rgb(34, 54, 68),
+		Sheen = rgb(216, 236, 244),    Text = rgb(236, 239, 244), SubText = rgb(150, 166, 188),
+		FX = "grid",
+	},
+	TokyoNight = {   -- indigo neon city
+		Background = rgb(15, 16, 26),  Panel = rgb(22, 24, 38),   Card = rgb(26, 28, 46),   Control = rgb(36, 40, 64),
+		Border = rgb(60, 68, 102),     Accent = rgb(122, 162, 247), Accent2 = rgb(187, 154, 247), AccentSoft = rgb(36, 46, 86),
+		Sheen = rgb(196, 213, 255),    Text = rgb(214, 222, 255), SubText = rgb(132, 142, 184),
+		FX = "orbs",
+	},
+	Mocha = {   -- warm pastel on espresso dark
+		Background = rgb(17, 17, 27),  Panel = rgb(24, 24, 37),   Card = rgb(30, 30, 46),   Control = rgb(42, 43, 62),
+		Border = rgb(69, 71, 92),      Accent = rgb(203, 166, 247), Accent2 = rgb(245, 194, 231), AccentSoft = rgb(56, 44, 86),
+		Sheen = rgb(240, 220, 255),    Text = rgb(205, 214, 244), SubText = rgb(147, 153, 180),
+		FX = "petals",
+	},
+	Synthwave = {   -- neon pink + electric cyan
+		Background = rgb(13, 7, 22),   Panel = rgb(22, 11, 36),   Card = rgb(29, 15, 47),   Control = rgb(42, 22, 68),
+		Border = rgb(98, 40, 124),     Accent = rgb(255, 64, 200), Accent2 = rgb(0, 229, 255), AccentSoft = rgb(76, 18, 88),
+		Sheen = rgb(255, 190, 240),    Text = rgb(255, 240, 252), SubText = rgb(188, 150, 202),
+		FX = "grid",
+	},
+	Jade = {   -- emerald with a golden glint
+		Background = rgb(6, 13, 11),   Panel = rgb(10, 22, 18),   Card = rgb(13, 29, 24),   Control = rgb(20, 43, 35),
+		Border = rgb(34, 86, 68),      Accent = rgb(74, 222, 168), Accent2 = rgb(253, 224, 71), AccentSoft = rgb(14, 56, 44),
+		Sheen = rgb(209, 250, 232),    Text = rgb(240, 253, 247), SubText = rgb(140, 182, 164),
+		FX = "orbs",
+	},
+	Gold = {   -- royal black & gold
+		Background = rgb(12, 10, 7),   Panel = rgb(21, 17, 11),   Card = rgb(28, 23, 15),   Control = rgb(41, 34, 22),
+		Border = rgb(98, 80, 36),      Accent = rgb(250, 204, 21), Accent2 = rgb(245, 158, 11), AccentSoft = rgb(76, 58, 16),
+		Sheen = rgb(254, 240, 170),    Text = rgb(254, 252, 232), SubText = rgb(196, 182, 142),
+		FX = "embers",
+	},
+	Lavender = {   -- soft dreamy purple
+		Background = rgb(12, 10, 18),  Panel = rgb(19, 16, 28),   Card = rgb(25, 21, 38),   Control = rgb(36, 31, 56),
+		Border = rgb(76, 64, 114),     Accent = rgb(196, 167, 255), Accent2 = rgb(244, 170, 255), AccentSoft = rgb(54, 42, 90),
+		Sheen = rgb(232, 220, 255),    Text = rgb(248, 244, 255), SubText = rgb(172, 162, 202),
+		FX = "petals",
+	},
+	Candy = {   -- cotton-candy sky blue + pink
+		Background = rgb(11, 12, 20),  Panel = rgb(17, 19, 31),   Card = rgb(22, 24, 40),   Control = rgb(32, 35, 58),
+		Border = rgb(66, 74, 114),     Accent = rgb(125, 211, 252), Accent2 = rgb(249, 168, 212), AccentSoft = rgb(34, 50, 86),
+		Sheen = rgb(224, 242, 254),    Text = rgb(244, 248, 255), SubText = rgb(158, 168, 198),
+		FX = "petals",
+	},
+	Peach = {   -- coral peach glow
+		Background = rgb(16, 10, 11),  Panel = rgb(26, 16, 17),   Card = rgb(33, 21, 22),   Control = rgb(47, 31, 32),
+		Border = rgb(102, 62, 58),     Accent = rgb(253, 164, 175), Accent2 = rgb(253, 186, 116), AccentSoft = rgb(80, 36, 40),
+		Sheen = rgb(255, 228, 220),    Text = rgb(255, 245, 242), SubText = rgb(204, 166, 160),
+		FX = "petals",
+	},
+}
+
+local THEME_COMMON = { Font = Enum.Font.GothamMedium, FontBold = Enum.Font.GothamBold, Glow = true, Animate = true }
+
+local function buildTheme(src)
+	local T = table.clone(THEME_COMMON)
+	for k, v in pairs(Library.Themes.Rose) do T[k] = v end
+	for k, v in pairs(src or {}) do T[k] = v end
+	if src and src.FX == nil then T.FX = "orbs" end   -- custom presets without FX get the neutral one
+	-- clarity boost: crisper borders, brighter secondary text, controls that stand out from cards
+	local white = Color3.new(1, 1, 1)
+	T.Text = T.Text:Lerp(white, 0.15)
+	T.SubText = T.SubText:Lerp(T.Text, 0.35)
+	T.Border = T.Border:Lerp(T.Accent, 0.22):Lerp(white, 0.06)
+	T.Control = T.Control:Lerp(white, 0.035)
+	T.Card = T.Card:Lerp(white, 0.012)
+	return T
+end
+
+-- fills the derived colors the library uses for gradients / hover states
+local function deriveTheme(T)
+	local black, white = Color3.new(0, 0, 0), Color3.new(1, 1, 1)
+	T.Top  = T.Top  or T.Panel:Lerp(T.Accent, 0.06)
+	T.Deep = T.Deep or T.Background:Lerp(black, 0.4)
+	T.Lift = T.Lift or T.Control:Lerp(T.Accent, 0.12)
+	T.Wash = T.Wash or T.AccentSoft:Lerp(T.Accent2, 0.15)
+	T.Knob = T.Knob or white:Lerp(T.Accent, 0.04)
+	return T
+end
+
+Library.Theme = buildTheme(Library.Themes.Rose)
+
+-- readable text colour (white or near-black) for text drawn on top of accent / gradient colours.
+-- Library.OnAccent(Theme)  |  Library.OnAccent(colorA [, colorB])
+function Library.OnAccent(a, b)
+	if type(a) == "table" then a, b = a.Accent, a.Accent2 end
+	a = a or Color3.new(1, 1, 1)
+	b = b or a
+	local function lum(c)
+		local function f(v) return v <= 0.03928 and v / 12.92 or ((v + 0.055) / 1.055) ^ 2.4 end
+		return 0.2126 * f(c.R) + 0.7152 * f(c.G) + 0.0722 * f(c.B)
+	end
+	local function ratio(x, y) if x < y then x, y = y, x end return (x + 0.05) / (y + 0.05) end
+	local la, lb, ld = lum(a), lum(b), lum(Color3.fromRGB(14, 14, 20))
+	local white = math.min(ratio(1, la), ratio(1, lb))
+	local dark = math.min(ratio(la, ld), ratio(lb, ld))
+	if white >= 3 or white >= dark then return Color3.new(1, 1, 1) end
+	return Color3.fromRGB(14, 14, 20)
+end
+-- marks a label / icon so Window:SetTheme re-picks its colour with OnAccent
+function Library._oa(inst) inst:SetAttribute("OnAccent", true) return inst end
+
+-- let a ScreenGui cover the WHOLE physical screen (notch / cut-out / rounded-corner strips included),
+-- so draggable UI can reach the real screen edge.  Older clients without ScreenInsets just ignore it.
+function Library._fullScreen(g)
+	pcall(function() g.IgnoreGuiInset = true end)
+	pcall(function() g.ScreenInsets = Enum.ScreenInsets.None end)
+	return g
+end
+
+-- The part of the ScreenGui that is really on screen, in AbsolutePosition space (min corner, max corner).
+-- With IgnoreGuiInset / ScreenInsets = None the gui can be larger than the visible screen (notch, bars), so popups that
+-- sized themselves from Gui.AbsoluteSize ran off the bottom of the screen. Clamp to the camera viewport as well.
+function Library._visibleRect(gui)
+	local gp, gs = gui.AbsolutePosition, gui.AbsoluteSize
+	local mn, mx = gp, gp + gs
+	local cam = workspace.CurrentCamera
+	if cam and cam.ViewportSize.X > 0 then
+		local v = cam.ViewportSize
+		local a = Vector2.new(math.max(mn.X, 0), math.max(mn.Y, 0))
+		local b = Vector2.new(math.min(mx.X, v.X), math.min(mx.Y, v.Y))
+		if b.X - a.X >= 100 and b.Y - a.Y >= 100 then return a, b end
+	end
+	return mn, mx
+end
+
+-- Popups (dropdown / colour picker) live in win.Gui but are placed from the AbsolutePosition of the control that opened
+-- them. On some clients (GUI inset / safe area / scaled windows) those two coordinate spaces differ, so the popup used to
+-- open away from its control. This re-reads where the popup's anchor point REALLY is and shifts Position by the difference,
+-- so the popup always sits on the control, whatever side of the window it is on.
+function Library._pinPopup(popup, wantX, wantY)
+	if not popup or not popup.Parent then return end
+	local ap, sz = popup.AnchorPoint, popup.AbsoluteSize
+	local a = popup.AbsolutePosition + Vector2.new(ap.X * sz.X, ap.Y * sz.Y)
+	local ex, ey = a.X - wantX, a.Y - wantY
+	if math.abs(ex) < 0.5 and math.abs(ey) < 0.5 then return end
+	local pp = popup.Position
+	popup.Position = UDim2.new(pp.X.Scale, pp.X.Offset - ex, pp.Y.Scale, pp.Y.Offset - ey)
+end
+
+-- one drag at a time: follows input `i` (finger / mouse button) and ALWAYS lets go when it ends,
+-- so a slider can never keep following later touches (that made two sliders move together).
+-- onMove(inputObject)  onStop()   -> returns stop()
+function Library._drag(i, onMove, onStop)
+	if Library._dragStop then Library._dragStop() end
+	local isTouch = i.UserInputType == Enum.UserInputType.Touch
+	local conns, done = {}, false
+	local function stop()
+		if done then return end
+		done = true
+		for _, c in ipairs(conns) do c:Disconnect() end
+		if Library._dragStop == stop then Library._dragStop = nil end
+		onStop()
+	end
+	Library._dragStop = stop
+	local function ended()
+		local st = i.UserInputState
+		return st == Enum.UserInputState.End or st == Enum.UserInputState.Cancel
+	end
+	table.insert(conns, UserInputService.InputChanged:Connect(function(m)
+		if done then return end
+		if isTouch then
+			if m ~= i or m.UserInputType ~= Enum.UserInputType.Touch then return end
+		elseif m.UserInputType ~= Enum.UserInputType.MouseMovement then
+			return
+		end
+		if ended() then stop() return end
+		onMove(m)
+	end))
+	table.insert(conns, UserInputService.InputEnded:Connect(function(e)
+		if e == i or (not isTouch and e.UserInputType == Enum.UserInputType.MouseButton1) then stop() end
+	end))
+	table.insert(conns, i.Changed:Connect(function() if ended() then stop() end end))
+	return stop
+end
+
+------------------------------------------------------------------ fonts
+-- Library.Fonts = named presets { Font = regular, Bold = bold }.  Used like themes:
+--   Library:CreateWindow({ Font = "Nunito" })    Window:SetFont("Ubuntu", true)    Library:SetFont("Roboto")
+Library.Fonts, Library._fontOrder, Library.FontName = {}, {}, "Gotham"
+do
+	local defs = {
+		{ "Gotham", "GothamMedium", "GothamBold" },
+		{ "Gotham Light", "Gotham", "GothamBold" },
+		{ "Gotham Bold", "GothamBold", "GothamBlack" },
+		{ "Source Sans", "SourceSans", "SourceSansBold" },
+		{ "Arial", "Arial", "ArialBold" },
+		{ "Nunito", "Nunito", "Nunito" },
+		{ "Ubuntu", "Ubuntu", "Ubuntu" },
+		{ "Roboto", "Roboto", "Roboto" },
+		{ "Roboto Condensed", "RobotoCondensed", "RobotoCondensed" },
+		{ "Roboto Mono", "RobotoMono", "RobotoMono" },
+		{ "Code", "Code", "Code" },
+		{ "Titillium Web", "TitilliumWeb", "TitilliumWeb" },
+		{ "Jura", "Jura", "Jura" },
+		{ "Oswald", "Oswald", "Oswald" },
+		{ "Josefin Sans", "JosefinSans", "JosefinSans" },
+		{ "Merriweather", "Merriweather", "Merriweather" },
+		{ "Highway", "Highway", "Highway" },
+		{ "Sci-Fi", "SciFi", "SciFi" },
+		{ "Fredoka", "FredokaOne", "FredokaOne" },
+		{ "Kalam", "Kalam", "Kalam" },
+		{ "Patrick Hand", "PatrickHand", "PatrickHand" },
+	}
+	for _, d in ipairs(defs) do
+		local ok1, r = pcall(function() return Enum.Font[d[2]] end)
+		local ok2, b = pcall(function() return Enum.Font[d[3]] end)
+		if ok1 and ok2 and r and b then
+			Library.Fonts[d[1]] = { Font = r, Bold = b }
+			table.insert(Library._fontOrder, d[1])
+		end
+	end
+end
+
+-- accepts a preset name, an Enum.Font or { Font = , Bold = }  ->  regular, bold, name  (or nil, error)
+function Library._fontPair(f)
+	local function isFont(v) return typeof(v) == "EnumItem" and v.EnumType == Enum.Font end
+	if type(f) == "string" then
+		local p = Library.Fonts[f]
+		if not p then return nil, "unknown font" end
+		return p.Font, p.Bold, f
+	elseif isFont(f) then
+		for name, p in pairs(Library.Fonts) do
+			if p.Font == f then return p.Font, p.Bold, name end
+		end
+		return f, f, "Custom"
+	elseif type(f) == "table" then
+		local r = f.Font or f.Regular or f[1]
+		local b = f.Bold or f.FontBold or f[2] or r
+		if isFont(r) and isFont(b) then return r, b, "Custom" end
+		return nil, "Font and Bold must be Enum.Font values"
+	end
+	return nil, "usage: SetFont(name | Enum.Font | { Font, Bold })"
+end
+
+-- swaps the fonts of every text object below `root` (regular -> regular, bold -> bold).
+-- Single-weight fonts have regular == bold, so the weight is remembered in an attribute
+-- and switching away from them restores the headings correctly.
+function Library._remapFonts(root, oldR, oldB, newR, newB)
+	if not root or (oldR == newR and oldB == newB) then return end
+	local ambiguous = oldR == oldB
+	local tagNew = newR == newB
+	for _, o in ipairs(root:GetDescendants()) do
+		if o:IsA("TextLabel") or o:IsA("TextButton") or o:IsA("TextBox") then
+			local f = o.Font
+			if f == oldR or f == oldB then
+				local bold = o:GetAttribute("SpBold")
+				if bold == nil then bold = (f == oldB) and not ambiguous end
+				o.Font = bold and newB or newR
+				if tagNew or ambiguous then o:SetAttribute("SpBold", bold) end
+			end
+		end
+	end
+end
+
+-- Library:RegisterFont("Mine", Enum.Font.Ubuntu, Enum.Font.Ubuntu) -> ok, err
+function Library:RegisterFont(name, regular, bold)
+	if type(name) ~= "string" or name == "" then return false, "usage: RegisterFont(name, Enum.Font, Enum.Font?)" end
+	local r, b = Library._fontPair({ Font = regular, Bold = bold })
+	if not r then return false, b end
+	if not self.Fonts[name] then table.insert(self._fontOrder, name) end
+	self.Fonts[name] = { Font = r, Bold = b }
+	if self._fire then self._fire("fonts") end
+	return true
+end
+
+function Library:ListFonts()
+	local out = {}
+	for i, n in ipairs(self._fontOrder) do out[i] = n end
+	return out
+end
+
+-- Library:SetFont("Nunito" | Enum.Font.X | { Font, Bold })  -> default for windows created afterwards
+function Library:SetFont(f, silent)
+	local r, b, name = Library._fontPair(f)
+	if not r then return false, b end
+	THEME_COMMON.Font, THEME_COMMON.FontBold = r, b
+	self.Theme.Font, self.Theme.FontBold = r, b
+	self.FontName = name or "Custom"
+	if not silent then self._userSetFont = true end
+	return true, self.FontName
+end
+
+-- Library:SetTheme("Cyber" | { Accent = ... })  -> default for windows created afterwards
+function Library:SetTheme(t)
+	if type(t) == "string" then t = self.Themes[t] end
+	if type(t) ~= "table" then return false end
+	self.Theme = buildTheme(t)
+	return true
+end
+
+local Window, Tab, Section = {}, {}, {}
+Window.__index, Tab.__index, Section.__index = Window, Tab, Section
+
+local AY = Enum.AutomaticSize.Y
+local AX = Enum.AutomaticSize.X
+local ANONE = Enum.AutomaticSize.None
+local LEFT = Enum.TextXAlignment.Left
+local HEADER_H, SEARCH_H, FOOT_H = 64, 44, 54
+
+local QUINT, QUAD, BACK = Enum.EasingStyle.Quint, Enum.EasingStyle.Quad, Enum.EasingStyle.Back
+local SINE, LINEAR = Enum.EasingStyle.Sine, Enum.EasingStyle.Linear
+local OUT, IN = Enum.EasingDirection.Out, Enum.EasingDirection.In
+
+------------------------------------------------------------------ performance
+-- Mobile killers are: (1) tweens that run forever, (2) large rounded strokes that
+-- re-rasterize every frame while the window moves, (3) glow frames redrawn on drag.
+-- On a phone (or when forced) the library takes the cheap path: no shimmer, no halo
+-- rings, no drag-time stroke animation. Everything still renders, just static.
+local IS_MOBILE = UserInputService.TouchEnabled
+
+-- Library.Anim.Speed: global duration multiplier (1.25 = 25% slower / softer, 0.8 = snappier)
+-- Library.Anim.Intro = false (or CreateWindow({ Intro = false })) skips the launch animation
+Library.Anim = { Speed = 1, Intro = true }
+
+Library.Perf = {
+	-- nil = auto (mobile -> low power), true/false = force. Change at runtime:
+	--   Library.Perf.LowPower = false   -- force the pretty path anywhere
+	LowPower = nil,
+	-- frame-rate governor (see Window:_StartGovernor): steps the visuals down when the window stutters
+	Adaptive = true, SlowFrame = 1 / 18, SlowShare = 0.25, Warmup = 3,
+}
+
+local function lowPower()
+	local p = Library.Perf.LowPower
+	if p ~= nil then return p end
+	return IS_MOBILE
+end
+
+------------------------------------------------------------------ sounds
+-- Library.Sound.Enabled = false            -- mute everything
+-- Library.Sound.Volume  = 0.6              -- 0..1
+-- Library.Sound.Toggle / .Notify = "rbxassetid://..."   -- swap in your own ids (nil = silent)
+-- Per notification: Library:Notify({ ..., Sound = false })  or  Sound = "rbxassetid://..."
+Library.Sound = {
+	Enabled = true, Volume = 0.5,
+	Toggle = "rbxassetid://6895079853", -- switch click
+	Click = "rbxassetid://6895079853",  -- button press confirmation (Library.Sound.Click = nil -> silent)
+	Notify = "rbxassetid://4590662766", -- notification ping
+}
+local lastPlayed = {}
+local function playSound(kind, override)
+	local S = Library.Sound
+	if not S or not S.Enabled or override == false then return end
+	local id = type(override) == "string" and override or (type(override) == "number" and ("rbxassetid://" .. override)) or S[kind]
+	if not id then return end
+	-- never stack the same sound within 60 ms (batch updates / identical notifications)
+	local now = os.clock()
+	if lastPlayed[kind] and now - lastPlayed[kind] < 0.06 then return end
+	lastPlayed[kind] = now
+	pcall(function()
+		local snd = Instance.new("Sound")
+		snd.Name = "SpectreUI_" .. kind
+		snd.SoundId = id
+		snd.Volume = math.clamp(S.Volume or 0.5, 0, 1)
+		snd.RollOffMaxDistance = 0
+		snd.Parent = SoundService
+		snd.Ended:Once(function() snd:Destroy() end)
+		snd:Play()
+		task.delay(6, function() if snd.Parent then snd:Destroy() end end) -- safety net if it never ends / fails to load
+	end)
+end
+
+------------------------------------------------------------------ helpers
+local function new(class, props, children)
+	local o = Instance.new(class)
+	local parent
+	for k, v in pairs(props or {}) do
+		if k == "Parent" then parent = v else o[k] = v end
+	end
+	for _, c in ipairs(children or {}) do c.Parent = o end
+	if parent then o.Parent = parent end
+	return o
+end
+
+-- a new tween on a property cancels the previous one on that property, so no bookkeeping is needed
+-- Default easing is picked from what is being animated: geometry (size / position / rotation / scale)
+-- gets the fast-out Quint curve, everything else (colors, transparency) gets Sine, which has no
+-- visible "snap" at the start. Durations are floored at 80 ms so press feedback never pops, and
+-- scaled by Library.Anim.Speed.
+local GEOM = { Size = true, Position = true, Rotation = true, Scale = true, Offset = true, CanvasPosition = true }
+-- TweenInfo objects are immutable, and hover / press feedback asks for the same few (time, style, direction)
+-- combinations thousands of times: reuse them instead of allocating a new one per tween (less GC churn).
+local infoCache, infoCount = {}, 0
+local function tinfo(t, style, dir)
+	local a = infoCache[style]
+	if not a then a = {} infoCache[style] = a end
+	local b = a[dir]
+	if not b then b = {} a[dir] = b end
+	local info = b[t]
+	if not info then
+		if infoCount > 300 then infoCache, infoCount = {}, 0 a, b = {}, {} infoCache[style] = a a[dir] = b end
+		info = TweenInfo.new(t, style, dir)
+		b[t] = info
+		infoCount += 1
+	end
+	return info
+end
+
+local function tween(o, t, props, style, dir)
+	if not style then
+		style = SINE
+		for k in pairs(props) do
+			if GEOM[k] then style = QUINT break end
+		end
+	end
+	t = math.max(t * (Library.Anim.Speed or 1), 0.08)
+	local tw = TweenService:Create(o, tinfo(t, style, dir or OUT), props)
+	tw:Play()
+	return tw
+end
+
+-- Run fn once, one rendered frame from now. The frame in which a window / page / section first becomes
+-- visible is the heavy one (text layout, strokes, gradients). A tween started in that same frame inherits
+-- its huge dt and skips its opening frames, which is the "stutter at the start of an animation". Starting
+-- the tween one frame later lets the heavy frame pass first.
+local function nextFrame(fn)
+	task.spawn(function()
+		RunService.RenderStepped:Wait()
+		fn()
+	end)
+end
+
+local function corner(r) return new("UICorner", { CornerRadius = UDim.new(0, r) }) end
+
+------------------------------------------------------------------ icon packs (Footagesus/Icons Main-v2)
+-- Lazy: the pack module (lucide / solar / craft / geist / sfsymbols / gravity) is only downloaded the
+-- first time a named icon is used. If the download fails everything falls back to the old text glyphs.
+Library.IconLib = { Url = "https://raw.githubusercontent.com/Footagesus/Icons/main/Main-v2.lua", Default = "lucide", Timeout = 8 }
+
+local function iconModule()
+	if Library._iconMod ~= nil then return Library._iconMod or nil end
+	Library._iconMod = false
+	-- the download runs in its own thread and is given a few seconds; a hung request must never freeze the UI build
+	local done, ok, mod = false, false, nil
+	task.spawn(function()
+		ok, mod = pcall(function()
+			return loadstring(game:HttpGet(Library.IconLib.Url))()
+		end)
+		done = true
+	end)
+	local t0 = os.clock()
+	while not done and os.clock() - t0 < (Library.IconLib.Timeout or 8) do task.wait() end
+	if not done then
+		warn("[SpectreUI] icon library timed out, using text glyphs")
+	elseif ok and type(mod) == "table" and mod.Icon then
+		Library._iconMod = mod
+		if mod.SetIconsType then pcall(mod.SetIconsType, Library.IconLib.Default or "lucide") end
+	else
+		warn("[SpectreUI] icon library could not be loaded: " .. tostring(mod))
+	end
+	return Library._iconMod or nil
+end
+
+-- use a module you already loaded yourself:  Library:SetIconModule(loadstring(game:HttpGet(url))())
+function Library:SetIconModule(mod)
+	Library._iconMod = type(mod) == "table" and mod or false
+	Library._iconCache = {}
+end
+
+-- download the pack now (otherwise it happens on first use)
+function Library:PreloadIcons() return iconModule() ~= nil end
+
+-- Library:AddIcons("mypack", { home = 123456, ... })  -> then Icon = "mypack:home"
+function Library:AddIcons(pack, data)
+	local mod = iconModule()
+	if mod and mod.AddIcons then Library._iconCache = {} return pcall(mod.AddIcons, pack, data) end
+	return false
+end
+
+-- "lucide:home", "solar:settings-bold", "home" (default pack) ...
+function Library:IsIconName(icon)
+	if type(icon) ~= "string" or icon:find("rbxasset", 1, true) then return false end
+	if icon:find(":", 1, true) then return true end
+	return #icon >= 3 and icon:match("^[%l%d][%l%d%-_%.]+$") ~= nil
+end
+
+-- -> { Image, Size, Offset, Parts = { {Image,Size,Offset}, ... } } or nil
+function Library:ResolveIcon(name)
+	if name == "lucide:home" or name == "home" then name = "lucide:house" end
+	if not Library:IsIconName(name) then return nil end
+	Library._iconCache = Library._iconCache or {}
+	local c = Library._iconCache[name]
+	if c ~= nil then return c or nil end
+	local res = false
+	local mod = iconModule()
+	if mod then
+		local ok, r = pcall(mod.Icon, name, nil, true)
+		if ok and type(r) == "table" and type(r[1]) == "string" and type(r[2]) == "table" then
+			local d = r[2]
+			res = { Image = r[1], Size = d.ImageRectSize or Vector2.new(0, 0), Offset = d.ImageRectPosition or Vector2.new(0, 0) }
+			if type(d.Parts) == "table" then
+				local pack = name:match("^(.-):")
+				res.Parts = {}
+				for _, p in ipairs(d.Parts) do
+					local ok2, pr = pcall(mod.Icon, p, pack, true)
+					if ok2 and type(pr) == "table" and type(pr[1]) == "string" and type(pr[2]) == "table" then
+						res.Parts[#res.Parts + 1] = { Image = pr[1], Size = pr[2].ImageRectSize or Vector2.new(0, 0), Offset = pr[2].ImageRectPosition or Vector2.new(0, 0) }
+					end
+				end
+			end
+		else
+			warn("[SpectreUI] icon not found: " .. tostring(name))
+		end
+	end
+	Library._iconCache[name] = res
+	return res or nil
+end
+
+-- ImageLabel (centered, fills its parent) for a resolved icon; multi-part (duotone) icons get child layers
+function Library:MakeIcon(desc, color)
+	local img = new("ImageLabel", {
+		Name = "IconImg", AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.fromScale(0.5, 0.5), Size = UDim2.fromScale(1, 1),
+		BackgroundTransparency = 1, ImageColor3 = color, ScaleType = Enum.ScaleType.Fit,
+		Image = desc.Image, ImageRectSize = desc.Size, ImageRectOffset = desc.Offset,
+	})
+	if desc.Parts then
+		for _, p in ipairs(desc.Parts) do
+			new("ImageLabel", {
+				Name = "Part", Size = UDim2.fromScale(1, 1), BackgroundTransparency = 1, ImageColor3 = color,
+				Image = p.Image, ImageRectSize = p.Size, ImageRectOffset = p.Offset, Parent = img,
+			})
+		end
+	end
+	return img
+end
+
+local function stroke(color, thickness, transparency)
+	return new("UIStroke", {
+		Color = color, Thickness = thickness or 1, Transparency = math.max(0, (transparency or 0) - 0.15),
+		ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+	})
+end
+
+-- gradient helper: gradient(seq, rotation) or gradient(c1, c2, rotation)
+local function gradient(a, b, rot)
+	local seq
+	if typeof(a) == "ColorSequence" then
+		seq, rot = a, b or 0
+	else
+		seq = ColorSequence.new(a, b)
+		rot = rot or 0
+	end
+	return new("UIGradient", { Color = seq, Rotation = rot })
+end
+
+local function cseq(...)
+	local pts = {}
+	for _, p in ipairs({ ... }) do table.insert(pts, ColorSequenceKeypoint.new(p[1], p[2])) end
+	return ColorSequence.new(pts)
+end
+
+-- decorative background wash: same as gradient(), but disabled in low power (flat fill = cheaper to draw)
+local function wash(seq, rot)
+	local g = gradient(seq, rot)
+	if lowPower() then g.Enabled = false end
+	return g
+end
+
+-- fade a gradient out at the ends (used for the sheen sweeps)
+local function fadeSeq(peak)
+	return NumberSequence.new({
+		NumberSequenceKeypoint.new(0, 1),
+		NumberSequenceKeypoint.new(0.5, peak or 0),
+		NumberSequenceKeypoint.new(1, 1),
+	})
+end
+
+local function padding(l, t, r, b)
+	return new("UIPadding", {
+		PaddingLeft = UDim.new(0, l), PaddingTop = UDim.new(0, t),
+		PaddingRight = UDim.new(0, r), PaddingBottom = UDim.new(0, b),
+	})
+end
+
+local function list(gap, props)
+	local p = { Padding = UDim.new(0, gap), SortOrder = Enum.SortOrder.LayoutOrder }
+	for k, v in pairs(props or {}) do p[k] = v end
+	return new("UIListLayout", p)
+end
+
+local function safe(cb, ...)
+	if not cb then return end
+	local ok, err = pcall(cb, ...)
+	if not ok then warn("[SpectreUI] callback error: " .. tostring(err)) end
+end
+
+local function isPress(i)
+	return i.UserInputType == Enum.UserInputType.MouseButton1 or i.UserInputType == Enum.UserInputType.Touch
+end
+
+local function v2(p) return Vector2.new(p.X, p.Y) end
+
+local function rowH() return UserInputService.TouchEnabled and 36 or 30 end
+
+-- hover effects only make sense when the last input was NOT a touch
+local function usingTouch()
+	return UserInputService:GetLastInputType() == Enum.UserInputType.Touch
+end
+
+-- run fn once when this specific input (finger / mouse button) ends or is cancelled
+local function onEnd(input, fn)
+	local c
+	c = input.Changed:Connect(function()
+		local s = input.UserInputState
+		if s == Enum.UserInputState.End or s == Enum.UserInputState.Cancel then
+			c:Disconnect()
+			fn()
+		end
+	end)
+	return c
+end
+
+-- press / release tracking that works for mouse and touch, even if the finger slides off the button
+local function bindPress(btn, down, up)
+	btn.InputBegan:Connect(function(i)
+		if not isPress(i) then return end
+		down(i)
+		onEnd(i, function() up(i) end)
+	end)
+end
+
+-- hover (PC only) + press (mouse & touch) feedback. Returns the UIScale used for the press squish.
+local function feedback(btn, target, prop, base, hover, press, noScale)
+	local sc = (noScale == false) and new("UIScale", { Parent = btn }) or nil -- press squish moves/blurs the text, so it is opt-in only
+	local hovering, pressed = false, false
+	local function refresh()
+		tween(target, pressed and 0.06 or 0.16, { [prop] = pressed and press or (hovering and hover or base) })
+		if sc then tween(sc, pressed and 0.07 or 0.2, { Scale = pressed and 0.97 or 1 }) end
+	end
+	btn.MouseEnter:Connect(function()
+		if usingTouch() then return end
+		hovering = true
+		refresh()
+	end)
+	btn.MouseLeave:Connect(function()
+		hovering = false
+		refresh()
+	end)
+	bindPress(btn, function()
+		pressed = true
+		refresh()
+	end, function()
+		pressed = false
+		if usingTouch() then hovering = false end
+		refresh()
+	end)
+	return sc
+end
+
+-- brighten a UIStroke on hover/press (for the gradient controls whose fill can't be tweened)
+local function strokeFeedback(btn, s, base, hover)
+	local hovering = false
+	btn.MouseEnter:Connect(function()
+		if usingTouch() then return end
+		hovering = true
+		tween(s, 0.16, { Transparency = hover })
+	end)
+	btn.MouseLeave:Connect(function()
+		hovering = false
+		tween(s, 0.18, { Transparency = base })
+	end)
+	bindPress(btn, function()
+		tween(s, 0.06, { Transparency = math.max(0, hover - 0.15) })
+	end, function()
+		tween(s, 0.18, { Transparency = hovering and hover or base })
+	end)
+end
+
+local function snap(v, min, max, inc)
+	v = min + math.floor((v - min) / inc + 0.5) * inc
+	v = math.clamp(v, min, max)
+	return math.floor(v * 1e5 + 0.5) / 1e5
+end
+
+-- expanding tap ripple. One tween, self-destructs, so it costs a frame for ~0.5s
+-- and nothing at all while idle. Skipped in low power.
+local function ripple(btn, pos)
+	if lowPower() then return end
+	local ap, sz = btn.AbsolutePosition, btn.AbsoluteSize
+	local base = math.max(sz.X, sz.Y)
+	local r = new("Frame", {
+		AnchorPoint = Vector2.new(0.5, 0.5),
+		Position = UDim2.fromOffset(pos.X - ap.X, pos.Y - ap.Y),
+		Size = UDim2.fromOffset(base * 0.5, base * 0.5),
+		BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 0.85,
+		BorderSizePixel = 0, ZIndex = 0, Parent = btn,
+	}, { new("UICorner", { CornerRadius = UDim.new(0.5, 0) }) })
+	tween(r, 0.55, { Size = UDim2.fromOffset(base * 2.6, base * 2.6), BackgroundTransparency = 1 }, QUAD, OUT)
+	task.delay(0.55, function() r:Destroy() end)
+end
+
+-- ripple only on a real tap: MouseButton1Click does not fire when the finger
+-- turned into a scroll, so a scroll gesture leaves no ripple behind.
+-- `press` is the state table returned by dragSafePress (nil if not used).
+local function clickRipple(btn, press)
+	local pos
+	btn.InputBegan:Connect(function(i)
+		if isPress(i) then pos = i.Position end
+	end)
+	btn.MouseButton1Click:Connect(function()
+		if press and press.moved then return end
+		if pos then ripple(btn, pos) end
+	end)
+end
+
+-- press feedback for a control inside a scrollable list.
+-- Shows the pressed state on touch-down, but if the finger turns into a scroll /
+-- drag (moved past `thr` px) it cancels and reverts — so no pressed background is
+-- left stuck on a tab while the list scrolls under the finger.
+-- Returns a state table { moved = bool } that the click handler must consult.
+-- NOTE: state lives in a Lua table, never on the Instance (Roblox rejects
+-- assigning unknown properties to Instances).
+local function dragSafePress(btn, down, up, thr)
+	thr = thr or 10
+	local state = { moved = false }
+	btn.InputBegan:Connect(function(i)
+		if not isPress(i) then return end
+		local start = v2(i.Position)
+		local cancelled = false
+		state.moved = false
+		down(i)
+		local mc
+		if i.UserInputType == Enum.UserInputType.Touch then
+			mc = UserInputService.InputChanged:Connect(function(m)
+				if m ~= i or cancelled then return end
+				if (v2(m.Position) - start).Magnitude > thr then
+					cancelled = true
+					state.moved = true -- remember: this was a scroll, not a tap
+					if mc then mc:Disconnect() mc = nil end
+					up(true) -- revert the visual, report it was a drag
+				end
+			end)
+		end
+		onEnd(i, function()
+			if mc then mc:Disconnect() mc = nil end
+			if not cancelled then up(false) end
+		end)
+	end)
+	return state
+end
+
+-- keep an element (centered by `c`, half-size `half`) fully inside the viewport `vp`
+local function clampCenter(vp, half, c)
+	local m = 6
+	local loX, hiX = half.X + m, vp.X - half.X - m
+	local loY, hiY = half.Y + m, vp.Y - half.Y - m
+	local x = (loX > hiX) and vp.X / 2 or math.clamp(c.X, loX, hiX)
+	local y = (loY > hiY) and vp.Y / 2 or math.clamp(c.Y, loY, hiY)
+	return Vector2.new(x, y)
+end
+
+-- self-chaining sheen sweep across a frame (no per-frame loop).
+-- Skipped entirely in low-power: a perpetual tween keeps the renderer awake and
+-- burns battery / frame time on phones for a cosmetic detail.
+-- One repeating tween (no Completed -> re-create chain, so no hitch at the loop point),
+-- registered in `reg` so the window can pause it while closed.
+local function sheen(f, dur, tint, reg)
+	if lowPower() then f.Visible = false return end
+	f.BackgroundColor3 = tint or Color3.new(1, 1, 1)
+	f.Position = UDim2.new(-0.25, 0, 0, 0)
+	local tw = TweenService:Create(f, TweenInfo.new(dur, LINEAR, OUT, -1, false, 1.2), { Position = UDim2.new(1.25, 0, 0, 0) })
+	tw:Play()
+	if reg then table.insert(reg, tw) end
+	return tw
+end
+
+--[[
+    Generic drag handler (mouse + touch).
+    - `target` must use AnchorPoint (0.5, 0.5); it is moved with an offset-based Position.
+    - Tracks the exact input that started the drag, so a second finger / other input can't hijack or stick it.
+    - Ends on input End/Cancel, window focus loss, or state.Stop().
+    state fields: Dragging, Moved, Center, Rel (position as fraction of the screen), Threshold, OnStart, OnEnd
+]]
+local function makeDraggable(gui, handle, target, state)
+	local moveC, endC, focusC
+
+	-- viewport size in the SAME space `target.Position` is resolved against (never 0, so a clamp can't throw the element to a corner)
+	local function viewport()
+		local vp = gui.AbsoluteSize
+		if vp.X <= 0 or vp.Y <= 0 then
+			local cam = workspace.CurrentCamera
+			if cam then vp = cam.ViewportSize end
+		end
+		return vp
+	end
+	-- current center of `target` in gui space, read from Position (the same property we write while dragging).
+	-- AbsolutePosition can live in a different space (GUI inset / safe-area differs per client / executor),
+	-- which made the open button jump up on the first move and then not follow the finger.
+	local function centerOf()
+		local vp, p = viewport(), target.Position
+		return Vector2.new(p.X.Scale * vp.X + p.X.Offset, p.Y.Scale * vp.Y + p.Y.Offset)
+	end
+
+	-- Eased follow (PC / high quality only): the window glides toward the pointer instead of
+	-- snapping to each mouse event, which hides the jitter of 60 Hz input on 144 Hz displays.
+	-- The Heartbeat connection only exists while a drag (+ ~0.25 s of settling) is happening.
+	local followC, shown, lastPos
+	local function stopFollow()
+		if followC then followC:Disconnect() followC = nil end
+	end
+	local function follow()
+		if followC then return end
+		-- RenderStepped (not Heartbeat): position is applied right before the frame is drawn,
+		-- so the window never lags one frame behind the cursor
+		followC = RunService.RenderStepped:Connect(function(dt)
+			dt = math.min(dt, 1 / 20) -- a single long frame must not make the window jump
+			if not target.Parent or not state.Center or (lastPos and target.Position ~= lastPos) then
+				stopFollow() -- destroyed, or something else (Center / _Fit) moved it: let go
+				return
+			end
+			shown = shown:Lerp(state.Center, 1 - math.exp(-dt * 24))
+			if (shown - state.Center).Magnitude < 0.25 then
+				shown = state.Center
+				if not state.Dragging then stopFollow() end
+			end
+			-- whole pixels only: fractional offsets make the frame / text shimmer while moving
+			lastPos = UDim2.fromOffset(math.round(shown.X), math.round(shown.Y))
+			target.Position = lastPos
+		end)
+	end
+
+	local function stop()
+		if moveC then moveC:Disconnect() moveC = nil end
+		if endC then endC:Disconnect() endC = nil end
+		if focusC then focusC:Disconnect() focusC = nil end
+		if state.Dragging then
+			state.Dragging = false
+			local vp = gui.AbsoluteSize
+			if state.Center and vp.X > 0 and vp.Y > 0 then
+				state.Rel = Vector2.new(state.Center.X / vp.X, state.Center.Y / vp.Y)
+			end
+			if state.OnEnd then state.OnEnd() end
+		end
+	end
+	state.Stop = stop
+
+	-- glide the target to `c` (center, px) with the same eased follow used while dragging,
+	-- so a release-snap never fights the follow loop with a second tween
+	state.Glide = function(c)
+		local vp = gui.AbsoluteSize
+		if not shown or not followC then
+			shown = centerOf()
+			lastPos = nil
+		end
+		state.Center = c
+		if vp.X > 0 and vp.Y > 0 then state.Rel = Vector2.new(c.X / vp.X, c.Y / vp.Y) end
+		follow()
+	end
+
+	handle.InputBegan:Connect(function(i)
+		if not isPress(i) then return end
+		stop()
+		state.Dragging, state.Moved = true, false
+		if state.OnStart then state.OnStart() end
+
+		local touch = i.UserInputType == Enum.UserInputType.Touch
+		local startPt = v2(i.Position)
+		local startC = centerOf()
+		local vpSize, halfSize = viewport(), target.AbsoluteSize / 2 -- cached for the whole drag
+		if state.Half then halfSize = Vector2.new(state.Half, state.Half) end -- real size, ignores UIScale squish / pop tween
+		local thr = state.Threshold or 0
+		stopFollow()
+		shown, lastPos = startC, nil
+		state.Center = startC -- never keep a stale center from the previous drag / an old viewport size
+
+		moveC = UserInputService.InputChanged:Connect(function(m)
+			if touch then
+				if m ~= i then return end
+			elseif m.UserInputType ~= Enum.UserInputType.MouseMovement then
+				return
+			end
+			local d = v2(m.Position) - startPt
+			if not state.Moved then
+				if d.Magnitude <= thr then return end
+				state.Moved = true
+				-- start counting from the moment the drag really begins, so the element does not
+				-- jump by `thr` pixels on the first move
+				startPt = v2(m.Position)
+				d = Vector2.zero
+			end
+			local c = clampCenter(vpSize, halfSize, startC + d)
+			if state.Clamp then c = state.Clamp(c, vpSize) end -- extra live limits (e.g. keep clear of the Roblox menu)
+			if c ~= state.Center then
+				state.Center = c
+				if state.Direct then
+					-- stuck 1:1 to the finger / cursor (this is what feels smooth for a small button)
+					target.Position = UDim2.fromOffset(math.round(c.X), math.round(c.Y))
+				elseif (touch or lowPower()) and not state.Smooth then
+					target.Position = UDim2.fromOffset(c.X, c.Y)
+				else
+					follow()
+				end
+			end
+		end)
+		endC = onEnd(i, stop)
+		focusC = UserInputService.WindowFocusReleased:Connect(stop)
+	end)
+end
+
+
+--[[
+    Resize handle. Dragging `handle` grows / shrinks the window; mx / my choose the axes that follow
+    the pointer (1 = follows, 0 = locked). The window's top-left corner stays where it is.
+    Size is kept between Cfg.MinWidth / MinHeight (default 700 x 280, so both columns always stay visible) and the screen edge.
+    Tracks the exact input that started it, same as makeDraggable.
+]]
+local function makeResizable(win, handle, mx, my)
+	local moveC, endC, focusC
+	local function stop()
+		if moveC then moveC:Disconnect() moveC = nil end
+		if endC then endC:Disconnect() endC = nil end
+		if focusC then focusC:Disconnect() focusC = nil end
+		if win._resizing then
+			win._resizing = false
+			local fx = win._resizeFx
+			if fx and fx.End then fx.End() end
+			local sz = win.Main.AbsoluteSize
+			safe(win.Cfg.OnResize, math.floor(sz.X + 0.5), math.floor(sz.Y + 0.5))
+		end
+	end
+	handle.InputBegan:Connect(function(i)
+		if not isPress(i) then return end
+		stop()
+		win:CloseDropdowns()
+		win._drag.Stop()
+		win._resizing = true
+		local fx = win._resizeFx
+		if fx and fx.Start then fx.Start() end
+
+		local touch = i.UserInputType == Enum.UserInputType.Touch
+		local startPt = v2(i.Position)
+		-- read size / position from Size + Position (what _Fit writes), NOT AbsoluteSize / AbsolutePosition:
+		-- the window has a UIScale (open animation) and the absolute values can sit in a different
+		-- coordinate space, which made the window jump / grow wrong while resizing
+		local vp0 = win.Gui.AbsoluteSize
+		local ms, mp = win.Main.Size, win.Main.Position
+		local startSz = Vector2.new(ms.X.Scale * vp0.X + ms.X.Offset, ms.Y.Scale * vp0.Y + ms.Y.Offset)
+		local startC = Vector2.new(mp.X.Scale * vp0.X + mp.X.Offset, mp.Y.Scale * vp0.Y + mp.Y.Offset)
+		local tl = startC - startSz / 2
+		tl = Vector2.new(math.max(tl.X, 6), math.max(tl.Y, 6)) -- same margin clampCenter keeps
+		if win.Maximized then win:_SetMaxFlag(false) end
+		win.Cfg.Width, win.Cfg.Height = math.floor(startSz.X + 0.5), math.floor(startSz.Y + 0.5)
+
+		moveC = UserInputService.InputChanged:Connect(function(m)
+			if touch then
+				if m ~= i then return end
+			elseif m.UserInputType ~= Enum.UserInputType.MouseMovement then
+				return
+			end
+			local vp = win.Gui.AbsoluteSize
+			if vp.X <= 0 or vp.Y <= 0 then return end
+			local d = v2(m.Position) - startPt
+			local minW = math.min(win.Cfg.MinWidth or 700, vp.X - 16)
+			local minH = math.min(win.Cfg.MinHeight or 280, vp.Y - 16)
+			-- max = what _Fit allows (screen - 16) AND what fits right of / below the top-left corner,
+			-- so _Fit never has to shrink / shift the window behind the finger
+			local maxW = math.max(minW, math.min(vp.X - 16, vp.X - 8 - tl.X))
+			local maxH = math.max(minH, math.min(vp.Y - 16, vp.Y - 8 - tl.Y))
+			local w = math.clamp(startSz.X + d.X * mx, minW, maxW)
+			local h = math.clamp(startSz.Y + d.Y * my, minH, maxH)
+			win.Cfg.Width, win.Cfg.Height = math.floor(w + 0.5), math.floor(h + 0.5)
+			local c = tl + Vector2.new(w, h) / 2
+			win._drag.Rel = Vector2.new(c.X / vp.X, c.Y / vp.Y)
+			win._drag.Center = c
+			win:_Fit()
+		end)
+		endC = onEnd(i, stop)
+		focusC = UserInputService.WindowFocusReleased:Connect(stop)
+	end)
+	return stop
+end
+
+
+------------------------------------------------------------------ animated backdrop
+-- A theme-colored aurora wash plus a few drifting particles, drawn on one clipped layer that
+-- sits UNDER the header / sidebar / cards (ZIndex 0), so the glass-like panels let it show through.
+-- Cost model: ~25 looping tweens, no per-frame Lua. They are paused while the window is closed
+-- and the whole thing is skipped in low power.
+local function rnd(a, b) return a + math.random() * (b - a) end
+local function nsk(t, v) return NumberSequenceKeypoint.new(t, v) end
+
+local function loopTween(fx, o, dur, props, style, reverse)
+	local tw = TweenService:Create(o, TweenInfo.new(dur, style or LINEAR, Enum.EasingDirection.InOut, -1, reverse or false), props)
+	tw:Play()
+	table.insert(fx.Tweens, tw)
+	return tw
+end
+
+-- travel from `a` to `b` forever, but start at a random point of the first trip so
+-- particles are spread out from the very first frame instead of spawning in a clump
+local function travel(fx, o, a, b, dur)
+	local f = math.random()
+	o.Position = a:Lerp(b, f)
+	local first = TweenService:Create(o, TweenInfo.new(math.max(dur * (1 - f), 0.05), LINEAR), { Position = b })
+	table.insert(fx.Tweens, first)
+	first:Play()
+	first.Completed:Connect(function(state)
+		if state ~= Enum.PlaybackState.Completed or not o.Parent then return end
+		o.Position = a
+		local lt = loopTween(fx, o, dur, { Position = b })
+		if fx.Paused then lt:Pause() end   -- started while the backdrop rests: stay frozen with the others
+	end)
+end
+
+local function dot(layer, size, color, transp, round)
+	return new("Frame", {
+		AnchorPoint = Vector2.new(0.5, 0.5), Size = UDim2.fromOffset(size, round and size or math.max(2, size * 0.62)),
+		BackgroundColor3 = color, BackgroundTransparency = transp, BorderSizePixel = 0, Parent = layer,
+	}, { new("UICorner", { CornerRadius = UDim.new(round and 0.5 or 0.45, 0) }) })
+end
+
+local FX_KINDS = {}
+
+-- lite mode (phones): same look, ~1/3 of the particles and a single aurora band
+local function cnt(fx, n) return fx.Lite and 0 or math.max(3, n // 2) end
+
+-- sakura petals: tumbling, drifting down and sideways
+FX_KINDS.petals = function(fx, layer, T)
+	for i = 1, cnt(fx, 12) do
+		local o = dot(layer, math.random(8, 13), (i % 3 == 0) and T.Sheen or T.Accent2, rnd(0.25, 0.5), false)
+		o.Rotation = math.random(0, 360)
+		local x = rnd(0.05, 0.95)
+		local x2 = math.clamp(x + rnd(-0.14, 0.14), 0.03, 0.97)
+		travel(fx, o, UDim2.fromScale(x, -0.06), UDim2.fromScale(x2, 1.06), rnd(12, 19))
+		loopTween(fx, o, rnd(3.5, 6.5), { Rotation = o.Rotation + (math.random() < 0.5 and 360 or -360) })
+	end
+end
+
+-- soft orbs: slow rise with a gentle twinkle
+FX_KINDS.orbs = function(fx, layer, T)
+	local cols = { T.Accent, T.Accent2, T.Sheen }
+	for i = 1, cnt(fx, 14) do
+		local o = dot(layer, math.random(4, 8), cols[(i % 3) + 1], rnd(0.3, 0.5), true)
+		local x = rnd(0.05, 0.95)
+		travel(fx, o, UDim2.fromScale(x, 1.06), UDim2.fromScale(math.clamp(x + rnd(-0.06, 0.06), 0.03, 0.97), -0.06), rnd(15, 26))
+		loopTween(fx, o, rnd(1.8, 3.6), { BackgroundTransparency = rnd(0.75, 0.88) }, SINE, true)
+	end
+end
+
+-- embers: quick, warm, flickering
+FX_KINDS.embers = function(fx, layer, T)
+	for i = 1, cnt(fx, 16) do
+		local o = dot(layer, math.random(3, 5), (i % 4 == 0) and T.Sheen or T.Accent2, rnd(0.2, 0.4), true)
+		local x = rnd(0.05, 0.95)
+		travel(fx, o, UDim2.fromScale(x, 1.06), UDim2.fromScale(math.clamp(x + rnd(-0.07, 0.07), 0.03, 0.97), -0.06), rnd(6, 11))
+		loopTween(fx, o, rnd(0.6, 1.4), { BackgroundTransparency = rnd(0.7, 0.85) }, SINE, true)
+	end
+end
+
+-- digital rain: thin streaks that fade out at both ends
+FX_KINDS.rain = function(fx, layer, T)
+	for i = 1, cnt(fx, 14) do
+		local h = math.random(18, 38)
+		local o = new("Frame", {
+			AnchorPoint = Vector2.new(0.5, 0.5), Size = UDim2.fromOffset(1, h), BackgroundColor3 = (i % 4 == 0) and T.Sheen or T.Accent,
+			BackgroundTransparency = rnd(0.3, 0.55), BorderSizePixel = 0, Parent = layer,
+		}, { new("UIGradient", { Rotation = 90, Transparency = fadeSeq(0) }) })
+		local x = rnd(0.04, 0.96)
+		travel(fx, o, UDim2.fromScale(x, -0.08), UDim2.fromScale(x, 1.08), rnd(2.6, 5.2))
+	end
+end
+
+-- cyber grid: faint lattice with a scan beam that sweeps down
+FX_KINDS.grid = function(fx, layer, T)
+	local function line(vertical, at)
+		new("Frame", {
+			AnchorPoint = vertical and Vector2.new(0.5, 0) or Vector2.new(0, 0.5),
+			Position = vertical and UDim2.fromScale(at, 0) or UDim2.fromScale(0, at),
+			Size = vertical and UDim2.new(0, 1, 1, 0) or UDim2.new(1, 0, 0, 1),
+			BackgroundColor3 = T.Accent, BackgroundTransparency = 0.94, BorderSizePixel = 0, Parent = layer,
+		}, { new("UIGradient", { Rotation = vertical and 90 or 0, Transparency = NumberSequence.new({ nsk(0, 1), nsk(0.5, 0), nsk(1, 1) }) }) })
+	end
+	for i = 1, 7 do line(true, i / 8) end
+	for i = 1, 4 do line(false, i / 5) end
+	local beam = new("Frame", {
+		Size = UDim2.new(1, 0, 0.24, 0), Position = UDim2.fromScale(0, -0.3), BackgroundColor3 = T.Accent,
+		BackgroundTransparency = 0.8, BorderSizePixel = 0, Parent = layer,
+	}, { new("UIGradient", { Rotation = 90, Transparency = NumberSequence.new({ nsk(0, 1), nsk(0.85, 0.4), nsk(1, 1) }) }) })
+	local tw = TweenService:Create(beam, TweenInfo.new(4.2, LINEAR, Enum.EasingDirection.Out, -1, false, 1.3), { Position = UDim2.fromScale(0, 1.05) })
+	tw:Play()
+	table.insert(fx.Tweens, tw)
+	-- a few blinking nodes on the lattice
+	for i = 1, cnt(fx, 6) do
+		local o = dot(layer, 5, (i % 2 == 0) and T.Accent2 or T.Accent, 0.6, true)
+		o.Position = UDim2.fromScale(math.random(1, 7) / 8, math.random(1, 4) / 5)
+		loopTween(fx, o, rnd(1.2, 2.6), { BackgroundTransparency = 0.95 }, SINE, true)
+	end
+end
+
+-- aurora band: ONE frame whose gradient offset slides. It carries its own UICorner, so it is
+-- clipped to the window's rounded shape for free (a clipped layer alone would leave square corners).
+local function aurora(fx, layer, radius, a, b, rot, peak, dur, from, to)
+	local g = new("UIGradient", {
+		Rotation = rot, Offset = Vector2.new(from, 0),
+		Color = cseq({ 0, a }, { 0.5, b }, { 1, a }),
+		Transparency = NumberSequence.new({ nsk(0, 1), nsk(0.25, 0.94), nsk(0.5, peak), nsk(0.75, 0.94), nsk(1, 1) }),
+	})
+	new("Frame", {
+		Size = UDim2.fromScale(1, 1), BackgroundColor3 = Color3.new(1, 1, 1), BorderSizePixel = 0, Parent = layer,
+	}, { new("UICorner", { CornerRadius = UDim.new(0, radius) }), g })
+	loopTween(fx, g, dur, { Offset = Vector2.new(to, 0) }, SINE, true)
+end
+
+-- Static backdrop scene (zero per-frame cost: nothing here is animated).
+-- Every layer is a full-size frame with its own UICorner, so it follows the window's rounded shape.
+--   1. base   diagonal tinted gradient (accent -> background -> accent2)
+--   2. glowA / glowB  two soft light bands crossing each other = a soft glow spot, no hard edges
+--   3. vignette  darkens the bottom so cards / text stay readable
+local function scene(layer, radius, T, minimal)
+	local bg = T.Background
+	local function full(color, grads)
+		local kids = { new("UICorner", { CornerRadius = UDim.new(0, radius) }) }
+		for _, g in ipairs(grads) do kids[#kids + 1] = g end
+		return new("Frame", {
+			Size = UDim2.fromScale(1, 1), BackgroundColor3 = color, BorderSizePixel = 0,
+			Active = false, Parent = layer,
+		}, kids)
+	end
+	-- 1. base (opaque): gives the window depth instead of a flat fill
+	full(Color3.new(1, 1, 1), { new("UIGradient", {
+		Rotation = 135,
+		Color = ColorSequence.new({
+			ColorSequenceKeypoint.new(0, bg:Lerp(T.Accent, 0.16)),
+			ColorSequenceKeypoint.new(0.5, bg),
+			ColorSequenceKeypoint.new(1, bg:Lerp(T.Accent2, 0.11)),
+		}),
+	}) })
+	if minimal then return end
+	-- 2. soft light: where the two bands cross the glow is strongest
+	local function band(color, rot, at, peak)
+		full(color, { new("UIGradient", {
+			Rotation = rot,
+			Transparency = NumberSequence.new({
+				nsk(0, 1), nsk(math.max(at - 0.42, 0.01), 1), nsk(at, peak), nsk(math.min(at + 0.42, 0.99), 1), nsk(1, 1),
+			}),
+		}) })
+	end
+	band(T.Accent, 25, 0.22, 0.84)
+	band(T.Accent2, 115, 0.82, 0.88)
+	-- 3. vignette
+	full(Color3.new(0, 0, 0), { new("UIGradient", {
+		Rotation = 90,
+		Transparency = NumberSequence.new({ nsk(0, 1), nsk(0.55, 1), nsk(1, 0.5) }),
+	}) })
+end
+
+-- Window:SetBackground("petals" | "orbs" | "embers" | "rain" | "grid" | false | nil)
+-- nil -> theme default, false -> off. `quiet` is used internally at creation time.
+function Window:SetBackground(kind, quiet)
+	local fx = self.FX
+	if not fx then return end
+	if kind == nil then kind = self.Theme.FX end
+	for _, tw in ipairs(fx.Tweens) do pcall(function() tw:Cancel() end) end
+	table.clear(fx.Tweens)
+	fx.Paused = false
+	if fx.Layer then fx.Layer:Destroy() fx.Layer = nil end
+	self.FXOn = false
+
+	if not kind then return end
+	-- Library.Perf.Backdrop = false turns the whole backdrop off on phones
+	if lowPower() and Library.Perf.Backdrop == false then return end
+	-- phones / a struggling frame rate: static scene only (no tweens, no particles)
+	fx.Lite = lowPower() or (self._qual or 0) >= 1
+	local T = self.Theme
+	local layer = new("Frame", {
+		Name = "FX", Size = UDim2.fromScale(1, 1), BackgroundTransparency = 1, BorderSizePixel = 0,
+		ClipsDescendants = true, ZIndex = 0, Active = false, Parent = self.Main,
+	})
+	fx.Layer = layer
+	self.FXOn = true
+
+	local r = self.Radius or 12
+	scene(layer, r, T, (self._qual or 0) >= 2)
+	if fx.Lite then return end   -- static only: nothing animated, nothing to pause
+
+	-- PC only: ONE slow aurora sweep + a few particles (half of the old amount)
+	aurora(fx, layer, r, T.Accent, T.Accent2, 28, 0.9, rnd(18, 24), -0.55, 0.55)
+	local build = FX_KINDS[kind] or FX_KINDS.orbs
+	build(fx, layer, T)
+
+	if not self.Visible or self._moving then self:_FXPause() end
+end
+
+-- pause / resume every looping tween (backdrop + header sheen) so a closed window costs nothing
+function Window:_FXPause()
+	if not self.FX then return end
+	self.FX.Paused = true
+	for _, tw in ipairs(self.FX.Tweens) do
+		if tw.PlaybackState == Enum.PlaybackState.Playing then tw:Pause() end
+	end
+	local sh = self._sheen
+	if sh and sh.PlaybackState == Enum.PlaybackState.Playing then sh:Pause() end
+end
+
+function Window:_FXResume()
+	if not self.FX or self._blurred then return end   -- game window not focused: keep the backdrop asleep
+	self.FX.Paused = false
+	for _, tw in ipairs(self.FX.Tweens) do
+		if tw.PlaybackState == Enum.PlaybackState.Paused then tw:Play() end
+	end
+	local sh = self._sheen
+	if sh and sh.PlaybackState == Enum.PlaybackState.Paused then sh:Play() end
+end
+
+------------------------------------------------------------------ smooth-motion engine
+-- show / hide the halo rings. They are hidden while the window moves or resizes (two big rounded
+-- strokes re-rasterized every frame is what made drags / animations hitch) and fade back afterwards.
+-- They also follow Main.Visible: the rings live in the ScreenGui, so they used to stay on screen
+-- after the window was hidden.
+function Window:_GlowVisible(v)
+	local gl = self.Glow
+	if not gl then return end
+	v = v and self.Main.Visible and (self._qual or 0) < 3
+	if v then
+		if not self._glowHidden then return end
+		self._glowHidden = false
+		if self._glowSync then self._glowSync() end
+		for _, g in ipairs(gl) do
+			g.stroke.Transparency = 1
+			g.frame.Visible = true
+			tween(g.stroke, 0.35, { Transparency = g.base }, SINE, OUT)
+		end
+	else
+		if self._glowHidden then return end
+		self._glowHidden = true
+		for _, g in ipairs(gl) do g.frame.Visible = false end
+	end
+end
+
+-- Window:_MotionBegin(duration, keepGlow): the window is about to animate for ~duration seconds.
+-- Pauses the looping backdrop (and hides the halo unless keepGlow) so the transition gets the whole
+-- frame budget, then releases automatically. Token based, so overlapping motions can never leave
+-- the backdrop frozen: only the latest Begin's timer is allowed to release.
+function Window:_MotionBegin(dur, keepGlow)
+	if self._destroyed then return end
+	self._motionTok = (self._motionTok or 0) + 1
+	local tok = self._motionTok
+	self._moving = true
+	self:_FXPause()
+	if not keepGlow then self:_GlowVisible(false) end
+	-- every tween of the motion is stretched by Library.Anim.Speed, so the release has to wait as long;
+	-- otherwise the backdrop resumed in the middle of the transition
+	local hold = (dur or 0.4) * math.max(Library.Anim.Speed or 1, 1) + 0.12
+	task.delay(hold, function()
+		if self._motionTok ~= tok or self._destroyed then return end
+		self._moving = false
+		if self.Visible and not self._drag.Dragging then
+			self:_FXResume()
+			self:_GlowVisible(true)
+		end
+	end)
+end
+
+-- Frame-rate governor: a Heartbeat counter that only does arithmetic. When more than SlowShare of the
+-- frames in a 2 s window are slower than SlowFrame (default ~18 fps) the window steps its visuals down
+-- one level (1 lite backdrop, 2 no backdrop, 3 no halo). It never steps back up, so it cannot flap.
+-- Frames during open / close / drag are ignored (those are expected to be heavy), as is the warm-up.
+function Window:_StartGovernor()
+	if self._gov or Library.Perf.Adaptive == false then return end
+	local P = Library.Perf
+	local acc, n, slow = 0, 0, 0
+	local resumeAt = os.clock() + (P.Warmup or 3)
+	self._govReset = function() acc, n, slow = 0, 0, 0 resumeAt = os.clock() + (P.Warmup or 3) end
+	self._gov = RunService.Heartbeat:Connect(function(dt)
+		if not self.Visible or self._moving or self._drag.Dragging or os.clock() < resumeAt then
+			acc, n, slow = 0, 0, 0
+			return
+		end
+		acc += dt
+		n += 1
+		if dt > (P.SlowFrame or 1 / 18) then slow += 1 end
+		if acc >= 2 then
+			local share = slow / n
+			acc, n, slow = 0, 0, 0
+			if share > (P.SlowShare or 0.25) then self:_Degrade() end
+		end
+	end)
+	table.insert(self.Conns, self._gov)
+end
+
+function Window:_Degrade()
+	local q = (self._qual or 0) + 1
+	self._qual = q
+	if q <= 2 then
+		self:SetBackground(nil, true)   -- 1 = lite particles, 2 = off (see SetBackground)
+	else
+		self:_GlowVisible(false)
+		if self._gov then self._gov:Disconnect() self._gov = nil end
+	end
+	if self._govReset then self._govReset() end
+	safe(self.Cfg.OnDegrade, q)
+end
+
+------------------------------------------------------------------ window
+function Library:CreateWindow(cfg)
+	cfg = cfg or {}
+	local T = table.clone(self.Theme)
+	local ov = cfg.Theme
+	if type(ov) == "string" then
+		ov = self.Themes[ov]
+		if ov then T = buildTheme(ov) end   -- a named preset replaces the whole palette
+		ov = nil
+	end
+	for k, v in pairs(ov or {}) do T[k] = v end
+	deriveTheme(T)
+	local fontName = self.FontName
+	if type(cfg.Theme) == "table" and cfg.Theme.Font ~= nil then fontName = "Custom" end
+	if cfg.Font ~= nil then
+		local fr, fb, fn = Library._fontPair(cfg.Font)
+		if fr then T.Font, T.FontBold, fontName = fr, fb, fn end
+	end
+	local GLOW = T.Glow ~= false
+	local RADIUS = 24
+
+	local win = setmetatable({
+		Library = self, Theme = T, Cfg = cfg, Tabs = {}, Conns = {}, Visible = true,
+		_drag = {}, _openDrag = { Threshold = 8 }, Maximized = false, FontName = fontName,
+	}, Window)
+
+	local title = cfg.Title or "SpectreUI"
+	local brand, sub = title:match("^(.-)%s*|%s*(.+)$")
+	brand = brand or title
+	win.Brand, win.Sub = brand, sub
+
+	local gui = new("ScreenGui", {
+		Name = "SpectreUI", ResetOnSpawn = false, IgnoreGuiInset = true,
+		ZIndexBehavior = Enum.ZIndexBehavior.Sibling, DisplayOrder = 999,
+	})
+	Library._fullScreen(gui)
+	Library._mount(gui)
+	win.Gui = gui
+	-- if something unparents the gui (not destroys it), put it back
+	table.insert(win.Conns, gui.AncestryChanged:Connect(function(_, parent)
+		if parent == nil and not win._destroyed then
+			task.defer(function()
+				if not win._destroyed and gui.Parent == nil then pcall(Library._mount, gui) end
+			end)
+		end
+	end))
+
+	local main = new("Frame", {
+		Name = "Main", AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.fromScale(0.5, 0.5),
+		BackgroundColor3 = T.Background, BackgroundTransparency = 0.02, BorderSizePixel = 0,
+		Active = true, -- sink input so touching / clicking the window never moves the camera
+		Parent = gui,
+	}, {
+		corner(RADIUS),
+		stroke(T.Border, 1, 0.1),
+		wash(cseq({ 0, T.Top }, { 1, T.Background }), 90),
+	})
+	win.Main = main
+	win.Scale = new("UIScale", { Scale = 1, Parent = main })
+	local mainStroke = main:FindFirstChildOfClass("UIStroke")
+	win.Radius = RADIUS
+	win.FX = { Tweens = {} }
+	win:SetBackground(cfg.Background ~= false and (cfg.FX or T.FX) or false, true)
+
+	-- soft accent halo behind the window: two rings that track the window's position / size.
+	-- Skipped in low power — repositioning two large rounded strokes every drag frame
+	-- is pure re-rasterization cost for a cosmetic glow.
+	if GLOW and not lowPower() then
+		win.Glow = {}
+		for i = 1, 2 do
+			local pad = 6 + (i - 1) * 9
+			local base = 0.88 + (i - 1) * 0.05
+			local ring = new("Frame", {
+				Name = "Glow" .. i, AnchorPoint = Vector2.new(0.5, 0.5), BackgroundTransparency = 1,
+				ZIndex = 0, Parent = gui,
+			}, { corner(RADIUS + 6), stroke(T.Accent, 2 + (2 - i), base) })
+			win.Glow[i] = { frame = ring, pad = pad, stroke = ring:FindFirstChildOfClass("UIStroke"), base = base }
+		end
+		local function sync()
+			if win._glowHidden then return end   -- hidden rings are not repositioned (no work while moving)
+			for _, g in ipairs(win.Glow) do
+				g.frame.Position = main.Position
+				g.frame.Size = main.Size + UDim2.fromOffset(g.pad, g.pad)
+			end
+		end
+		main:GetPropertyChangedSignal("Position"):Connect(sync)
+		main:GetPropertyChangedSignal("Size"):Connect(sync)
+		win._glowSync = sync
+		sync()
+	end
+
+	-- cheap "fade": a window-colored veil on top of the content, only visible while animating
+	win.Veil = new("Frame", {
+		Name = "Veil", Size = UDim2.fromScale(1, 1), BackgroundColor3 = T.Background, BackgroundTransparency = 1,
+		BorderSizePixel = 0, ZIndex = 50, Visible = false, Parent = main,
+	}, { corner(RADIUS) })
+
+	---------------------------------------------------------- header
+	local header = new("Frame", {
+		Name = "Header", Size = UDim2.new(1, 0, 0, HEADER_H), BackgroundTransparency = 1, Parent = main,
+	})
+	-- floating rounded header card (inset from the window edge, concentric with the window radius)
+	local hcard = new("Frame", {
+		Name = "HeaderCard", Position = UDim2.fromOffset(10, 8), Size = UDim2.new(1, -20, 0, HEADER_H - 14),
+		BackgroundColor3 = T.Control, BackgroundTransparency = 0.4, BorderSizePixel = 0, Parent = header,
+	}, {
+		corner(18), stroke(T.Accent, 1, 0.65),
+		new("Frame", {
+			Name = "Tint", Size = UDim2.fromScale(1, 1), BackgroundColor3 = T.Accent, BackgroundTransparency = 0,
+			BorderSizePixel = 0,
+		}, {
+			corner(18),
+			new("UIGradient", { Transparency = NumberSequence.new({
+				NumberSequenceKeypoint.new(0, 0.72), NumberSequenceKeypoint.new(0.6, 0.93), NumberSequenceKeypoint.new(1, 0.98),
+			}) }),
+		}),
+	})
+	win.HeaderCard = hcard
+
+	-- header cluster is bounded and clipped so a long brand / subtitle can never
+	-- slide under the close button (that was a real overlap on narrow screens)
+	local closeW = UserInputService.TouchEnabled and 40 or 34
+	local canResize = cfg.Resizable ~= false
+	local nBtns = canResize and 3 or 2
+	local btnArea = closeW * nBtns + 4 * (nBtns - 1) -- close + hide (+ maximize) buttons
+	local left = new("Frame", {
+		Size = UDim2.new(1, -(btnArea + 16), 1, 0), BackgroundTransparency = 1, ClipsDescendants = true, Parent = hcard,
+	}, {
+		list(10, { FillDirection = Enum.FillDirection.Horizontal, VerticalAlignment = Enum.VerticalAlignment.Center }),
+		padding(10, 0, 0, 0),
+	})
+	win.Left = left
+	if cfg.Logo then
+		new("ImageLabel", {
+			LayoutOrder = 1, Size = UDim2.fromOffset(26, 26), BackgroundTransparency = 1, ScaleType = Enum.ScaleType.Fit,
+			Image = type(cfg.Logo) == "number" and ("rbxassetid://" .. cfg.Logo) or cfg.Logo, Parent = left,
+		})
+	else
+		new("Frame", {
+			LayoutOrder = 1, Size = UDim2.fromOffset(34, 34), BackgroundColor3 = Color3.new(1, 1, 1),
+			BorderSizePixel = 0, Parent = left,
+		}, {
+			corner(13), gradient(T.Accent, T.Accent2, 45), stroke(T.Sheen, 1, 0.65),
+			Library._oa(new("TextLabel", {
+				Size = UDim2.fromScale(1, 1), BackgroundTransparency = 1, Text = brand:sub(1, 2),
+				Font = Enum.Font.GothamBlack, TextSize = 15, TextColor3 = Library.OnAccent(T),
+			})),
+		})
+	end
+	win.BrandLabel = new("TextLabel", {
+		LayoutOrder = 2, Size = UDim2.new(0, 0, 1, 0), AutomaticSize = AX, BackgroundTransparency = 1,
+		Text = brand, Font = T.FontBold, TextSize = 17, TextColor3 = T.Text, Parent = left,
+	})
+	if sub then
+		win.SubSep = new("Frame", {   -- the pill (kept under the old name so compact mode still hides it)
+			LayoutOrder = 3, Size = UDim2.fromOffset(0, 24), AutomaticSize = AX, BackgroundColor3 = T.Accent,
+			BackgroundTransparency = 0.86, BorderSizePixel = 0, Parent = left,
+		}, { corner(12), stroke(T.Accent, 1, 0.6), padding(11, 0, 11, 0) })
+		win.SubLabel = new("TextLabel", {
+			Size = UDim2.new(0, 0, 1, 0), AutomaticSize = AX, BackgroundTransparency = 1,
+			Text = sub, Font = T.FontBold, TextSize = 12, TextColor3 = T.Accent, Parent = win.SubSep,
+		})
+	end
+
+	local close = new("TextButton", {
+		AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(1, -8, 0.5, 0), Size = UDim2.fromOffset(closeW, closeW),
+		BackgroundColor3 = T.Control, BackgroundTransparency = 1, Text = "×", Font = T.FontBold, TextSize = 28, TextColor3 = T.SubText,
+		AutoButtonColor = false, Parent = hcard,
+	}, { corner(20) })
+	close.MouseEnter:Connect(function()
+		if not usingTouch() then
+			tween(close, 0.14, { TextColor3 = Color3.fromRGB(255, 120, 120), BackgroundTransparency = 0.4 })
+		end
+	end)
+	close.MouseLeave:Connect(function()
+		tween(close, 0.14, { TextColor3 = T.SubText, BackgroundTransparency = 1 })
+	end)
+	bindPress(close, function()
+		tween(close, 0.07, { TextColor3 = Color3.fromRGB(255, 120, 120) })
+	end, function()
+		tween(close, 0.16, { TextColor3 = T.SubText, BackgroundTransparency = 1 })
+	end)
+	-- X = delete: really destroys the window (use the "–" button next to it to just hide it)
+	local confirmOpen = false
+	local function deleteNow()
+		safe(cfg.OnClose)
+		task.defer(function()
+			if not win._destroyed then win:Destroy() end
+		end)
+	end
+	close.MouseButton1Click:Connect(function()
+		if confirmOpen or win._destroyed then return end
+		confirmOpen = true
+		local h = win:Confirm({
+			Title = cfg.ConfirmTitle or "Delete UI",
+			Content = cfg.ConfirmText or "Are you sure you want to delete this UI? This cannot be undone.",
+			Kind = "Warning", Danger = true,
+			Yes = cfg.ConfirmYes or "Confirm", No = cfg.ConfirmNo or "Cancel",
+			OnYes = deleteNow,
+			OnClose = function() confirmOpen = false end,
+		})
+		if not h then -- dialog system unavailable: don't leave the button dead
+			confirmOpen = false
+			deleteNow()
+		end
+	end)
+
+	-- hide button ("–"): old close behaviour, hides the window and leaves the floating open button
+	do
+		local hideB = new("TextButton", {
+			Name = "Hide", AnchorPoint = Vector2.new(1, 0.5),
+			Position = UDim2.new(1, -(8 + (closeW + 4) * (canResize and 2 or 1)), 0.5, 0),
+			Size = UDim2.fromOffset(closeW, closeW), BackgroundColor3 = T.Control, BackgroundTransparency = 1,
+			Text = "", AutoButtonColor = false, Parent = hcard,
+		}, { corner(20) })
+		local bar = new("Frame", {
+			AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.fromScale(0.5, 0.5), Size = UDim2.fromOffset(12, 2),
+			BackgroundColor3 = T.SubText, BorderSizePixel = 0, Parent = hideB,
+		}, { corner(1) })
+		hideB.MouseEnter:Connect(function()
+			if not usingTouch() then
+				tween(bar, 0.14, { BackgroundColor3 = T.Accent })
+				tween(hideB, 0.14, { BackgroundTransparency = 0.4 })
+			end
+		end)
+		hideB.MouseLeave:Connect(function()
+			tween(bar, 0.14, { BackgroundColor3 = T.SubText })
+			tween(hideB, 0.14, { BackgroundTransparency = 1 })
+		end)
+		bindPress(hideB, function()
+					end, function()
+						tween(bar, 0.16, { BackgroundColor3 = T.SubText })
+			tween(hideB, 0.16, { BackgroundTransparency = 1 })
+		end)
+		hideB.MouseButton1Click:Connect(function() win:SetVisible(false) end)
+	end
+
+	-- maximize / restore button (next to close)
+	if canResize then
+		local mxb = new("TextButton", {
+			Name = "Maximize", AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(1, -(8 + closeW + 4), 0.5, 0),
+			Size = UDim2.fromOffset(closeW, closeW), BackgroundColor3 = T.Control, BackgroundTransparency = 1,
+			Text = "", AutoButtonColor = false, Parent = hcard,
+		}, { corner(20) })
+		local function sq(size)
+			return new("Frame", {
+				AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.fromScale(0.5, 0.5), Size = UDim2.fromOffset(size, size),
+				BackgroundTransparency = 1, Parent = mxb,
+			}, { stroke(T.SubText, 1.6, 0), corner(2) })
+		end
+		local front, back = sq(12), sq(10)
+		back.Visible = false
+		local function tint(c)
+			for _, f in ipairs({ front, back }) do f:FindFirstChildOfClass("UIStroke").Color = c end
+		end
+		win._setMaxIcon = function(v)
+			back.Visible = v
+			front.Size = UDim2.fromOffset(v and 10 or 12, v and 10 or 12)
+			front.Position = UDim2.new(0.5, v and -2 or 0, 0.5, v and 2 or 0)
+			back.Position = UDim2.new(0.5, 2, 0.5, -2)
+		end
+		mxb.MouseEnter:Connect(function()
+			if not usingTouch() then
+				tint(T.Accent)
+				tween(mxb, 0.14, { BackgroundTransparency = 0.4 })
+			end
+		end)
+		mxb.MouseLeave:Connect(function()
+			tint(T.SubText)
+			tween(mxb, 0.16, { BackgroundTransparency = 1 })
+		end)
+		bindPress(mxb, function()
+					end, function()
+						if usingTouch() then tint(T.SubText); tween(mxb, 0.16, { BackgroundTransparency = 1 }) end
+		end)
+		mxb.MouseButton1Click:Connect(function() win:SetMaximized(not win.Maximized) end)
+	end
+
+	-- drag handle: covers the header EXCEPT the buttons, so pressing a control never starts a drag
+	local dragZone = new("Frame", {
+		Name = "DragZone", Size = UDim2.new(1, -(btnArea + 28), 1, 0), BackgroundTransparency = 1,
+		Active = true, ZIndex = 5, Parent = header,
+	})
+	-- double-click / double-tap the title bar = maximize / restore
+	if canResize then
+		local lastTap = 0
+		dragZone.InputBegan:Connect(function(i)
+			if not isPress(i) then return end
+			local now = os.clock()
+			if now - lastTap < 0.35 then
+				lastTap = 0
+				win:SetMaximized(not win.Maximized)
+			else
+				lastTap = now
+			end
+		end)
+	end
+	win._drag.OnStart = function()
+		win:CloseDropdowns()
+		-- ~25 looping tweens redraw the window every frame; freeze them while it is being moved
+		win:_FXPause()
+		win:_GlowVisible(false)
+		-- animating the window's outer stroke forces a re-raster of the whole
+		-- rounded border every frame; skip it on low power
+		if not lowPower() then mainStroke.Color, mainStroke.Transparency = T.Accent, 0.35 end
+	end
+	win._drag.OnEnd = function()
+		if win.Visible and not win._moving then win:_FXResume() win:_GlowVisible(true) end
+		if win._govReset then win._govReset() end
+		if not lowPower() then mainStroke.Color, mainStroke.Transparency = T.Border, 0.1 end
+	end
+	makeDraggable(gui, dragZone, main, win._drag)
+
+	---------------------------------------------------------- body / sidebar
+	local body = new("Frame", {
+		Position = UDim2.fromOffset(0, HEADER_H), Size = UDim2.new(1, 0, 1, -HEADER_H),
+		BackgroundTransparency = 1, Parent = main,
+	})
+	local sidebar = new("Frame", { Size = UDim2.new(0, 164, 1, 0), BackgroundTransparency = 1, Parent = body })
+	win.SidePanel = new("Frame", {
+		Name = "SidePanel", Position = UDim2.fromOffset(10, 0), Size = UDim2.new(1, -19, 1, -10),
+		BackgroundColor3 = T.Control, BackgroundTransparency = 0.55, BorderSizePixel = 0, Parent = sidebar,
+	}, { corner(18), stroke(T.Border, 1, 0.5) })
+	win.Sidebar = sidebar
+	win.TabList = new("ScrollingFrame", {
+		Position = UDim2.fromOffset(10, 0), Size = UDim2.new(1, -19, 1, -FOOT_H - 10), BackgroundTransparency = 1, BorderSizePixel = 0, ScrollBarThickness = 0,
+		CanvasSize = UDim2.new(), AutomaticCanvasSize = AY, ScrollingDirection = Enum.ScrollingDirection.Y,
+		ElasticBehavior = Enum.ElasticBehavior.WhenScrollable, Parent = sidebar,
+	}, { list(UserInputService.TouchEnabled and 5 or 6), padding(8, 10, 8, 6) })
+
+	local footer = new("Frame", {
+		Position = UDim2.new(0, 10, 1, -FOOT_H - 10), Size = UDim2.new(1, -19, 0, FOOT_H), BackgroundTransparency = 1, Parent = sidebar,
+	}, { padding(14, 0, 8, 0) })
+	new("Frame", {
+		Position = UDim2.new(0, -4, 0, 0), Size = UDim2.new(1, 0, 0, 1), BackgroundColor3 = T.Border,
+		BackgroundTransparency = 0.6, BorderSizePixel = 0, Parent = footer,
+	})
+	-- the whole profile card is a button: tap it to open the profile / game info popup
+	win.ProfileButton = new("TextButton", {
+		Name = "ProfileButton", Position = UDim2.fromOffset(-12, 3), Size = UDim2.new(1, 20, 1, -6),
+		BackgroundColor3 = T.Accent, BackgroundTransparency = 1, Text = "", AutoButtonColor = false, BorderSizePixel = 0, Parent = footer,
+	}, { corner(12) })
+	feedback(win.ProfileButton, win.ProfileButton, "BackgroundTransparency", 1, 0.88, 0.78, true)
+	-- profile card: player avatar + display name + @username (replaces the old brand/sub footer)
+	local lpl = Players.LocalPlayer
+	local dispName = (lpl and lpl.DisplayName) or "Player"
+	local userName = (lpl and lpl.Name) or "Player"
+	win.FooterAvatar = new("ImageLabel", {
+		Position = UDim2.fromOffset(0, 10), Size = UDim2.fromOffset(34, 34), BackgroundColor3 = T.Panel, BorderSizePixel = 0,
+		Image = "", ScaleType = Enum.ScaleType.Crop, Parent = footer,
+	}, { corner(17), stroke(T.Accent, 1.5, 0.35) })
+	if lpl then
+		task.spawn(function()
+			local okT, img = pcall(function()
+				return Players:GetUserThumbnailAsync(lpl.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size100x100)
+			end)
+			if okT and img and win.FooterAvatar and win.FooterAvatar.Parent then win.FooterAvatar.Image = img end
+		end)
+	end
+	win.FooterBrand = new("TextLabel", {
+		Position = UDim2.fromOffset(42, 10), Size = UDim2.new(1, -58, 0, 18), BackgroundTransparency = 1, Text = dispName,
+		Font = T.FontBold, TextSize = 14, TextColor3 = Color3.new(1, 1, 1), TextXAlignment = LEFT, TextTruncate = Enum.TextTruncate.AtEnd, Parent = footer,
+	}, { gradient(T.Accent, T.Accent2, 0) })
+	win.FooterSub = new("TextLabel", {
+		Position = UDim2.fromOffset(42, 28), Size = UDim2.new(1, -58, 0, 16), BackgroundTransparency = 1, Text = "@" .. userName,
+		Font = T.Font, TextSize = 12, TextColor3 = T.SubText, TextXAlignment = LEFT, TextTruncate = Enum.TextTruncate.AtEnd, Parent = footer,
+	})
+	win.FooterArrow = new("TextLabel", {
+		AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(1, -2, 0, 27), Size = UDim2.fromOffset(12, 12), BackgroundTransparency = 1,
+		Text = "\226\150\178", Font = T.FontBold, TextSize = 12, TextColor3 = T.SubText, Parent = footer,
+	})
+	win.Footer = footer
+	win:_BuildProfile()
+
+	---------------------------------------------------------- content / search
+	local content = new("Frame", {
+		Position = UDim2.fromOffset(164, 0), Size = UDim2.new(1, -164, 1, 0), BackgroundTransparency = 1, Parent = body,
+	})
+	win.Content = content
+	-- search box now lives in the header card, in the gap between the title and the - / [] / x buttons
+	local SEARCH_BAR_H = closeW   -- collapsed = same size as the - / [] / x buttons
+	local searchBar = new("Frame", {
+		Name = "SearchBar", AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(1, -(8 + btnArea + 10), 0.5, 0),
+		Size = UDim2.fromOffset(SEARCH_BAR_H, SEARCH_BAR_H), BackgroundColor3 = T.Control,
+		BackgroundTransparency = 1, BorderSizePixel = 0, ClipsDescendants = true, Parent = hcard,
+	}, { corner(20), stroke(T.Border, 1, 1) })   -- collapsed: transparent like the other header buttons
+	win.SearchBar = searchBar
+	local searchStroke = searchBar:FindFirstChildOfClass("UIStroke")
+	searchStroke.Transparency = 1   -- stroke() lightens by 0.15; start fully hidden while collapsed
+	-- magnifier drawn from frames (no asset needed)
+	local magX = math.floor((SEARCH_BAR_H - 16) / 2)   -- centered while collapsed
+	local mag = new("Frame", {
+		AnchorPoint = Vector2.new(0, 0.5), Position = UDim2.new(0, magX, 0.5, 0), Size = UDim2.fromOffset(16, 16),
+		BackgroundTransparency = 1, Parent = searchBar,
+	})
+	local magRing = new("Frame", {
+		Size = UDim2.fromOffset(10, 10), BackgroundTransparency = 1, Parent = mag,
+	}, { corner(5), stroke(T.SubText, 1.6, 0.15) })
+	local magRingStroke = magRing:FindFirstChildOfClass("UIStroke")
+	local magHandle = new("Frame", {
+		Position = UDim2.fromOffset(8, 10), Size = UDim2.fromOffset(6, 2), Rotation = 45, BackgroundColor3 = T.SubText,
+		BorderSizePixel = 0, Parent = mag,
+	})
+	win.SearchBox = new("TextBox", {
+		Position = UDim2.fromOffset(32, 0), Size = UDim2.new(1, -42, 1, 0), BackgroundTransparency = 1, Text = "", Visible = false,
+		PlaceholderText = "Search all tabs...", PlaceholderColor3 = T.SubText, TextColor3 = T.Text, Font = T.Font, TextSize = 14,
+		TextXAlignment = LEFT, ClearTextOnFocus = false, TextTruncate = Enum.TextTruncate.AtEnd, Parent = searchBar,
+	})
+	-- collapsed = just the magnifier; tap it and it grows into the full box (collapses again when empty + unfocused)
+	local searchOpen, expandedW, applyHeader = false, 190, nil
+	local hit = new("TextButton", {
+		Name = "SearchHit", Size = UDim2.fromScale(1, 1), BackgroundTransparency = 1, Text = "", AutoButtonColor = false,
+		ZIndex = 5, Parent = searchBar,
+	})
+	-- width of the search box adapts to the free space in the header; title cluster + drag zone shrink to make room
+	do
+		local leftList = left:FindFirstChildOfClass("UIListLayout")
+		local busy = false
+		function applyHeader(animate)
+			if busy or win._destroyed then return end
+			busy = true
+			local sc = (win.Scale and win.Scale.Scale) or 1
+			if sc <= 0.01 then sc = 1 end
+			local total = hcard.AbsoluteSize.X / sc
+			if total > 40 then
+				local rightW = 8 + btnArea + 10                       -- buttons + gap
+				local contentW = (leftList and leftList.AbsoluteContentSize.X or 0) / sc
+				local free = total - rightW - (contentW + 10 + 12)    -- 10 = left padding, 12 = gap before the box
+				local maxW = math.max(70, total - rightW - 46)        -- always keep a little room for the logo
+				expandedW = math.floor(math.min(math.clamp(free, 120, 220), maxW))
+				local w = searchOpen and expandedW or SEARCH_BAR_H
+				if animate then
+					tween(searchBar, 0.2, { Size = UDim2.fromOffset(w, SEARCH_BAR_H) })
+				else
+					searchBar.Size = UDim2.fromOffset(w, SEARCH_BAR_H)
+				end
+				-- reserve the expanded width while open so the title never slides under the box
+				left.Size = UDim2.new(1, -(rightW + w + 6), 1, 0)
+				dragZone.Size = UDim2.new(1, -(rightW + w + 18), 1, 0)
+			end
+			busy = false
+		end
+		hcard:GetPropertyChangedSignal("AbsoluteSize"):Connect(function() applyHeader(false) end)
+		if leftList then leftList:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function() applyHeader(false) end) end
+		applyHeader(false)
+		task.defer(applyHeader, false)
+	end
+	local function setSearchOpen(v)
+		if searchOpen == v or win._destroyed then return end
+		searchOpen = v
+		hit.Visible = not v
+		win.SearchBox.Visible = v
+		if win._searchChip then win._searchChip.Visible = v and win.SearchBox.Text == "" end
+		-- open = boxed field with the icon on the left; collapsed = bare icon centered, like the other buttons
+		tween(mag, 0.2, { Position = UDim2.new(0, v and 10 or magX, 0.5, 0) })
+		tween(magRingStroke, 0.2, { Color = v and T.Accent or T.SubText })
+		tween(magHandle, 0.2, { BackgroundColor3 = v and T.Accent or T.SubText })
+		tween(searchBar, 0.2, { BackgroundTransparency = v and 0.35 or 1 })
+		tween(searchStroke, 0.2, { Transparency = v and 0.45 or 1 })
+		applyHeader(true)
+	end
+	-- hover feedback identical to the - / [] / x buttons (collapsed only)
+	hit.MouseEnter:Connect(function() if not searchOpen then tween(searchBar, 0.14, { BackgroundTransparency = 0.4 }) end end)
+	hit.MouseLeave:Connect(function() if not searchOpen then tween(searchBar, 0.16, { BackgroundTransparency = 1 }) end end)
+	hit.MouseButton1Click:Connect(function()
+		setSearchOpen(true)
+		task.defer(function()
+			if searchOpen and win.SearchBox.Parent then win.SearchBox:CaptureFocus() end
+		end)
+	end)
+	-- keyboard hint chip (PC only), hidden while typing
+	if not UserInputService.TouchEnabled then
+		local chip = new("TextLabel", {
+			AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(1, -14, 0.5, 0), Size = UDim2.fromOffset(48, 22),
+			BackgroundColor3 = T.Panel, BackgroundTransparency = 0.2, Text = "Ctrl K", Font = T.FontBold, TextSize = 13,
+			TextColor3 = T.SubText, Parent = searchBar,
+		}, { corner(11), stroke(T.Border, 1, 0.5) })
+		chip.Visible = false
+		win._searchChip = chip
+		win.SearchBox:GetPropertyChangedSignal("Text"):Connect(function() chip.Visible = searchOpen and win.SearchBox.Text == "" end)
+	end
+	-- debounce: typing a search term fires this on every keystroke, and each pass
+	-- walks every section/control and re-runs the two-column relayout — expensive
+	-- on a phone. Coalesce bursts into one apply.
+	win._searchQ = false
+	win.SearchBox:GetPropertyChangedSignal("Text"):Connect(function()
+		if win._searchQ then return end
+		win._searchQ = true
+		task.delay(0.08, function()
+			win._searchQ = false
+			win:_ApplySearch()
+		end)
+	end)
+	win.SearchBox:GetPropertyChangedSignal("Text"):Connect(function()
+		-- cleared from outside (e.g. after jumping to a result) and not being edited: fold back to the icon
+		if win.SearchBox.Text == "" and not win.SearchBox:IsFocused() then setSearchOpen(false) end
+	end)
+	win.SearchBox.Focused:Connect(function()
+		setSearchOpen(true)
+		tween(searchStroke, 0.18, { Color = T.Accent, Transparency = 0.05 })
+		tween(searchBar, 0.18, { BackgroundTransparency = 0.15 })
+	end)
+	win.SearchBox.FocusLost:Connect(function()
+		if win.SearchBox.Text == "" then setSearchOpen(false) end
+		if searchOpen then
+			tween(searchStroke, 0.22, { Color = T.Border, Transparency = 0.45 })
+			tween(searchBar, 0.22, { BackgroundTransparency = 0.35 })
+		end
+	end)
+
+	win.Pages = new("Frame", {
+		Position = UDim2.fromOffset(0, 6), Size = UDim2.new(1, 0, 1, -6 - 8),
+		BackgroundTransparency = 1, ClipsDescendants = true, Parent = content,
+	})
+	-- veil used to fade a page in when switching tabs
+	win.PageVeil = new("Frame", {
+		Name = "PageVeil", Size = UDim2.fromScale(1, 1), BackgroundColor3 = T.Background, BackgroundTransparency = 1,
+		BorderSizePixel = 0, ZIndex = 20, Visible = false, Parent = win.Pages,
+	})
+
+	---------------------------------------------------------- global search results (all tabs)
+	-- typing in the search box lists every matching control from EVERY tab ("Tab > Section"); click one (or press Enter
+	-- for the first) and the window jumps straight to it. The pages themselves are no longer filtered.
+	do
+		local SKIP = { Separator = true, Divider = true }
+		local function hex(c) return string.format("#%02x%02x%02x", math.floor(c.R * 255 + 0.5), math.floor(c.G * 255 + 0.5), math.floor(c.B * 255 + 0.5)) end
+		local function esc(x) return (tostring(x):gsub("&", "&amp;"):gsub("<", "&lt;"):gsub(">", "&gt;")) end
+		local resPanel = new("ScrollingFrame", {
+			Name = "SearchResults", Position = UDim2.fromOffset(6, 4), Size = UDim2.new(1, -26, 0, 0),
+			BackgroundColor3 = T.Panel, BackgroundTransparency = 0, BorderSizePixel = 0, ScrollBarThickness = 3,
+			ScrollBarImageColor3 = T.Accent, CanvasSize = UDim2.new(), AutomaticCanvasSize = Enum.AutomaticSize.Y,
+			ClipsDescendants = true, Visible = false, ZIndex = 40, Parent = content,
+		}, {
+			corner(12), stroke(T.Accent, 1, 0.3),
+			new("UIPadding", { PaddingTop = UDim.new(0, 6), PaddingBottom = UDim.new(0, 6), PaddingLeft = UDim.new(0, 6), PaddingRight = UDim.new(0, 8) }),
+			new("UIListLayout", { Padding = UDim.new(0, 4), SortOrder = Enum.SortOrder.LayoutOrder }),
+		})
+		local rows, firstJump = {}, nil
+		local function clearRows()
+			for _, r in ipairs(rows) do r:Destroy() end
+			table.clear(rows)
+			firstJump = nil
+		end
+		local function jump(e)
+			if e.GoTab then
+				win.SearchBox.Text = ""
+				win:_ApplySearch()
+				win:SetTab(e.GoTab)
+			else
+				Library._reveal(win, e)
+			end
+		end
+		local function matchScore(e, toks)
+			local name, tabn, secn = e.Name:lower(), (e.TabName or ""):lower(), (e.SectionName or ""):lower()
+			local total = 0
+			for _, tok in ipairs(toks) do
+				local a = name:find(tok, 1, true)
+				if a then
+					total += (a == 1) and 30 or 20
+				elseif secn:find(tok, 1, true) then
+					total += 8
+				elseif tabn:find(tok, 1, true) then
+					total += 6
+				else
+					return 0
+				end
+			end
+			return total
+		end
+		local function addRow(e, order, toks)
+			local T2 = win.Theme
+			local row = new("TextButton", {
+				Size = UDim2.new(1, 0, 0, 48), BackgroundColor3 = T2.Control, BackgroundTransparency = 0.1, AutoButtonColor = false,
+				Text = "", LayoutOrder = order, ZIndex = 41, Parent = resPanel,
+			}, { corner(9), stroke(T2.Border, 1, 0.4) })
+			local nm = esc(e.Name)
+			local lower = e.Name:lower()
+			for _, tok in ipairs(toks) do   -- bold + accent the first hit of every token
+				local a, b = lower:find(tok, 1, true)
+				if a then
+					nm = esc(e.Name:sub(1, a - 1)) .. '<font color="' .. hex(T2.Accent) .. '"><b>' .. esc(e.Name:sub(a, b)) .. "</b></font>" .. esc(e.Name:sub(b + 1))
+					break
+				end
+			end
+			new("TextLabel", {
+				Position = UDim2.fromOffset(12, 5), Size = UDim2.new(1, -110, 0, 20), BackgroundTransparency = 1, RichText = true,
+				Text = nm, Font = T2.FontBold, TextSize = 15, TextColor3 = T2.Text, TextXAlignment = LEFT,
+				TextTruncate = Enum.TextTruncate.AtEnd, ZIndex = 42, Parent = row,
+			})
+			local where
+			if e.GoTab then
+				where = '<font color="' .. hex(T2.Accent) .. '"><b>' .. esc(e.GoTab.Name) .. "</b></font>  (open tab)"
+			else
+				where = '<font color="' .. hex(T2.Accent) .. '"><b>' .. esc(e.TabName or "?") .. "</b></font>  \226\128\186  " .. esc(e.SectionName or "")
+			end
+			new("TextLabel", {
+				Position = UDim2.fromOffset(12, 26), Size = UDim2.new(1, -110, 0, 16), BackgroundTransparency = 1, RichText = true,
+				Text = where, Font = T2.Font, TextSize = 13, TextColor3 = T2.SubText, TextXAlignment = LEFT,
+				TextTruncate = Enum.TextTruncate.AtEnd, ZIndex = 42, Parent = row,
+			})
+			new("TextLabel", {
+				AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(1, -10, 0.5, 0), Size = UDim2.fromOffset(0, 22),
+				AutomaticSize = Enum.AutomaticSize.X, BackgroundColor3 = T2.AccentSoft, BorderSizePixel = 0,
+				Text = " " .. (e.GoTab and "TAB" or tostring(e.Kind):upper()) .. " ", Font = T2.FontBold, TextSize = 12,
+				TextColor3 = T2.Text, ZIndex = 42, Parent = row,
+			}, { corner(7) })
+			row.MouseEnter:Connect(function() tween(row, 0.12, { BackgroundColor3 = T2.Lift or T2.Control, BackgroundTransparency = 0 }) end)
+			row.MouseLeave:Connect(function() tween(row, 0.16, { BackgroundColor3 = T2.Control, BackgroundTransparency = 0.1 }) end)
+			row.MouseButton1Click:Connect(function() jump(e) end)
+			rows[#rows + 1] = row
+			if not firstJump then firstJump = e end
+		end
+
+		local lastQ
+		function win:_ShowResults(q)
+			if q == lastQ then return end
+			lastQ = q
+			clearRows()
+			if q == "" then
+				resPanel.Visible = false
+				return
+			end
+			local toks = {}
+			for tok in q:gmatch("%S+") do toks[#toks + 1] = tok end
+			local found = {}
+			for _, tab in ipairs(self.Tabs) do
+				local sc = matchScore({ Name = tab.Name, TabName = "", SectionName = "" }, toks)
+				if sc > 0 then found[#found + 1] = { sc = sc + 5, e = { GoTab = tab, Name = tab.Name, Kind = "Tab" } } end
+			end
+			for _, e in ipairs(self._index or {}) do
+				if not SKIP[e.Kind] and not (e.Ctl and e.Ctl.Hidden) and e.Frame and e.Frame.Parent then
+					local sc = matchScore(e, toks)
+					if sc > 0 then found[#found + 1] = { sc = sc, e = e } end
+				end
+			end
+			table.sort(found, function(a, b) return a.sc > b.sc end)
+			local n = math.min(#found, 40)
+			for i = 1, n do addRow(found[i].e, i, toks) end
+			if n == 0 then
+				local none = new("TextLabel", {
+					Size = UDim2.new(1, 0, 0, 40), BackgroundTransparency = 1, Text = "No results for \"" .. q .. "\"",
+					Font = self.Theme.Font, TextSize = 14, TextColor3 = self.Theme.SubText, LayoutOrder = 1, ZIndex = 42, Parent = resPanel,
+				})
+				rows[#rows + 1] = none
+			end
+			local maxH = math.max(120, content.AbsoluteSize.Y - 20)
+			local want = (n == 0 and 40 or n * 52) + 12
+			resPanel.CanvasPosition = Vector2.new(0, 0)
+			resPanel.Size = UDim2.new(1, -26, 0, math.min(want, maxH, 8 * 52 + 12))
+			resPanel.Visible = true
+		end
+		win.SearchBox.FocusLost:Connect(function(enter)
+			if enter and firstJump and resPanel.Visible then jump(firstJump) end
+		end)
+	end
+
+	---------------------------------------------------------- dropdown overlay + floating open button
+	win.Overlay = new("TextButton", {
+		Size = UDim2.fromScale(1, 1), BackgroundTransparency = 1, Text = "", AutoButtonColor = false,
+		Visible = false, ZIndex = 60, Parent = gui,
+	})
+	win.Overlay.MouseButton1Click:Connect(function() win:CloseDropdowns() end)
+
+	---------------------------------------------------------- resize grip (bottom-right corner ONLY)
+	if canResize then
+		local touch = UserInputService.TouchEnabled
+		local gripSize = touch and 36 or 18
+		local grip = new("TextButton", {
+			Name = "ResizeGrip", AnchorPoint = Vector2.new(1, 1), Position = UDim2.fromScale(1, 1),
+			Size = UDim2.fromOffset(gripSize, gripSize), BackgroundTransparency = 1, Text = "", AutoButtonColor = false,
+			Active = true, ZIndex = 30, Parent = main,
+		})
+		local ticks = {}
+		for _, d in ipairs({ 6, 11, 16 }) do
+			ticks[#ticks + 1] = new("Frame", {
+				AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.new(1, -(d / 2 + 4), 1, -(d / 2 + 4)),
+				Size = UDim2.fromOffset(d * 1.25, 2), Rotation = -45, BackgroundColor3 = T.SubText,
+				BackgroundTransparency = 0.35, BorderSizePixel = 0, ZIndex = 31, Parent = grip,
+			}, { corner(1) })
+		end
+		local function tintTicks(c, tr)
+			for _, t in ipairs(ticks) do tween(t, 0.14, { BackgroundColor3 = c, BackgroundTransparency = tr }) end
+		end
+		grip.MouseEnter:Connect(function() if not usingTouch() then tintTicks(T.Accent, 0) end end)
+		grip.MouseLeave:Connect(function() if not win._resizing then tintTicks(T.SubText, 0.35) end end)
+
+		makeResizable(win, grip, 1, 1)
+		win._resizeFx = {
+			Start = function()
+				tintTicks(T.Accent, 0)
+				if not lowPower() then mainStroke.Color, mainStroke.Transparency = T.Accent, 0.35 end
+			end,
+			End = function()
+				tintTicks(T.SubText, 0.35)
+				if not lowPower() then mainStroke.Color, mainStroke.Transparency = T.Border, 0.1 end
+			end,
+		}
+	end
+
+	---------------------------------------------------------- floating open button
+	-- Bigger tap target on touch, edge-snapping after a drag, fades when idle, hover label on PC.
+	local touchUI = UserInputService.TouchEnabled
+	local BS = touchUI and 52 or 44 -- button size
+	win.OpenSize = BS
+	local toggleKey = cfg.ToggleKey or Enum.KeyCode.RightShift
+	win.OpenBtn = new("TextButton", {
+		Name = "OpenButton", AnchorPoint = Vector2.new(0.5, 0.5),
+		-- default spot: upper-left, just under the Roblox top bar (override with OpenPosition = UDim2...)
+		Position = cfg.OpenPosition or UDim2.fromScale(0.17, 0.235),
+		Size = UDim2.fromOffset(BS, BS), BackgroundColor3 = T.Panel, Text = cfg.Logo and "" or brand:sub(1, 2),
+		Font = Enum.Font.GothamBlack, TextSize = touchUI and 19 or 17, TextColor3 = T.Text,
+		AutoButtonColor = false, Visible = false, Active = true, Parent = gui,
+	}, { corner(math.floor(BS * 0.3)), stroke(T.Accent, 1.5, 0.2) })
+	local ob = win.OpenBtn
+	local obStroke = ob:FindFirstChildOfClass("UIStroke")
+	local obLogo
+	if cfg.Logo then
+		obLogo = new("ImageLabel", {
+			AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.fromScale(0.5, 0.5), Size = UDim2.fromOffset(BS * 0.58, BS * 0.58),
+			BackgroundTransparency = 1, ScaleType = Enum.ScaleType.Fit,
+			Image = type(cfg.Logo) == "number" and ("rbxassetid://" .. cfg.Logo) or cfg.Logo, Parent = ob,
+		})
+	else
+		new("UIGradient", { Color = cseq({ 0, T.Panel }, { 1, T.Lift }), Rotation = 90, Parent = ob })
+	end
+	win.OpenScale = feedback(ob, ob, "BackgroundColor3", T.Panel, T.Lift, T.AccentSoft, false)
+
+	-- hover label (PC): "Open SpectreUI  [RightShift]", opens toward the free side of the screen
+	local tip
+	if not touchUI then
+		tip = new("TextLabel", {
+			Name = "Tip", AnchorPoint = Vector2.new(0, 0.5), Position = UDim2.new(1, 10, 0.5, 0), Size = UDim2.fromOffset(0, 28),
+			AutomaticSize = Enum.AutomaticSize.X, BackgroundColor3 = T.Panel, BackgroundTransparency = 0.05,
+			Text = "Open " .. brand .. "  [" .. toggleKey.Name .. "]", Font = T.FontBold, TextSize = 13,
+			TextColor3 = T.Text, Visible = false, ZIndex = 3, Parent = ob,
+		}, { corner(8), stroke(T.Border, 1, 0.2), padding(10, 0, 10, 0) })
+	end
+	local function showTip(on)
+		if not tip then return end
+		if on and not win._openDrag.Dragging then
+			local vp = gui.AbsoluteSize
+			local leftSide = ob.AbsolutePosition.X + BS / 2 < vp.X / 2
+			tip.AnchorPoint = Vector2.new(leftSide and 0 or 1, 0.5)
+			tip.Position = UDim2.new(leftSide and 1 or 0, leftSide and 10 or -10, 0.5, 0)
+			tip.Visible = true
+		else
+			tip.Visible = false
+		end
+	end
+
+	-- idle fade: dims after a few seconds so it never nags, wakes on touch / hover
+	local idleSeq, hoverOpen = 0, false
+	local function wake(on)
+		local a = on and 0 or 0.5
+		tween(ob, 0.25, { TextTransparency = a })
+		if obStroke then tween(obStroke, 0.25, { Transparency = on and 0.2 or 0.65 }) end
+		if obLogo then tween(obLogo, 0.25, { ImageTransparency = a }) end
+		if not on then tween(ob, 0.25, { BackgroundTransparency = 0.4 }) else tween(ob, 0.15, { BackgroundTransparency = 0 }) end
+	end
+	local function scheduleIdle()
+		idleSeq += 1
+		local seq = idleSeq
+		task.delay(3, function()
+			if seq == idleSeq and not win._destroyed and ob.Visible and not hoverOpen and not win._openDrag.Dragging then wake(false) end
+		end)
+	end
+	local function awake()
+		idleSeq += 1
+		wake(true)
+	end
+	ob.MouseEnter:Connect(function()
+		if usingTouch() then return end
+		hoverOpen = true
+		awake()
+		showTip(true)
+	end)
+	ob.MouseLeave:Connect(function()
+		hoverOpen = false
+		showTip(false)
+		scheduleIdle()
+	end)
+	bindPress(ob, function() awake(); showTip(false) end, function() scheduleIdle() end)
+	ob:GetPropertyChangedSignal("Visible"):Connect(function()
+		if ob.Visible then
+			wake(true)
+			scheduleIdle()
+		else
+			showTip(false)
+		end
+	end)
+
+	-- glow ring around the floating button — skipped in low power (a rounded stroke
+	-- that would re-rasterize on every drag frame)
+	if not lowPower() then
+		win.OpenGlow = new("Frame", {
+			AnchorPoint = Vector2.new(0.5, 0.5), Position = ob.Position, Size = UDim2.fromOffset(BS + 14, BS + 14),
+			BackgroundTransparency = 1, ZIndex = 0, Visible = false, Parent = gui,
+		}, { new("UICorner", { CornerRadius = UDim.new(0, math.floor(BS * 0.3) + 7) }), stroke(T.Accent, 2, 0.85) })
+		ob:GetPropertyChangedSignal("Position"):Connect(function()
+			win.OpenGlow.Position = ob.Position
+		end)
+		ob:GetPropertyChangedSignal("Visible"):Connect(function()
+			win.OpenGlow.Visible = ob.Visible
+		end)
+	end
+
+	win._openDrag.Threshold = touchUI and 10 or 6
+	win._openDrag.Direct = true -- follow the pointer 1:1 (the eased follow made the small button feel laggy / floaty)
+	win._openDrag.Half = BS / 2
+	-- on phones keep the button off the Roblox menu / chat icons (top-left) while dragging, so it never has to be
+	-- pulled back after release
+	win._openDrag.Clamp = function(c)
+		if touchUI then
+			local minY = 60 + BS / 2
+			if c.X - BS / 2 < 110 and c.Y < minY then return Vector2.new(c.X, minY) end
+		end
+		return c
+	end
+	win._openDrag.OnStart = function()
+		awake()
+		showTip(false)
+	end
+	-- the button now stays exactly where it was dropped. The old "glide to the nearest side edge" is opt-in:
+	-- CreateWindow({ OpenSnap = true })
+	win._openDrag.OnEnd = function()
+		if cfg.OpenSnap and win._openDrag.Moved and win._openDrag.Center then
+			local vp = gui.AbsoluteSize
+			local c = win._openDrag.Center
+			local half, m = BS / 2, 10
+			local onLeft = c.X < vp.X / 2
+			local x = onLeft and (half + m) or (vp.X - half - m)
+			local top = (touchUI and onLeft) and 60 or 8
+			local y = math.clamp(c.Y, top + half, math.max(top + half, vp.Y - half - m))
+			win._openDrag.Glide(Vector2.new(x, y))
+		end
+		scheduleIdle()
+	end
+	makeDraggable(gui, ob, ob, win._openDrag)
+	ob.MouseButton1Click:Connect(function()
+		if win._openDrag.Moved then return end -- it was a drag, not a tap
+		win:SetVisible(true)
+	end)
+
+	---------------------------------------------------------- toggle key / responsive
+	table.insert(win.Conns, UserInputService.InputBegan:Connect(function(i)
+		if i.KeyCode == (cfg.ToggleKey or Enum.KeyCode.RightShift) and not UserInputService:GetFocusedTextBox() then win:SetVisible(not win.Visible) end
+	end))
+	table.insert(win.Conns, gui:GetPropertyChangedSignal("AbsoluteSize"):Connect(function() win:_Fit() end))
+	win:_Fit()
+	table.insert(win.Conns, UserInputService.WindowFocusReleased:Connect(function()
+		win._blurred = true
+		win:_FXPause()
+	end))
+	table.insert(win.Conns, UserInputService.WindowFocused:Connect(function()
+		win._blurred = false
+		if win.Visible and not win._moving and not win._drag.Dragging then win:_FXResume() end
+	end))
+	win:_StartGovernor()
+
+	table.insert(self.Windows, win)
+	win:_PlayIntro()
+	return win
+end
+
+function Window:_Fit(animate)
+	local vp = self.Gui.AbsoluteSize
+	if vp.X <= 0 or vp.Y <= 0 then return end
+	local w, h
+	if self.Maximized then
+		local m = UserInputService.TouchEnabled and 6 or 12
+		w, h = math.max(vp.X - m * 2, 200), math.max(vp.Y - m * 2, 160)
+	else
+		-- floor = MinWidth (default 700) so the two-column layout never collapses; SetSize obeys it too
+		local fw = math.min(self.Cfg.MinWidth or 700, vp.X - 16)
+		local fh = math.min(self.Cfg.MinHeight or 280, vp.Y - 16)
+		w = math.max(math.min(self.Cfg.Width or 820, vp.X - 16), fw)
+		h = math.max(math.min(self.Cfg.Height or 540, vp.Y - 16), fh)
+	end
+	local anim = animate and not lowPower()
+	if anim then
+		self:_MotionBegin(0.3)
+		tween(self.Main, 0.3, { Size = UDim2.fromOffset(w, h) })
+	else
+		self.Main.Size = UDim2.fromOffset(w, h)
+	end
+
+	local compact = w < 560
+	local sw = compact and 56 or 164
+	self.Sidebar.Size = UDim2.new(0, sw, 1, 0)
+	self.Content.Position = UDim2.fromOffset(sw, 0)
+	self.Content.Size = UDim2.new(1, -sw, 1, 0)
+	local twoCol = (w - sw) >= 520
+
+	if compact ~= self.Compact then
+		self.Compact = compact
+		self.Footer.Visible = not compact
+		if compact and self.CloseProfile then self:CloseProfile() end
+		-- keep the rounded side panel snug in compact (icon-only) mode
+		local ox, ow = compact and 5 or 10, compact and -10 or -19
+		self.SidePanel.Position = UDim2.fromOffset(ox, 0)
+		self.SidePanel.Size = UDim2.new(1, ow, 1, -10)
+		self.TabList.Position = UDim2.fromOffset(ox, 0)
+		self.TabList.Size = UDim2.new(1, ow, 1, -FOOT_H - 10)
+		self.Footer.Position = UDim2.new(0, ox, 1, -FOOT_H - 10)
+		self.Footer.Size = UDim2.new(1, ow, 0, FOOT_H)
+		-- compact: brand text is long, so only the logo glyph is shown in the header
+		if self.BrandLabel then self.BrandLabel.Visible = not compact end
+		if self.SubLabel then self.SubLabel.Visible = not compact; self.SubSep.Visible = not compact end
+		for _, t in ipairs(self.Tabs) do t:_ApplyCompact(compact) end
+	end
+	if twoCol ~= self.TwoCol then
+		self.TwoCol = twoCol
+		for _, t in ipairs(self.Tabs) do t:_QueueRelayout() end
+	end
+
+	-- keep the (possibly dragged) window and open button on screen after a resize / rotation
+	local rel = self.Maximized and Vector2.new(0.5, 0.5) or self._drag.Rel
+	if rel then
+		local c = clampCenter(vp, Vector2.new(w, h) / 2, Vector2.new(rel.X * vp.X, rel.Y * vp.Y))
+		if anim then
+			tween(self.Main, 0.3, { Position = UDim2.fromOffset(c.X, c.Y) })
+		else
+			self.Main.Position = UDim2.fromOffset(c.X, c.Y)
+		end
+	end
+	local orel = self._openDrag.Rel
+	if orel and not self._openDrag.Dragging then
+		local hb = (self.OpenSize or 42) / 2
+		local c = clampCenter(vp, Vector2.new(hb, hb), Vector2.new(orel.X * vp.X, orel.Y * vp.Y))
+		self.OpenBtn.Position = UDim2.fromOffset(c.X, c.Y)
+	end
+	if self._nm then self._nm:_RefitSoon() end
+end
+
+function Window:CloseDropdowns()
+	if self._dd then self._dd:Close() end
+end
+
+-- shared dim layer behind dropdowns / colour pickers. It fades out instead of vanishing, and a token makes
+-- sure an old fade can never hide the layer again after another popup has just opened it.
+function Window:_ShowOverlay(dim)
+	local ov = self.Overlay
+	self._ovTok = (self._ovTok or 0) + 1
+	if not ov.Visible then ov.BackgroundTransparency = 1 end
+	ov.BackgroundColor3 = Color3.new(0, 0, 0)
+	ov.Visible = true
+	tween(ov, 0.2, { BackgroundTransparency = dim or 1 }, QUAD, OUT)
+end
+
+function Window:_HideOverlay()
+	local ov = self.Overlay
+	if not ov.Visible then return end
+	self._ovTok = (self._ovTok or 0) + 1
+	local tok = self._ovTok
+	tween(ov, 0.14, { BackgroundTransparency = 1 }, QUAD, IN).Completed:Connect(function()
+		if self._ovTok == tok then ov.Visible = false end
+	end)
+end
+
+-- open / close animation: scale + slide + fade (veil). Runs on every platform; on low power it
+-- skips the UIScale (that is the expensive part: it re-rasterizes every stroke) and uses
+-- slide + fade only, which is cheap.
+local SLIDE = 16
+
+-- Where the window rests when it is not animating: the saved (dragged) position, clamped to the screen the
+-- same way _Fit does. nil until the window has been placed once, then the live Position is used instead.
+-- (_AnimBase / _AnimDone call this; it used to be missing, which broke the open / close animation.)
+function Window:_HomePos()
+	local vp = self.Gui.AbsoluteSize
+	if vp.X <= 0 or vp.Y <= 0 then return nil end
+	local rel = self.Maximized and Vector2.new(0.5, 0.5) or self._drag.Rel
+	if not rel then return nil end
+	local half = self.Main.AbsoluteSize / math.max(self.Scale.Scale, 0.01) / 2
+	local c = clampCenter(vp, half, Vector2.new(rel.X * vp.X, rel.Y * vp.Y))
+	return UDim2.fromOffset(math.round(c.X), math.round(c.Y))
+end
+
+function Window:_AnimBase()
+	local home = self:_HomePos()
+	if home then
+		self._animBase = home
+		return home
+	end
+	if not self._animBase then self._animBase = self.Main.Position end
+	return self._animBase
+end
+
+function Window:_AnimDone()
+	local home = self:_HomePos() or self._animBase
+	if home then self.Main.Position = home end
+	self._animBase = nil
+	self.Scale.Scale = 1
+end
+
+function Window:_PlayOpen(fresh)
+	self._vseq = (self._vseq or 0) + 1
+	local seq = self._vseq
+	local veil = self.Veil
+	local pop = Library.Anim.Pop == true and not lowPower()
+	local base = self:_AnimBase()
+	self:_MotionBegin(0.5)
+	if fresh then
+		self.Main.Position = base + UDim2.fromOffset(0, SLIDE)
+		if pop then self.Scale.Scale = 0.92 end
+		veil.BackgroundTransparency = 0
+	end
+	veil.Visible = true
+	local function run()
+		if self._vseq ~= seq or self._destroyed then return end
+		if pop then tween(self.Scale, 0.42, { Scale = 1 }, QUINT, OUT) end
+		tween(self.Main, 0.42, { Position = base }, QUINT, OUT)
+		tween(veil, 0.3, { BackgroundTransparency = 1 }, SINE, OUT).Completed:Connect(function(st)
+			if self._vseq ~= seq or st ~= Enum.PlaybackState.Completed then return end
+			veil.Visible = false
+			self:_AnimDone()
+		end)
+	end
+	-- a fresh open makes the whole window visible for the first time: let that heavy frame pass, then animate
+	if fresh then nextFrame(run) else run() end
+end
+
+-- Launch animation (first show only): the window rises into place while the window-colored veil dissolves, a
+-- soft band of light sweeps across it, the border pulses, then the sidebar icons pop in one after another
+-- (Window:_IntroTab) and the first page rises last. Everything is a one-shot tween (no loops, no per-frame
+-- Lua) and starts one frame late so the heavy first frame cannot eat the beginning of it.
+-- Skipped (plain open) on low power or with Library.Anim.Intro = false / CreateWindow({ Intro = false }).
+function Window:_PlayIntro()
+	if Library._holdIntro then
+		-- the launch splash is still showing: keep the window hidden, the splash starts this animation itself when it is done
+		self._introHeld = true
+		self.Gui.Enabled = false
+		return
+	end
+	if self.Cfg.Intro == false or Library.Anim.Intro == false then
+		return self:_PlayOpen(true)
+	end
+	self._vseq = (self._vseq or 0) + 1
+	local seq = self._vseq
+	local T = self.Theme
+	local veil, main = self.Veil, self.Main
+	local base = self:_AnimBase()
+	self._introT = os.clock()
+	self:_MotionBegin(1.1)
+	main.Position = base + UDim2.fromOffset(0, 34)
+	veil.BackgroundTransparency = 0
+	veil.Visible = true
+	-- the light band is a gradient offset sliding inside a rounded frame, so it is clipped to the window shape
+	local band = new("UIGradient", {
+		Rotation = 20, Offset = Vector2.new(-1, 0),
+		Color = cseq({ 0, T.Accent }, { 0.5, Color3.new(1, 1, 1) }, { 1, T.Accent2 }),
+		Transparency = NumberSequence.new({ nsk(0, 1), nsk(0.38, 1), nsk(0.5, 0.8), nsk(0.62, 1), nsk(1, 1) }),
+	})
+	local lite = lowPower()   -- phones: same rise + veil fade + tab pop-in, but no light sweep / flash
+	local shine = new("Frame", {
+		Name = "IntroShine", Size = UDim2.fromScale(1, 1), BackgroundColor3 = Color3.new(1, 1, 1), BorderSizePixel = 0,
+		ZIndex = 52, Active = false, Parent = main,
+	}, { new("UICorner", { CornerRadius = UDim.new(0, self.Radius or 24) }), band })
+	nextFrame(function()
+		if self._vseq ~= seq or self._destroyed then shine:Destroy() return end
+		tween(main, 0.7, { Position = base }, QUINT, OUT)
+		tween(veil, 0.55, { BackgroundTransparency = 1 }, SINE, OUT).Completed:Connect(function(st)
+			if self._vseq ~= seq or st ~= Enum.PlaybackState.Completed then return end
+			veil.Visible = false
+			self:_AnimDone()
+		end)
+		if lite then shine:Destroy() end
+		task.delay(0.25, function()
+			if lite or not shine.Parent then return end
+			tween(band, 0.95, { Offset = Vector2.new(1, 0) }, SINE, OUT).Completed:Connect(function() shine:Destroy() end)
+		end)
+		task.delay(0.5, function()
+			if not lite and not self._destroyed and self._vseq == seq then self:Flash(T.Accent) end
+		end)
+	end)
+end
+
+-- called by CreateTab: tabs created right after the window (the launch) animate in one by one
+function Window:_IntroTab(tab)
+	local t0 = self._introT
+	if not t0 or os.clock() - t0 > 2 then return end
+	local order = #self.Tabs
+	local label, scale = tab.Label, tab.IconScale
+	label.TextTransparency = 1
+	if scale then
+		scale.Scale = 0
+		tween(scale, 0.05, { Scale = 0 })   -- also cancels the select-pop tween the first tab already started
+	end
+	task.delay(0.3 + (order - 1) * 0.07, function()
+		if self._destroyed or not label.Parent then return end
+		tween(label, 0.3, { TextTransparency = 0 }, SINE, OUT)
+		if scale then tween(scale, 0.45, { Scale = 1 }, BACK, OUT) end
+	end)
+	if order == 1 then
+		-- the first page rises in last, from under the window-colored page veil
+		local page, pv = tab.Page, self.PageVeil
+		local pseq = self._pseq or 0
+		page.Position = UDim2.fromOffset(0, 22)
+		pv.BackgroundTransparency = 0
+		pv.Visible = true
+		task.delay(0.3, function()
+			if self._destroyed or (self._pseq or 0) ~= pseq then return end   -- the user already switched tab
+			tween(page, 0.6, { Position = UDim2.new() }, QUINT, OUT)
+			tween(pv, 0.5, { BackgroundTransparency = 1 }, SINE, OUT).Completed:Connect(function()
+				if (self._pseq or 0) == pseq then pv.Visible = false end
+			end)
+		end)
+	end
+end
+
+-- close animation: slide down + fade, then swap to the floating open button
+function Window:_PlayClose()
+	self._vseq = (self._vseq or 0) + 1
+	local seq = self._vseq
+	local veil = self.Veil
+	local pop = Library.Anim.Pop == true and not lowPower()
+	local base = self:_AnimBase()
+	self:_MotionBegin(0.3)
+	if not veil.Visible then
+		veil.BackgroundTransparency = 1
+		veil.Visible = true
+	end
+	if pop then tween(self.Scale, 0.22, { Scale = 0.94 }, QUAD, IN) end
+	tween(self.Main, 0.22, { Position = base + UDim2.fromOffset(0, SLIDE) }, QUAD, IN)
+	tween(veil, 0.22, { BackgroundTransparency = 0 }, SINE, IN).Completed:Connect(function()
+		if self._vseq ~= seq or self.Visible then return end
+		veil.Visible = false
+		self.Main.Visible = false
+		self:_AnimDone()
+		self:_FXPause() -- nothing is on screen: stop the looping backdrop tweens
+		self:_GlowVisible(false)
+		self.OpenBtn.Visible = true
+		self.OpenScale.Scale = 0.6
+		tween(self.OpenScale, 0.4, { Scale = 1 }, BACK, OUT)
+	end)
+end
+
+function Window:SetVisible(v)
+	if self.Visible == v then return end
+	self.Visible = v
+	self:CloseDropdowns()
+	self._drag.Stop()
+	if v then
+		local fresh = not self.Main.Visible
+		self._openDrag.Stop()
+		self.OpenBtn.Visible = false
+		self.Main.Visible = true
+		self:_PlayOpen(fresh)
+	else
+		self:_PlayClose()
+	end
+end
+
+function Window:Toggle() self:SetVisible(not self.Visible) end
+
+-- maximize (fill the screen with a small margin) / restore the previous size and position
+function Window:_SetMaxFlag(v)
+	self.Maximized = v and true or false
+	if self._setMaxIcon then self._setMaxIcon(self.Maximized) end
+end
+
+function Window:SetMaximized(v)
+	v = v and true or false
+	if self.Maximized == v then return end
+	self:CloseDropdowns()
+	self._drag.Stop()
+	if v then
+		self._restore = { W = self.Cfg.Width, H = self.Cfg.Height, Rel = self._drag.Rel }
+		local msz = self.Main.Size
+		local sz = Vector2.new(msz.X.Offset, msz.Y.Offset) -- real size (AbsoluteSize is squished by the open-animation UIScale)
+		if not self.Cfg.Width then self.Cfg.Width, self._restore.W = sz.X, sz.X end
+		if not self.Cfg.Height then self.Cfg.Height, self._restore.H = sz.Y, sz.Y end
+	else
+		local r = self._restore or {}
+		self.Cfg.Width, self.Cfg.Height = r.W, r.H
+		self._drag.Rel = r.Rel or Vector2.new(0.5, 0.5)
+	end
+	self:_SetMaxFlag(v)
+	self:_FitVeiled()
+	safe(self.Cfg.OnMaximize, v)
+end
+
+-- Maximize / restore without flicker. Tweening Main.Size for 0.3 s made the whole layout (item grid columns,
+-- two-column split, wrapped text, scroll canvas) recompute on EVERY frame, which showed as flashing.
+-- Instead: the window-colored veil fades in (0.1 s), the size / position snap once while nothing is visible,
+-- the layout settles for a moment, then the veil fades out. On low power / hidden window: plain snap.
+function Window:_FitVeiled()
+	if lowPower() or not self.Main.Visible or not self.Veil then
+		return self:_Fit(false)
+	end
+	self._vseq = (self._vseq or 0) + 1
+	local seq = self._vseq
+	local veil = self.Veil
+	self:_MotionBegin(0.6)
+	if not veil.Visible then veil.BackgroundTransparency = 1 end
+	veil.Visible = true
+	tween(veil, 0.1, { BackgroundTransparency = 0 }, SINE, IN).Completed:Connect(function()
+		if self._vseq ~= seq or self._destroyed then return end
+		self:_Fit(false)
+		task.delay(0.08, function() -- let grid / columns re-layout behind the veil
+			if self._vseq ~= seq or self._destroyed then return end
+			tween(veil, 0.2, { BackgroundTransparency = 1 }, SINE, OUT).Completed:Connect(function(st)
+				if self._vseq ~= seq or st ~= Enum.PlaybackState.Completed then return end
+				veil.Visible = false
+			end)
+		end)
+	end)
+end
+
+function Window:IsMaximized() return self.Maximized end
+
+-- resize with the same clamping as dragging the grip; width / height in pixels
+function Window:Resize(w, h)
+	self:_SetMaxFlag(false)
+	self:SetSize(w, h)
+end
+
+function Library._profFmtTime(sec)
+	sec = math.max(0, math.floor(sec))
+	local h, m, x = sec // 3600, (sec % 3600) // 60, sec % 60
+	if h > 0 then return ("%d:%02d:%02d"):format(h, m, x) end
+	return ("%02d:%02d"):format(m, x)
+end
+
+-- Profile popup: tap the profile card in the sidebar footer. Shows who you are, which game / server you
+-- are in (icon + name), live ping / fps / session time, IDs (tap a row to copy) and quick actions.
+function Window:_BuildProfile()
+	local win, T = self, self.Theme
+	local lpl = Players.LocalPlayer
+	if not lpl then return end
+	local Market = game:GetService("MarketplaceService")
+	local Stats = game:GetService("Stats")
+	local main = self.Main
+	local CARD_W = 288
+	local RIGHT = Enum.TextXAlignment.Right
+	local TRUNC = Enum.TextTruncate.AtEnd
+	local baseY = -(FOOT_H + 16)
+
+	local blocker = new("TextButton", {
+		Name = "ProfileBlocker", Size = UDim2.fromScale(1, 1), BackgroundTransparency = 1, Text = "", AutoButtonColor = false,
+		Visible = false, ZIndex = 54, Parent = main,
+	})
+	local card = new("Frame", {
+		Name = "ProfileCard", AnchorPoint = Vector2.new(0, 1), Position = UDim2.new(0, 12, 1, baseY),
+		Size = UDim2.fromOffset(CARD_W, 300), BackgroundColor3 = T.Panel, BackgroundTransparency = 0.02, BorderSizePixel = 0,
+		Visible = false, ZIndex = 56, ClipsDescendants = true, Parent = main,
+	}, { corner(18), stroke(T.Accent, 1, 0.45) })
+	local scroll = new("ScrollingFrame", {
+		Size = UDim2.fromScale(1, 1), BackgroundTransparency = 1, BorderSizePixel = 0, ScrollBarThickness = 0,
+		CanvasSize = UDim2.new(), AutomaticCanvasSize = AY, ScrollingDirection = Enum.ScrollingDirection.Y, Parent = card,
+	}, { list(8), padding(12, 12, 12, 12) })
+	local lay = scroll:FindFirstChildOfClass("UIListLayout")
+
+	local order = 0
+	local function nextOrder() order += 1 return order end
+	local function copy(text)
+		if type(setclipboard) == "function" then
+			pcall(setclipboard, text)
+			win:Notify({ Title = "Copied", Content = text, Kind = "Success", Duration = 1.6 })
+		else
+			win:Notify({ Title = "Clipboard not supported", Content = text, Kind = "Warning", Duration = 3 })
+		end
+	end
+	local function label(props)
+		props.BackgroundTransparency = 1
+		props.Font = props.Font or T.Font
+		props.TextSize = props.TextSize or 12
+		props.TextColor3 = props.TextColor3 or T.Text
+		props.TextXAlignment = props.TextXAlignment or LEFT
+		props.TextTruncate = props.TextTruncate or TRUNC
+		return new("TextLabel", props)
+	end
+	local function divider()
+		new("Frame", { Size = UDim2.new(1, 0, 0, 1), BackgroundColor3 = T.Border, BackgroundTransparency = 0.6, BorderSizePixel = 0, LayoutOrder = nextOrder(), Parent = scroll })
+	end
+	local function caption(text)
+		label({ Size = UDim2.new(1, 0, 0, 16), Text = text, Font = T.FontBold, TextSize = 12, TextColor3 = T.SubText, LayoutOrder = nextOrder(), Parent = scroll })
+	end
+
+	-- ---- who you are
+	local head = new("Frame", { Size = UDim2.new(1, 0, 0, 52), BackgroundTransparency = 1, LayoutOrder = nextOrder(), Parent = scroll })
+	local av = new("ImageLabel", {
+		Size = UDim2.fromOffset(52, 52), BackgroundColor3 = T.Control, BorderSizePixel = 0, Image = "", ScaleType = Enum.ScaleType.Crop, Parent = head,
+	}, { corner(26), stroke(T.Accent, 2, 0.2) })
+	label({ Position = UDim2.fromOffset(62, 6), Size = UDim2.new(1, -62, 0, 22), Text = lpl.DisplayName, Font = T.FontBold, TextSize = 17, Parent = head })
+	label({ Position = UDim2.fromOffset(62, 29), Size = UDim2.new(1, -62, 0, 16), Text = "@" .. lpl.Name, TextColor3 = T.SubText, Parent = head })
+	task.spawn(function()
+		local ok, img = pcall(function()
+			return Players:GetUserThumbnailAsync(lpl.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size150x150)
+		end)
+		if ok and img and av.Parent then av.Image = img end
+	end)
+
+	divider()
+	caption("CURRENT GAME")
+
+	-- ---- game card: icon + name
+	local gcard = new("Frame", {
+		Size = UDim2.new(1, 0, 0, 60), BackgroundColor3 = T.Control, BackgroundTransparency = 0.45, BorderSizePixel = 0,
+		LayoutOrder = nextOrder(), Parent = scroll,
+	}, { corner(12), stroke(T.Border, 1, 0.6) })
+	local gicon = new("ImageLabel", {
+		Position = UDim2.fromOffset(8, 8), Size = UDim2.fromOffset(44, 44), BackgroundColor3 = T.Panel, BorderSizePixel = 0,
+		Image = (game.GameId ~= 0) and ("rbxthumb://type=GameIcon&id=" .. game.GameId .. "&w=150&h=150") or "",
+		ScaleType = Enum.ScaleType.Crop, Parent = gcard,
+	}, { corner(10) })
+	local gname = label({
+		Position = UDim2.fromOffset(60, 8), Size = UDim2.new(1, -68, 0, 30), Text = game.Name, Font = T.FontBold, TextSize = 13,
+		TextWrapped = true, TextYAlignment = Enum.TextYAlignment.Top, Parent = gcard,
+	})
+	local gsub = label({ Position = UDim2.fromOffset(60, 38), Size = UDim2.new(1, -68, 0, 14), Text = "", TextSize = 13, TextColor3 = T.SubText, Parent = gcard })
+	-- real place name / icon (cached, so reopening costs nothing)
+	local function applyInfo(info)
+		if not info then return end
+		if info.Name and info.Name ~= "" and gname.Parent then gname.Text = info.Name end
+		if info.IconImageAssetId and info.IconImageAssetId ~= 0 and gicon.Parent then gicon.Image = "rbxassetid://" .. info.IconImageAssetId end
+		if info.Creator and info.Creator.Name and gsub.Parent then gsub.Text = "by " .. tostring(info.Creator.Name) end
+	end
+	if Library._placeInfo then
+		applyInfo(Library._placeInfo)
+	else
+		task.spawn(function()
+			local ok, info = pcall(function() return Market:GetProductInfo(game.PlaceId) end)
+			if ok and type(info) == "table" then Library._placeInfo = info applyInfo(info) end
+		end)
+	end
+
+	divider()
+
+	-- ---- live stats / ids
+	local stats = new("Frame", {
+		Size = UDim2.new(1, 0, 0, 0), AutomaticSize = AY, BackgroundTransparency = 1, LayoutOrder = nextOrder(), Parent = scroll,
+	}, { list(2) })
+	local vals, getters, srow = {}, {}, 0
+	local function row(key, title, get, copyGet)
+		srow += 1
+		local r = new("TextButton", {
+			Size = UDim2.new(1, 0, 0, 22), BackgroundTransparency = 1, Text = "", AutoButtonColor = false, LayoutOrder = srow, Parent = stats,
+		})
+		label({ Size = UDim2.new(0.4, 0, 1, 0), Text = title, TextColor3 = T.SubText, Parent = r })
+		vals[key] = label({ Position = UDim2.fromScale(0.4, 0), Size = UDim2.fromScale(0.6, 1), Text = "-", TextXAlignment = RIGHT, Font = T.FontBold, Parent = r })
+		getters[key] = get
+		if copyGet then
+			r.MouseButton1Click:Connect(function()
+				local okc, t = pcall(copyGet)
+				if okc and t and t ~= "" then copy(tostring(t)) end
+			end)
+		end
+	end
+	local fps = 0
+	local jobId = game.JobId
+	row("players", "Players", function() return ("%d / %d"):format(#Players:GetPlayers(), Players.MaxPlayers) end)
+	row("ping", "Ping", function()
+		local okp, v = pcall(function() return Stats.Network.ServerStatsItem["Data Ping"]:GetValue() end)
+		return okp and (math.floor(v + 0.5) .. " ms") or "-"
+	end)
+	row("fps", "FPS", function() return tostring(fps) end)
+	row("time", "In server", function() return Library._profFmtTime(workspace.DistributedGameTime) end)
+	row("job", "Server ID (tap to copy)", function() return jobId ~= "" and (jobId:sub(1, 8) .. "...") or "Studio" end, function() return jobId end)
+	row("place", "Place ID (tap to copy)", function() return tostring(game.PlaceId) end, function() return tostring(game.PlaceId) end)
+	row("uid", "User ID (tap to copy)", function() return tostring(lpl.UserId) end, function() return tostring(lpl.UserId) end)
+	row("age", "Account age", function()
+		local d = lpl.AccountAge
+		return ("%dy %dm"):format(d // 365, (d % 365) // 30)
+	end)
+	if type(identifyexecutor) == "function" then
+		row("exec", "Executor", function()
+			local okx, n = pcall(identifyexecutor)
+			return okx and tostring(n) or "-"
+		end)
+	end
+	local function refresh()
+		for k, get in pairs(getters) do
+			local okg, v = pcall(get)
+			if okg and vals[k] and vals[k].Parent then vals[k].Text = tostring(v) end
+		end
+	end
+
+	divider()
+
+	-- ---- actions
+	local brow = new("Frame", { Size = UDim2.new(1, 0, 0, 32), BackgroundTransparency = 1, LayoutOrder = nextOrder(), Parent = scroll })
+	local function button(text, x, cb)
+		local b = new("TextButton", {
+			Position = UDim2.new(x, x > 0 and 3 or 0, 0, 0), Size = UDim2.new(0.5, -3, 1, 0), BackgroundColor3 = T.Control,
+			BackgroundTransparency = 0.35, Text = text, Font = T.FontBold, TextSize = 12, TextColor3 = T.Text, AutoButtonColor = false,
+			BorderSizePixel = 0, Parent = brow,
+		}, { corner(10), stroke(T.Accent, 1, 0.6) })
+		feedback(b, b, "BackgroundTransparency", 0.35, 0.2, 0.1, true)
+		b.MouseButton1Click:Connect(cb)
+	end
+	button("Copy join link", 0, function()
+		copy(("roblox://experiences/start?placeId=%d&gameInstanceId=%s"):format(game.PlaceId, jobId))
+	end)
+	button("Rejoin", 0.5, function()
+		win:Notify({ Title = "Rejoining", Content = "Teleporting back to this server...", Kind = "Info", Duration = 2 })
+		local TS = game:GetService("TeleportService")
+		pcall(function()
+			if jobId ~= "" then TS:TeleportToPlaceInstance(game.PlaceId, jobId, lpl) else TS:Teleport(game.PlaceId, lpl) end
+		end)
+	end)
+
+	-- ---- open / close
+	local isOpen, fpsConn = false, nil
+	function win:CloseProfile()
+		if not isOpen then return end
+		isOpen = false
+		if fpsConn then fpsConn:Disconnect() fpsConn = nil end
+		blocker.Visible = false
+		card.Visible = false
+		if self.FooterArrow then self.FooterArrow.Rotation = 0 end
+	end
+	function win:OpenProfile()
+		if isOpen or self._destroyed or self.Compact then return end
+		isOpen = true
+		refresh()
+		local avail = (main.AbsoluteSize.Y / math.max(self.Scale.Scale, 0.01)) - (FOOT_H + 16) - (HEADER_H + 8)
+		local h = math.clamp(lay.AbsoluteContentSize.Y + 24, 140, math.max(avail, 140))
+		card.Size = UDim2.fromOffset(CARD_W, h)
+		scroll.CanvasPosition = Vector2.zero
+		card.Position = UDim2.new(0, 12, 1, baseY + 10)
+		blocker.Visible = true
+		card.Visible = true
+		nextFrame(function() if isOpen then tween(card, 0.22, { Position = UDim2.new(0, 12, 1, baseY) }) end end)
+		if self.FooterArrow then tween(self.FooterArrow, 0.2, { Rotation = 180 }) end
+		local frames, last = 0, os.clock()
+		fpsConn = RunService.RenderStepped:Connect(function()
+			frames += 1
+			local now = os.clock()
+			if now - last >= 0.5 then fps = math.floor(frames / (now - last) + 0.5) frames, last = 0, now end
+		end)
+		task.spawn(function()
+			while isOpen and not self._destroyed do
+				task.wait(0.5)
+				if isOpen then refresh() end
+			end
+			if fpsConn then fpsConn:Disconnect() fpsConn = nil end
+		end)
+	end
+	function win:ToggleProfile()
+		if isOpen then self:CloseProfile() else self:OpenProfile() end
+	end
+
+	blocker.MouseButton1Click:Connect(function() win:CloseProfile() end)
+	if win.ProfileButton then win.ProfileButton.MouseButton1Click:Connect(function() win:ToggleProfile() end) end
+end
+
+
+-- update the header title live. Accepts "Brand | Sub" or (brand, sub).
+function Window:SetTitle(title, sub)
+	if sub == nil and type(title) == "string" then
+		local b, s = title:match("^(.-)%s*|%s*(.+)$")
+		if b then title, sub = b, s end
+	end
+	if title ~= nil then
+		self.Brand = title
+		self.BrandLabel.Text = title
+	end
+	if sub ~= nil then
+		self.Sub = sub
+		if self.SubLabel then self.SubLabel.Text = sub end
+	end
+end
+
+function Window:GetTab(name)
+	for _, t in ipairs(self.Tabs) do
+		if t.Name == name then return t end
+	end
+end
+
+-- select a tab by object or by name
+function Window:SetTab(nameOrTab)
+	local t = type(nameOrTab) == "string" and self:GetTab(nameOrTab) or nameOrTab
+	if t then self:SelectTab(t) end
+	return t
+end
+
+-- override the auto-fit size. Width / Height nil keeps the current auto value.
+function Window:SetSize(w, h)
+	self.Cfg.Width = w
+	self.Cfg.Height = h
+	self:_Fit()
+end
+
+function Window:Center()
+	local vp = self.Gui.AbsoluteSize
+	self.Main.Position = UDim2.fromOffset(vp.X / 2, vp.Y / 2)
+	self._drag.Rel = Vector2.new(0.5, 0.5)
+end
+
+-- quick attention pulse on the window border (used by Notify too)
+function Window:Flash(color)
+	local s = self.Main:FindFirstChildOfClass("UIStroke")
+	if not s then return end
+	color = color or self.Theme.Accent
+	local seq = (self._fseq or 0) + 1
+	self._fseq = seq
+	s.Color = color
+	tween(s, 0.18, { Transparency = 0 })
+	task.delay(0.5, function()
+		if self._fseq ~= seq then return end
+		tween(s, 0.6, { Color = self.Theme.Border, Transparency = 0.1 })
+	end)
+end
+
+function Window:Destroy()
+	self._destroyed = true
+	if self._nm then pcall(function() self._nm:Destroy() end) end
+	pcall(function() self._drag.Stop() end)
+	pcall(function() self._openDrag.Stop() end)
+	if self.FX then for _, tw in ipairs(self.FX.Tweens) do pcall(function() tw:Cancel() end) end end
+	if self._sheen then pcall(function() self._sheen:Cancel() end) end
+	for _, c in ipairs(self.Conns) do pcall(function() c:Disconnect() end) end
+	pcall(function() self.Gui:Destroy() end)
+	for i, w in ipairs(Library.Windows) do
+		if w == self then table.remove(Library.Windows, i) break end
+	end
+end
+
+function Window:_ApplySearch(fromSelect)
+	local tab = self.Active
+	if not tab then return end
+	local q = self.SearchBox.Text:lower():gsub("^%s+", ""):gsub("%s+$", "")
+	if self._ShowResults then self:_ShowResults(q) end
+	q = ""   -- global search: the pages are never filtered, matches are listed in the results panel instead
+	-- switching tabs with an empty search and nothing changed since this tab was last filtered:
+	-- every control is already in the right state, so skip touching hundreds of Visible properties
+	-- in the same frame the page animation starts (that was a visible hitch on big tabs)
+	if fromSelect and q == "" and tab._clean then return end
+	for _, t in ipairs(self.Tabs) do t._clean = false end
+	for _, s in ipairs(tab.Sections) do
+		local secMatch = q == "" or s.Name:lower():find(q, 1, true) ~= nil
+		local any = false
+		for _, c in ipairs(s.Controls) do
+			local vis = (secMatch or c.Name:find(q, 1, true) ~= nil) and not c.Hidden
+			c.Frame.Visible = vis
+			any = any or vis
+		end
+		s.Frame.Visible = secMatch or any
+	end
+	tab._clean = (q == "")
+	tab:_QueueRelayout()
+end
+
+-- tab switch: the new page slides in (direction follows tab order) while fading up from the window color
+function Window:SelectTab(tab)
+	if tab and tab._locked then
+		self:_LockedFeedback(tab)
+		return
+	end
+	if self.Active == tab then return end
+	local T = self.Theme
+	self:CloseDropdowns()
+	local prev = self.Active
+	local dir = 1
+	if prev then
+		dir = ((table.find(self.Tabs, tab) or 0) > (table.find(self.Tabs, prev) or 0)) and 1 or -1
+		prev.Page.Visible = false
+		prev:_SetSelected(false)
+	end
+	self.Active = tab
+	tab.Page.Visible = true
+	tab:_SetSelected(true)
+	self:_ApplySearch(true)
+	tab:_QueueRelayout()
+
+	if prev and not lowPower() then
+		self._pseq = (self._pseq or 0) + 1
+		local seq = self._pseq
+		local pv = self.PageVeil
+		pv.BackgroundTransparency = 0.2   -- not fully opaque: the new page eases in instead of popping out of a flat color
+		pv.Visible = true
+		self:_MotionBegin(0.34, true)   -- backdrop rests while the page slides; the halo stays (nothing moves it)
+		tab.Page.Position = UDim2.fromOffset(0, 14 * dir)
+		-- the page was just made visible and re-laid out: that frame is the heavy one, so the slide starts on the next
+		nextFrame(function()
+			if self._pseq ~= seq or self._destroyed then
+				-- a newer switch took over: do not leave this page parked at its slide offset
+				if self.Active ~= tab and tab.Page.Parent then tab.Page.Position = UDim2.new() end
+				return
+			end
+			tween(tab.Page, 0.34, { Position = UDim2.new() }, QUINT, OUT)
+			tween(pv, 0.26, { BackgroundTransparency = 1 }, SINE, OUT).Completed:Connect(function()
+				if self._pseq == seq then pv.Visible = false end
+			end)
+			-- one-shot accent sweep across the top of the new page
+			local sweep = new("Frame", {
+				Size = UDim2.new(0, 0, 0, 2), Position = UDim2.fromOffset(0, 0), BackgroundColor3 = Color3.new(1, 1, 1),
+				BorderSizePixel = 0, ZIndex = 21, Parent = tab.Page,
+			}, { gradient(cseq({ 0, Color3.new(1, 1, 1) }, { 0.5, T.Accent2 }, { 1, Color3.new(1, 1, 1) }), 0) })
+			sweep:FindFirstChildOfClass("UIGradient").Transparency = NumberSequence.new({
+				NumberSequenceKeypoint.new(0, 0.4), NumberSequenceKeypoint.new(0.5, 0), NumberSequenceKeypoint.new(1, 0.4),
+			})
+			tween(sweep, 0.4, { Size = UDim2.new(1, 0, 0, 2) }, QUAD, OUT).Completed:Connect(function()
+				tween(sweep, 0.25, { BackgroundTransparency = 1 }, QUAD, IN).Completed:Connect(function() sweep:Destroy() end)
+			end)
+		end)
+	end
+end
+
+------------------------------------------------------------------ v3.4 : feedback UI
+-- Notifications, Toast, Banner, Loading, Dialogs + the helper APIs they are built on
+-- (Util, Responsive, Anim, Theme). Everything here is event driven: no Heartbeat loops,
+-- every connection / tween / task of a notification lives in a Bag that is cleaned on dispose.
+local Workspace = game:GetService("Workspace")
+
+---------------------------------------------------------------- Util API
+local Util = {}
+Library.Util = Util
+Util.Create = new
+
+-- Util.Dispose(x): disconnect / destroy / cancel whatever x is (connection, instance, tween, function, thread, {Destroy|Disconnect|Cancel})
+function Util.Dispose(x)
+	local t = typeof(x)
+	if t == "RBXScriptConnection" then
+		x:Disconnect()
+	elseif t == "Instance" then
+		if x:IsA("TweenBase") then pcall(function() x:Cancel() end) end
+		x:Destroy()
+	elseif t == "thread" then
+		pcall(task.cancel, x)
+	elseif t == "function" then
+		pcall(x)
+	elseif t == "table" then
+		if type(x.Destroy) == "function" then pcall(x.Destroy, x)
+		elseif type(x.Disconnect) == "function" then pcall(x.Disconnect, x)
+		elseif type(x.Cancel) == "function" then pcall(x.Cancel, x) end
+	end
+end
+
+-- Util.Bag() -> bag   :Add(x) -> x   :Clean()   :Destroy()
+-- Items are disposed newest first, so add a tween BEFORE the connection that listens to it.
+function Util.Bag()
+	local bag = { _items = {}, _dead = false }
+	function bag:Add(x)
+		if x == nil then return x end
+		if self._dead then pcall(Util.Dispose, x) return x end
+		table.insert(self._items, x)
+		return x
+	end
+	function bag:Clean()
+		local items = self._items
+		self._items = {}
+		for i = #items, 1, -1 do pcall(Util.Dispose, items[i]) end
+	end
+	function bag:Destroy()
+		self._dead = true
+		self:Clean()
+	end
+	return bag
+end
+
+-- Util.Opt(tbl, key, "number"|"string"|"boolean"|"Color3"|..., default, min, max): validated field read
+function Util.Opt(t, key, kind, default, lo, hi)
+	local v = type(t) == "table" and t[key] or nil
+	if v == nil or typeof(v) ~= kind then return default end
+	if kind == "number" then
+		if v ~= v then return default end
+		if lo then v = math.max(v, lo) end
+		if hi then v = math.min(v, hi) end
+	end
+	return v
+end
+
+-- Util.Debounce(fn, wait): runs fn once, `wait` seconds after the LAST call
+function Util.Debounce(fn, wait)
+	local token = 0
+	return function(...)
+		token = token + 1
+		local my, args = token, table.pack(...)
+		task.delay(wait or 0.1, function()
+			if my == token then safe(fn, table.unpack(args, 1, args.n)) end
+		end)
+	end
+end
+
+-- Util.Throttle(fn, interval): runs fn at most once per interval (first call goes through)
+function Util.Throttle(fn, interval)
+	local last = -math.huge
+	return function(...)
+		local now = os.clock()
+		if now - last >= (interval or 0.1) then
+			last = now
+			return fn(...)
+		end
+	end
+end
+
+function Util.Round(n, dp)
+	local m = 10 ^ (dp or 0)
+	return math.floor(n * m + 0.5) / m
+end
+
+-- 1234 -> "1.2K", 3400000 -> "3.4M"
+function Util.FormatNumber(n)
+	if type(n) ~= "number" or n ~= n then return "0" end
+	local a = math.abs(n)
+	if a >= 1e9 then return Util.Round(n / 1e9, 1) .. "B" end
+	if a >= 1e6 then return Util.Round(n / 1e6, 1) .. "M" end
+	if a >= 1e3 then return Util.Round(n / 1e3, 1) .. "K" end
+	return tostring(Util.Round(n, 1))
+end
+
+-- 65 -> "1:05", 3700 -> "1:01:40"
+function Util.FormatTime(sec)
+	sec = math.max(0, math.floor(tonumber(sec) or 0))
+	local h, m, s = math.floor(sec / 3600), math.floor(sec / 60) % 60, sec % 60
+	if h > 0 then return string.format("%d:%02d:%02d", h, m, s) end
+	return string.format("%d:%02d", m, s)
+end
+
+-- UTF-8 safe truncate (Thai / emoji never get cut in the middle of a character)
+function Util.Truncate(s, n, tail)
+	s = tostring(s)
+	local len = utf8.len(s)
+	if not len then return #s > n and (s:sub(1, n) .. (tail or "...")) or s end
+	if len <= n then return s end
+	local cut = utf8.offset(s, n + 1)
+	return s:sub(1, (cut or (n + 1)) - 1) .. (tail or "\u{2026}")
+end
+
+function Util.Lighten(c, a) return c:Lerp(Color3.new(1, 1, 1), a or 0.3) end
+function Util.Darken(c, a) return c:Lerp(Color3.new(0, 0, 0), a or 0.3) end
+function Util.ToHex(c)
+	return string.format("#%02X%02X%02X", math.floor(c.R * 255 + 0.5), math.floor(c.G * 255 + 0.5), math.floor(c.B * 255 + 0.5))
+end
+function Util.FromHex(s)
+	if type(s) ~= "string" then return nil end
+	local h = s:match("^#?(%x%x%x%x%x%x)$")
+	if not h then return nil end
+	return Color3.fromRGB(tonumber(h:sub(1, 2), 16), tonumber(h:sub(3, 4), 16), tonumber(h:sub(5, 6), 16))
+end
+-- black or white, whichever reads better on top of c
+function Util.Contrast(c)
+	local l = 0.299 * c.R + 0.587 * c.G + 0.114 * c.B
+	return l > 0.6 and Color3.new(0, 0, 0) or Color3.new(1, 1, 1)
+end
+
+---------------------------------------------------------------- Responsive API
+local Responsive = {}
+Library.Responsive = Responsive
+
+function Responsive.IsTouch() return UserInputService.TouchEnabled end
+
+-- Responsive.Viewport(win?) -> Vector2 (the window's gui, or the camera viewport)
+function Responsive.Viewport(win)
+	local gui = win and win.Gui
+	if gui and gui.Parent then
+		local s = gui.AbsoluteSize
+		if s.X > 0 and s.Y > 0 then return s end
+	end
+	local cam = Workspace.CurrentCamera
+	if cam and cam.ViewportSize.X > 0 then return cam.ViewportSize end
+	return Vector2.new(1280, 720)
+end
+
+-- "phone" | "tablet" | "desktop"
+function Responsive.Breakpoint(win)
+	local vp = Responsive.Viewport(win)
+	if UserInputService.TouchEnabled then
+		return math.min(vp.X, vp.Y) < 500 and "phone" or "tablet"
+	end
+	return vp.X < 560 and "phone" or "desktop"
+end
+
+-- Responsive.Width(win?, max, margin): a width that always fits the screen
+function Responsive.Width(win, max, margin)
+	local vp = Responsive.Viewport(win)
+	margin = margin or 12
+	return math.floor(math.clamp(vp.X - margin * 2, 120, max or 320))
+end
+
+-- Responsive.Touch(pcValue, touchValue): pick per device
+function Responsive.Touch(pc, touch)
+	if UserInputService.TouchEnabled then return touch end
+	return pc
+end
+
+-- Responsive.Scale(n): a size that grows ~15% on touch (comfortable tap targets)
+function Responsive.Scale(n)
+	return UserInputService.TouchEnabled and math.floor(n * 1.15 + 0.5) or n
+end
+
+-- Responsive.OnChange(win, fn(viewport, breakpoint)) -> connection (resize / rotation)
+function Responsive.OnChange(win, fn)
+	local gui = win and win.Gui
+	if not gui then return { Disconnect = function() end } end
+	return gui:GetPropertyChangedSignal("AbsoluteSize"):Connect(function()
+		safe(fn, gui.AbsoluteSize, Responsive.Breakpoint(win))
+	end)
+end
+
+function Window:OnResize(fn)
+	local c = Responsive.OnChange(self, fn)
+	table.insert(self.Conns, c)
+	return c
+end
+
+---------------------------------------------------------------- Animation API
+-- Library.Anim.Speed already exists (global duration multiplier). Added:
+--   Anim.Tween(obj, time, props, style?, dir?) -> Tween
+--   Anim.Show(obj, { From, Distance, Time, Scale, Style }, done?)   fade + slide / pop in
+--   Anim.Hide(obj, { To, Distance, Time, Destroy }, done?)          fade + slide out, then Visible=false (or Destroy)
+--   Anim.Pulse(obj, amount?)   Anim.Stop(obj)
+local Anim = Library.Anim
+local animSeq = setmetatable({}, { __mode = "k" })
+local animHome = setmetatable({}, { __mode = "k" })
+
+-- scaled tween with optional delay (min 60 ms)
+local function tw(o, t, props, style, dir, delay)
+	t = math.max(t * (Library.Anim.Speed or 1), 0.06)
+	local tweenObj = TweenService:Create(o, TweenInfo.new(t, style or SINE, dir or OUT, 0, false, delay or 0), props)
+	tweenObj:Play()
+	return tweenObj
+end
+
+function Anim.Tween(obj, t, props, style, dir)
+	if typeof(obj) ~= "Instance" or type(props) ~= "table" then return nil end
+	return tween(obj, t or 0.2, props, style, dir)
+end
+
+local DIRS = {
+	Left = Vector2.new(-1, 0), Right = Vector2.new(1, 0), Top = Vector2.new(0, -1), Bottom = Vector2.new(0, 1),
+	None = Vector2.new(0, 0),
+}
+
+local function fadeProp(obj)
+	if obj:IsA("CanvasGroup") then return "GroupTransparency" end
+	if obj:IsA("GuiObject") then return "BackgroundTransparency" end
+end
+
+local function ensureScale(obj)
+	local s = obj:FindFirstChild("SpectreScale")
+	if not s then s = new("UIScale", { Name = "SpectreScale", Parent = obj }) end
+	return s
+end
+
+local function homeOf(obj)
+	local h = animHome[obj]
+	if not h then
+		h = { Pos = obj.Position, Fade = obj:IsA("CanvasGroup") and 0 or obj.BackgroundTransparency }
+		animHome[obj] = h
+	end
+	return h
+end
+
+function Anim.Show(obj, opts, done)
+	if typeof(obj) ~= "Instance" or not obj:IsA("GuiObject") then return nil end
+	opts = type(opts) == "table" and opts or {}
+	local seq = (animSeq[obj] or 0) + 1
+	animSeq[obj] = seq
+	local home = homeOf(obj)
+	local d = (DIRS[opts.From or "Bottom"] or DIRS.None) * (opts.Distance or 24)
+	local t = opts.Time or 0.3
+	local fp = fadeProp(obj)
+	local fade = fp and home.Fade < 1
+	obj.Position = home.Pos + UDim2.fromOffset(d.X, d.Y)
+	if fade then obj[fp] = 1 end
+	obj.Visible = true
+	local sc
+	if opts.Scale then
+		sc = ensureScale(obj)
+		sc.Scale = opts.Scale
+	end
+	local main = tw(obj, t, { Position = home.Pos }, opts.Style or QUINT, OUT)
+	if fade then tw(obj, t * 0.8, { [fp] = home.Fade }, SINE, OUT) end
+	if sc then tw(sc, t, { Scale = 1 }, opts.Style or QUINT, OUT) end
+	if done then
+		main.Completed:Connect(function(st)
+			if animSeq[obj] == seq and st == Enum.PlaybackState.Completed then safe(done, obj) end
+		end)
+	end
+	return main
+end
+
+function Anim.Hide(obj, opts, done)
+	if typeof(obj) ~= "Instance" or not obj:IsA("GuiObject") then return nil end
+	opts = type(opts) == "table" and opts or {}
+	local seq = (animSeq[obj] or 0) + 1
+	animSeq[obj] = seq
+	local home = homeOf(obj)
+	local d = (DIRS[opts.To or "Bottom"] or DIRS.None) * (opts.Distance or 24)
+	local t = opts.Time or 0.2
+	local fp = fadeProp(obj)
+	local fade = fp and home.Fade < 1
+	local sc = opts.Scale and ensureScale(obj)
+	local main = tw(obj, t, { Position = home.Pos + UDim2.fromOffset(d.X, d.Y) }, opts.Style or QUAD, IN)
+	if fade then tw(obj, t, { [fp] = 1 }, SINE, IN) end
+	if sc then tw(sc, t, { Scale = opts.Scale }, QUAD, IN) end
+	main.Completed:Connect(function()
+		if animSeq[obj] ~= seq then return end
+		animHome[obj] = nil
+		if opts.Destroy then
+			obj:Destroy()
+		else
+			-- rests at its home state, invisible, ready for the next Show
+			obj.Visible = false
+			obj.Position = home.Pos
+			if fade then obj[fp] = home.Fade end
+			if sc then sc.Scale = 1 end
+		end
+		if done then safe(done, obj) end
+	end)
+	return main
+end
+
+function Anim.Pulse(obj, amount, t)
+	if typeof(obj) ~= "Instance" or not obj:IsA("GuiObject") then return end
+	local sc = ensureScale(obj)
+	local seq = (animSeq[sc] or 0) + 1
+	animSeq[sc] = seq
+	tw(sc, (t or 0.2) * 0.4, { Scale = 1 + (amount or 0.04) }, QUAD, OUT).Completed:Connect(function()
+		if animSeq[sc] == seq then tw(sc, (t or 0.2) * 0.6, { Scale = 1 }, QUAD, OUT) end
+	end)
+end
+
+-- invalidate pending Show / Hide completion callbacks of obj (a newer tween on the same property wins anyway)
+function Anim.Stop(obj)
+	if obj then
+		animSeq[obj] = (animSeq[obj] or 0) + 1
+		animHome[obj] = nil
+	end
+end
+
+---------------------------------------------------------------- Theme API
+-- Library.Kinds = status styles used by notifications / toasts / dialogs (Color nil = theme accent)
+Library.Kinds = {
+	Success = { Color = rgb(52, 211, 153), Icon = "check" },
+	Warning = { Color = rgb(251, 191, 36), Icon = "!" },
+	Error   = { Color = rgb(248, 113, 113), Icon = "cross" },
+	Info    = { Color = rgb(96, 165, 250), Icon = "i" },
+	Loading = { Color = nil, Icon = "spinner" },
+}
+
+local THEME_COLOR_KEYS = { "Background", "Panel", "Card", "Control", "Border", "Accent", "Accent2", "AccentSoft", "Sheen", "Text", "SubText" }
+
+-- Library:RegisterTheme("Ocean", { Accent = ..., ... }) -> ok, err   (missing keys fall back to the default palette)
+function Library:RegisterTheme(name, theme)
+	if type(name) ~= "string" or name == "" or type(theme) ~= "table" then return false, "usage: RegisterTheme(name, table)" end
+	for _, k in ipairs(THEME_COLOR_KEYS) do
+		if theme[k] ~= nil and typeof(theme[k]) ~= "Color3" then return false, k .. " must be a Color3" end
+	end
+	self.Themes[name] = theme
+	return true
+end
+
+-- Library:GetTheme(name?) -> a full, derived copy (nil name = the current default theme)
+function Library:GetTheme(name)
+	if name == nil then return deriveTheme(table.clone(self.Theme)) end
+	local src = self.Themes[name]
+	if not src then return nil end
+	return deriveTheme(buildTheme(src))
+end
+
+function Library:ListThemes()
+	local out = {}
+	for k in pairs(self.Themes) do table.insert(out, k) end
+	table.sort(out)
+	return out
+end
+
+-- Library:SetStatusColors({ Success = Color3, Warning = ..., Error = ..., Info = ... })
+function Library:SetStatusColors(map)
+	if type(map) ~= "table" then return false end
+	for k, c in pairs(map) do
+		if self.Kinds[k] and typeof(c) == "Color3" then self.Kinds[k].Color = c end
+	end
+	return true
+end
+
+function Library:GetStatusColor(kind)
+	local k = self.Kinds[kind]
+	return k and k.Color
+end
+
+---------------------------------------------------------------- notification engine
+-- Library.NotifyConfig: global defaults (all optional)
+--   Position  "BottomRight" | "TopCenter" | ...   nil = auto (PC bottom-right, touch top-right)
+--   MaxVisible, Duration, Gap, Margin, Width, Merge (identical notifications become "x2"), PauseOnHover, Animate
+local NotifyCfg = { Position = nil, MaxVisible = nil, Duration = 4, Gap = 8, Margin = nil, Width = nil, Merge = true, PauseOnHover = true, Animate = true }
+Library.NotifyConfig = NotifyCfg
+
+local POSITIONS = {
+	TopLeft = { 0, 0 }, TopCenter = { 0.5, 0 }, TopRight = { 1, 0 },
+	BottomLeft = { 0, 1 }, BottomCenter = { 0.5, 1 }, BottomRight = { 1, 1 },
+}
+local function normPos(p)
+	if type(p) ~= "string" then return nil end
+	local k = p:gsub("[%s_%-]", "")
+	k = k:lower()
+	for name in pairs(POSITIONS) do
+		if name:lower() == k then return name end
+	end
+end
+
+local KIND_ALIAS = {
+	success = "Success", ok = "Success", warning = "Warning", warn = "Warning", error = "Error", err = "Error",
+	info = "Info", information = "Info", loading = "Loading",
+}
+local function normKind(k)
+	if type(k) ~= "string" then return nil end
+	return KIND_ALIAS[k:lower()]
+end
+
+local function roleDuration(role)
+	if role == "toast" then return 2.4 end
+	if role == "banner" then return 5 end
+	if role == "loading" then return math.huge end
+	return NotifyCfg.Duration or 4
+end
+
+-- Duration: number = seconds, 0 / false / math.huge / Dismiss=false = stays until dismissed
+local function normDuration(d, dismissFlag, default)
+	if dismissFlag == false then return math.huge end
+	if d == nil then return default end
+	if d == false then return math.huge end
+	if type(d) ~= "number" or d ~= d then return default end
+	if d <= 0 or d == math.huge then return math.huge end
+	return math.clamp(d, 0.4, 3600)
+end
+
+local function clip(v, n)
+	if v == nil or v == false then return nil end
+	v = tostring(v)
+	if v == "" then return nil end
+	return Util.Truncate(v, n)
+end
+
+-- validates a user config into a spec; `base` = previous spec when updating
+local function normalize(cfg, role, base)
+	if type(cfg) == "string" then cfg = { Content = cfg } end
+	if type(cfg) ~= "table" then cfg = {} end
+	local s
+	if base then
+		s = table.clone(base)
+	else
+		s = {
+			Role = role, Duration = roleDuration(role), Countdown = (role == "notify" or role == "banner"),
+			Closable = (role ~= "toast"), CloseOnClick = true,
+		}
+	end
+	if cfg.Kind ~= nil or cfg.Type ~= nil then s.Kind = normKind(cfg.Kind ~= nil and cfg.Kind or cfg.Type) end
+	if cfg.Title ~= nil then s.Title = clip(cfg.Title, 90) end
+	if cfg.Content ~= nil or cfg.Text ~= nil or cfg.Message ~= nil then
+		local c = cfg.Content
+		if c == nil then c = cfg.Text end
+		if c == nil then c = cfg.Message end
+		s.Content = clip(c, 500)
+	end
+	if cfg.Icon ~= nil then
+		if cfg.Icon == "auto" then s.Icon = nil
+		elseif cfg.Icon == false or type(cfg.Icon) == "string" or type(cfg.Icon) == "number" then s.Icon = cfg.Icon end
+	end
+	if cfg.Color ~= nil then s.Color = typeof(cfg.Color) == "Color3" and cfg.Color or nil end
+	if cfg.Duration ~= nil or cfg.Dismiss ~= nil then
+		s.Duration = normDuration(cfg.Duration, cfg.Dismiss, roleDuration(s.Role))
+	end
+	if cfg.Progress ~= nil then
+		local p = cfg.Progress
+		if type(p) == "number" and p == p then
+			s.Value = math.clamp(p, 0, 1)
+		elseif type(p) == "boolean" then
+			s.Value = nil
+			s.Countdown = p
+		end
+	end
+	if cfg.Position ~= nil then s.Position = normPos(cfg.Position) end
+	if cfg.Key ~= nil or cfg.Id ~= nil then
+		local k = cfg.Key
+		if k == nil then k = cfg.Id end
+		s.Key = k ~= nil and tostring(k) or nil
+	end
+	if type(cfg.Closable) == "boolean" then s.Closable = cfg.Closable end
+	if type(cfg.CloseOnClick) == "boolean" then s.CloseOnClick = cfg.CloseOnClick end
+	if type(cfg.Merge) == "boolean" then s.Merge = cfg.Merge end
+	if cfg.Flash ~= nil then s.Flash = cfg.Flash and true or false end
+	if type(cfg.OnClick) == "function" then s.OnClick = cfg.OnClick end
+	if type(cfg.OnClose) == "function" then s.OnClose = cfg.OnClose end
+	if not base then
+		if s.Role ~= "toast" and s.Title == nil then
+			s.Title = s.Kind == "Loading" and "Loading" or s.Kind or "Notice"
+		end
+		if s.Role == "toast" and s.Content == nil then s.Content = s.Title; s.Title = nil end
+		if s.Content == nil and s.Title == nil then s.Title = "Notice" end
+	end
+	return s
+end
+
+local function defaultPosition(role)
+	local p = normPos(NotifyCfg.Position)
+	if p then return p end
+	-- touch: corner (top-right), not the middle of the screen where it blocks the view
+	if UserInputService.TouchEnabled then return "TopRight" end
+	if role == "banner" then return "TopCenter" end
+	return role == "toast" and "BottomCenter" or "BottomRight"
+end
+
+local function isPersistent(spec) return spec.Duration == math.huge or spec.Value ~= nil end
+
+-- accent colours for a spec
+local function styleOf(T, spec)
+	local k = spec.Kind and Library.Kinds[spec.Kind]
+	local base = (k and k.Color) or spec.Color
+	if base then return base, Util.Lighten(base, 0.35) end
+	return T.Accent, T.Accent2
+end
+
+---------------------------------------------------------------- icons (drawn from frames, no assets)
+-- a line segment between two points inside a parent (used for the check / cross glyphs)
+local function seg(parent, x1, y1, x2, y2, th, color)
+	local dx, dy = x2 - x1, y2 - y1
+	return new("Frame", {
+		AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.fromOffset((x1 + x2) / 2, (y1 + y2) / 2),
+		Size = UDim2.fromOffset(math.sqrt(dx * dx + dy * dy) + th * 0.5, th), Rotation = math.deg(math.atan2(dy, dx)),
+		BackgroundColor3 = color, BorderSizePixel = 0, Parent = parent,
+	}, { new("UICorner", { CornerRadius = UDim.new(0.5, 0) }) })
+end
+
+-- buildIcon(parent, spec, color, T, size, bag) -> holder frame
+local function buildIcon(parent, icon, color, T, size, bag)
+	local holder = new("Frame", { Name = "Icon", Size = UDim2.fromOffset(size, size), BackgroundTransparency = 1, Parent = parent })
+	local u = size / 22
+	if icon == "spinner" then
+		local ring = new("Frame", {
+			AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.fromScale(0.5, 0.5), Size = UDim2.fromOffset(18 * u, 18 * u),
+			BackgroundTransparency = 1, Parent = holder,
+		}, { new("UICorner", { CornerRadius = UDim.new(0.5, 0) }) })
+		local st = new("UIStroke", { Color = color, Thickness = 2.5, ApplyStrokeMode = Enum.ApplyStrokeMode.Border, Parent = ring })
+		local g = new("UIGradient", {
+			Transparency = NumberSequence.new({
+				NumberSequenceKeypoint.new(0, 0), NumberSequenceKeypoint.new(0.35, 0.05),
+				NumberSequenceKeypoint.new(0.7, 1), NumberSequenceKeypoint.new(1, 1),
+			}), Parent = st,
+		})
+		-- one looping tween; the bag cancels it when the notification is disposed
+		local lp = TweenService:Create(g, TweenInfo.new(0.9, LINEAR, OUT, -1), { Rotation = 360 })
+		lp:Play()
+		if bag then bag:Add(lp) end
+		return holder
+	end
+	-- tinted badge behind the glyph
+	new("Frame", {
+		Size = UDim2.fromScale(1, 1), BackgroundColor3 = color, BackgroundTransparency = 0.82, BorderSizePixel = 0, Parent = holder,
+	}, { new("UICorner", { CornerRadius = UDim.new(0.5, 0) }) })
+	if icon == "check" then
+		seg(holder, 6.2 * u, 11.6 * u, 9.6 * u, 15 * u, 2 * u, color)
+		seg(holder, 9.6 * u, 15 * u, 16.2 * u, 7.6 * u, 2 * u, color)
+	elseif icon == "cross" then
+		seg(holder, 7.2 * u, 7.2 * u, 14.8 * u, 14.8 * u, 2 * u, color)
+		seg(holder, 14.8 * u, 7.2 * u, 7.2 * u, 14.8 * u, 2 * u, color)
+	elseif type(icon) == "number" or (type(icon) == "string" and icon:find("rbxasset", 1, true)) then
+		new("ImageLabel", {
+			AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.fromScale(0.5, 0.5), Size = UDim2.fromScale(0.64, 0.64),
+			BackgroundTransparency = 1, ImageColor3 = color, ScaleType = Enum.ScaleType.Fit,
+			Image = type(icon) == "number" and ("rbxassetid://" .. icon) or icon, Parent = holder,
+		})
+	elseif Library:IsIconName(icon) and Library:ResolveIcon(icon) then
+		local img = Library:MakeIcon(Library:ResolveIcon(icon), color)
+		img.Size = UDim2.fromScale(0.64, 0.64)
+		img.Parent = holder
+	else
+		new("TextLabel", {
+			Size = UDim2.fromScale(1, 1), BackgroundTransparency = 1, Text = tostring(icon or "i"):sub(1, 2),
+			Font = T.FontBold, TextSize = math.floor(14 * u), TextColor3 = color, Parent = holder,
+		})
+	end
+	return holder
+end
+
+---------------------------------------------------------------- manager
+local NM = {}
+NM.__index = NM
+
+local function mountGui(gui)
+	Library._mount(gui)
+end
+
+-- owner = a Window, or { Headless = true } (Library level calls when no window exists yet)
+function NM.new(owner)
+	return setmetatable({ Owner = owner, Regions = {}, Dialogs = {}, Bag = Util.Bag(), Seq = 0, Dead = false }, NM)
+end
+
+function NM:Theme()
+	local o = self.Owner
+	if o.Headless then return deriveTheme(table.clone(Library.Theme)) end
+	return o._nTheme or o.Theme
+end
+
+function NM:_VP()
+	local o = self.Owner
+	if self.Gui and self.Gui.Parent then
+		local s = self.Gui.AbsoluteSize
+		if s.X > 0 and s.Y > 0 then return s end
+	end
+	return Responsive.Viewport(not o.Headless and o or nil)
+end
+
+-- the notification layer is its own ScreenGui: above the window and dialogs, safe-area aware
+-- (IgnoreGuiInset = false keeps cards out from under the Roblox top bar / phone notch)
+function NM:_Gui()
+	if self.Gui and self.Gui.Parent then return self.Gui end
+	if self.Gui then self:_Reset() end
+	local g = new("ScreenGui", {
+		Name = "SpectreUI_Notify", ResetOnSpawn = false, IgnoreGuiInset = false,
+		ZIndexBehavior = Enum.ZIndexBehavior.Sibling, DisplayOrder = 1000,
+	})
+	local og = self.Owner.Gui
+	if og and og.Parent then g.Parent = og.Parent else mountGui(g) end
+	self.Gui = g
+	self.GuiConn = g:GetPropertyChangedSignal("AbsoluteSize"):Connect(function() self:_RefitSoon() end)
+	return g
+end
+
+-- the notification gui vanished (game cleaned it up): drop everything that lived in it
+function NM:_Reset()
+	for _, r in pairs(self.Regions) do
+		for _, e in ipairs(table.clone(r.Items)) do self:_Kill(e, "destroyed") end
+		for _, e in ipairs(table.clone(r.Queue)) do self:_Kill(e, "destroyed") end
+	end
+	self.Regions = {}
+	if self.GuiConn then self.GuiConn:Disconnect() self.GuiConn = nil end
+	self.Gui = nil
+end
+
+function NM:_RefitSoon()
+	if self._refit or self.Dead then return end
+	self._refit = true
+	task.defer(function()
+		self._refit = false
+		if self.Dead then return end
+		for _, r in pairs(self.Regions) do self:_FitRegion(r) end
+		for _, d in ipairs(self.Dialogs) do if d.fit then d.fit() end end
+	end)
+end
+
+function NM:_MaxVisible()
+	local m = NotifyCfg.MaxVisible
+	if type(m) ~= "number" then m = UserInputService.TouchEnabled and 3 or 5 end
+	return math.clamp(math.floor(m), 1, 10)
+end
+
+function NM:_FitRegion(r)
+	local vp = self:_VP()
+	local m = NotifyCfg.Margin
+	if type(m) ~= "number" then m = Responsive.Touch(14, 10) end
+	local maxW = NotifyCfg.Width
+	if type(maxW) ~= "number" then maxW = (r.AX == 0.5) and 360 or Responsive.Touch(320, 300) end
+	r.W = math.floor(math.clamp(vp.X - m * 2, 120, maxW))
+	r.H = math.max(vp.Y - m * 2, 60)
+	r.Gap = type(NotifyCfg.Gap) == "number" and NotifyCfg.Gap or 8
+	r.Holder.AnchorPoint = Vector2.new(r.AX, r.AY)
+	r.Holder.Position = UDim2.new(r.AX, r.AX == 0 and m or (r.AX == 1 and -m or 0), r.AY, r.AY == 0 and m or -m)
+	r.Holder.Size = UDim2.fromOffset(r.W, r.H)
+	r.Layout.Padding = UDim.new(0, r.Gap)
+	for _, e in ipairs(r.Items) do
+		if e.wrap and not e.auto and e.state ~= "dead" then
+			e.wrap.Size = UDim2.fromOffset(r.W, e.wrap.Size.Y.Offset)
+		end
+	end
+	self:_Overflow(r)
+end
+
+function NM:_Region(pos)
+	local r = self.Regions[pos]
+	if r and r.Holder.Parent then return r end
+	local gui = self:_Gui()
+	local ax, ay = POSITIONS[pos][1], POSITIONS[pos][2]
+	local holder = new("Frame", { Name = "Region_" .. pos, BackgroundTransparency = 1, Parent = gui })
+	local layout = list(8, {
+		FillDirection = Enum.FillDirection.Vertical,
+		HorizontalAlignment = ax == 0 and Enum.HorizontalAlignment.Left or (ax == 1 and Enum.HorizontalAlignment.Right or Enum.HorizontalAlignment.Center),
+		VerticalAlignment = ay == 0 and Enum.VerticalAlignment.Top or Enum.VerticalAlignment.Bottom,
+	})
+	layout.Parent = holder
+	r = { Pos = pos, AX = ax, AY = ay, Holder = holder, Layout = layout, Items = {}, Queue = {}, W = 300, H = 400, Gap = 8 }
+	self.Regions[pos] = r
+	self:_FitRegion(r)
+	return r
+end
+
+local function activeCount(r)
+	local n = 0
+	for _, e in ipairs(r.Items) do
+		if e.state ~= "leaving" and e.state ~= "dead" then n = n + 1 end
+	end
+	return n
+end
+
+-- oldest entry that may be removed to make room (never a persistent one: loading / progress / Duration = 0)
+local function oldestDismissable(r, except)
+	for _, e in ipairs(r.Items) do
+		if e ~= except and (e.state == "entering" or e.state == "shown") and not isPersistent(e.spec) then return e end
+	end
+end
+
+-- too tall for the screen (long texts on a landscape phone): drop the oldest, never the newest
+function NM:_Overflow(r)
+	for _ = 1, 12 do
+		local total, n = 0, 0
+		for _, e in ipairs(r.Items) do
+			if e.state ~= "leaving" and e.state ~= "dead" and e.h then
+				total = total + e.h + r.Gap
+				n = n + 1
+			end
+		end
+		if n <= 1 or total - r.Gap <= r.H then return end
+		local newest = r.Items[#r.Items]
+		local v = oldestDismissable(r, newest)
+		if not v then return end
+		self:_Dismiss(v, "evicted")
+	end
+end
+
+function NM:_Pump(r)
+	if self.Dead then return end
+	while #r.Queue > 0 and activeCount(r) < self:_MaxVisible() do
+		local e = table.remove(r.Queue, 1)
+		self:_Show(e, r)
+	end
+end
+
+local function slideDir(r)
+	if r.AX == 1 then return "Right" end
+	if r.AX == 0 then return "Left" end
+	return r.AY == 0 and "Top" or "Bottom"
+end
+
+---------------------------------------------------------------- handle
+local function deadHandle()
+	local h = { Id = 0 }
+	local no = function() return false end
+	for _, n in ipairs({ "Update", "SetProgress", "Dismiss", "Close", "IsAlive", "OnClose", "Set", "SetText", "Complete", "Fail" }) do h[n] = no end
+	return h
+end
+Library._deadHandle = deadHandle
+
+-- methods work with both h:Method() and h.Method()
+local function method(h, fn)
+	return function(a, ...)
+		if a == h then return fn(...) end
+		return fn(a, ...)
+	end
+end
+
+function NM:_Handle(entry)
+	local h = { Id = entry.Id }
+	local nm = self
+	h.Update = method(h, function(patch)
+		if nm:_Update(entry, patch) then return h end
+		return false
+	end)
+	h.SetProgress = method(h, function(v)
+		if type(v) ~= "number" then return false end
+		return nm:_Update(entry, { Progress = v }) and h or false
+	end)
+	h.Dismiss = method(h, function(reason) return nm:_Dismiss(entry, type(reason) == "string" and reason or "api") end)
+	h.Close = h.Dismiss
+	h.IsAlive = method(h, function() return entry.state ~= "dead" and entry.state ~= "leaving" end)
+	h.OnClose = method(h, function(fn)
+		if type(fn) == "function" then entry.spec.OnClose = fn end
+		return h
+	end)
+	entry.handle = h
+	return h
+end
+
+---------------------------------------------------------------- build / paint
+function NM:_Build(entry)
+	local T = self:Theme()
+	local spec, r = entry.spec, entry.region
+	local ui = {}
+	entry.ui = ui
+	local toast = spec.Role == "toast"
+	entry.auto = toast
+	local bag = entry.bag
+	local touch = UserInputService.TouchEnabled
+
+	local wrap = new("Frame", {
+		Name = "N" .. entry.Id, BackgroundTransparency = 1, LayoutOrder = entry.Id,
+		Size = UDim2.fromOffset(toast and 0 or r.W, 0), Parent = r.Holder,
+	})
+	entry.wrap = wrap
+	local dir = slideDir(r)
+	local card = new("CanvasGroup", {
+		Name = "Card", BackgroundTransparency = 1, GroupTransparency = 1,
+		Size = toast and UDim2.fromOffset(0, 0) or UDim2.new(1, 0, 0, 0), AutomaticSize = toast and Enum.AutomaticSize.XY or AY,
+		Parent = wrap,
+	}, { corner(toast and 16 or 10) })
+	ui.Card = card
+	if not toast then new("UISizeConstraint", { MinSize = Vector2.new(0, 46), Parent = card }) end
+
+	ui.Bg = new("Frame", { Name = "Bg", Size = UDim2.fromScale(1, 1), BackgroundColor3 = T.Panel, BackgroundTransparency = 0.03, BorderSizePixel = 0, ZIndex = 1, Parent = card })
+	ui.BgGrad = wash(cseq({ 0, T.Top }, { 1, T.Deep }), 90)
+	ui.BgGrad.Parent = ui.Bg
+	ui.Rim = new("Frame", { Name = "Rim", Size = UDim2.fromScale(1, 1), BackgroundTransparency = 1, ZIndex = 2, Parent = card },
+		{ corner(toast and 16 or 10), stroke(T.Accent, 2, 0.5) })
+	ui.RimStroke = ui.Rim:FindFirstChildOfClass("UIStroke")
+
+	if toast then
+		local row = new("Frame", { Name = "Row", Size = UDim2.fromOffset(0, 0), AutomaticSize = Enum.AutomaticSize.XY, BackgroundTransparency = 1, ZIndex = 3, Parent = card },
+			{ list(8, { FillDirection = Enum.FillDirection.Horizontal, VerticalAlignment = Enum.VerticalAlignment.Center }), padding(12, 8, 16, 8) })
+		ui.Row = row
+		ui.IconSlot = new("Frame", { LayoutOrder = 1, Size = UDim2.fromOffset(18, 18), BackgroundTransparency = 1, Parent = row })
+		local maxText = math.max(r.W - 12 - 16 - 18 - 8, 60)
+		ui.Content = new("TextLabel", {
+			LayoutOrder = 2, Size = UDim2.fromOffset(0, 0), AutomaticSize = Enum.AutomaticSize.XY, BackgroundTransparency = 1,
+			Font = T.Font, TextSize = 14, TextColor3 = T.Text, TextWrapped = true, TextXAlignment = LEFT, Parent = row,
+		}, { new("UISizeConstraint", { MaxSize = Vector2.new(maxText, math.huge) }) })
+		ui.MaxText = ui.Content:FindFirstChildOfClass("UISizeConstraint")
+	else
+		local cs = touch and 32 or 24   -- close button size; also used to mirror the icon on the right side
+		-- rail = inset pill (equal gap top / bottom), so the rounded corners no longer slice it into a wedge
+		ui.Rail = new("Frame", { Name = "Rail", AnchorPoint = Vector2.new(0, 0.5), Position = UDim2.new(0, 6, 0.5, 0), Size = UDim2.new(0, 3, 1, -20),
+			BackgroundColor3 = Color3.new(1, 1, 1), BorderSizePixel = 0, ZIndex = 3, Parent = card },
+			{ corner(2), gradient(T.Accent, T.Accent2, 90) })
+		ui.RailGrad = ui.Rail:FindFirstChildOfClass("UIGradient")
+		ui.IconSlot = new("Frame", { Name = "IconSlot", Position = UDim2.fromOffset(16, 10), Size = UDim2.fromOffset(22, 22), BackgroundTransparency = 1, ZIndex = 3, Parent = card })
+		local inner = new("Frame", {
+			Name = "Inner", Position = UDim2.fromOffset(48, 0), Size = UDim2.new(1, -(48 + 27 + cs / 2 + 4), 0, 0), AutomaticSize = AY,
+			BackgroundTransparency = 1, ZIndex = 3, Parent = card,
+		}, { list(3), padding(0, 11, 0, 13) })
+		ui.Title = new("TextLabel", {
+			LayoutOrder = 1, Size = UDim2.new(1, 0, 0, 0), AutomaticSize = AY, BackgroundTransparency = 1, Font = T.FontBold, TextSize = 14,
+			TextColor3 = T.Text, TextXAlignment = LEFT, TextWrapped = true, Parent = inner,
+		})
+		ui.Content = new("TextLabel", {
+			LayoutOrder = 2, Size = UDim2.new(1, 0, 0, 0), AutomaticSize = AY, BackgroundTransparency = 1, Font = T.Font, TextSize = 13,
+			TextColor3 = T.SubText, TextXAlignment = LEFT, TextWrapped = true, Parent = inner,
+		})
+		-- countdown / progress bar along the bottom edge
+		ui.Track = new("Frame", { Name = "Track", AnchorPoint = Vector2.new(0.5, 1), Position = UDim2.new(0.5, 0, 1, -6), Size = UDim2.new(1, -32, 0, 3),
+			BackgroundColor3 = T.Accent, BackgroundTransparency = 0.86, BorderSizePixel = 0, ZIndex = 4, Visible = false, Parent = card }, { corner(2) })
+		ui.Fill = new("Frame", { Size = UDim2.fromScale(1, 1), BackgroundColor3 = Color3.new(1, 1, 1), BorderSizePixel = 0, Parent = ui.Track },
+			{ corner(2), gradient(T.Accent, T.Accent2, 0) })
+		ui.FillGrad = ui.Fill:FindFirstChildOfClass("UIGradient")
+	end
+
+	-- whole card is one big hit target (comfortable on touch); the x sits above it
+	ui.Hit = new("TextButton", { Name = "Hit", Size = UDim2.fromScale(1, 1), BackgroundTransparency = 1, Text = "", AutoButtonColor = false, ZIndex = 5, Parent = card })
+	bag:Add(ui.Hit.MouseButton1Click:Connect(function()
+		local s = entry.spec
+		if s.OnClick then safe(s.OnClick, entry.handle) end
+		if s.CloseOnClick then self:_Dismiss(entry, "click") end
+	end))
+	if not toast then
+		local cs = touch and 32 or 24
+		ui.Close = new("TextButton", {
+			Name = "Close", AnchorPoint = Vector2.new(1, 0), Position = UDim2.new(1, -(27 - cs / 2), 0, 21 - cs / 2), Size = UDim2.fromOffset(cs, cs),
+			BackgroundTransparency = 1, Text = "\u{00D7}", Font = T.FontBold, TextSize = 20, TextColor3 = T.SubText, AutoButtonColor = false, ZIndex = 6, Parent = card,
+		})
+		bag:Add(ui.Close.MouseButton1Click:Connect(function() self:_Dismiss(entry, "close") end))
+		bag:Add(ui.Close.MouseEnter:Connect(function()
+			if not usingTouch() then tween(ui.Close, 0.12, { TextColor3 = T.Text }) end
+		end))
+		bag:Add(ui.Close.MouseLeave:Connect(function() tween(ui.Close, 0.14, { TextColor3 = T.SubText }) end))
+	end
+
+	-- hover pauses the countdown (PC); mouse leave resumes. A watchdog resumes it after 12 s regardless.
+	if NotifyCfg.PauseOnHover ~= false then
+		bag:Add(ui.Hit.MouseEnter:Connect(function()
+			if usingTouch() then return end
+			self:_Hover(entry, true)
+		end))
+		bag:Add(ui.Hit.MouseLeave:Connect(function() self:_Hover(entry, false) end))
+	end
+
+	self:_Paint(entry)
+
+	-- measure: the wrap follows the card height; the enter animation starts when the first real size arrives
+	bag:Add(card:GetPropertyChangedSignal("AbsoluteSize"):Connect(function() self:_OnSize(entry) end))
+	bag:Add(task.delay(0.4, function()
+		if entry.state == "entering" and not entry.measured then
+			entry.h = entry.h or 64
+			entry.w = entry.w or r.W
+			entry.measured = true
+			self:_Enter(entry)
+		end
+	end))
+	self:_OnSize(entry)
+end
+
+-- (re)apply everything a spec controls. Safe to call any number of times.
+function NM:_Paint(entry)
+	local T = self:Theme()
+	local spec, ui = entry.spec, entry.ui
+	local accent, accent2 = styleOf(T, spec)
+	local toast = spec.Role == "toast"
+	ui.RimStroke.Color = accent
+	if ui.RailGrad then ui.RailGrad.Color = ColorSequence.new(accent, accent2) end
+	if ui.FillGrad then ui.FillGrad.Color = ColorSequence.new(accent, accent2) end
+	if ui.Track then ui.Track.BackgroundColor3 = accent end
+
+	local content = spec.Content or ""
+	if ui.Title then
+		local title = spec.Title or ""
+		if entry.count > 1 then title = title .. "  \u{00D7}" .. entry.count end
+		if spec.Value ~= nil and spec.Kind == "Loading" then title = title .. "  \u{00B7}  " .. math.floor(spec.Value * 100 + 0.5) .. "%" end
+		ui.Title.Text = title
+		ui.Title.Visible = title ~= ""
+		ui.Content.Text = content
+		ui.Content.Visible = content ~= ""
+	else
+		ui.Content.Text = (entry.count > 1 and (content .. "  \u{00D7}" .. entry.count)) or content
+	end
+	if ui.Close then ui.Close.Visible = spec.Closable end
+
+	local k = spec.Kind and Library.Kinds[spec.Kind]
+	local icon = spec.Icon
+	if icon == nil then icon = k and k.Icon or "i" end
+	local key = tostring(icon) .. "|" .. tostring(accent)
+	if ui.IconKey ~= key then
+		ui.IconKey = key
+		ui.IconBag = ui.IconBag or Util.Bag()
+		ui.IconBag:Clean()
+		for _, c in ipairs(ui.IconSlot:GetChildren()) do c:Destroy() end
+		ui.IconSlot.Visible = icon ~= false
+		if icon ~= false then buildIcon(ui.IconSlot, icon, accent, T, toast and 18 or 22, ui.IconBag) end
+	end
+	if ui.IconBag and not entry.iconBagAdded then
+		entry.iconBagAdded = true
+		entry.bag:Add(function() ui.IconBag:Destroy() end)
+	end
+end
+
+function NM:_OnSize(entry)
+	if entry.state == "dead" or not entry.ui then return end
+	local sz = entry.ui.Card.AbsoluteSize
+	if sz.Y <= 0 then return end
+	entry.h, entry.w = sz.Y, sz.X
+	if not entry.measured then
+		entry.measured = true
+		if entry.state == "entering" then self:_Enter(entry) end
+	elseif entry.state == "shown" then
+		self:_SetWrap(entry, true)
+		self:_Overflow(entry.region)
+	end
+end
+
+function NM:_SetWrap(entry, animate)
+	local wrap = entry.wrap
+	if not wrap or entry.state == "dead" then return end
+	local size = UDim2.fromOffset(entry.auto and entry.w or entry.region.W, entry.h)
+	if animate and NotifyCfg.Animate ~= false then
+		tw(wrap, 0.18, { Size = size }, QUAD, OUT)
+	else
+		wrap.Size = size
+	end
+end
+
+function NM:_Enter(entry)
+	if entry.state ~= "entering" then return end
+	local r = entry.region
+	local fw = entry.auto and entry.w or r.W
+	local fin = UDim2.fromOffset(fw, entry.h)
+	local anim = NotifyCfg.Animate ~= false
+	self:_Overflow(r)
+	if not anim then
+		entry.wrap.Size = fin
+		entry.ui.Card.GroupTransparency = 0
+		entry.state = "shown"
+		self:_StartTimer(entry)
+		return
+	end
+	local t = lowPower() and 0.2 or 0.32
+	entry.wrap.Size = UDim2.fromOffset(fw, 0)
+	local grow = tw(entry.wrap, t, { Size = fin }, QUINT, OUT)
+	Anim.Show(entry.ui.Card, { From = lowPower() and "None" or slideDir(r), Distance = 36, Time = t })
+	entry.bag:Add(grow)
+	entry.bag:Add(grow.Completed:Connect(function()
+		if entry.state ~= "entering" then return end
+		entry.state = "shown"
+		self:_SetWrap(entry, false)
+		self:_StartTimer(entry)
+	end))
+	-- failsafe: never stay in "entering"
+	entry.bag:Add(task.delay(t + 0.8, function()
+		if entry.state == "entering" then
+			entry.state = "shown"
+			self:_SetWrap(entry, false)
+			entry.ui.Card.GroupTransparency = 0
+			self:_StartTimer(entry)
+		end
+	end))
+end
+
+---------------------------------------------------------------- timer / hover
+function NM:_StopTimer(entry)
+	if entry.lifeConn then entry.lifeConn:Disconnect() entry.lifeConn = nil end
+	if entry.life then
+		pcall(function() entry.life:Cancel() end)
+		entry.life = nil
+	end
+end
+
+-- countdown bar = lifetime. Pausing the tween pauses the dismissal too (no separate task.delay to desync).
+function NM:_StartTimer(entry)
+	self:_StopTimer(entry)
+	if entry.state ~= "shown" then return end
+	local spec, ui = entry.spec, entry.ui
+	if not ui.Track then
+		-- toast: no bar, a plain timed tween on a hidden value is not needed; use the tween on the card's own transparency-free property
+		if spec.Duration == math.huge then return end
+		local probe = ui.Probe
+		if not probe then
+			probe = new("Frame", { Name = "Probe", Visible = false, Size = UDim2.fromOffset(1, 1), Parent = ui.Card })
+			ui.Probe = probe
+		end
+		probe.Size = UDim2.fromOffset(1, 1)
+		local life = TweenService:Create(probe, TweenInfo.new(spec.Duration, LINEAR), { Size = UDim2.fromOffset(0, 0) })
+		entry.life = life
+		entry.lifeConn = life.Completed:Connect(function(st)
+			if st == Enum.PlaybackState.Completed then self:_Dismiss(entry, "timeout") end
+		end)
+		life:Play()
+		if entry.hovering then life:Pause() end
+		return
+	end
+	if spec.Value ~= nil then
+		ui.Track.Visible = true
+		tw(ui.Fill, 0.2, { Size = UDim2.fromScale(spec.Value, 1) }, QUAD, OUT)
+		return
+	end
+	if spec.Duration == math.huge then
+		ui.Track.Visible = false
+		return
+	end
+	ui.Track.Visible = spec.Countdown and true or false
+	ui.Fill.Size = UDim2.fromScale(1, 1)
+	local life = TweenService:Create(ui.Fill, TweenInfo.new(spec.Duration, LINEAR), { Size = UDim2.fromScale(0, 1) })
+	entry.life = life
+	entry.lifeConn = life.Completed:Connect(function(st)
+		if st == Enum.PlaybackState.Completed then self:_Dismiss(entry, "timeout") end
+	end)
+	life:Play()
+	if entry.hovering then life:Pause() end
+end
+
+function NM:_Hover(entry, on)
+	if entry.state == "dead" or entry.state == "leaving" then return end
+	entry.hovering = on
+	if entry.pauseThread then
+		pcall(task.cancel, entry.pauseThread)
+		entry.pauseThread = nil
+	end
+	if on then
+		if entry.life then pcall(function() entry.life:Pause() end) end
+		if entry.ui.RimStroke then tween(entry.ui.RimStroke, 0.15, { Transparency = 0.1 }) end
+		entry.pauseThread = task.delay(12, function()
+			entry.pauseThread = nil
+			self:_Hover(entry, false)
+		end)
+	else
+		if entry.life then pcall(function() entry.life:Play() end) end
+		if entry.ui.RimStroke then tween(entry.ui.RimStroke, 0.2, { Transparency = 0.5 }) end
+	end
+end
+
+---------------------------------------------------------------- dismiss / kill
+-- final cleanup. Idempotent: whatever order tweens, failsafes and API calls arrive in, it runs once.
+function NM:_Kill(entry, reason)
+	if entry.state == "dead" then return end
+	entry.state = "dead"
+	self:_StopTimer(entry)
+	if entry.pauseThread then pcall(task.cancel, entry.pauseThread) entry.pauseThread = nil end
+	entry.bag:Destroy()
+	if entry.wrap then
+		pcall(function() entry.wrap:Destroy() end)
+		entry.wrap = nil
+	end
+	local r = entry.region
+	if r then
+		for i, e in ipairs(r.Items) do
+			if e == entry then table.remove(r.Items, i) break end
+		end
+		for i, e in ipairs(r.Queue) do
+			if e == entry then table.remove(r.Queue, i) break end
+		end
+	end
+	local cb = entry.spec.OnClose
+	entry.ui = nil
+	if cb then safe(cb, reason or "api") end
+	if r and not self.Dead then
+		self:_Pump(r)
+	end
+end
+
+function NM:_Dismiss(entry, reason)
+	local st = entry.state
+	if st == "dead" or st == "leaving" then return false end
+	if st == "queued" then
+		self:_Kill(entry, reason)
+		return true
+	end
+	entry.state = "leaving"
+	self:_StopTimer(entry)
+	if entry.pauseThread then pcall(task.cancel, entry.pauseThread) entry.pauseThread = nil end
+	local wrap, card, r = entry.wrap, entry.ui and entry.ui.Card, entry.region
+	if not wrap or not card or NotifyCfg.Animate == false then
+		self:_Kill(entry, reason)
+		return true
+	end
+	-- 1) the card slides + fades, 2) the slot collapses so the others glide into place (no jump)
+	Anim.Hide(card, { To = lowPower() and "None" or slideDir(r), Distance = 36, Time = 0.2 })
+	local collapse = tw(wrap, 0.26, { Size = UDim2.fromOffset(wrap.Size.X.Offset, 0) }, QUAD, IN, 0.08)
+	entry.bag:Add(collapse)
+	entry.bag:Add(collapse.Completed:Connect(function() self:_Kill(entry, reason) end))
+	entry.bag:Add(task.delay(0.9, function() self:_Kill(entry, reason) end)) -- failsafe
+	return true
+end
+
+function NM:DismissAll(reason)
+	for _, r in pairs(self.Regions) do
+		for _, e in ipairs(table.clone(r.Queue)) do self:_Dismiss(e, reason or "api") end
+		for _, e in ipairs(table.clone(r.Items)) do self:_Dismiss(e, reason or "api") end
+	end
+end
+
+---------------------------------------------------------------- update / add
+function NM:_Update(entry, patch)
+	if entry.state == "dead" or entry.state == "leaving" or type(patch) ~= "table" then return false end
+	local old = entry.spec
+	local spec = normalize(patch, old.Role, old)
+	if patch.Position ~= nil and spec.Position ~= old.Position then spec.Position = old.Position end -- a live notification does not move
+	entry.spec = spec
+	if entry.ui then
+		self:_Paint(entry)
+		if patch.Duration ~= nil or patch.Dismiss ~= nil or patch.Progress ~= nil or patch.Kind ~= nil then
+			self:_StartTimer(entry)
+		end
+		if entry.ui.Card then Anim.Pulse(entry.ui.Card, 0.03) end
+	end
+	return true
+end
+
+local function sameText(a, b)
+	return a.Role == b.Role and a.Kind == b.Kind and a.Title == b.Title and a.Content == b.Content and a.Value == nil and b.Value == nil
+end
+
+-- every live / queued entry
+function NM:_Each(fn)
+	for _, r in pairs(self.Regions) do
+		for _, e in ipairs(r.Items) do if fn(e) then return e end end
+		for _, e in ipairs(r.Queue) do if fn(e) then return e end end
+	end
+end
+
+function NM:_Show(entry, r)
+	entry.region = r
+	entry.state = "entering"
+	table.insert(r.Items, entry)
+	local ok, err = pcall(self._Build, self, entry)
+	if not ok then
+		warn("[SpectreUI] notification build failed: " .. tostring(err))
+		self:_Kill(entry, "error")
+	end
+end
+
+-- the one entry point: role = "notify" | "toast" | "banner" | "loading"
+function NM:Add(cfg, role)
+	if self.Dead then return deadHandle() end
+	if type(cfg) == "string" then cfg = { Content = cfg } end
+	if type(cfg) ~= "table" then cfg = {} end
+	local spec = normalize(cfg, role)
+
+	-- same Key -> update that notification instead of stacking another
+	if spec.Key then
+		local found = self:_Each(function(e) return e.spec.Key == spec.Key and e.state ~= "leaving" and e.state ~= "dead" end)
+		if found then
+			self:_Update(found, cfg)
+			return found.handle
+		end
+	end
+	-- identical text -> "x2" instead of a wall of duplicates
+	if NotifyCfg.Merge ~= false and spec.Merge ~= false and not spec.Key then
+		local found = self:_Each(function(e)
+			return e.state ~= "leaving" and e.state ~= "dead" and not e.spec.Key and sameText(e.spec, spec)
+		end)
+		if found then
+			found.count = found.count + 1
+			if found.ui then
+				self:_Paint(found)
+				self:_StartTimer(found)
+				Anim.Pulse(found.ui.Card, 0.04)
+			end
+			return found.handle
+		end
+	end
+
+	local r = self:_Region(spec.Position or defaultPosition(role))
+	self.Seq = self.Seq + 1
+	local entry = { Id = self.Seq, spec = spec, count = 1, state = "queued", bag = Util.Bag(), region = r }
+	local handle = self:_Handle(entry)
+
+	if activeCount(r) >= self:_MaxVisible() then
+		local victim = oldestDismissable(r)
+		if victim then
+			self:_Dismiss(victim, "evicted")
+		else
+			table.insert(r.Queue, entry)
+			return handle
+		end
+	end
+	self:_Show(entry, r)
+	if role ~= "loading" then playSound("Notify", cfg.Sound) end
+	if spec.Flash and self.Owner.Flash then
+		local T = self:Theme()
+		self.Owner:Flash((styleOf(T, spec)))
+	end
+	return handle
+end
+
+function NM:Destroy()
+	if self.Dead then return end
+	for _, r in pairs(self.Regions) do
+		for _, e in ipairs(table.clone(r.Items)) do self:_Kill(e, "destroyed") end
+		for _, e in ipairs(table.clone(r.Queue)) do self:_Kill(e, "destroyed") end
+	end
+	self.Dead = true
+	for i = #self.Dialogs, 1, -1 do
+		if self.Dialogs[i] and self.Dialogs[i].destroy then self.Dialogs[i].destroy() end
+	end
+	if self.GuiConn then self.GuiConn:Disconnect() self.GuiConn = nil end
+	self.Bag:Destroy()
+	if self.Gui then pcall(function() self.Gui:Destroy() end) end
+	if self.HostGui then pcall(function() self.HostGui:Destroy() end) end
+	self.Regions = {}
+end
+
+---------------------------------------------------------------- dialogs
+-- nm:Dialog({
+--   Title, Content, Kind ("Info"|"Success"|"Warning"|"Error"), Icon, Width,
+--   Buttons = { { Text, Value, Style = "Primary"|"Secondary"|"Danger", Callback(handle, input), Close = true, Default = true } },
+--   Input = true | { Placeholder, Default, MaxLength, Numeric, AutoFocus },
+--   Build = function(container, theme, handle) end,      -- add your own controls
+--   Dismissable = true (overlay tap / Esc closes with value nil),
+--   OnClose(value, input, reason) })
+-- -> handle { Close(value), Update{Title,Content,Kind}, IsOpen(), Wait() -> value, input }
+function NM:_DialogGui()
+	local o = self.Owner
+	if o.Gui and o.Gui.Parent then return o.Gui end
+	if self.HostGui and self.HostGui.Parent then return self.HostGui end
+	local g = new("ScreenGui", { Name = "SpectreUI_Host", ResetOnSpawn = false, IgnoreGuiInset = true, ZIndexBehavior = Enum.ZIndexBehavior.Sibling, DisplayOrder = 998 })
+	Library._fullScreen(g)
+	mountGui(g)
+	self.HostGui = g
+	return g
+end
+
+function NM:Dialog(cfg)
+	if self.Dead then return deadHandle() end
+	if type(cfg) ~= "table" then cfg = {} end
+	local T = self:Theme()
+	local gui = self:_DialogGui()
+	local touch = UserInputService.TouchEnabled
+	local owner = (not self.Owner.Headless) and self.Owner or nil
+	local bag = Util.Bag()
+	local dlg = { open = true, input = nil }
+	local handle = { }
+	local kind = normKind(cfg.Kind)
+	local accent = (kind and Library.Kinds[kind] and Library.Kinds[kind].Color) or T.Accent
+	local accent2 = (kind and Util.Lighten(accent, 0.35)) or T.Accent2
+	local dismissable = cfg.Dismissable ~= false
+	local depth = #self.Dialogs + 1
+	local btnH = touch and 42 or 34
+	local result = { value = nil, input = nil, reason = nil }
+	local waiters = {}
+
+	local overlay = new("Frame", {
+		Name = "Dialog", Size = UDim2.fromScale(1, 1), BackgroundColor3 = Color3.new(0, 0, 0), BackgroundTransparency = 1,
+		BorderSizePixel = 0, Active = true, ZIndex = 130 + depth * 2, Parent = gui,
+	})
+	local outside = new("TextButton", { Size = UDim2.fromScale(1, 1), BackgroundTransparency = 1, Text = "", AutoButtonColor = false, ZIndex = 1, Parent = overlay })
+	local W = Responsive.Width(owner, math.floor(Util.Opt(cfg, "Width", "number", 340, 220, 560)), 16)
+	local card = new("CanvasGroup", {
+		Name = "Card", AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.fromScale(0.5, 0.5), Size = UDim2.fromOffset(W, 0),
+		AutomaticSize = AY, BackgroundTransparency = 1, Active = true, ZIndex = 2, Visible = false, Parent = overlay,
+	}, { corner(12) })
+	new("Frame", { Size = UDim2.fromScale(1, 1), BackgroundColor3 = T.Panel, BackgroundTransparency = 0.02, BorderSizePixel = 0, ZIndex = 1, Parent = card },
+		{ wash(cseq({ 0, T.Top }, { 1, T.Deep }), 90) })
+	new("Frame", { Size = UDim2.fromScale(1, 1), BackgroundTransparency = 1, ZIndex = 2, Parent = card }, { corner(12), stroke(accent, 2, 0.45) })
+	local col = new("Frame", { Size = UDim2.fromScale(1, 0), AutomaticSize = AY, BackgroundTransparency = 1, ZIndex = 3, Parent = card },
+		{ list(12), padding(18, 18, 18, 16) })
+
+	-- header: icon + title
+	local head = new("Frame", { LayoutOrder = 1, Size = UDim2.new(1, 0, 0, 0), AutomaticSize = AY, BackgroundTransparency = 1, ZIndex = 3, Parent = col },
+		{ list(10, { FillDirection = Enum.FillDirection.Horizontal, VerticalAlignment = Enum.VerticalAlignment.Center }) })
+	local iconSlot = new("Frame", { LayoutOrder = 1, Size = UDim2.fromOffset(24, 24), BackgroundTransparency = 1, ZIndex = 3, Parent = head })
+	local titleL = new("TextLabel", {
+		LayoutOrder = 2, Size = UDim2.new(1, -34, 0, 0), AutomaticSize = AY, BackgroundTransparency = 1, Font = T.FontBold, TextSize = 16,
+		TextColor3 = T.Text, TextXAlignment = LEFT, TextWrapped = true, ZIndex = 3, Parent = head,
+	})
+
+	-- body (scrolls when the screen is too small for it)
+	local scroll = new("ScrollingFrame", {
+		LayoutOrder = 2, Size = UDim2.new(1, 0, 0, 0), BackgroundTransparency = 1, BorderSizePixel = 0, ScrollBarThickness = 3,
+		ScrollBarImageColor3 = accent, CanvasSize = UDim2.new(), AutomaticCanvasSize = AY, ScrollingDirection = Enum.ScrollingDirection.Y, ZIndex = 3, Parent = col,
+	})
+	local body = new("Frame", { Size = UDim2.new(1, 0, 0, 0), AutomaticSize = AY, BackgroundTransparency = 1, ZIndex = 3, Parent = scroll },
+		{ list(10), padding(0, 0, 4, 0) })
+	local contentL = new("TextLabel", {
+		LayoutOrder = 1, Size = UDim2.new(1, 0, 0, 0), AutomaticSize = AY, BackgroundTransparency = 1, Font = T.Font, TextSize = 14,
+		TextColor3 = T.SubText, TextXAlignment = LEFT, TextYAlignment = Enum.TextYAlignment.Top, TextWrapped = true, ZIndex = 3, Parent = body,
+	})
+
+	local box
+	if cfg.Input then
+		local ic = type(cfg.Input) == "table" and cfg.Input or {}
+		local fr = new("Frame", { LayoutOrder = 2, Size = UDim2.new(1, 0, 0, btnH), BackgroundColor3 = T.Control, BackgroundTransparency = 0.1, BorderSizePixel = 0, ZIndex = 3, Parent = body },
+			{ corner(8), stroke(T.Border, 1, 0.3), padding(10, 0, 10, 0) })
+		box = new("TextBox", {
+			Size = UDim2.fromScale(1, 1), BackgroundTransparency = 1, Text = tostring(ic.Default or ""), PlaceholderText = tostring(ic.Placeholder or ""),
+			PlaceholderColor3 = T.SubText, TextColor3 = T.Text, Font = T.Font, TextSize = 14, TextXAlignment = LEFT, ClearTextOnFocus = false, ZIndex = 4, Parent = fr,
+		})
+		local maxLen = type(ic.MaxLength) == "number" and math.floor(ic.MaxLength) or 200
+		bag:Add(box:GetPropertyChangedSignal("Text"):Connect(function()
+			local t = box.Text
+			if ic.Numeric then t = t:gsub("[^%d%.%-]", "") end
+			if utf8.len(t) and utf8.len(t) > maxLen then t = Util.Truncate(t, maxLen, "") end
+			if t ~= box.Text then box.Text = t end
+		end))
+		bag:Add(box.Focused:Connect(function() tween(fr:FindFirstChildOfClass("UIStroke"), 0.15, { Color = accent, Transparency = 0.05 }) end))
+		bag:Add(box.FocusLost:Connect(function() tween(fr:FindFirstChildOfClass("UIStroke"), 0.2, { Color = T.Border, Transparency = 0.3 }) end))
+		dlg.box = box
+	end
+	local custom
+	if type(cfg.Build) == "function" then
+		custom = new("Frame", { LayoutOrder = 3, Size = UDim2.new(1, 0, 0, 0), AutomaticSize = AY, BackgroundTransparency = 1, ZIndex = 3, Parent = body })
+	end
+
+	-- buttons
+	local buttons = type(cfg.Buttons) == "table" and cfg.Buttons or { { Text = "OK", Style = "Primary", Value = true } }
+	local n = math.min(#buttons, 4)
+	if n == 0 then buttons = { { Text = "OK", Style = "Primary", Value = true } } n = 1 end
+	local vertical = n > 2 or W < 280
+	local brow = new("Frame", { LayoutOrder = 3, Size = UDim2.new(1, 0, 0, 0), AutomaticSize = AY, BackgroundTransparency = 1, ZIndex = 3, Parent = col },
+		{ list(8, { FillDirection = vertical and Enum.FillDirection.Vertical or Enum.FillDirection.Horizontal }) })
+	local btnObjs = {}
+
+	local function finish(value, input, reason)
+		if not dlg.open then return end
+		dlg.open = false
+		result.value, result.input, result.reason = value, input, reason
+		for i, d in ipairs(self.Dialogs) do
+			if d == dlg then table.remove(self.Dialogs, i) break end
+		end
+		local anim = NotifyCfg.Animate ~= false and not dlg.instant
+		local function cleanup()
+			bag:Destroy()
+			pcall(function() overlay:Destroy() end)
+		end
+		if anim then
+			tw(overlay, 0.18, { BackgroundTransparency = 1 }, SINE, IN)
+			Anim.Hide(card, { To = "Bottom", Distance = 14, Time = 0.16, Scale = 0.97 })
+			task.delay(0.22, cleanup)
+		else
+			cleanup()
+		end
+		if cfg.OnClose then safe(cfg.OnClose, value, input, reason) end
+		for _, co in ipairs(waiters) do task.spawn(co, value, input) end
+		waiters = {}
+	end
+	dlg.destroy = function() dlg.instant = true finish(nil, nil, "destroyed") end
+
+	local function currentInput() return box and box.Text or nil end
+
+	local defaultBtn
+	for i = 1, n do
+		local b = buttons[i]
+		if type(b) == "string" then b = { Text = b } end
+		if type(b) ~= "table" then b = { Text = "OK" } end
+		local style = b.Style or (i == n and "Primary" or "Secondary")
+		local fill = Color3.new(1, 1, 1)
+		local btn = new("TextButton", {
+			LayoutOrder = (vertical and (n - i + 1)) or i, AutoButtonColor = false, Text = "", BackgroundColor3 = style == "Secondary" and T.Control or fill,
+			BackgroundTransparency = style == "Secondary" and 0.1 or 0, ZIndex = 3,
+			Size = vertical and UDim2.new(1, 0, 0, btnH) or UDim2.new(1 / n, -math.ceil(8 * (n - 1) / n), 0, btnH), Parent = brow,
+		}, { corner(14) })
+		if style == "Secondary" then
+			btn.BackgroundColor3 = T.Control
+			new("UIStroke", { Color = T.Border, Thickness = 1, Transparency = 0.35, ApplyStrokeMode = Enum.ApplyStrokeMode.Border, Parent = btn })
+			feedback(btn, btn, "BackgroundColor3", T.Control, T.Lift, T.AccentSoft)
+		else
+			local c1 = style == "Danger" and Library.Kinds.Error.Color or accent
+			gradient(c1, style == "Danger" and Util.Lighten(c1, 0.25) or accent2, 0).Parent = btn
+			feedback(btn, btn, "BackgroundColor3", fill, Color3.fromRGB(236, 236, 236), Color3.fromRGB(200, 200, 200))
+		end
+		local btnLbl = new("TextLabel", {
+			Size = UDim2.fromScale(1, 1), BackgroundTransparency = 1, Text = tostring(b.Text or "OK"), Font = style == "Secondary" and T.Font or T.FontBold,
+			TextSize = 14, TextColor3 = style == "Secondary" and T.SubText or (style == "Danger" and Color3.new(1, 1, 1) or Library.OnAccent(T)),
+			TextTruncate = Enum.TextTruncate.AtEnd, ZIndex = 4, Parent = btn,
+		}, { padding(8, 0, 8, 0) })
+		if style ~= "Secondary" and style ~= "Danger" then Library._oa(btnLbl) end
+		local value = b.Value
+		if value == nil then value = b.Text end
+		if b.Default or (style ~= "Secondary" and not defaultBtn) then defaultBtn = { btn = btn, b = b, value = value } end
+		local function fire()
+			if not dlg.open then return end
+			if b.Callback then safe(b.Callback, handle, currentInput()) end
+			if b.Close ~= false then finish(value, currentInput(), "button") end
+		end
+		bag:Add(btn.MouseButton1Click:Connect(fire))
+		btnObjs[i] = { btn = btn, fire = fire }
+	end
+	if box then
+		bag:Add(box.FocusLost:Connect(function(enter)
+			if enter and defaultBtn then
+				for _, bo in ipairs(btnObjs) do
+					if bo.btn == defaultBtn.btn then bo.fire() end
+				end
+			end
+		end))
+	end
+
+	local function setHead()
+		titleL.Text = tostring(cfg.Title or "")
+		head.Visible = (cfg.Title ~= nil and cfg.Title ~= "") or kind ~= nil or cfg.Icon ~= nil
+		contentL.Text = tostring(cfg.Content or "")
+		contentL.Visible = cfg.Content ~= nil and cfg.Content ~= ""
+		for _, c in ipairs(iconSlot:GetChildren()) do c:Destroy() end
+		local icon = cfg.Icon
+		if icon == nil and kind then icon = Library.Kinds[kind].Icon end
+		iconSlot.Visible = icon ~= nil and icon ~= false
+		if iconSlot.Visible then buildIcon(iconSlot, icon, accent, T, 24, nil) end
+	end
+	setHead()
+	if custom then
+		local ok, err = pcall(cfg.Build, custom, T, handle)
+		if not ok then warn("[SpectreUI] Dialog Build failed: " .. tostring(err)) end
+	end
+
+	-- size the scroll area so the whole card always fits the screen (small phones, landscape)
+	local pending = false
+	local function fit()
+		if not dlg.open then return end
+		local vp = Responsive.Viewport(owner)
+		local used = head.AbsoluteSize.Y + brow.AbsoluteSize.Y + 12 * 2 + 18 + 16
+		local avail = math.max(vp.Y - 24 - used, 48)
+		local want = math.min(body.AbsoluteSize.Y, avail)
+		if want > 0 and math.abs(scroll.Size.Y.Offset - want) > 0.5 then scroll.Size = UDim2.new(1, 0, 0, want) end
+		local w = Responsive.Width(owner, math.floor(Util.Opt(cfg, "Width", "number", 340, 220, 560)), 16)
+		if card.Size.X.Offset ~= w then card.Size = UDim2.fromOffset(w, 0) end
+	end
+	dlg.fit = fit
+	local function fitSoon()
+		if pending then return end
+		pending = true
+		task.defer(function() pending = false fit() end)
+	end
+	bag:Add(body:GetPropertyChangedSignal("AbsoluteSize"):Connect(fitSoon))
+	bag:Add(head:GetPropertyChangedSignal("AbsoluteSize"):Connect(fitSoon))
+	bag:Add(brow:GetPropertyChangedSignal("AbsoluteSize"):Connect(fitSoon))
+	bag:Add(gui:GetPropertyChangedSignal("AbsoluteSize"):Connect(fitSoon))
+
+	-- dismiss: tap outside / Esc (only the top-most dialog reacts)
+	local function dismiss(reason)
+		if dismissable and dlg.open then finish(nil, currentInput(), reason) end
+	end
+	bag:Add(outside.MouseButton1Click:Connect(function() dismiss("overlay") end))
+	bag:Add(UserInputService.InputBegan:Connect(function(i)
+		if i.KeyCode == Enum.KeyCode.Escape and self.Dialogs[#self.Dialogs] == dlg then dismiss("escape") end
+	end))
+
+	handle.Close = method(handle, function(value) finish(value, currentInput(), "api") return true end)
+	handle.IsOpen = method(handle, function() return dlg.open end)
+	handle.IsAlive = handle.IsOpen
+	handle.GetInput = method(handle, function() return currentInput() end)
+	handle.Update = method(handle, function(patch)
+		if not dlg.open or type(patch) ~= "table" then return false end
+		if patch.Title ~= nil then cfg.Title = patch.Title end
+		if patch.Content ~= nil then cfg.Content = patch.Content end
+		if patch.Kind ~= nil then
+			kind = normKind(patch.Kind)
+			cfg.Kind = patch.Kind
+			accent = (kind and Library.Kinds[kind].Color) or T.Accent
+		end
+		if patch.Icon ~= nil then cfg.Icon = patch.Icon end
+		setHead()
+		return handle
+	end)
+	handle.Wait = method(handle, function()
+		if not dlg.open then return result.value, result.input end
+		table.insert(waiters, coroutine.running())
+		return coroutine.yield()
+	end)
+	handle.Id = depth
+
+	table.insert(self.Dialogs, dlg)
+	-- open animation
+	if NotifyCfg.Animate ~= false then
+		tw(overlay, 0.22, { BackgroundTransparency = 0.5 }, SINE, OUT)
+		Anim.Show(card, { From = "Bottom", Distance = 16, Time = 0.28, Scale = 0.96 })
+	else
+		overlay.BackgroundTransparency = 0.5
+		card.Visible = true
+		card.GroupTransparency = 0
+	end
+	if box and not touch and (type(cfg.Input) ~= "table" or cfg.Input.AutoFocus ~= false) then
+		bag:Add(task.delay(0.25, function() if dlg.open and box.Parent then box:CaptureFocus() end end))
+	end
+	return handle
+end
+
+function NM:Confirm(cfg)
+	if type(cfg) ~= "table" then cfg = {} end
+	local choice
+	return self:Dialog({
+		Title = cfg.Title or "Confirm", Content = cfg.Content, Kind = cfg.Kind, Icon = cfg.Icon, Width = cfg.Width, Dismissable = cfg.Dismissable,
+		Buttons = {
+			{ Text = cfg.No or "Cancel", Style = "Secondary", Value = false, Callback = function() choice = false end },
+			{ Text = cfg.Yes or "Confirm", Style = cfg.Danger and "Danger" or "Primary", Value = true, Callback = function() choice = true end },
+		},
+		OnClose = function(value, _, reason)
+			if value == true then safe(cfg.OnYes) else safe(cfg.OnNo) end
+			safe(cfg.OnClose, value == true, reason)
+		end,
+	})
+end
+
+function NM:Alert(cfg)
+	if type(cfg) ~= "table" then cfg = {} end
+	return self:Dialog({
+		Title = cfg.Title or "Notice", Content = cfg.Content, Kind = cfg.Kind, Icon = cfg.Icon, Width = cfg.Width, Dismissable = cfg.Dismissable,
+		Buttons = { { Text = cfg.Ok or "OK", Style = "Primary", Value = true } },
+		OnClose = function(value, _, reason) safe(cfg.OnClose, value, reason) end,
+	})
+end
+
+function NM:Prompt(cfg)
+	if type(cfg) ~= "table" then cfg = {} end
+	return self:Dialog({
+		Title = cfg.Title or "Input", Content = cfg.Content, Kind = cfg.Kind, Icon = cfg.Icon, Width = cfg.Width, Dismissable = cfg.Dismissable,
+		Input = { Placeholder = cfg.Placeholder, Default = cfg.Default, MaxLength = cfg.MaxLength, Numeric = cfg.Numeric, AutoFocus = cfg.AutoFocus },
+		Buttons = {
+			{ Text = cfg.No or "Cancel", Style = "Secondary", Value = false },
+			{ Text = cfg.Yes or "OK", Style = "Primary", Value = true },
+		},
+		OnClose = function(value, input, reason)
+			if value == true then safe(cfg.OnSubmit, input) else safe(cfg.OnCancel) end
+			safe(cfg.OnClose, value == true and input or nil, reason)
+		end,
+	})
+end
+
+---------------------------------------------------------------- loading
+-- Window:Loading({ Title, Text, Progress = 0..1 (nil = spinner only), Key, Position })
+-- handle: :Set(progress, text) :SetText(text) :Complete(text, seconds) :Fail(text, seconds) :Close()
+function NM:Loading(cfg)
+	if type(cfg) == "string" then cfg = { Text = cfg } end
+	if type(cfg) ~= "table" then cfg = {} end
+	local c = table.clone(cfg)
+	c.Kind = "Loading"
+	c.Title = c.Title or "Loading"
+	if c.Text ~= nil and c.Content == nil then c.Content = c.Text end
+	c.Duration = false
+	c.Closable = c.Closable == true
+	if type(c.Progress) ~= "number" then c.Progress = nil end
+	local h = self:Add(c, "loading")
+	if not h or h.Id == 0 then return h end
+	local nm = self
+	local base = h
+	local entryOf = function() return nm:_Each(function(e) return e.handle == base end) end
+	local function patch(p)
+		local e = entryOf()
+		if not e then return false end
+		return nm:_Update(e, p)
+	end
+	base.Set = method(base, function(progress, text)
+		local p = {}
+		if type(progress) == "number" then p.Progress = progress elseif progress == false then p.Progress = true end
+		if text ~= nil then p.Content = text end
+		return patch(p) and base or false
+	end)
+	base.SetText = method(base, function(text) return patch({ Content = text }) and base or false end)
+	base.Complete = method(base, function(text, secs)
+		return patch({ Kind = "Success", Title = "Done", Content = text or "", Progress = true, Duration = secs or 2.5, Closable = true }) and base or false
+	end)
+	base.Fail = method(base, function(text, secs)
+		return patch({ Kind = "Error", Title = "Failed", Content = text or "", Progress = true, Duration = secs or 4, Closable = true }) and base or false
+	end)
+	return base
+end
+
+---------------------------------------------------------------- Window API
+local function mergeCfg(first, extra, field)
+	local cfg = {}
+	if type(first) == "table" then
+		for k, v in pairs(first) do cfg[k] = v end
+	elseif first ~= nil then
+		cfg[field or "Content"] = first
+	end
+	if type(extra) == "table" then
+		for k, v in pairs(extra) do cfg[k] = v end
+	elseif type(extra) == "string" then
+		cfg.Kind = extra
+	elseif type(extra) == "number" then
+		cfg.Duration = extra
+	end
+	return cfg
+end
+
+function Window:_NM()
+	if self._destroyed then return nil end
+	if not self._nm or self._nm.Dead then self._nm = NM.new(self) end
+	return self._nm
+end
+
+local function guarded(label, fn)
+	local ok, res = pcall(fn)
+	if ok and res then return res end
+	if not ok then warn("[SpectreUI] " .. label .. " failed: " .. tostring(res)) end
+	return deadHandle()
+end
+
+-- Window:Notify({ Title, Content, Kind, Duration, Icon, Color, Progress, Key, Position, OnClick, OnClose, ... }) -> handle
+function Window:Notify(cfg)
+	return guarded("Notify", function()
+		local nm = self:_NM()
+		return nm and nm:Add(cfg, "notify")
+	end)
+end
+
+for kind in pairs({ Success = true, Warning = true, Error = true, Info = true }) do
+	Window[kind] = function(self, title, content, dur)
+		local cfg
+		if type(title) == "table" then
+			cfg = table.clone(title)
+		else
+			cfg = { Title = title, Content = content, Duration = dur }
+		end
+		cfg.Kind = kind
+		return self:Notify(cfg)
+	end
+end
+
+-- Window:Toast("Saved") / Toast("Saved", "Success") / Toast("Saved", 3) / Toast("Saved", { Kind, Duration, Icon })
+function Window:Toast(text, opts)
+	return guarded("Toast", function()
+		local nm = self:_NM()
+		return nm and nm:Add(mergeCfg(text, opts), "toast")
+	end)
+end
+
+function Window:Banner(cfg)
+	return guarded("Banner", function()
+		local nm = self:_NM()
+		return nm and nm:Add(mergeCfg(cfg, nil, "Title"), "banner")
+	end)
+end
+
+function Window:Loading(cfg)
+	return guarded("Loading", function()
+		local nm = self:_NM()
+		return nm and nm:Loading(cfg)
+	end)
+end
+
+function Window:Dialog(cfg) return guarded("Dialog", function() local nm = self:_NM() return nm and nm:Dialog(cfg) end) end
+function Window:Confirm(cfg) return guarded("Confirm", function() local nm = self:_NM() return nm and nm:Confirm(cfg) end) end
+function Window:Alert(a, b)
+	local cfg = type(a) == "table" and a or { Title = a, Content = b }
+	return guarded("Alert", function() local nm = self:_NM() return nm and nm:Alert(cfg) end)
+end
+function Window:Prompt(cfg) return guarded("Prompt", function() local nm = self:_NM() return nm and nm:Prompt(cfg) end) end
+
+-- dismiss every notification (and queued one) of this window
+function Window:DismissAll(reason)
+	if self._nm then self._nm:DismissAll(reason) end
+end
+
+-- own palette for this window's notifications / dialogs: Window:SetNotifyTheme("Cyber") or { Accent = ... }
+-- (controls that already exist keep their colours; only what is shown afterwards changes)
+function Window:SetNotifyTheme(t)
+	if t == nil then
+		self._nTheme = nil
+		return true
+	end
+	local src = type(t) == "string" and Library.Themes[t] or t
+	if type(src) ~= "table" then return false end
+	self._nTheme = deriveTheme(buildTheme(src))
+	return true
+end
+
+---------------------------------------------------------------- Library API
+function Library:_Host()
+	local w = self.Windows[#self.Windows]
+	if w then return w:_NM() end
+	if not self._nm or self._nm.Dead then self._nm = NM.new({ Headless = true }) end
+	return self._nm
+end
+
+function Library:Notify(cfg) return guarded("Notify", function() return self:_Host():Add(cfg, "notify") end) end
+function Library:Toast(text, opts) return guarded("Toast", function() return self:_Host():Add(mergeCfg(text, opts), "toast") end) end
+function Library:Banner(cfg) return guarded("Banner", function() return self:_Host():Add(mergeCfg(cfg, nil, "Title"), "banner") end) end
+function Library:Loading(cfg) return guarded("Loading", function() return self:_Host():Loading(cfg) end) end
+function Library:Dialog(cfg) return guarded("Dialog", function() return self:_Host():Dialog(cfg) end) end
+function Library:Confirm(cfg) return guarded("Confirm", function() return self:_Host():Confirm(cfg) end) end
+function Library:Alert(a, b)
+	local cfg = type(a) == "table" and a or { Title = a, Content = b }
+	return guarded("Alert", function() return self:_Host():Alert(cfg) end)
+end
+function Library:Prompt(cfg) return guarded("Prompt", function() return self:_Host():Prompt(cfg) end) end
+
+function Library:DismissAll(reason)
+	for _, w in ipairs(self.Windows) do w:DismissAll(reason) end
+	if self._nm then self._nm:DismissAll(reason) end
+end
+
+Library._NM = NM
+
+
+------------------------------------------------------------------ tabs
+function Window:CreateTab(cfg)
+	if type(cfg) == "string" then cfg = { Name = cfg } end
+	cfg = cfg or {}
+	local T = self.Theme
+	local tab = setmetatable({ Window = self, Name = cfg.Name or "Tab", Sections = {} }, Tab)
+
+	-- sizes: a little smaller on phones (window option TabHeight overrides the height)
+	local touchTab = UserInputService.TouchEnabled
+	local tabH = tonumber(self.Cfg and self.Cfg.TabHeight) or (touchTab and 38 or 36)
+	local iconX, iconSz = touchTab and 24 or 26, touchTab and 22 or 24
+	local lblX = touchTab and 42 or 46
+	self._tabIconX = iconX
+
+	local btn = new("TextButton", {
+		LayoutOrder = #self.Tabs + 1, Size = UDim2.new(1, 0, 0, tabH),
+		BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 1, AutoButtonColor = false, Text = "", ClipsDescendants = true, Parent = self.TabList,
+	}, { corner(16), stroke(T.Accent, 1, 1), gradient(T.AccentSoft, T.AccentSoft, 0) })
+	tab.Button = btn
+	tab.BtnStroke = btn:FindFirstChildOfClass("UIStroke")
+	-- stroke() lowers transparency by 0.15, so stroke(.., 1, 1) was 0.85 (a faint outline on never-selected tabs): force it fully hidden
+	tab.BtnStroke.Transparency = 1
+	tab.BtnGrad = btn:FindFirstChildOfClass("UIGradient")
+	tab.Indicator = new("Frame", {
+		AnchorPoint = Vector2.new(0, 0.5), Position = UDim2.new(0, 4, 0.5, 0), Size = UDim2.new(0, 3, 0, 0),
+		BackgroundColor3 = Color3.new(1, 1, 1), BorderSizePixel = 0, Parent = btn,
+	}, { corner(2), gradient(T.Accent, T.Accent2, 90) })
+
+	local ic = cfg.Icon
+	local function wrapIcon(el)
+		return new("Frame", {
+			AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.new(0, iconX, 0.5, 0), Size = UDim2.fromOffset(iconSz, iconSz),
+			BackgroundTransparency = 1, Parent = btn,
+		}, { new("UIScale", { Scale = 1, Name = "IS" }), el })
+	end
+	local iconDesc = Library:IsIconName(ic) and Library:ResolveIcon(ic) or nil
+	if iconDesc then
+		tab.Icon = Library:MakeIcon(iconDesc, T.SubText)
+	elseif type(ic) == "number" or (type(ic) == "string" and ic:find("^rbxasset")) then
+		tab.Icon = new("ImageLabel", {
+			Size = UDim2.fromScale(1, 1), BackgroundTransparency = 1,
+			Image = type(ic) == "number" and ("rbxassetid://" .. ic) or ic, ImageColor3 = T.SubText,
+		})
+	else
+		tab.Icon = new("TextLabel", {
+			Size = UDim2.fromScale(1, 1), BackgroundTransparency = 1,
+			Text = (not Library:IsIconName(ic) and ic) or tab.Name:sub(1, 1):upper(), Font = T.FontBold, TextSize = touchTab and 15 or 16, TextColor3 = T.SubText,
+		})
+	end
+	tab.IconWrap = wrapIcon(tab.Icon)
+	tab.IconScale = tab.IconWrap:FindFirstChild("IS")
+	tab.Label = new("TextLabel", {
+		Position = UDim2.fromOffset(lblX, 0), Size = UDim2.new(1, -(lblX + 6), 1, 0), BackgroundTransparency = 1, Text = tab.Name,
+		Font = T.Font, TextSize = touchTab and 13 or 14, TextColor3 = T.SubText, TextXAlignment = LEFT, TextTruncate = Enum.TextTruncate.AtEnd, Parent = btn,
+	})
+	-- padlock (drawn from frames, no asset): shown only while the tab is locked
+	tab._locked = false
+	tab.LockReason = cfg.LockReason
+	tab.Cfg = cfg
+	tab.LockIcon = new("Frame", {
+		Name = "Lock", AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(1, -12, 0.5, 0), Size = UDim2.fromOffset(14, 14),
+		BackgroundTransparency = 1, Visible = false, ZIndex = 3, Parent = btn,
+	}, {
+		new("Frame", {   -- shackle
+			AnchorPoint = Vector2.new(0.5, 0), Position = UDim2.new(0.5, 0, 0, 0), Size = UDim2.fromOffset(8, 9),
+			BackgroundTransparency = 1, ZIndex = 3,
+		}, { corner(4), stroke(T.SubText, 1.6, 0) }),
+		new("Frame", {   -- body
+			AnchorPoint = Vector2.new(0.5, 1), Position = UDim2.new(0.5, 0, 1, 0), Size = UDim2.fromOffset(12, 8),
+			BackgroundColor3 = T.SubText, BorderSizePixel = 0, ZIndex = 4,
+		}, { corner(3) }),
+	})
+	tab:_ApplyCompact(self.Compact or false)
+
+	-- hover (PC) + press feedback (PC & mobile)
+	btn.MouseEnter:Connect(function()
+		if usingTouch() or self.Active == tab then return end
+		tween(tab.Label, 0.14, { TextColor3 = T.Text })
+		tween(btn, 0.14, { BackgroundTransparency = 0.7 })
+	end)
+	btn.MouseLeave:Connect(function()
+		if self.Active ~= tab then
+			tween(tab.Label, 0.14, { TextColor3 = T.SubText })
+			tween(btn, 0.16, { BackgroundTransparency = 1 })
+		end
+	end)
+	-- dragSafePress: a finger that turns into a scroll no longer leaves the tab
+	-- stuck with a visible pressed background (that was the "พื้นหลังขึ้น" bug).
+	local press = dragSafePress(btn, function(i)
+				if self.Active ~= tab then tween(btn, 0.06, { BackgroundTransparency = 0.5 }) end
+	end, function(cancelled)
+				if self.Active ~= tab then tween(btn, 0.16, { BackgroundTransparency = 1 }) end
+	end, 12)
+	clickRipple(btn, press)
+	btn.MouseButton1Click:Connect(function()
+		if press.moved then return end -- it was a scroll, not a tap
+		self:SelectTab(tab)
+	end)
+
+	-- page
+	tab.Page = new("Frame", { Size = UDim2.fromScale(1, 1), BackgroundTransparency = 1, Visible = false, Parent = self.Pages })
+	-- each column is its own ScrollingFrame, so the left and right side scroll independently
+	-- (tab.Scroll is now just the non-scrolling holder; use tab:SetScrollEnabled(bool) to lock both sides)
+	tab.Scroll = new("Frame", { Position = UDim2.fromOffset(12, 0), Size = UDim2.new(1, -32, 1, 0), BackgroundTransparency = 1, Parent = tab.Page },
+		{ list(12, { FillDirection = Enum.FillDirection.Horizontal }) })
+	tab.Cols = {}
+	for i = 1, 2 do
+		tab.Cols[i] = new("ScrollingFrame", {
+			LayoutOrder = i, Size = UDim2.new(0.5, -6, 1, 0), BackgroundTransparency = 1, BorderSizePixel = 0,
+			ScrollBarThickness = UserInputService.TouchEnabled and 4 or 3,
+			ScrollBarImageColor3 = T.Accent, CanvasSize = UDim2.new(), AutomaticCanvasSize = AY,
+			ScrollingDirection = Enum.ScrollingDirection.Y, ElasticBehavior = Enum.ElasticBehavior.WhenScrollable, Parent = tab.Scroll,
+		}, { list(12), padding(0, 0, 0, 8) })
+	end
+
+	table.insert(self.Tabs, tab)
+	if cfg.Locked then tab:SetLocked(true, cfg.LockReason) end
+	if not self.Active then self:SelectTab(tab) end
+	self:_IntroTab(tab)
+	return tab
+end
+
+------------------------------------------------------------------ tab lock API
+-- Tab:Lock(reason) / Unlock() / SetLocked(bool, reason) / IsLocked() / SetLockReason(text)
+function Tab:SetLocked(v, reason)
+	v = v and true or false
+	if reason ~= nil then self.LockReason = reason end
+	if self._locked == v then return self end
+	self._locked = v
+	local win = self.Window
+	local T = win.Theme
+	self.LockIcon.Visible = v
+	local dim = v and 0.55 or 0
+	tween(self.Label, 0.2, { TextTransparency = dim })
+	local prop = self.Icon:IsA("ImageLabel") and "ImageTransparency" or "TextTransparency"
+	tween(self.Icon, 0.2, { [prop] = dim })
+	for _, part in ipairs(self.Icon:GetChildren()) do
+		if part:IsA("ImageLabel") then tween(part, 0.2, { ImageTransparency = dim }) end
+	end
+	self.Label.Size = v and UDim2.new(1, -74, 1, 0) or UDim2.new(1, -52, 1, 0)
+	if v and win.Active == self then
+		-- never leave a locked page open: move to the first tab that is not locked
+		for _, t in ipairs(win.Tabs) do
+			if t ~= self and not t._locked then win:SelectTab(t) break end
+		end
+	elseif not v and not win.Active then
+		win:SelectTab(self)
+	end
+	return self
+end
+function Tab:Lock(reason) return self:SetLocked(true, reason) end
+function Tab:Unlock() return self:SetLocked(false) end
+function Tab:IsLocked() return self._locked == true end
+function Tab:SetLockReason(text) self.LockReason = text return self end
+
+-- shown when someone tries to open a locked tab (click / SetTab / command palette)
+function Window:_LockedFeedback(tab)
+	local now = os.clock()
+	if tab.LockIcon then
+		task.spawn(function()
+			for _, r in ipairs({ -18, 16, -10, 6, 0 }) do
+				if not tab.LockIcon.Parent then return end
+				tween(tab.LockIcon, 0.055, { Rotation = r })
+				task.wait(0.055)
+			end
+		end)
+	end
+	safe(tab.Cfg and tab.Cfg.OnLockedClick, tab)
+	if tab.Cfg and tab.Cfg.LockedNotify == false then return end
+	if (tab._lockToast or 0) + 1.5 > now then return end
+	tab._lockToast = now
+	pcall(function()
+		self:Warning(tab.Name .. " is locked", tab.LockReason or "This tab is locked.", 2.5)
+	end)
+end
+
+local function findTab(win, nameOrTab)
+	return type(nameOrTab) == "string" and win:GetTab(nameOrTab) or nameOrTab
+end
+function Window:LockTab(nameOrTab, reason)
+	local t = findTab(self, nameOrTab)
+	if t then t:SetLocked(true, reason) end
+	return t
+end
+function Window:UnlockTab(nameOrTab)
+	local t = findTab(self, nameOrTab)
+	if t then t:SetLocked(false) end
+	return t
+end
+function Window:IsTabLocked(nameOrTab)
+	local t = findTab(self, nameOrTab)
+	return t ~= nil and t._locked == true
+end
+
+function Tab:_ApplyCompact(c)
+	self.Label.Visible = not c
+	if self.LockIcon then
+		self.LockIcon.Position = c and UDim2.new(1, -4, 0, 12) or UDim2.new(1, -12, 0.5, 0)
+	end
+	-- the icon now lives inside a wrapper (which carries the select pop), so move the wrapper
+	self.IconWrap.Position = c and UDim2.fromScale(0.5, 0.5) or UDim2.new(0, self.Window._tabIconX or 26, 0.5, 0)
+end
+
+function Tab:_SetSelected(sel)
+	local T = self.Window.Theme
+	tween(self.Button, 0.22, { BackgroundTransparency = sel and 0 or 1 })
+	tween(self.BtnStroke, 0.22, { Transparency = sel and 0.3 or 1 })
+	tween(self.Indicator, 0.26, { Size = UDim2.new(0, 3, sel and 0.55 or 0, 0) })
+	tween(self.Label, 0.22, { TextColor3 = sel and T.Text or T.SubText })
+	local prop = self.Icon:IsA("ImageLabel") and "ImageColor3" or "TextColor3"
+	local icol = sel and T.Accent or T.SubText
+	tween(self.Icon, 0.22, { [prop] = icol })
+	for _, part in ipairs(self.Icon:GetChildren()) do
+		if part:IsA("ImageLabel") then tween(part, 0.22, { ImageColor3 = icol }) end
+	end
+	-- gentle icon pop when a tab becomes active (one tween, no loop)
+	if sel and self.IconScale and not lowPower() then
+		self.IconScale.Scale = 0.7
+		tween(self.IconScale, 0.32, { Scale = 1 }, BACK, OUT)
+	end
+	if self.BtnGrad then
+		-- active tab gets a soft violet wash, idle stays flat
+		self.BtnGrad.Color = sel
+			and cseq({ 0, T.AccentSoft }, { 1, T.Wash })
+			or cseq({ 0, T.AccentSoft }, { 1, T.AccentSoft })
+	end
+end
+
+function Tab:SetScrollEnabled(v)
+	for _, c in ipairs(self.Cols) do c.ScrollingEnabled = v and true or false end
+end
+
+function Tab:_QueueRelayout()
+	if self._rq then return end
+	self._rq = true
+	task.defer(function()
+		self._rq = false
+		self:_Relayout()
+	end)
+end
+
+function Tab:_Relayout()
+	local two = self.Window.TwoCol
+	local c1, c2 = self.Cols[1], self.Cols[2]
+	c2.Visible = two and true or false
+	c1.Size = two and UDim2.new(0.5, -6, 1, 0) or UDim2.new(1, 0, 1, 0)
+	local h1, h2 = 0, 0
+	for i, s in ipairs(self.Sections) do
+		local col
+		if not two then col = 1
+		elseif s.Column then col = s.Column
+		else col = (h1 <= h2) and 1 or 2 end
+		s.Frame.LayoutOrder = i
+		s.Frame.Parent = (col == 1) and c1 or c2
+		if s.Frame.Visible then
+			if col == 1 then h1 += s.Est + 12 else h2 += s.Est + 12 end
+		end
+	end
+end
+
+------------------------------------------------------------------ sections
+function Tab:CreateSection(cfg)
+	if type(cfg) == "string" then cfg = { Name = cfg } end
+	cfg = cfg or {}
+	local T = self.Window.Theme
+	local s = setmetatable({
+		Tab = self, Window = self.Window, Name = cfg.Name or "Section", Controls = {}, Est = 35 + 20, Column = cfg.Column,
+	}, Section)
+
+	s.Frame = new("Frame", {
+		Size = UDim2.new(1, 0, 0, 0), AutomaticSize = AY, BackgroundColor3 = T.Card, BackgroundTransparency = self.Window.FXOn and 0.2 or 0.12,
+		BorderSizePixel = 0, Parent = self.Cols[1],
+	}, { corner(18), stroke(T.Border, 1, 0.55), list(0, { HorizontalAlignment = Enum.HorizontalAlignment.Center }),
+		wash(cseq({ 0, T.Top }, { 1, T.Card }), 90) })
+
+	local collapsible = cfg.Collapsible ~= false
+	local head = new("TextButton", {
+		LayoutOrder = 1, Size = UDim2.new(1, 0, 0, 38), BackgroundColor3 = T.Control, BackgroundTransparency = 1,
+		Text = "", AutoButtonColor = false, Parent = s.Frame,
+	}, { corner(16) })
+	if collapsible then feedback(head, head, "BackgroundTransparency", 1, 0.85, 0.7, true) end
+	-- accent dot before the title (or an icon when Icon = "lucide:..." is given)
+	local secIcon = Library:IsIconName(cfg.Icon) and Library:ResolveIcon(cfg.Icon) or nil
+	if secIcon then
+		local im = Library:MakeIcon(secIcon, T.Accent)
+		im.AnchorPoint = Vector2.new(0, 0.5)
+		im.Position = UDim2.new(0, 10, 0.5, 0)
+		im.Size = UDim2.fromOffset(18, 18)
+		im.Parent = head
+	else
+		new("Frame", {
+			AnchorPoint = Vector2.new(0, 0.5), Position = UDim2.new(0, 12, 0.5, 0), Size = UDim2.fromOffset(6, 6),
+			BackgroundColor3 = Color3.new(1, 1, 1), BorderSizePixel = 0, Parent = head,
+		}, { corner(3), gradient(T.Accent, T.Accent2, 0) })
+	end
+	new("TextLabel", {
+		Position = UDim2.fromOffset(secIcon and 34 or 26, 0), Size = UDim2.new(1, secIcon and -62 or -54, 1, 0), BackgroundTransparency = 1, Text = s.Name,
+		Font = T.FontBold, TextSize = 14, TextColor3 = T.Text, TextXAlignment = LEFT, TextTruncate = Enum.TextTruncate.AtEnd, Parent = head,
+	})
+	local arrow = new("TextLabel", {
+		AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(1, -12, 0.5, 0), Size = UDim2.fromOffset(12, 12),
+		BackgroundTransparency = 1, Text = "▼", Font = T.FontBold, TextSize = 12, TextColor3 = T.Accent,
+		Visible = collapsible, Parent = head,
+	})
+	-- gradient hairline under the section header
+	new("Frame", {
+		LayoutOrder = 2, Size = UDim2.new(1, -24, 0, 1), BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 0.55,
+		BorderSizePixel = 0, Parent = s.Frame,
+	}, { gradient(cseq({ 0, T.Accent }, { 0.6, T.Accent2 }, { 1, T.Border }), 0) })
+	s.Body = new("Frame", {
+		LayoutOrder = 3, Size = UDim2.new(1, 0, 0, 0), AutomaticSize = AY, BackgroundTransparency = 1, Parent = s.Frame,
+	}, { list(8), padding(12, 12, 12, 14) })
+
+	-- keep the natural body height up to date while it is expanded, so a later expand tweens to the
+	-- CURRENT height (a stale value made the section snap at the end of the animation)
+	s.Body:GetPropertyChangedSignal("AbsoluteSize"):Connect(function()
+		if s.Body.AutomaticSize == AY and s.Body.Visible then
+			local h = s.Body.AbsoluteSize.Y / math.max(s.Window.Scale.Scale, 0.01)
+			if h > 0 then s._bodyH = h end
+		end
+	end)
+
+	-- smooth collapse / expand: the body's height is tweened, then auto-size takes over again.
+	-- Every run starts from the height the body has RIGHT NOW (so clicking again mid-animation reverses
+	-- smoothly instead of jumping), and the natural height (_bodyH) is only ever read while the body is
+	-- auto-sized, never from a half-way value (that used to make the next expand end short and then snap).
+	function s:SetCollapsed(c, instant)
+		c = c and true or false
+		local cur = self.Collapsed and true or false
+		self.Collapsed = c
+		tween(arrow, 0.22, { Rotation = c and -90 or 0 })
+		local b = self.Body
+		if c == cur then
+			b.Visible = not c
+			return
+		end
+		self._cseq = (self._cseq or 0) + 1
+		local seq = self._cseq
+		local scale = math.max(self.Window.Scale.Scale, 0.01)
+		local running = b.AutomaticSize == ANONE                    -- an earlier collapse / expand is still in flight
+		local curH = b.Visible and (b.AbsoluteSize.Y / scale) or 0  -- height on screen right now
+		if not running and curH > 0 then self._bodyH = curH end     -- auto-sized: this IS the natural height
+		local full = self._bodyH
+
+		local function settle()
+			b.ClipsDescendants = false
+			b.AutomaticSize = AY
+			b.Size = UDim2.new(1, 0, 0, 0)
+		end
+
+		if c then
+			if instant or curH <= 0 then
+				b.Visible = false
+				settle()
+				return
+			end
+			self.Window:_MotionBegin(0.3, true)
+			b.ClipsDescendants = true
+			b.AutomaticSize = ANONE
+			b.Size = UDim2.new(1, 0, 0, curH)
+			tween(b, 0.24, { Size = UDim2.new(1, 0, 0, 0) }, QUINT, OUT).Completed:Connect(function()
+				if self._cseq ~= seq then return end
+				b.Visible = false
+				settle()
+			end)
+		else
+			b.Visible = true
+			if instant or not full or full <= 0 then
+				settle()
+				return
+			end
+			self.Window:_MotionBegin(0.34, true)
+			b.ClipsDescendants = true
+			b.AutomaticSize = ANONE
+			b.Size = UDim2.new(1, 0, 0, curH)
+			-- the body just became visible (its controls render for the first time): tween from the next frame
+			nextFrame(function()
+				if self._cseq ~= seq then return end
+				tween(b, 0.28, { Size = UDim2.new(1, 0, 0, full) }, QUINT, OUT).Completed:Connect(function()
+					if self._cseq ~= seq then return end
+					settle()
+				end)
+			end)
+		end
+	end
+	if collapsible then
+		head.MouseButton1Click:Connect(function() s:SetCollapsed(not s.Collapsed) end)
+	end
+	if cfg.Collapsed then s:SetCollapsed(true, true) end
+
+	table.insert(self.Sections, s)
+	self:_QueueRelayout()
+	return s
+end
+
+function Section:_Register(frame, name, est)
+	table.insert(self.Controls, { Frame = frame, Name = (name or ""):lower() })
+	frame.LayoutOrder = #self.Controls
+	self.Est += est + 6
+	self.Tab:_QueueRelayout()
+end
+
+local function setFlag(cfg, v)
+	if cfg.Flag then
+		local prev = Library.Flags[cfg.Flag]
+		Library.Flags[cfg.Flag] = v
+		if prev ~= v then
+			for _, cb in ipairs(Library._flagCbs) do safe(cb, cfg.Flag, v, prev) end
+		end
+	end
+end
+
+-- controls with a Flag are remembered so configs can be saved / loaded
+local function regObj(cfg, obj)
+	if cfg.Flag then Library.Objects[cfg.Flag] = obj end
+	return obj
+end
+
+------------------------------------------------------------------ controls
+function Section:CreateLabel(cfg)
+	if type(cfg) == "string" then cfg = { Text = cfg } end
+	cfg = cfg or {}
+	local T = self.Window.Theme
+	local l = new("TextLabel", {
+		Size = UDim2.new(1, 0, 0, 0), AutomaticSize = AY, BackgroundTransparency = 1, Text = cfg.Text or cfg.Name or "",
+		Font = cfg.Bold and T.FontBold or T.Font, TextSize = cfg.TextSize or 13, TextColor3 = cfg.Color or T.SubText,
+		TextXAlignment = LEFT, TextWrapped = true, Parent = self.Body,
+	})
+	self:_Register(l, cfg.Text or cfg.Name, 18)
+	local obj = { Frame = l }
+	function obj:Set(t) l.Text = t end
+	-- live recolor, so a status label can turn red/green without rebuilding it
+	function obj:SetColor(c) l.TextColor3 = c end
+	return obj
+end
+
+function Section:CreateDivider()
+	local T = self.Window.Theme
+	local d = new("Frame", {
+		Size = UDim2.new(1, 0, 0, 1), BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 0.45, BorderSizePixel = 0, Parent = self.Body,
+	}, { gradient(cseq({ 0, Color3.new(1, 1, 1) }, { 0.5, T.Accent }, { 1, Color3.new(1, 1, 1) }), 0) })
+	d:FindFirstChildOfClass("UIGradient").Transparency = NumberSequence.new({
+		NumberSequenceKeypoint.new(0, 0.5),
+		NumberSequenceKeypoint.new(0.5, 0.2),
+		NumberSequenceKeypoint.new(1, 0.5),
+	})
+	self:_Register(d, "", 1)
+end
+
+-- CreateButton({ Name, Callback, Color, Gradient, TextColor })
+-- Color makes a solid accent button; Gradient = {a, b} makes a gradient one.
+function Section:CreateButton(cfg)
+	local T = self.Window.Theme
+	local accent = cfg.Color
+	local grad = cfg.Gradient
+	local gradLabel
+	-- text colour that stays readable on the gradient (and follows the theme when the gradient is the theme accent)
+	local gradText = cfg.TextColor or (grad and Library.OnAccent(grad[1], grad[2] or grad[1])) or nil
+	local gradTracks = grad and not cfg.TextColor and grad[1] == T.Accent
+	local b = new("TextButton", {
+		Size = UDim2.new(1, 0, 0, rowH()), BackgroundColor3 = grad and Color3.new(1, 1, 1) or (accent or T.Control),
+		BackgroundTransparency = 0.1, AutoButtonColor = false,
+		Text = cfg.Name or "Button", Font = cfg.Bold and T.FontBold or T.Font, TextSize = 13,
+		TextColor3 = cfg.TextColor or (accent and Library.OnAccent(accent)) or T.Text, TextTruncate = Enum.TextTruncate.AtEnd, ClipsDescendants = true, Parent = self.Body,
+	}, { corner(14), stroke(grad and (grad[2] or T.Accent2) or (accent and accent:Lerp(Color3.new(1, 1, 1), 0.3) or T.Border), 1, grad and 0.5 or 0.35) })
+	if grad then
+		-- gradient needs the frame background visible (transparency stays low, not 1)
+		b.BackgroundColor3 = Color3.new(1, 1, 1)
+		b.BackgroundTransparency = 0
+		new("UIGradient", { Color = ColorSequence.new(grad[1], grad[2] or grad[1]), Parent = b })
+		-- UIGradient tints the parent's own text too, so draw the text on a child label instead
+		b.Text = ""
+		gradLabel = new("TextLabel", {
+			Size = UDim2.fromScale(1, 1), BackgroundTransparency = 1, Text = cfg.Name or "Button",
+			Font = cfg.Bold and T.FontBold or T.Font, TextSize = 13, TextColor3 = gradText, TextTruncate = Enum.TextTruncate.AtEnd, Parent = b,
+		})
+		if gradTracks then Library._oa(gradLabel) end
+	end
+	local bIcon = Library:IsIconName(cfg.Icon) and Library:ResolveIcon(cfg.Icon) or nil
+	if bIcon then
+		local im = Library:MakeIcon(bIcon, gradText or (accent and Library.OnAccent(accent)) or T.Text)
+		if gradTracks then Library._oa(im) end
+		im.AnchorPoint = Vector2.new(0, 0.5)
+		im.Position = UDim2.new(0, 10, 0.5, 0)
+		im.Size = UDim2.fromOffset(16, 16)
+		im.ZIndex = b.ZIndex + 1
+		im.Parent = b
+	end
+	-- top highlight for depth
+	if not grad then
+		new("Frame", {
+			Size = UDim2.new(1, 0, 0, 1), BackgroundColor3 = T.Sheen, BackgroundTransparency = 0.85, BorderSizePixel = 0, Parent = b,
+		}, { corner(1) })
+	end
+	local bStroke = b:FindFirstChildOfClass("UIStroke")
+	if grad or accent then
+		strokeFeedback(b, bStroke, grad and 0.5 or 0.3, 0.05)
+	else
+		feedback(b, b, "BackgroundColor3", T.Control, T.Lift, T.AccentSoft)
+		strokeFeedback(b, bStroke, 0.35, 0.05)
+	end
+	-- press animation: the button spins one full turn when pressed (it shrinks a little while turning, so it never
+	-- covers the buttons next to it) + a click sound.  Works on PC and mobile.
+	--   cfg.Spin = false  turns the spin off      cfg.SpinTime = 0.5  seconds      cfg.Turns = 1  (2 = double, -1 = other way)
+	--   cfg.Sound = false | id                    cfg.Feedback = "Saved"  also shows a toast
+	local spinOn = cfg.Spin ~= false
+	local spinScale = new("UIScale", { Scale = 1, Parent = b })
+	local spinSeq = 0
+	local function spin()
+		spinSeq = spinSeq + 1
+		local seq = spinSeq
+		local dur = tonumber(cfg.SpinTime) or 0.5
+		local turns = tonumber(cfg.Turns) or 1
+		b.Rotation = 0   -- clicked again while spinning: start over
+		tween(b, dur, { Rotation = 360 * turns }, QUINT, OUT)
+		tween(spinScale, dur * 0.35, { Scale = 0.82 }, SINE, OUT)
+		task.delay(dur * 0.35, function()
+			if seq == spinSeq and spinScale.Parent then tween(spinScale, dur * 0.65, { Scale = 1 }, BACK, OUT) end
+		end)
+		task.delay(dur * (Library.Anim.Speed or 1) + 0.1, function()
+			if seq == spinSeq and b.Parent then
+				b.Rotation = 0   -- a full turn looks identical to 0, reset so it never drifts
+				spinScale.Scale = 1
+			end
+		end)
+	end
+
+	b.MouseButton1Click:Connect(function()
+		playSound("Click", cfg.Sound)
+		if spinOn then pcall(spin) end
+		if type(cfg.Feedback) == "string" then
+			pcall(function() self.Window:Toast(cfg.Feedback, "Success") end)
+		end
+		safe(cfg.Callback)
+	end)
+	clickRipple(b, nil)
+	self:_Register(b, cfg.Name, rowH())
+	local obj = { Frame = b }
+	function obj:SetText(t)
+		if gradLabel then gradLabel.Text = t else b.Text = t end
+	end
+	return obj
+end
+
+function Section:CreateToggle(cfg)
+	local T = self.Window.Theme
+	local h = rowH()
+	local value = cfg.Default and true or false
+	local ON_POS, OFF_POS = UDim2.new(1, -19, 0.5, 0), UDim2.new(0, 3, 0.5, 0)
+	local row = new("TextButton", {
+		Size = UDim2.new(1, 0, 0, h), BackgroundColor3 = T.Control, BackgroundTransparency = 1, Text = "",
+		AutoButtonColor = false, Parent = self.Body,
+	}, { corner(13) })
+	feedback(row, row, "BackgroundTransparency", 1, 0.82, 0.62, true)
+	new("TextLabel", {
+		Position = UDim2.fromOffset(8, 0), Size = UDim2.new(1, -62, 1, 0), BackgroundTransparency = 1, Text = cfg.Name or "Toggle",
+		Font = T.Font, TextSize = 14, TextColor3 = T.Text, TextXAlignment = LEFT, TextTruncate = Enum.TextTruncate.AtEnd, Parent = row,
+	})
+	local track = new("Frame", {
+		AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(1, -8, 0.5, 0), Size = UDim2.fromOffset(42, 22),
+		BackgroundColor3 = value and T.Accent or T.Control, BorderSizePixel = 0, Parent = row,
+	}, { corner(11), stroke(T.Border, 1, 0.6) })
+	local trackGrad = gradient(T.Accent, T.Accent2, 0)
+	trackGrad.Parent = track
+	trackGrad.Transparency = value and NumberSequence.new(0) or NumberSequence.new(1)
+	local knob = new("Frame", {
+		AnchorPoint = Vector2.new(0, 0.5), Position = value and ON_POS or OFF_POS,
+		Size = UDim2.fromOffset(16, 16), BackgroundColor3 = T.Knob, BorderSizePixel = 0, Parent = track,
+	}, { corner(8), stroke(T.Accent, 1.5, 0.4) })
+	local knobStroke = knob:FindFirstChildOfClass("UIStroke")
+
+	local obj = {}
+	function obj:Set(v, silent)
+		value = v and true or false
+		tween(track, 0.22, { BackgroundColor3 = value and T.Accent or T.Control })
+		trackGrad.Transparency = value and NumberSequence.new(0) or NumberSequence.new(1)
+		tween(knob, 0.24, { Position = value and ON_POS or OFF_POS })
+		tween(knobStroke, 0.22, { Transparency = value and 0 or 0.5 })
+		setFlag(cfg, value)
+		if not silent then safe(cfg.Callback, value) end
+	end
+	function obj:Get() return value end
+	row.MouseButton1Click:Connect(function() playSound("Toggle", cfg.Sound) obj:Set(not value) end)
+	setFlag(cfg, value)
+	self:_Register(row, cfg.Name, h)
+	obj.Frame = row
+	return regObj(cfg, obj)
+end
+
+function Section:CreateSlider(cfg)
+	local T = self.Window.Theme
+	local tab = self.Tab
+	local min, max, inc = cfg.Min or 0, cfg.Max or 100, cfg.Increment or 1
+	local value = snap(cfg.Default or min, min, max, inc)
+	local suffix = cfg.Suffix or ""
+	local touch = UserInputService.TouchEnabled
+	local total = touch and 50 or 42
+	local knobS, knobBig = touch and 16 or 12, touch and 20 or 15
+
+	local frame = new("Frame", { Size = UDim2.new(1, 0, 0, total), BackgroundTransparency = 1, Parent = self.Body })
+	new("TextLabel", {
+		Size = UDim2.new(1, -70, 0, 18), BackgroundTransparency = 1, Text = cfg.Name or "Slider", Font = T.Font, TextSize = 14,
+		TextColor3 = T.Text, TextXAlignment = LEFT, TextTruncate = Enum.TextTruncate.AtEnd, Parent = frame,
+	})
+	local valLabel = new("TextLabel", {
+		AnchorPoint = Vector2.new(1, 0), Position = UDim2.fromScale(1, 0), Size = UDim2.fromOffset(66, 18), BackgroundTransparency = 1,
+		Text = tostring(value) .. suffix, Font = T.FontBold, TextSize = 13, TextColor3 = T.Accent, TextXAlignment = Enum.TextXAlignment.Right, TextTruncate = Enum.TextTruncate.AtEnd, Parent = frame,
+	})
+	local hit = new("TextButton", {
+		Position = UDim2.fromOffset(0, 20), Size = UDim2.new(1, 0, 1, -20), BackgroundTransparency = 1, Text = "", AutoButtonColor = false, Parent = frame,
+	})
+	local track = new("Frame", {
+		AnchorPoint = Vector2.new(0, 0.5), Position = UDim2.fromScale(0, 0.5), Size = UDim2.new(1, 0, 0, 4),
+		BackgroundColor3 = T.Control, BorderSizePixel = 0, Parent = hit,
+	}, { corner(2) })
+	local fill = new("Frame", { Size = UDim2.fromScale(0, 1), BackgroundColor3 = Color3.new(1, 1, 1), BorderSizePixel = 0, Parent = track },
+		{ corner(2), gradient(T.Accent, T.Accent2, 0) })
+	local knob = new("Frame", {
+		AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.fromScale(0, 0.5), Size = UDim2.fromOffset(knobS, knobS),
+		BackgroundColor3 = T.Knob, BorderSizePixel = 0, ZIndex = 2, Parent = track,
+	}, { new("UICorner", { CornerRadius = UDim.new(0.5, 0) }), stroke(T.Accent, 2, 0) })
+
+	local obj = {}
+	local function render(v, animate)
+		local a = (max == min) and 0 or (v - min) / (max - min)
+		valLabel.Text = tostring(v) .. suffix
+		if animate then
+			tween(fill, 0.18, { Size = UDim2.fromScale(a, 1) })
+			tween(knob, 0.18, { Position = UDim2.fromScale(a, 0.5) })
+		else
+			fill.Size = UDim2.fromScale(a, 1)
+			knob.Position = UDim2.fromScale(a, 0.5)
+		end
+	end
+	function obj:Set(v, silent)
+		v = snap(v, min, max, inc)
+		local changed = v ~= value
+		value = v
+		render(v, true)
+		setFlag(cfg, v)
+		if changed and not silent then safe(cfg.Callback, v) end
+	end
+	function obj:Get() return value end
+	render(value, false)
+	setFlag(cfg, value)
+
+	-- dragging updates instantly (no tween) so the knob never lags behind the pointer
+	local function fromX(x)
+		local a = math.clamp((x - track.AbsolutePosition.X) / math.max(track.AbsoluteSize.X, 1), 0, 1)
+		local v = snap(min + (max - min) * a, min, max, inc)
+		if v ~= value then
+			value = v
+			render(v, false)
+			setFlag(cfg, v)
+			safe(cfg.Callback, v)
+		end
+	end
+
+	local function release()
+		tab:SetScrollEnabled(true)
+		tween(knob, 0.16, { Size = UDim2.fromOffset(knobS, knobS) })
+	end
+	hit.InputBegan:Connect(function(i)
+		if not isPress(i) then return end
+		-- starts this drag and releases any other slider that was still following an input
+		Library._drag(i, function(m) fromX(m.Position.X) end, release)
+		tab:SetScrollEnabled(false) -- the page must not scroll while a slider is held
+		tween(knob, 0.12, { Size = UDim2.fromOffset(knobBig, knobBig) })
+		fromX(i.Position.X)
+	end)
+
+	self:_Register(frame, cfg.Name, total)
+	obj.Frame = frame
+	return regObj(cfg, obj)
+end
+
+function Section:CreateDropdown(cfg)
+	local T = self.Window.Theme
+	local win = self.Window
+	local tab = self.Tab
+	local touch = UserInputService.TouchEnabled
+	local h = rowH()
+	local optH = touch and 38 or 30
+	local searchH = touch and 42 or 36
+	local footH = touch and 46 or 40
+	local GAP, PAD = 2, 8
+	local options = cfg.Options or {}
+	local multi = cfg.Multi and true or false
+	local placeholder = cfg.Placeholder or "Select..."
+	local value = multi and {} or nil -- multi: set { [option] = true }
+	local selText = T.Accent:Lerp(Color3.new(1, 1, 1), 0.55)
+
+	-- ---- image support. Options may be { "a", "b" } or { { Name = "a", Image = 123 }, ... };
+	-- cfg.Images = { a = 123 } works too.  The value of an option is always its Name.
+	local images = {}
+	local function normalize(list)
+		images = {}
+		local out = {}
+		for i, o in ipairs(list or {}) do
+			if type(o) == "table" then
+				local name = o.Name or o.Text or o.Value or ("Option " .. i)
+				out[i] = name
+				local im = o.Image or o.Icon
+				if im ~= nil then images[name] = im end
+			else
+				out[i] = o
+			end
+		end
+		if type(cfg.Images) == "table" then
+			for k, v in pairs(cfg.Images) do images[k] = v end
+		end
+		return out
+	end
+	local function calcOptH()
+		local base = touch and 38 or 30
+		if next(images) ~= nil then base = math.max(touch and 46 or 38, (cfg.ImageSize or 0) + 10) end
+		optH = base
+	end
+	local function makeThumb(ref, sz)
+		local f = new("Frame", {
+			Size = UDim2.fromOffset(sz, sz), BackgroundColor3 = T.Control, BackgroundTransparency = 0.25,
+			BorderSizePixel = 0, ClipsDescendants = true,
+		}, { corner(math.max(6, math.floor(sz / 4))), stroke(T.Border, 1, 0.5) })
+		local sref = (typeof(ref) ~= "Color3") and tostring(ref) or ""
+		if typeof(ref) == "Color3" then
+			f.BackgroundColor3, f.BackgroundTransparency = ref, 0
+		elseif type(ref) == "number" or sref:match("^%d+$") then
+			new("ImageLabel", { Size = UDim2.fromScale(1, 1), BackgroundTransparency = 1, ScaleType = Enum.ScaleType.Crop,
+				Image = "rbxassetid://" .. sref, Parent = f })
+		elseif Library:IsIconName(sref) then
+			local d = Library:ResolveIcon(sref)
+			if d then
+				local ic = Library:MakeIcon(d, T.Accent)
+				ic.Size = UDim2.fromScale(0.62, 0.62)
+				ic.Parent = f
+			end
+		else
+			new("ImageLabel", { Size = UDim2.fromScale(1, 1), BackgroundTransparency = 1, ScaleType = Enum.ScaleType.Crop,
+				Image = sref, Parent = f })
+		end
+		return f
+	end
+	options = normalize(options)
+	calcOptH()
+
+	local function isSel(o)
+		if multi then return value[o] == true end
+		return o == value
+	end
+	local function selectedList()
+		local out = {}
+		for _, o in ipairs(options) do
+			if value[o] then table.insert(out, o) end
+		end
+		return out
+	end
+	-- search box shows automatically with many options (override: Searchable = true / false)
+	local function searchOn()
+		if cfg.Searchable ~= nil then return cfg.Searchable and true or false end
+		return #options > 6
+	end
+	local function chrome()
+		return searchOn() and searchH or 0, multi and footH or 0
+	end
+
+	local frame = new("Frame", { Size = UDim2.new(1, 0, 0, 0), AutomaticSize = AY, BackgroundTransparency = 1, Parent = self.Body }, { list(4) })
+	if cfg.Name then
+		new("TextLabel", {
+			LayoutOrder = 1, Size = UDim2.new(1, 0, 0, 16), BackgroundTransparency = 1, Text = cfg.Name, Font = T.Font, TextSize = 14,
+			TextColor3 = T.Text, TextXAlignment = LEFT, TextTruncate = Enum.TextTruncate.AtEnd, Parent = frame,
+		})
+	end
+	local btn = new("TextButton", {
+		LayoutOrder = 2, Size = UDim2.new(1, 0, 0, h), BackgroundColor3 = T.Control, BackgroundTransparency = 0.1,
+		AutoButtonColor = false, Text = "", Parent = frame,
+	}, { corner(14), stroke(T.Border, 1, 0.35) })
+	local btnStroke = btn:FindFirstChildOfClass("UIStroke")
+	feedback(btn, btn, "BackgroundColor3", T.Control, T.Lift, T.AccentSoft)
+	local txt = new("TextLabel", {
+		Position = UDim2.fromOffset(10, 0), Size = UDim2.new(1, -32, 1, 0), BackgroundTransparency = 1, Text = placeholder,
+		Font = T.Font, TextSize = 13, TextColor3 = T.SubText, TextXAlignment = LEFT, TextTruncate = Enum.TextTruncate.AtEnd, Parent = btn,
+	})
+	local thumbSz = math.max(16, h - 12)
+	local thumbs = new("Frame", {
+		Name = "Thumbs", AnchorPoint = Vector2.new(0, 0.5), Position = UDim2.new(0, 8, 0.5, 0),
+		Size = UDim2.fromOffset(0, thumbSz), BackgroundTransparency = 1, Parent = btn,
+	})
+	local badge = new("Frame", {
+		AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(1, -28, 0.5, 0), Size = UDim2.fromOffset(22, 18),
+		BackgroundColor3 = T.AccentSoft, BorderSizePixel = 0, Visible = false, Parent = btn,
+	}, { corner(9), gradient(T.Accent, T.Accent2, 0) })
+	local badgeLbl = Library._oa(new("TextLabel", {
+		Size = UDim2.fromScale(1, 1), BackgroundTransparency = 1, Text = "0", Font = T.FontBold, TextSize = 13,
+		TextColor3 = Library.OnAccent(T), Parent = badge,
+	}))
+	local arrow = new("TextLabel", {
+		AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(1, -8, 0.5, 0), Size = UDim2.fromOffset(18, 18),
+		BackgroundTransparency = 1, Text = "▶", Font = T.FontBold, TextSize = 12, TextColor3 = T.Accent, Parent = btn,
+	})
+
+	local dd = { IsOpen = false }
+	local ddTok = 0   -- bumped on every open / close so a late animation callback can never act on a newer state
+	local popup, popupStroke, scroll, searchHolder, searchBox, emptyLbl
+	local rows = {}
+	local popW, maxH = 190, 240
+	local escC
+
+	local function refreshText()
+		local list = multi and selectedList() or (value ~= nil and { value } or {})
+		-- thumbnails of the current selection (max 3, overlapped)
+		for _, c in ipairs(thumbs:GetChildren()) do c:Destroy() end
+		local n, step = 0, math.floor(thumbSz * 0.6)
+		for _, o in ipairs(list) do
+			if images[o] ~= nil and n < 3 then
+				local t = makeThumb(images[o], thumbSz)
+				t.Position = UDim2.fromOffset(n * step, 0)
+				t.Parent = thumbs
+				n = n + 1
+			end
+		end
+		local off = n > 0 and (thumbSz + (n - 1) * step + 8) or 0
+		thumbs.Size = UDim2.fromOffset(math.max(off - 8, 0), thumbSz)
+		local rightPad = -32
+		if multi then
+			local out = list
+			if #out == 0 then
+				txt.Text, txt.TextColor3 = placeholder, T.SubText
+			else
+				local names = {}
+				for i, o in ipairs(out) do names[i] = tostring(o) end
+				txt.Text, txt.TextColor3 = table.concat(names, ", "), T.Text
+			end
+			local showBadge = #out > 1
+			badge.Visible = showBadge
+			badgeLbl.Text = tostring(#out)
+			rightPad = showBadge and -62 or -32
+		else
+			txt.Text = value ~= nil and tostring(value) or placeholder
+			txt.TextColor3 = value ~= nil and T.Text or T.SubText
+		end
+		txt.Position = UDim2.fromOffset(10 + off, 0)
+		txt.Size = UDim2.new(1, rightPad - off, 1, 0)
+	end
+
+	local function paint()
+		for opt, r in pairs(rows) do
+			local sel = isSel(opt)
+			tween(r.btn, 0.16, { BackgroundTransparency = sel and 0 or 1 })
+			tween(r.bar, 0.16, { BackgroundTransparency = sel and 0 or 1 })
+			tween(r.label, 0.16, { TextColor3 = sel and selText or T.Text })
+			tween(r.check, 0.16, { TextTransparency = sel and 0 or 1 })
+			if multi then
+				tween(r.box, 0.16, { BackgroundColor3 = sel and T.Accent or T.Control })
+				tween(r.boxStroke, 0.16, { Color = sel and T.Accent or T.Border })
+			end
+		end
+	end
+
+	local function visibleCount()
+		local n = 0
+		for _, r in pairs(rows) do
+			if r.btn.Visible then n = n + 1 end
+		end
+		return n
+	end
+
+	-- resize the popup to the visible rows (clamped to the space available)
+	local function fit()
+		if not popup then return end
+		local top, bot = chrome()
+		local n = visibleCount()
+		emptyLbl.Visible = n == 0
+		local rowsH = math.max(n, 1) * (optH + GAP) + PAD
+		local ph = math.clamp(top + bot + rowsH, math.min(top + bot + optH + PAD, maxH), maxH)
+		tween(popup, 0.2, { Size = UDim2.fromOffset(popW, ph) })
+	end
+
+	local function applyChrome()
+		local top, bot = chrome()
+		searchHolder.Visible = top > 0
+		scroll.Position = UDim2.fromOffset(0, top)
+		scroll.Size = UDim2.new(1, 0, 1, -(top + bot))
+	end
+
+	local function applyFilter()
+		local q = searchBox.Text:lower():gsub("^%s+", ""):gsub("%s+$", "")
+		for opt, r in pairs(rows) do
+			r.btn.Visible = q == "" or tostring(opt):lower():find(q, 1, true) ~= nil
+		end
+		emptyLbl.Visible = visibleCount() == 0
+		if dd.IsOpen then
+			fit()
+			scroll.CanvasPosition = Vector2.new()
+		end
+	end
+
+	local function buildOptions()
+		for _, r in pairs(rows) do r.btn:Destroy() end
+		rows = {}
+		for i, opt in ipairs(options) do
+			local b = new("TextButton", {
+				LayoutOrder = i, Size = UDim2.new(1, 0, 0, optH), BackgroundColor3 = T.AccentSoft, BackgroundTransparency = 1,
+				AutoButtonColor = false, Text = "", Parent = scroll,
+			}, { corner(6) })
+			local bar = new("Frame", {
+				AnchorPoint = Vector2.new(0, 0.5), Position = UDim2.new(0, 0, 0.5, 0), Size = UDim2.new(0, 3, 0.55, 0),
+				BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 1, BorderSizePixel = 0, Parent = b,
+			}, { corner(2), gradient(T.Accent, T.Accent2, 90) })
+			local lblX = 12
+			if images[opt] ~= nil then
+				local isz = math.min(cfg.ImageSize or (optH - 10), optH - 6)
+				local th = makeThumb(images[opt], isz)
+				th.AnchorPoint = Vector2.new(0, 0.5)
+				th.Position = UDim2.new(0, 12, 0.5, 0)
+				th.Parent = b
+				lblX = 12 + isz + 8
+			end
+			local lbl = new("TextLabel", {
+				Position = UDim2.fromOffset(lblX, 0), Size = UDim2.new(1, -(lblX + 32), 1, 0), BackgroundTransparency = 1, Text = tostring(opt),
+				Font = T.Font, TextSize = 13, TextColor3 = T.Text, TextXAlignment = LEFT, TextTruncate = Enum.TextTruncate.AtEnd, Parent = b,
+			})
+			local r = { btn = b, bar = bar, label = lbl }
+			if multi then
+				r.box = new("Frame", {
+					AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(1, -10, 0.5, 0), Size = UDim2.fromOffset(18, 18),
+					BackgroundColor3 = T.Control, BorderSizePixel = 0, Parent = b,
+				}, { corner(5), stroke(T.Border, 1, 0) })
+				r.boxStroke = r.box:FindFirstChildOfClass("UIStroke")
+				r.check = Library._oa(new("TextLabel", {
+					Size = UDim2.fromScale(1, 1), BackgroundTransparency = 1, Text = "✓", Font = T.FontBold, TextSize = 13,
+					TextColor3 = Library.OnAccent(T.Accent), TextTransparency = 1, Parent = r.box,
+				}))
+			else
+				r.check = new("TextLabel", {
+					AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(1, -10, 0.5, 0), Size = UDim2.fromOffset(16, 16),
+					BackgroundTransparency = 1, Text = "✓", Font = T.FontBold, TextSize = 15, TextColor3 = T.Accent,
+					TextTransparency = 1, Parent = b,
+				})
+			end
+			b.MouseEnter:Connect(function()
+				if usingTouch() or isSel(opt) then return end
+				tween(b, 0.12, { BackgroundTransparency = 0.6 })
+			end)
+			b.MouseLeave:Connect(function()
+				if not isSel(opt) then tween(b, 0.14, { BackgroundTransparency = 1 }) end
+			end)
+			local press = dragSafePress(b, function()
+				if not isSel(opt) then tween(b, 0.05, { BackgroundTransparency = 0.35 }) end
+			end, function()
+				if not isSel(opt) then tween(b, 0.16, { BackgroundTransparency = 1 }) end
+			end, 10)
+			b.MouseButton1Click:Connect(function()
+				-- a finger that turned into a scroll must not pick the row, and a double tap must not fire twice
+				if press.moved or not dd.IsOpen then return end
+				if multi then
+					local cur = selectedList()
+					local found = false
+					for idx, o in ipairs(cur) do
+						if o == opt then table.remove(cur, idx) found = true break end
+					end
+					if not found then table.insert(cur, opt) end
+					dd:Set(cur)
+				else
+					dd:Set(opt)
+					dd:Close()
+				end
+			end)
+			rows[opt] = r
+		end
+		paint()
+	end
+
+	local function build()
+		popup = new("Frame", {
+			Visible = false, ZIndex = 61, BackgroundColor3 = T.Panel, BorderSizePixel = 0, ClipsDescendants = true,
+			Active = true, Parent = win.Gui,
+		}, { corner(9), stroke(T.Accent, 1, 0.35),
+			wash(cseq({ 0, T.Top }, { 1, T.Panel }), 90) })
+		popupStroke = popup:FindFirstChildOfClass("UIStroke")
+
+		searchHolder = new("Frame", { Size = UDim2.new(1, 0, 0, searchH), BackgroundTransparency = 1, Parent = popup }, { padding(6, 6, 6, 2) })
+		searchBox = new("TextBox", {
+			Size = UDim2.fromScale(1, 1), BackgroundColor3 = T.Control, Text = "", PlaceholderText = "Search...",
+			PlaceholderColor3 = T.SubText, TextColor3 = T.Text, Font = T.Font, TextSize = 13, TextXAlignment = LEFT,
+			ClearTextOnFocus = false, Parent = searchHolder,
+		}, { corner(6), stroke(T.Border, 1, 0.4), padding(10, 0, 10, 0) })
+
+		scroll = new("ScrollingFrame", {
+			Size = UDim2.fromScale(1, 1), BackgroundTransparency = 1, BorderSizePixel = 0, ScrollBarThickness = touch and 4 or 3,
+			ScrollBarImageColor3 = T.Accent, CanvasSize = UDim2.new(), AutomaticCanvasSize = AY,
+			ScrollingDirection = Enum.ScrollingDirection.Y, Parent = popup,
+		}, { list(GAP), padding(4, 4, 6, 4) })
+		emptyLbl = new("TextLabel", {
+			LayoutOrder = 0, Size = UDim2.new(1, 0, 0, optH), BackgroundTransparency = 1, Text = "No results", Font = T.Font,
+			TextSize = 13, TextColor3 = T.SubText, Visible = false, Parent = scroll,
+		})
+
+		if multi then
+			new("Frame", {
+				AnchorPoint = Vector2.new(0, 1), Position = UDim2.new(0, 0, 1, -footH), Size = UDim2.new(1, 0, 0, 1),
+				BackgroundColor3 = T.Border, BackgroundTransparency = 0.5, BorderSizePixel = 0, Parent = popup,
+			})
+			local footer = new("Frame", {
+				AnchorPoint = Vector2.new(0, 1), Position = UDim2.fromScale(0, 1), Size = UDim2.new(1, 0, 0, footH),
+				BackgroundTransparency = 1, Parent = popup,
+			}, { padding(6, 5, 6, 6) })
+			local clear = new("TextButton", {
+				Size = UDim2.new(0.38, -3, 1, 0), BackgroundColor3 = T.Control, AutoButtonColor = false, Text = "Clear",
+				Font = T.Font, TextSize = 13, TextColor3 = T.SubText, Parent = footer,
+			}, { corner(10) })
+			feedback(clear, clear, "BackgroundColor3", T.Control, T.Lift, T.AccentSoft)
+			local done = new("TextButton", {
+				Position = UDim2.new(0.38, 3, 0, 0), Size = UDim2.new(0.62, -3, 1, 0), BackgroundColor3 = Color3.new(1, 1, 1),
+				AutoButtonColor = false, Text = "", Parent = footer,
+			}, { corner(10), gradient(T.Accent, T.Accent2, 0), stroke(T.Accent2, 1, 0.6) })
+			-- UIGradient tints the parent's own text too (it made "Done" vanish), so the label is a separate child
+			Library._oa(new("TextLabel", {
+				Size = UDim2.fromScale(1, 1), BackgroundTransparency = 1, Text = "Done", Font = T.FontBold, TextSize = 13,
+				TextColor3 = Library.OnAccent(T), ZIndex = 2, Parent = done,
+			}))
+			strokeFeedback(done, done:FindFirstChildOfClass("UIStroke"), 0.6, 0.15)
+			clear.MouseButton1Click:Connect(function() dd:Set({}) end)
+			done.MouseButton1Click:Connect(function() dd:Close() end)
+		end
+
+		searchBox:GetPropertyChangedSignal("Text"):Connect(applyFilter)
+		searchBox.FocusLost:Connect(function(enter)
+			if enter and not multi then -- Enter picks the first match
+				for _, opt in ipairs(options) do
+					local r = rows[opt]
+					if r and r.btn.Visible then
+						dd:Set(opt)
+						dd:Close()
+						return
+					end
+				end
+			end
+		end)
+		buildOptions()
+	end
+
+	function dd:Open()
+		if self.IsOpen then return end
+		win:CloseDropdowns()
+		if not popup then build() end
+		ddTok += 1
+		local my = ddTok
+		if (win._textScale or Library.TextScale or 1) ~= 1 then win:_ApplyTextScale(popup) end
+		applyChrome()
+		searchBox.Text = ""
+		for _, r in pairs(rows) do r.btn.Visible = true end
+		emptyLbl.Visible = #options == 0
+
+		local top, bot = chrome()
+		local pos, size = btn.AbsolutePosition, btn.AbsoluteSize
+		local bmin, bmax = Library._visibleRect(win.Gui)
+		local vp = bmax - bmin
+		local cap = touch and 280 or 240
+		local minH = top + bot + optH + PAD
+		local want = math.min(top + bot + math.max(#options, 1) * (optH + GAP) + PAD, cap)
+		local below = bmax.Y - (pos.Y + size.Y + 4) - 8
+		local above = pos.Y - 4 - 8 - bmin.Y
+		local down = want <= below or below >= above
+		maxH = math.max(math.min(cap, down and below or above), math.min(minH, vp.Y - 16))
+		popW = math.min(math.max(size.X, 190), vp.X - 12)
+		local x = math.clamp(pos.X, bmin.X + 6, math.max(bmin.X + 6, bmax.X - popW - 6))
+
+		if not popup.Visible then
+			popup.Size = UDim2.fromOffset(popW, 0)
+			popup.BackgroundTransparency = 1
+			popupStroke.Transparency = 1
+		end
+		popup.AnchorPoint = Vector2.new(0, down and 0 or 1)
+		local wantY = down and (pos.Y + size.Y + 4) or (pos.Y - 4)
+		popup.Position = UDim2.fromOffset(x, wantY)
+		popup.Visible = true
+		Library._pinPopup(popup, x, wantY)
+		nextFrame(function() if self.IsOpen and ddTok == my then Library._pinPopup(popup, x, wantY) end end)
+		win:_ShowOverlay(0.62)
+		tab:SetScrollEnabled(false) -- the page behind must not move while the popup is open
+		self.IsOpen = true
+		win._dd = self
+
+		tween(arrow, 0.2, { Rotation = 90 })
+		tween(btnStroke, 0.2, { Color = T.Accent, Transparency = 0.2 })
+
+		escC = UserInputService.InputBegan:Connect(function(i)
+			if i.KeyCode == Enum.KeyCode.Escape then dd:Close() end
+		end)
+
+		-- The frame that makes the popup visible is the heavy one (every row is laid out), so the grow / fade
+		-- starts one frame later - otherwise its first frames are skipped and the opening stutters.
+		-- The selected row is scrolled into view before the animation, so nothing jumps while it plays.
+		nextFrame(function()
+			if ddTok ~= my or not self.IsOpen then return end
+			local idx
+			for n, o in ipairs(options) do
+				if isSel(o) then idx = n break end
+			end
+			scroll.CanvasPosition = Vector2.new(0, idx and math.max(0, (idx - 2) * (optH + GAP)) or 0)
+			fit()
+			tween(popup, 0.2, { BackgroundTransparency = 0 })
+			tween(popupStroke, 0.2, { Transparency = 0.35 })
+			-- PC: start typing straight away (not on touch, the keyboard would cover the list)
+			if not touch and searchOn() then searchBox:CaptureFocus() end
+		end)
+	end
+
+	function dd:Close()
+		if not self.IsOpen then return end
+		self.IsOpen = false
+		ddTok += 1
+		local my = ddTok
+		if win._dd == self then win._dd = nil end
+		if escC then escC:Disconnect() escC = nil end
+		if searchBox then searchBox:ReleaseFocus() end
+		win:_HideOverlay()
+		tab:SetScrollEnabled(true)
+		tween(arrow, 0.18, { Rotation = 0 })
+		tween(btnStroke, 0.18, { Color = T.Border, Transparency = 0.35 })
+		if popup then
+			tween(popupStroke, 0.14, { Transparency = 1 }, QUAD, IN)
+			tween(popup, 0.14, { Size = UDim2.fromOffset(popW, 0), BackgroundTransparency = 1 }, QUAD, IN).Completed:Connect(function()
+				-- only the newest close may hide the popup (a cancelled older tween also fires Completed)
+				if ddTok == my and not self.IsOpen then popup.Visible = false end
+			end)
+		end
+	end
+
+	function dd:Set(v, silent)
+		local out
+		if multi then
+			value = {}
+			if type(v) == "table" then
+				for k, x in pairs(v) do
+					if x == true then value[k] = true else value[x] = true end -- accepts { "a" } or { a = true }
+				end
+			end
+			out = selectedList()
+		else
+			value = v
+			out = v
+		end
+		refreshText()
+		paint()
+		setFlag(cfg, out)
+		if not silent then safe(cfg.Callback, out) end
+	end
+	function dd:Get()
+		if multi then return selectedList() end
+		return value
+	end
+	function dd:Refresh(newOptions, keep, extraImages)
+		options = normalize(newOptions or {})
+		if type(extraImages) == "table" then
+			for k, v in pairs(extraImages) do images[k] = v end
+		end
+		calcOptH()
+		if not keep then
+			self:Set(nil, true)
+		elseif multi then
+			self:Set(selectedList(), true) -- drop selections that no longer exist
+		end
+		refreshText()
+		if popup then
+			buildOptions()
+			applyChrome()
+			if self.IsOpen then
+				searchBox.Text = ""
+				fit()
+			end
+		end
+	end
+
+	-- dd:SetImage("Sword", 123456)  (nil removes it)
+	function dd:SetImage(opt, image)
+		images[opt] = image
+		calcOptH()
+		refreshText()
+		if popup then
+			buildOptions()
+			applyChrome()
+			if self.IsOpen then fit() end
+		end
+	end
+
+	local lastToggle = 0
+	btn.MouseButton1Click:Connect(function()
+		local now = os.clock()
+		if now - lastToggle < 0.12 then return end   -- ignore a bounce / double tap
+		lastToggle = now
+		if dd.IsOpen then dd:Close() else dd:Open() end
+	end)
+
+	if cfg.Default ~= nil then
+		dd:Set(cfg.Default, true)
+	elseif multi then
+		dd:Set({}, true)
+	end
+	setFlag(cfg, dd:Get())
+	self:_Register(frame, cfg.Name, h + (cfg.Name and 20 or 0))
+	dd.Frame = frame
+	return regObj(cfg, dd)
+end
+
+------------------------------------------------------------------ new controls (v3)
+function Section:CreateParagraph(cfg)
+	cfg = cfg or {}
+	local T = self.Window.Theme
+	local frame = new("Frame", { Size = UDim2.new(1, 0, 0, 0), AutomaticSize = AY, BackgroundTransparency = 1, Parent = self.Body }, { list(2) })
+	local title = new("TextLabel", {
+		LayoutOrder = 1, Size = UDim2.new(1, 0, 0, 0), AutomaticSize = AY, BackgroundTransparency = 1, Text = cfg.Title or "",
+		Font = T.FontBold, TextSize = 14, TextColor3 = T.Text, TextXAlignment = LEFT, TextWrapped = true, Parent = frame,
+	})
+	local body = new("TextLabel", {
+		LayoutOrder = 2, Size = UDim2.new(1, 0, 0, 0), AutomaticSize = AY, BackgroundTransparency = 1, Text = cfg.Content or "",
+		Font = T.Font, TextSize = 13, TextColor3 = T.SubText, TextXAlignment = LEFT, TextWrapped = true, Parent = frame,
+	})
+	self:_Register(frame, cfg.Title, 40)
+	local obj = { Frame = frame }
+	function obj:Set(t, c)
+		if t ~= nil then title.Text = t end
+		if c ~= nil then body.Text = c end
+	end
+	return obj
+end
+
+function Section:CreateTextbox(cfg)
+	cfg = cfg or {}
+	local T = self.Window.Theme
+	local h = rowH()
+	local value
+	if cfg.Numeric then
+		value = tonumber(cfg.Default) or cfg.Min or 0
+	else
+		value = cfg.Default ~= nil and tostring(cfg.Default) or ""
+	end
+
+	local frame = new("Frame", { Size = UDim2.new(1, 0, 0, 0), AutomaticSize = AY, BackgroundTransparency = 1, Parent = self.Body }, { list(4) })
+	if cfg.Name then
+		new("TextLabel", {
+			LayoutOrder = 1, Size = UDim2.new(1, 0, 0, 16), BackgroundTransparency = 1, Text = cfg.Name, Font = T.Font, TextSize = 14,
+			TextColor3 = T.Text, TextXAlignment = LEFT, TextTruncate = Enum.TextTruncate.AtEnd, Parent = frame,
+		})
+	end
+	local boxFrame = new("Frame", {
+		LayoutOrder = 2, Size = UDim2.new(1, 0, 0, h), BackgroundColor3 = T.Control, BackgroundTransparency = 0.1, Parent = frame,
+	}, { corner(14), stroke(T.Border, 1, 0.35) })
+	local bStroke = boxFrame:FindFirstChildOfClass("UIStroke")
+	local box = new("TextBox", {
+		Position = UDim2.fromOffset(10, 0), Size = UDim2.new(1, -20, 1, 0), BackgroundTransparency = 1, Text = tostring(value),
+		PlaceholderText = cfg.Placeholder or "", PlaceholderColor3 = T.SubText, ClearTextOnFocus = cfg.ClearOnFocus == true,
+		Font = T.Font, TextSize = 13, TextColor3 = T.Text, TextXAlignment = LEFT, ClipsDescendants = true, Parent = boxFrame,
+	})
+
+	-- returns true when the text was accepted
+	local function apply(v)
+		if cfg.Numeric then
+			local n = tonumber(v)
+			if n == nil then return false end
+			if cfg.Min then n = math.max(n, cfg.Min) end
+			if cfg.Max then n = math.min(n, cfg.Max) end
+			value = n
+		else
+			v = tostring(v == nil and "" or v)
+			if cfg.MaxLength then v = v:sub(1, cfg.MaxLength) end
+			value = v
+		end
+		box.Text = tostring(value)
+		return true
+	end
+
+	local obj = {}
+	function obj:Set(v, silent)
+		if not apply(v) then return end
+		setFlag(cfg, value)
+		if not silent then safe(cfg.Callback, value) end
+	end
+	function obj:Get() return value end
+
+	box.Focused:Connect(function()
+		tween(bStroke, 0.16, { Color = T.Accent, Transparency = 0 })
+	end)
+	box.FocusLost:Connect(function(enter)
+		tween(bStroke, 0.16, { Color = T.Border, Transparency = 0.35 })
+		if cfg.EnterOnly and not enter then
+			box.Text = tostring(value)
+			return
+		end
+		local old = value
+		if not apply(box.Text) then
+			box.Text = tostring(value)
+			return
+		end
+		setFlag(cfg, value)
+		if value ~= old then safe(cfg.Callback, value) end
+	end)
+	if cfg.Live and not cfg.Numeric then
+		box:GetPropertyChangedSignal("Text"):Connect(function()
+			if not box:IsFocused() then return end
+			value = box.Text
+			setFlag(cfg, value)
+			safe(cfg.Callback, value)
+		end)
+	end
+
+	setFlag(cfg, value)
+	self:_Register(frame, cfg.Name, h + (cfg.Name and 20 or 0))
+	obj.Frame = frame
+	return regObj(cfg, obj)
+end
+
+local function toKey(v)
+	if typeof(v) == "EnumItem" then return v end
+	if type(v) == "string" then
+		local ok, k = pcall(function() return Enum.KeyCode[v] end)
+		return ok and k or nil
+	end
+	return nil
+end
+
+function Section:CreateKeybind(cfg)
+	cfg = cfg or {}
+	local T = self.Window.Theme
+	local win = self.Window
+	local h = rowH()
+	local mode = cfg.Mode or "Press"
+	local key = toKey(cfg.Default)
+	local listening, state = false, false
+	local token = {} -- identity so only the keybind being rebound swallows keys
+
+	local row = new("Frame", { Size = UDim2.new(1, 0, 0, h), BackgroundTransparency = 1, Parent = self.Body })
+	new("TextLabel", {
+		Position = UDim2.fromOffset(8, 0), Size = UDim2.new(1, -96, 1, 0), BackgroundTransparency = 1, Text = cfg.Name or "Keybind",
+		Font = T.Font, TextSize = 14, TextColor3 = T.Text, TextXAlignment = LEFT, TextTruncate = Enum.TextTruncate.AtEnd, Parent = row,
+	})
+	local btn = new("TextButton", {
+		AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(1, -8, 0.5, 0), Size = UDim2.fromOffset(80, math.min(h - 6, 24)),
+		BackgroundColor3 = T.Control, BackgroundTransparency = 0.1, AutoButtonColor = false, Text = "", Font = T.Font, TextSize = 12,
+		TextColor3 = T.Text, TextTruncate = Enum.TextTruncate.AtEnd, Parent = row,
+	}, { corner(12), stroke(T.Border, 1, 0.35), padding(4, 0, 4, 0) })
+	feedback(btn, btn, "BackgroundColor3", T.Control, T.Lift, T.AccentSoft)
+
+	local function setListening(v)
+		listening = v and true or false
+		if listening then
+			Library._listening = token -- claim the "listening" slot for this keybind
+		elseif Library._listening == token then
+			Library._listening = nil
+		end
+	end
+	local function refresh()
+		btn.Text = listening and "..." or (key and key.Name or "None")
+		tween(btn, 0.14, { TextColor3 = listening and T.Accent or T.Text })
+	end
+	refresh()
+
+	local obj = {}
+	function obj:Set(v, silent)
+		key = toKey(v)
+		setListening(false)
+		state = false
+		refresh()
+		setFlag(cfg, key)
+		if not silent then safe(cfg.Changed, key) end
+	end
+	function obj:Get() return key end
+	function obj:GetState() return state end
+
+	btn.MouseButton1Click:Connect(function()
+		setListening(not listening)
+		refresh()
+	end)
+
+	table.insert(win.Conns, UserInputService.InputBegan:Connect(function(i, gp)
+		if listening then
+			if i.UserInputType ~= Enum.UserInputType.Keyboard then return end
+			if i.KeyCode == Enum.KeyCode.Escape then
+				setListening(false)
+				refresh()
+			elseif i.KeyCode == Enum.KeyCode.Backspace or i.KeyCode == Enum.KeyCode.Delete then
+				obj:Set(nil)
+			else
+				obj:Set(i.KeyCode)
+			end
+			return
+		end
+		-- if another keybind is waiting for a key, this one must stay quiet,
+		-- otherwise rebinding can fire someone else's callback
+		if Library._listening then return end
+		if gp or not key or i.KeyCode ~= key then return end
+		if mode == "Hold" then
+			state = true
+			safe(cfg.Callback, true)
+		elseif mode == "Toggle" then
+			state = not state
+			safe(cfg.Callback, state)
+		else
+			safe(cfg.Callback)
+		end
+	end))
+	table.insert(win.Conns, UserInputService.InputEnded:Connect(function(i)
+		if mode == "Hold" and state and key and i.KeyCode == key then
+			state = false
+			safe(cfg.Callback, false)
+		end
+	end))
+
+	setFlag(cfg, key)
+	self:_Register(row, cfg.Name, h)
+	obj.Frame = row
+	return regObj(cfg, obj)
+end
+
+local function toHex(c)
+	return string.format("#%02X%02X%02X", math.floor(c.R * 255 + 0.5), math.floor(c.G * 255 + 0.5), math.floor(c.B * 255 + 0.5))
+end
+
+local function parseHex(s)
+	s = tostring(s):gsub("[#%s]", "")
+	if #s == 3 then s = s:gsub(".", function(ch) return ch .. ch end) end
+	if #s ~= 6 or not s:match("^%x+$") then return nil end
+	return Color3.fromRGB(tonumber(s:sub(1, 2), 16), tonumber(s:sub(3, 4), 16), tonumber(s:sub(5, 6), 16))
+end
+
+function Section:CreateColorPicker(cfg)
+	cfg = cfg or {}
+	local T = self.Window.Theme
+	local win, tab = self.Window, self.Tab
+	local h = rowH()
+	local color = typeof(cfg.Default) == "Color3" and cfg.Default or Color3.fromRGB(255, 255, 255)
+	local hue, sat, val = color:ToHSV()
+
+	local row = new("Frame", { Size = UDim2.new(1, 0, 0, h), BackgroundTransparency = 1, Parent = self.Body })
+	new("TextLabel", {
+		Position = UDim2.fromOffset(8, 0), Size = UDim2.new(1, -62, 1, 0), BackgroundTransparency = 1, Text = cfg.Name or "Color",
+		Font = T.Font, TextSize = 14, TextColor3 = T.Text, TextXAlignment = LEFT, TextTruncate = Enum.TextTruncate.AtEnd, Parent = row,
+	})
+	local swatch = new("TextButton", {
+		AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(1, -8, 0.5, 0), Size = UDim2.fromOffset(38, 20),
+		BackgroundColor3 = color, Text = "", AutoButtonColor = false, Parent = row,
+	}, { corner(10), stroke(T.Border, 1, 0.2) })
+	feedback(swatch, swatch, "BackgroundTransparency", 0, 0.12, 0.25)
+
+	local obj = { IsOpen = false }
+	local popup, popupStroke, svBox, svKnob, hueKnob, hexBox
+
+	local function render()
+		color = Color3.fromHSV(hue, sat, val)
+		swatch.BackgroundColor3 = color
+		if popup then
+			svBox.BackgroundColor3 = Color3.fromHSV(hue, 1, 1)
+			svKnob.Position = UDim2.fromScale(sat, 1 - val)
+			hueKnob.Position = UDim2.fromScale(hue, 0.5)
+			if not hexBox:IsFocused() then hexBox.Text = toHex(color) end
+		end
+	end
+	local function push(silent)
+		render()
+		setFlag(cfg, color)
+		if not silent then safe(cfg.Callback, color) end
+	end
+
+	-- press + drag on `hit`, reporting the pointer position (mouse and touch)
+	local function dragOn(hit, onMove)
+		hit.InputBegan:Connect(function(i)
+			if not isPress(i) then return end
+			local isTouch = i.UserInputType == Enum.UserInputType.Touch
+			onMove(i.Position)
+			local mc = UserInputService.InputChanged:Connect(function(m)
+				if isTouch then
+					if m ~= i then return end
+				elseif m.UserInputType ~= Enum.UserInputType.MouseMovement then
+					return
+				end
+				onMove(m.Position)
+			end)
+			onEnd(i, function() mc:Disconnect() end)
+		end)
+	end
+
+	local function build()
+		popup = new("Frame", {
+			Visible = false, ZIndex = 61, Active = true, BackgroundColor3 = T.Panel, BorderSizePixel = 0, ClipsDescendants = true, Parent = win.Gui,
+		}, { corner(8), stroke(T.Accent, 1, 0.45),
+			wash(cseq({ 0, T.Top }, { 1, T.Panel }), 90) })
+		popupStroke = popup:FindFirstChildOfClass("UIStroke")
+
+		-- saturation / value square
+		svBox = new("Frame", {
+			Position = UDim2.fromOffset(8, 8), Size = UDim2.new(1, -16, 0, 104), BackgroundColor3 = Color3.fromHSV(hue, 1, 1),
+			BorderSizePixel = 0, Parent = popup,
+		}, { corner(6) })
+		new("Frame", {
+			Size = UDim2.fromScale(1, 1), BackgroundColor3 = Color3.new(1, 1, 1), BorderSizePixel = 0, Parent = svBox,
+		}, { corner(6), new("UIGradient", { Transparency = NumberSequence.new(0, 1) }) })
+		new("Frame", {
+			Size = UDim2.fromScale(1, 1), BackgroundColor3 = Color3.new(0, 0, 0), BorderSizePixel = 0, Parent = svBox,
+		}, { corner(6), new("UIGradient", { Rotation = 90, Transparency = NumberSequence.new(1, 0) }) })
+		svKnob = new("Frame", {
+			AnchorPoint = Vector2.new(0.5, 0.5), Size = UDim2.fromOffset(12, 12), BackgroundTransparency = 1, BorderSizePixel = 0, ZIndex = 3, Parent = svBox,
+		}, { new("UICorner", { CornerRadius = UDim.new(0.5, 0) }), stroke(Color3.new(1, 1, 1), 2, 0) })
+		local svHit = new("TextButton", {
+			Size = UDim2.fromScale(1, 1), BackgroundTransparency = 1, Text = "", AutoButtonColor = false, ZIndex = 4, Parent = svBox,
+		})
+		dragOn(svHit, function(p)
+			sat = math.clamp((p.X - svBox.AbsolutePosition.X) / math.max(svBox.AbsoluteSize.X, 1), 0, 1)
+			val = 1 - math.clamp((p.Y - svBox.AbsolutePosition.Y) / math.max(svBox.AbsoluteSize.Y, 1), 0, 1)
+			push()
+		end)
+
+		-- hue bar
+		local pts = {}
+		for n = 0, 6 do table.insert(pts, ColorSequenceKeypoint.new(n / 6, Color3.fromHSV(n / 6, 1, 1))) end
+		local hueBar = new("Frame", {
+			Position = UDim2.fromOffset(8, 120), Size = UDim2.new(1, -16, 0, 12), BackgroundColor3 = Color3.new(1, 1, 1), BorderSizePixel = 0, Parent = popup,
+		}, { corner(6), new("UIGradient", { Color = ColorSequence.new(pts) }) })
+		hueKnob = new("Frame", {
+			AnchorPoint = Vector2.new(0.5, 0.5), Size = UDim2.fromOffset(8, 16), BackgroundColor3 = T.Knob, BorderSizePixel = 0, ZIndex = 3, Parent = hueBar,
+		}, { corner(3), stroke(T.Accent, 2, 0) })
+		local hueHit = new("TextButton", {
+			Size = UDim2.fromScale(1, 1), BackgroundTransparency = 1, Text = "", AutoButtonColor = false, ZIndex = 4, Parent = hueBar,
+		})
+		dragOn(hueHit, function(p)
+			hue = math.clamp((p.X - hueBar.AbsolutePosition.X) / math.max(hueBar.AbsoluteSize.X, 1), 0, 1)
+			push()
+		end)
+
+		-- hex input
+		local hexFrame = new("Frame", {
+			Position = UDim2.fromOffset(8, 140), Size = UDim2.new(1, -16, 0, 24), BackgroundColor3 = T.Control, BackgroundTransparency = 0.1, BorderSizePixel = 0, Parent = popup,
+		}, { corner(6), stroke(T.Border, 1, 0.35) })
+		hexBox = new("TextBox", {
+			Size = UDim2.fromScale(1, 1), BackgroundTransparency = 1, Text = toHex(color), ClearTextOnFocus = false, Font = T.Font, TextSize = 13,
+			TextColor3 = T.Text, Parent = hexFrame,
+		})
+		hexBox.FocusLost:Connect(function()
+			local c = parseHex(hexBox.Text)
+			if c then
+				hue, sat, val = c:ToHSV()
+				push()
+			end
+			hexBox.Text = toHex(color)
+		end)
+		render()
+	end
+
+	function obj:Open()
+		if self.IsOpen then return end
+		win:CloseDropdowns()
+		if not popup then build() end
+		render()
+		if (win._textScale or Library.TextScale or 1) ~= 1 then win:_ApplyTextScale(popup) end
+		local pos, size = swatch.AbsolutePosition, swatch.AbsoluteSize
+		local bmin, bmax = Library._visibleRect(win.Gui)
+		local vp = bmax - bmin
+		local ph = 172
+		local pw = math.min(220, vp.X - 12)
+		local below = bmax.Y - (pos.Y + size.Y + 3) - 6
+		local above = pos.Y - 3 - 6 - bmin.Y
+		local down = ph <= below or below >= above
+		ph = math.max(math.min(ph, down and below or above), 60)
+		local x = math.clamp(pos.X + size.X - pw, bmin.X + 6, math.max(bmin.X + 6, bmax.X - pw - 6))
+
+		if not popup.Visible then
+			popup.Size = UDim2.fromOffset(pw, 0)
+			popup.BackgroundTransparency = 1
+			popupStroke.Transparency = 1
+		end
+		popup.AnchorPoint = Vector2.new(0, down and 0 or 1)
+		local wantY = down and (pos.Y + size.Y + 3) or (pos.Y - 3)
+		popup.Position = UDim2.fromOffset(x, wantY)
+		popup.Visible = true
+		Library._pinPopup(popup, x, wantY)
+		self._tok = (self._tok or 0) + 1
+		win:_ShowOverlay()
+		tab:SetScrollEnabled(false)
+		tween(popup, 0.22, { Size = UDim2.fromOffset(pw, ph), BackgroundTransparency = 0 })
+		tween(popupStroke, 0.22, { Transparency = 0.45 })
+		self.IsOpen = true
+		win._dd = self
+	end
+
+	function obj:Close()
+		if not self.IsOpen then return end
+		self.IsOpen = false
+		if win._dd == self then win._dd = nil end
+		win:_HideOverlay()
+		tab:SetScrollEnabled(true)
+		self._tok = (self._tok or 0) + 1
+		local my = self._tok
+		if popup then
+			tween(popupStroke, 0.16, { Transparency = 1 }, QUAD, IN)
+			tween(popup, 0.16, { Size = UDim2.fromOffset(popup.AbsoluteSize.X, 0), BackgroundTransparency = 1 }, QUAD, IN).Completed:Connect(function()
+				if self._tok == my and not self.IsOpen then popup.Visible = false end
+			end)
+		end
+	end
+
+	function obj:Set(c, silent)
+		if typeof(c) ~= "Color3" then return end
+		hue, sat, val = c:ToHSV()
+		push(silent)
+	end
+	function obj:Get() return color end
+
+	swatch.MouseButton1Click:Connect(function()
+		if obj.IsOpen then obj:Close() else obj:Open() end
+	end)
+
+	setFlag(cfg, color)
+	self:_Register(row, cfg.Name, h)
+	obj.Frame = row
+	return regObj(cfg, obj)
+end
+
+------------------------------------------------------------------ extra controls
+-- Section:CreateBadge({ Name, Value, Color })  ->  :Set(value) / :SetColor(c)
+function Section:CreateBadge(cfg)
+	cfg = cfg or {}
+	local T = self.Window.Theme
+	local row = new("Frame", { Size = UDim2.new(1, 0, 0, rowH()), BackgroundTransparency = 1, Parent = self.Body })
+	local lbl = new("TextLabel", {
+		Position = UDim2.fromOffset(8, 0), Size = UDim2.new(1, -92, 1, 0), BackgroundTransparency = 1, Text = cfg.Name or "Status",
+		Font = T.Font, TextSize = 14, TextColor3 = T.Text, TextXAlignment = LEFT, TextTruncate = Enum.TextTruncate.AtEnd, Parent = row,
+	})
+	local pill = new("Frame", {
+		AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(1, -8, 0.5, 0), Size = UDim2.fromOffset(72, 20),
+		BackgroundColor3 = cfg.Color or T.Accent, BorderSizePixel = 0, Parent = row,
+	}, { corner(10), stroke(cfg.Color or T.Accent, 1, 0.55) })
+	local pillStroke = pill:FindFirstChildOfClass("UIStroke")
+	local val = new("TextLabel", {
+		Size = UDim2.fromScale(1, 1), BackgroundTransparency = 1, Text = tostring(cfg.Value or "ON"),
+		Font = T.FontBold, TextSize = 13, TextColor3 = Color3.new(1, 1, 1), TextTruncate = Enum.TextTruncate.AtEnd, Parent = pill,
+	}, { padding(6, 0, 6, 0) })
+	self:_Register(row, cfg.Name, rowH())
+	local obj = { Frame = row }
+	function obj:Set(v)
+		val.Text = tostring(v)
+	end
+	function obj:SetColor(c)
+		pill.BackgroundColor3 = c
+		pillStroke.Color = c
+	end
+	return obj
+end
+
+-- Section:CreateProgress({ Name, Default, Min, Max, Suffix, Color })  ->  :Set(v) / :SetColor(c)
+function Section:CreateProgress(cfg)
+	cfg = cfg or {}
+	local T = self.Window.Theme
+	local min, max = cfg.Min or 0, cfg.Max or 100
+	local value = math.clamp(cfg.Default or min, min, max)
+	local suffix = cfg.Suffix or ""
+	local total = UserInputService.TouchEnabled and 50 or 42
+	local frame = new("Frame", { Size = UDim2.new(1, 0, 0, total), BackgroundTransparency = 1, Parent = self.Body })
+	local nameLbl = new("TextLabel", {
+		Size = UDim2.new(1, -70, 0, 18), BackgroundTransparency = 1, Text = cfg.Name or "Progress", Font = T.Font, TextSize = 14,
+		TextColor3 = T.Text, TextXAlignment = LEFT, TextTruncate = Enum.TextTruncate.AtEnd, Parent = frame,
+	})
+	local valLabel = new("TextLabel", {
+		AnchorPoint = Vector2.new(1, 0), Position = UDim2.fromScale(1, 0), Size = UDim2.fromOffset(66, 18), BackgroundTransparency = 1,
+		Text = tostring(value) .. suffix, Font = T.FontBold, TextSize = 13, TextColor3 = T.Accent, TextXAlignment = Enum.TextXAlignment.Right, TextTruncate = Enum.TextTruncate.AtEnd, Parent = frame,
+	})
+	local track = new("Frame", {
+		AnchorPoint = Vector2.new(0, 0.5), Position = UDim2.new(0, 0, 0, 32), Size = UDim2.new(1, 0, 0, 8),
+		BackgroundColor3 = T.Control, BorderSizePixel = 0, Parent = frame,
+	}, { corner(4) })
+	local fill = new("Frame", { Size = UDim2.fromScale(0, 1), BackgroundColor3 = Color3.new(1, 1, 1), BorderSizePixel = 0, Parent = track },
+		{ corner(4), gradient(cfg.Color or T.Accent, (cfg.Color or T.Accent2), 0) })
+	self:_Register(frame, cfg.Name, total)
+	local obj = { Frame = frame }
+	-- %d rejects a float in Luau, so format numbers through a safe helper
+	local function fmtNum(n)
+		if n == math.floor(n) then return tostring(math.floor(n)) end
+		return tostring(n)
+	end
+	local function render(animate)
+		local a = (max == min) and 0 or (value - min) / (max - min)
+		valLabel.Text = fmtNum(value) .. suffix
+		if animate then tween(fill, 0.2, { Size = UDim2.fromScale(a, 1) }) else fill.Size = UDim2.fromScale(a, 1) end
+	end
+	-- accepts an absolute value (Min..Max) or, when Auto is set, a 0..1 fraction
+	function obj:Set(v)
+		if cfg.Auto then
+			value = math.clamp(v, 0, 1)
+			valLabel.Text = fmtNum(math.floor(value * 100 + 0.5)) .. "%"
+			tween(fill, 0.2, { Size = UDim2.fromScale(value, 1) })
+			return
+		end
+		value = math.clamp(v, min, max)
+		render(true)
+	end
+	function obj:Get() return value end
+	function obj:SetColor(c)
+		local g = fill:FindFirstChildOfClass("UIGradient")
+		if g then g.Color = ColorSequence.new(c, c:Lerp(Color3.new(1, 1, 1), 0.25)) end
+	end
+	render(false)
+	return regObj(cfg, obj)
+end
+
+-- Section:CreateSeparator("Label")  ->  a centered label with hairlines either side
+function Section:CreateSeparator(cfg)
+	if type(cfg) == "string" then cfg = { Name = cfg } end
+	cfg = cfg or {}
+	local T = self.Window.Theme
+	local row = new("Frame", { Size = UDim2.new(1, 0, 0, 20), BackgroundTransparency = 1, Parent = self.Body })
+	local function hair(anchor, pos)
+		return new("Frame", {
+			AnchorPoint = Vector2.new(anchor, 0.5), Position = pos, Size = UDim2.new(0.5, -34, 0, 1),
+			BackgroundColor3 = T.Border, BackgroundTransparency = 0.5, BorderSizePixel = 0, Parent = row,
+		})
+	end
+	hair(0, UDim2.new(0, 0, 0.5, 0))
+	hair(1, UDim2.new(1, 0, 0.5, 0))
+	new("TextLabel", {
+		AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.fromScale(0.5, 0.5), Size = UDim2.new(0, 0, 1, 0), AutomaticSize = AX,
+		BackgroundTransparency = 1, Text = cfg.Name or "", Font = T.FontBold, TextSize = 13, TextColor3 = T.SubText, Parent = row,
+	}, { padding(6, 0, 6, 0) })
+	self:_Register(row, cfg.Name, 20)
+	return { Frame = row }
+end
+
+-- Section:CreateKeybindToggle({ Name, Key, Default, Callback(state) })
+-- a keybind and a switch fused into one row: press Key or tap the switch.
+function Section:CreateKeybindToggle(cfg)
+	cfg = cfg or {}
+	local T = self.Window.Theme
+	local win = self.Window
+	local h = rowH()
+	local key = toKey(cfg.Key or cfg.Default)
+	local value = cfg.On and true or false
+
+	local row = new("TextButton", {
+		Size = UDim2.new(1, 0, 0, h), BackgroundColor3 = T.Control, BackgroundTransparency = 1, Text = "", AutoButtonColor = false, Parent = self.Body,
+	}, { corner(13) })
+	feedback(row, row, "BackgroundTransparency", 1, 0.82, 0.62, true)
+	new("TextLabel", {
+		Position = UDim2.fromOffset(8, 0), Size = UDim2.new(1, -140, 1, 0), BackgroundTransparency = 1, Text = cfg.Name or "Toggle Key",
+		Font = T.Font, TextSize = 14, TextColor3 = T.Text, TextXAlignment = LEFT, TextTruncate = Enum.TextTruncate.AtEnd, Parent = row,
+	})
+	-- clickable key chip
+	local keyBtn = new("TextButton", {
+		AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(1, -54, 0.5, 0), Size = UDim2.fromOffset(46, math.min(h - 8, 22)),
+		BackgroundColor3 = T.Control, BackgroundTransparency = 0.1, AutoButtonColor = false, Text = "", Font = T.FontBold, TextSize = 13,
+		TextColor3 = T.Accent, Parent = row,
+	}, { corner(11), stroke(T.Border, 1, 0.35) })
+	local keyStroke = keyBtn:FindFirstChildOfClass("UIStroke")
+	local track = new("Frame", {
+		AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(1, -8, 0.5, 0), Size = UDim2.fromOffset(38, 20),
+		BackgroundColor3 = value and T.Accent or T.Control, BorderSizePixel = 0, Parent = row,
+	}, { corner(10) })
+	local trackGrad = gradient(T.Accent, T.Accent2, 0)
+	trackGrad.Parent = track
+	trackGrad.Transparency = value and NumberSequence.new(0) or NumberSequence.new(1)
+	local knob = new("Frame", {
+		AnchorPoint = Vector2.new(0, 0.5), Position = value and UDim2.new(1, -17, 0.5, 0) or UDim2.new(0, 3, 0.5, 0),
+		Size = UDim2.fromOffset(14, 14), BackgroundColor3 = T.Knob, BorderSizePixel = 0, Parent = track,
+	}, { corner(7), stroke(T.Accent, 1.5, 0.4) })
+
+	local listening = false
+	local token = {}
+	local obj = {}
+	local function refreshKey()
+		keyBtn.Text = listening and "..." or (key and key.Name or "None")
+		tween(keyBtn, 0.14, { TextColor3 = listening and T.Accent or T.Text })
+		tween(keyStroke, 0.14, { Color = listening and T.Accent or T.Border })
+	end
+	refreshKey()
+	local function setValue(v, silent)
+		value = v and true or false
+		tween(track, 0.22, { BackgroundColor3 = value and T.Accent or T.Control })
+		trackGrad.Transparency = value and NumberSequence.new(0) or NumberSequence.new(1)
+		tween(knob, 0.24, { Position = value and UDim2.new(1, -17, 0.5, 0) or UDim2.new(0, 3, 0.5, 0) })
+		setFlag(cfg, value)
+		if not silent then safe(cfg.Callback, value) end
+	end
+	function obj:Set(v, silent) setValue(v, silent) end
+	function obj:Get() return value end
+	function obj:SetKey(v, silent)
+		key = toKey(v)
+		refreshKey()
+		if not silent then safe(cfg.Changed, key) end
+	end
+	function obj:GetKey() return key end
+
+	row.MouseButton1Click:Connect(function()
+		if listening then return end
+		setValue(not value)
+	end)
+	keyBtn.MouseButton1Click:Connect(function()
+		listening = not listening
+		if listening then Library._listening = token elseif Library._listening == token then Library._listening = nil end
+		refreshKey()
+	end)
+	table.insert(win.Conns, UserInputService.InputBegan:Connect(function(i, gp)
+		if listening then
+			if i.UserInputType ~= Enum.UserInputType.Keyboard then return end
+			if i.KeyCode == Enum.KeyCode.Escape then
+				listening = false
+				if Library._listening == token then Library._listening = nil end
+				refreshKey()
+			elseif i.KeyCode == Enum.KeyCode.Backspace or i.KeyCode == Enum.KeyCode.Delete then
+				obj:SetKey(nil)
+			else
+				obj:SetKey(i.KeyCode)
+			end
+			return
+		end
+		if Library._listening then return end
+		if gp or not key or i.KeyCode ~= key then return end
+		setValue(not value)
+	end))
+
+	setFlag(cfg, value)
+	self:_Register(row, cfg.Name, h)
+	obj.Frame = row
+	return regObj(cfg, obj)
+end
+
+------------------------------------------------------------------ tooltips
+-- attach a hover tooltip to any GUI element: Window:Tooltip(frame, "text")
+function Window:Tooltip(target, text)
+	if not text or text == "" then return end
+	local T = self.Theme
+	local tip, measure
+	local function show()
+		if tip or usingTouch() then return end
+		local txt = type(text) == "function" and text() or text
+		if not txt or txt == "" then return end
+		-- measure off-screen first: Roblox needs a frame to lay out before
+		-- AbsoluteSize / TextBounds are valid, so position on the next frame
+		measure = new("TextLabel", {
+			BackgroundTransparency = 1, Size = UDim2.new(0, 0, 0, 0), AutomaticSize = Enum.AutomaticSize.XY,
+			Text = txt, Font = T.Font, TextSize = 12, TextColor3 = T.Text, TextWrapped = true,
+			Visible = false, Parent = self.Gui,
+		})
+		tip = new("Frame", {
+			BackgroundColor3 = T.Panel, BackgroundTransparency = 0.05, BorderSizePixel = 0, ZIndex = 120, Visible = false, Parent = self.Gui,
+		}, { corner(6), stroke(T.Accent, 1, 0.5), padding(10, 6, 10, 6) })
+		local l = new("TextLabel", {
+			BackgroundTransparency = 1, Size = UDim2.new(0, 0, 0, 0), AutomaticSize = Enum.AutomaticSize.XY, Text = txt,
+			Font = T.Font, TextSize = 12, TextColor3 = T.Text, TextWrapped = true, Parent = tip,
+		})
+		-- a long tip wraps at a maximum width instead of becoming one line wider than the screen
+		local cap = math.max(120, math.min(280, self.Gui.AbsoluteSize.X - 32))
+		new("UISizeConstraint", { MaxSize = Vector2.new(cap, math.huge), Parent = measure })
+		new("UISizeConstraint", { MaxSize = Vector2.new(cap, math.huge), Parent = l })
+		task.defer(function()
+			if not tip then return end
+			local m = measure.AbsoluteSize
+			local tw, th = m.X + 20, m.Y + 12
+			local pos, size = target.AbsolutePosition, target.AbsoluteSize
+			local vp = self.Gui.AbsoluteSize
+			tip.Size = UDim2.fromOffset(tw, th)
+			local x = math.clamp(pos.X + size.X / 2 - tw / 2, 6, math.max(6, vp.X - tw - 6))
+			local y = pos.Y + size.Y + 6
+			if y + th > vp.Y - 6 then y = pos.Y - th - 6 end
+			tip.Position = UDim2.fromOffset(x, y)
+			tip.Visible = true
+			tip.BackgroundTransparency = 1
+			tween(tip, 0.14, { BackgroundTransparency = 0.05 })
+		end)
+	end
+	local function hide()
+		if measure then measure:Destroy() measure = nil end
+		if tip then tip:Destroy() tip = nil end
+	end
+	target.MouseEnter:Connect(show)
+	target.MouseLeave:Connect(hide)
+	return { Hide = hide }
+end
+
+------------------------------------------------------------------ tab badge
+function Tab:SetBadge(v)
+	local T = self.Window.Theme
+	if v == nil or v == false or v == "" then
+		if self.Badge then self.Badge.Visible = false end
+		return
+	end
+	if not self.Badge then
+		self.Badge = new("Frame", {
+			AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(1, -8, 0.5, 0), Size = UDim2.fromOffset(18, 16),
+			AutomaticSize = AX, BackgroundColor3 = Color3.new(1, 1, 1), BorderSizePixel = 0, Visible = false, Parent = self.Button,
+		}, { corner(8), gradient(T.Accent, T.Accent2, 0), padding(6, 0, 6, 0) })
+		self.BadgeLabel = Library._oa(new("TextLabel", {
+			Size = UDim2.new(0, 0, 1, 0), AutomaticSize = AX, BackgroundTransparency = 1, Text = "", Font = T.FontBold, TextSize = 12,
+			TextColor3 = Library.OnAccent(T), Parent = self.Badge,
+		}))
+	end
+	self.BadgeLabel.Text = tostring(v)
+	self.Badge.Visible = true
+	-- compact mode hides labels, so make room for the badge on the icon
+	if self.Label.Visible then
+		self.Label.Size = UDim2.new(1, -74, 1, 0)
+	end
+end
+
+------------------------------------------------------------------ config / misc API
+local function encodeValue(v)
+	local t = typeof(v)
+	if v == nil then return { __t = "none" } end
+	if t == "Color3" then
+		return { __t = "c3", r = math.floor(v.R * 255 + 0.5), g = math.floor(v.G * 255 + 0.5), b = math.floor(v.B * 255 + 0.5) }
+	elseif t == "EnumItem" then
+		return { __t = "key", n = v.Name }
+	elseif t == "table" then
+		local a = {}
+		for i, x in ipairs(v) do a[i] = x end
+		return { __t = "list", v = a }
+	end
+	return v
+end
+
+local function decodeValue(v)
+	if type(v) ~= "table" then return v end
+	if v.__t == "c3" then return Color3.fromRGB(v.r or 0, v.g or 0, v.b or 0) end
+	if v.__t == "key" then return toKey(v.n) end
+	if v.__t == "list" then return v.v or {} end
+	return nil -- "none"
+end
+
+function Library:ExportConfig()
+	local data = {}
+	for flag, obj in pairs(self.Objects) do
+		local ok, v = pcall(obj.Get, obj)
+		if ok then data[flag] = encodeValue(v) end
+	end
+	return HttpService:JSONEncode(data)
+end
+
+-- returns ok, appliedCount | errorMessage
+function Library:ImportConfig(json, silent)
+	local ok, data = pcall(function() return HttpService:JSONDecode(json) end)
+	if not ok or type(data) ~= "table" then return false, "invalid config" end
+	local n = 0
+	for flag, raw in pairs(data) do
+		local obj = self.Objects[flag]
+		if obj and obj.Set then
+			obj:Set(decodeValue(raw), silent)
+			n += 1
+		end
+	end
+	return true, n
+end
+
+local function ensureFolder(path)
+	local cur
+	for part in path:gmatch("[^/\\]+") do
+		cur = cur and (cur .. "/" .. part) or part
+		if not isfolder(cur) then makefolder(cur) end
+	end
+end
+
+local function cleanName(name)
+	name = tostring(name or ""):gsub("[^%w_%- ]", "")
+	return name ~= "" and name or nil
+end
+
+local function fsReady()
+	return type(writefile) == "function" and type(readfile) == "function" and type(isfolder) == "function" and type(makefolder) == "function"
+end
+
+function Library:SaveConfig(name)
+	name = cleanName(name)
+	if not name then return false, "invalid name" end
+	if not fsReady() then return false, "writefile is not supported here" end
+	local ok, err = pcall(function()
+		ensureFolder(self.ConfigFolder)
+		writefile(self.ConfigFolder .. "/" .. name .. ".json", self:ExportConfig())
+	end)
+	return ok, ok and name or tostring(err)
+end
+
+function Library:LoadConfig(name, silent)
+	name = cleanName(name)
+	if not name then return false, "invalid name" end
+	if not fsReady() or type(isfile) ~= "function" then return false, "readfile is not supported here" end
+	local path = self.ConfigFolder .. "/" .. name .. ".json"
+	local okf, exists = pcall(isfile, path)
+	if not okf or not exists then return false, "config not found" end
+	local okr, body = pcall(readfile, path)
+	if not okr or type(body) ~= "string" then return false, "could not read config" end
+	return self:ImportConfig(body, silent)
+end
+
+function Library:DeleteConfig(name)
+	name = cleanName(name)
+	if not name then return false, "invalid name" end
+	if type(delfile) ~= "function" or type(isfile) ~= "function" then return false, "delfile is not supported here" end
+	local path = self.ConfigFolder .. "/" .. name .. ".json"
+	if not isfile(path) then return false, "config not found" end
+	return pcall(delfile, path)
+end
+
+function Library:ListConfigs()
+	local out = {}
+	if type(listfiles) ~= "function" or type(isfolder) ~= "function" then return out end
+	local okd, isdir = pcall(isfolder, self.ConfigFolder)
+	if not okd or not isdir then return out end
+	local okl, files = pcall(listfiles, self.ConfigFolder)
+	if not okl or type(files) ~= "table" then return out end
+	for _, f in ipairs(files) do
+		local n = tostring(f):match("([^/\\]+)%.json$")
+		if n then table.insert(out, n) end
+	end
+	table.sort(out)
+	return out
+end
+
+function Library:Unload()
+	if self._nm then pcall(function() self._nm:Destroy() end) self._nm = nil end
+	for i = #self.Windows, 1, -1 do self.Windows[i]:Destroy() end
+	table.clear(self.Flags)
+	table.clear(self.Objects)
+end
+
+------------------------------------------------------------------ extra library API
+-- Library:OnFlag(function(flag, value, prev)) -> connection (disconnect to stop)
+-- fires whenever ANY flag changes, so you can bind a single handler instead of
+-- putting a Callback on every control.
+function Library:OnFlag(cb)
+	table.insert(self._flagCbs, cb)
+	local conn = {}
+	function conn:Disconnect()
+		for i, c in ipairs(Library._flagCbs) do
+			if c == cb then table.remove(Library._flagCbs, i) break end
+		end
+	end
+	return conn
+end
+
+-- Library:AutoloadConfig(name) -> ok, msg   (loads on startup if the file exists)
+function Library:AutoloadConfig(name, silent)
+	if type(isfile) ~= "function" or not fsReady() then return false, "no filesystem" end
+	local path = self.ConfigFolder .. "/" .. (cleanName(name) or "") .. ".json"
+	if not isfile(path) then return false, "not found" end
+	return self:LoadConfig(name, silent)
+end
+
+-- Library:SaveAuto(name) -> ok, msg   (one call to snapshot the current state)
+function Library:SaveAuto(name)
+	return self:SaveConfig(name or "auto")
+end
+
+------------------------------------------------------------------ v3.2 extras
+-- Everything below is additive. It wraps the existing Create* functions, so every
+-- control (old and new) gets the same universal methods, the "modified" dot, the
+-- right-click / long-press menu and an entry in the command palette.
+do
+local KC = Enum.KeyCode
+
+Library.Commands = {}
+Library._watch = {}
+Library._names = {}
+Library._snaps = {}
+Library.ContextMenu = true   -- right-click / long-press menu on controls (false = off)
+Library.MenuHold = 0.55      -- seconds to hold a finger before the menu opens
+Library.PaletteKey = KC.K    -- Ctrl + PaletteKey opens the command palette
+Library.History = { Max = 100, Merge = 0.6, Hotkeys = true, Toast = true, Undos = {}, Redos = {} }
+
+---------------------------------------------------------------- shared helpers
+local function deepEq(a, b)
+	if a == b then return true end
+	if type(a) ~= "table" or type(b) ~= "table" then return false end
+	for k, v in pairs(a) do
+		if not deepEq(v, b[k]) then return false end
+	end
+	for k in pairs(b) do
+		if a[k] == nil then return false end
+	end
+	return true
+end
+
+local function cloneVal(v)
+	if type(v) ~= "table" then return v end
+	local o = {}
+	for k, x in pairs(v) do o[k] = cloneVal(x) end
+	return o
+end
+
+local function fmtVal(v)
+	local t = typeof(v)
+	local s
+	if v == nil then
+		s = "\u{2014}"
+	elseif t == "boolean" then
+		s = v and "ON" or "OFF"
+	elseif t == "number" then
+		if v == math.floor(v) then
+			s = tostring(math.floor(v))
+		else
+			s = string.format("%.2f", v):gsub("0+$", ""):gsub("%.$", "")
+		end
+	elseif t == "Color3" then
+		s = toHex(v)
+	elseif t == "EnumItem" then
+		s = v.Name
+	elseif t == "table" then
+		local parts = {}
+		for _, x in ipairs(v) do table.insert(parts, tostring(x)) end
+		s = #parts == 0 and "\u{2014}" or table.concat(parts, ", ")
+	else
+		s = tostring(v)
+	end
+	if #s > 14 then s = s:sub(1, 13) .. "\u{2026}" end
+	return s
+end
+
+local function copyValue(win, v)
+	local text
+	local t = typeof(v)
+	if t == "Color3" then
+		text = toHex(v)
+	elseif t == "EnumItem" then
+		text = v.Name
+	elseif t == "table" then
+		local ok, js = pcall(function() return HttpService:JSONEncode(v) end)
+		text = ok and js or tostring(v)
+	else
+		text = tostring(v)
+	end
+	if type(setclipboard) == "function" then
+		pcall(setclipboard, text)
+		win:Notify({ Title = "Copied", Content = text, Kind = "Success", Duration = 1.6 })
+	else
+		win:Notify({ Title = "Clipboard not supported", Content = text, Kind = "Warning", Duration = 3 })
+	end
+end
+
+local function activeWindow()
+	for i = #Library.Windows, 1, -1 do
+		local w = Library.Windows[i]
+		if w.Visible then return w end
+	end
+	return Library.Windows[#Library.Windows]
+end
+
+local function isHidden(e)
+	return e.Ctl ~= nil and e.Ctl.Hidden == true
+end
+
+---------------------------------------------------------------- Library:Watch
+-- Library:Watch("flag", function(value, prev)) -> conn (conn:Disconnect())
+function Library:Watch(flag, fn)
+	local w = self._watch[flag]
+	if not w then
+		w = {}
+		self._watch[flag] = w
+	end
+	table.insert(w, fn)
+	return {
+		Disconnect = function()
+			local i = table.find(w, fn)
+			if i then table.remove(w, i) end
+		end,
+	}
+end
+
+Library:OnFlag(function(flag, v, prev)
+	local w = Library._watch[flag]
+	if w then
+		for _, fn in ipairs(table.clone(w)) do safe(fn, v, prev) end
+	end
+end)
+
+---------------------------------------------------------------- undo / redo
+local function trimStack(list)
+	while #list > Library.History.Max do table.remove(list, 1) end
+end
+
+Library:OnFlag(function(flag, v, prev)
+	if Library._replay then return end
+	-- ignore the first setFlag a control does while it is still being built
+	if prev == nil or Library.Objects[flag] == nil then return end
+	if Library._batch then
+		table.insert(Library._batch, { flag = flag, new = cloneVal(v), old = cloneVal(prev) })
+		return
+	end
+	local H = Library.History
+	local top = H.Undos[#H.Undos]
+	local now = os.clock()
+	-- a slider drag fires hundreds of changes: merge them into one history entry
+	if top and not top.group and top.flag == flag and now - top.t < H.Merge then
+		top.new = cloneVal(v)
+		top.t = now
+		table.clear(H.Redos)
+		return
+	end
+	table.insert(H.Undos, { flag = flag, new = cloneVal(v), old = cloneVal(prev), t = now })
+	trimStack(H.Undos)
+	table.clear(H.Redos)
+end)
+
+local function applyValue(flag, val)
+	local o = Library.Objects[flag]
+	if o and o.Set then
+		local ok, err = pcall(o.Set, o, cloneVal(val))
+		if not ok then warn("[SpectreUI] history apply failed: " .. tostring(err)) end
+	end
+end
+
+local function entryLabel(e)
+	if e.group then return (e.label or "Changes") .. " (" .. #e.items .. ")" end
+	return Library._names[e.flag] or tostring(e.flag)
+end
+
+local function toast(title, e)
+	if not Library.History.Toast then return end
+	local w = Library.Windows[#Library.Windows]
+	if w then w:Notify({ Title = title, Content = entryLabel(e), Kind = "Info", Duration = 1.6 }) end
+end
+
+-- Library:Undo(silent) / Redo(silent) -> ok, entry
+function Library:Undo(silent)
+	local H = self.History
+	local e = table.remove(H.Undos)
+	if not e then return false end
+	self._replay = true
+	if e.group then
+		for i = #e.items, 1, -1 do applyValue(e.items[i].flag, e.items[i].old) end
+	else
+		applyValue(e.flag, e.old)
+	end
+	self._replay = false
+	table.insert(H.Redos, e)
+	if not silent then toast("Undo", e) end
+	return true, e
+end
+
+function Library:Redo(silent)
+	local H = self.History
+	local e = table.remove(H.Redos)
+	if not e then return false end
+	self._replay = true
+	if e.group then
+		for i = 1, #e.items do applyValue(e.items[i].flag, e.items[i].new) end
+	else
+		applyValue(e.flag, e.new)
+	end
+	self._replay = false
+	table.insert(H.Undos, e)
+	if not silent then toast("Redo", e) end
+	return true, e
+end
+
+function Library:CanUndo() return #self.History.Undos > 0 end
+function Library:CanRedo() return #self.History.Redos > 0 end
+
+-- newest first: { "Aimbot FOV", "Load config (12)", ... }
+function Library:GetHistory()
+	local out = {}
+	for i = #self.History.Undos, 1, -1 do table.insert(out, entryLabel(self.History.Undos[i])) end
+	return out
+end
+
+function Library:ClearHistory()
+	table.clear(self.History.Undos)
+	table.clear(self.History.Redos)
+end
+
+-- Library:Transaction("label", fn): every flag change inside fn becomes ONE undo step
+function Library:Transaction(label, fn)
+	if self._batch then return fn() end
+	self._batch = {}
+	local res = table.pack(pcall(fn))
+	local items = self._batch
+	self._batch = nil
+	local order, map = {}, {}
+	for _, it in ipairs(items) do
+		local m = map[it.flag]
+		if m then
+			m.new = it.new
+		else
+			m = { flag = it.flag, old = it.old, new = it.new }
+			map[it.flag] = m
+			table.insert(order, m)
+		end
+	end
+	local kept = {}
+	for _, m in ipairs(order) do
+		if not deepEq(m.old, m.new) then table.insert(kept, m) end
+	end
+	if #kept > 0 then
+		local H = self.History
+		table.insert(H.Undos, { group = true, label = label or "Batch", items = kept, t = os.clock() })
+		trimStack(H.Undos)
+		table.clear(H.Redos)
+	end
+	if not res[1] then error(res[2], 0) end
+	return table.unpack(res, 2, res.n)
+end
+
+-- config loads become a single undo step
+local origImport = Library.ImportConfig
+function Library:ImportConfig(json, silent)
+	return self:Transaction("Load config", function() return origImport(self, json, silent) end)
+end
+
+---------------------------------------------------------------- snapshots / diff
+-- Library:Snapshot("name") -> table   in-memory copy of every flag (no writefile needed)
+function Library:Snapshot(name)
+	local snap = {}
+	for flag, o in pairs(self.Objects) do
+		if o.Get then
+			local ok, v = pcall(o.Get, o)
+			if ok then snap[flag] = cloneVal(v) end
+		end
+	end
+	if name then self._snaps[name] = snap end
+	return snap
+end
+
+-- Library:Restore("name" | snapshotTable) -> ok, appliedCount   (one undo step)
+function Library:Restore(src, silent)
+	local snap = type(src) == "string" and self._snaps[src] or src
+	if type(snap) ~= "table" then return false, "snapshot not found" end
+	local n = 0
+	self:Transaction("Restore", function()
+		for flag, v in pairs(snap) do
+			local o = self.Objects[flag]
+			if o and o.Set and o.Get then
+				local ok, cur = pcall(o.Get, o)
+				if ok and not deepEq(cur, v) then
+					o:Set(cloneVal(v), silent)
+					n += 1
+				end
+			end
+		end
+	end)
+	return true, n
+end
+
+-- Library:Diff(a, b) -> { { Flag, From, To }, ... }   a / b = snapshot name or table, b nil = live state
+function Library:Diff(a, b)
+	if type(a) == "string" then a = self._snaps[a] end
+	a = a or {}
+	if b == nil then b = self:Snapshot() elseif type(b) == "string" then b = self._snaps[b] end
+	b = b or {}
+	local out, seen = {}, {}
+	for flag, v in pairs(a) do
+		seen[flag] = true
+		if not deepEq(v, b[flag]) then table.insert(out, { Flag = flag, From = v, To = b[flag] }) end
+	end
+	for flag, v in pairs(b) do
+		if not seen[flag] and not deepEq(a[flag], v) then table.insert(out, { Flag = flag, From = a[flag], To = v }) end
+	end
+	table.sort(out, function(x, y) return x.Flag < y.Flag end)
+	return out
+end
+
+---------------------------------------------------------------- popup menu
+function Library:CloseMenu()
+	if self._menuGui then
+		self._menuGui:Destroy()
+		self._menuGui = nil
+	end
+end
+
+-- Library:ShowMenu({ { Name, Callback, Color, Disabled }, { Separator = true } }, anchorFrame, window)
+function Library:ShowMenu(items, anchor, win)
+	win = win or self.Windows[#self.Windows]
+	if not win or not items or #items == 0 then return end
+	self:CloseMenu()
+	local T = win.Theme
+	local gui = win.Gui
+	local vp = gui.AbsoluteSize
+	local ROW = UserInputService.TouchEnabled and 38 or 30
+	local W = 196
+	local h = 12 + (#items - 1) * 2
+	for _, it in ipairs(items) do h += it.Separator and 7 or ROW end
+
+	local catcher = new("TextButton", {
+		Name = "SpectreMenu", Size = UDim2.fromScale(1, 1), BackgroundTransparency = 1, Text = "", AutoButtonColor = false,
+		ZIndex = 160, Parent = gui,
+	})
+	self._menuGui = catcher
+	catcher.MouseButton1Click:Connect(function() self:CloseMenu() end)
+	catcher.InputBegan:Connect(function(i)
+		if i.UserInputType == Enum.UserInputType.MouseButton2 then self:CloseMenu() end
+	end)
+
+	local x, y = vp.X / 2 - W / 2, vp.Y / 2 - h / 2
+	if typeof(anchor) == "Instance" then
+		local ap, as = anchor.AbsolutePosition, anchor.AbsoluteSize
+		x = ap.X + as.X - W - 6
+		y = ap.Y + as.Y + 2
+		if y + h > vp.Y - 6 then y = ap.Y - h - 2 end
+	end
+	x = math.clamp(x, 6, math.max(6, vp.X - W - 6))
+	y = math.clamp(y, 6, math.max(6, vp.Y - h - 6))
+
+	local menu = new("Frame", {
+		Position = UDim2.fromOffset(x, y), Size = UDim2.fromOffset(W, h), BackgroundColor3 = T.Panel, BackgroundTransparency = 0.02,
+		BorderSizePixel = 0, Active = true, Parent = catcher,
+	}, { corner(9), stroke(T.Accent, 1, 0.4), list(2), padding(6, 6, 6, 6) })
+
+	for idx, it in ipairs(items) do
+		if it.Separator then
+			new("Frame", { LayoutOrder = idx, Size = UDim2.new(1, 0, 0, 7), BackgroundTransparency = 1, Parent = menu }, {
+				new("Frame", {
+					AnchorPoint = Vector2.new(0, 0.5), Position = UDim2.fromScale(0, 0.5), Size = UDim2.new(1, 0, 0, 1),
+					BackgroundColor3 = T.Border, BackgroundTransparency = 0.5, BorderSizePixel = 0,
+				}),
+			})
+		else
+			local dis = it.Disabled and true or false
+			local b = new("TextButton", {
+				LayoutOrder = idx, Size = UDim2.new(1, 0, 0, ROW), BackgroundColor3 = T.Control, BackgroundTransparency = 1,
+				AutoButtonColor = false, Text = it.Name or "Item", Font = T.Font, TextSize = 13,
+				TextColor3 = dis and T.SubText or (it.Color or T.Text), TextXAlignment = LEFT, TextTruncate = Enum.TextTruncate.AtEnd, Parent = menu,
+			}, { corner(6), padding(10, 0, 8, 0) })
+			if not dis then feedback(b, b, "BackgroundTransparency", 1, 0.8, 0.55, true) end
+			b.MouseButton1Click:Connect(function()
+				if dis then return end
+				self:CloseMenu()
+				safe(it.Callback, it)
+			end)
+		end
+	end
+	return { Close = function() self:CloseMenu() end }
+end
+
+---------------------------------------------------------------- reveal / goto
+local function reveal(win, e)
+	if not win.Visible then win:SetVisible(true) end
+	if win.SearchBox and win.SearchBox.Text ~= "" then
+		win.SearchBox.Text = ""
+		win:_ApplySearch()
+	end
+	win:SetTab(e.Tab)
+	if e.Section.Collapsed then e.Section:SetCollapsed(false, true) end
+	e.Tab:_QueueRelayout()
+	task.delay(0.15, function()
+		if not e.Frame.Parent then return end
+		local T = win.Theme
+		local sc = e.Frame:FindFirstAncestorWhichIsA("ScrollingFrame") or e.Tab.Cols[1]
+		local y = e.Frame.AbsolutePosition.Y - sc.AbsolutePosition.Y + sc.CanvasPosition.Y - 28
+		tween(sc, 0.3, { CanvasPosition = Vector2.new(0, math.max(0, y)) })
+		local hl = new("Frame", {
+			Size = UDim2.fromScale(1, 1), BackgroundColor3 = T.Accent, BackgroundTransparency = 0.5, BorderSizePixel = 0,
+			ZIndex = 8, Parent = e.Frame,
+		}, { corner(7) })
+		tween(hl, 1.1, { BackgroundTransparency = 1 }, QUAD, OUT).Completed:Connect(function() hl:Destroy() end)
+	end)
+end
+
+Library._reveal = reveal
+
+-- Window:Goto(obj | "flag" | "control name") -> bool   switch tab, expand, scroll, highlight
+function Window:Goto(target)
+	local e
+	for _, x in ipairs(self._index or {}) do
+		if type(target) == "table" and x.Obj == target then e = x break end
+		if type(target) == "string" and (x.Flag == target or x.Name:lower() == target:lower()) then e = x break end
+	end
+	if e then reveal(self, e) end
+	return e ~= nil
+end
+
+function Library:Goto(target)
+	for i = #self.Windows, 1, -1 do
+		if self.Windows[i]:Goto(target) then return true end
+	end
+	return false
+end
+
+---------------------------------------------------------------- command palette
+function Library:AddCommand(cfg)
+	table.insert(self.Commands, cfg)
+	return {
+		Remove = function()
+			local i = table.find(Library.Commands, cfg)
+			if i then table.remove(Library.Commands, i) end
+		end,
+	}
+end
+
+local NOJUMP = { Label = true, Paragraph = true, Separator = true, Badge = true, Progress = true, Graph = true, Console = true }
+local ASSIGN = { Slider = true, Toggle = true, KeybindToggle = true, Textbox = true }
+
+local function score(hay, q)
+	if q == "" then return 1 end
+	local total = 0
+	for tok in q:gmatch("%S+") do
+		local s = hay:find(tok, 1, true)
+		if s then
+			total += (s == 1) and 16 or 10
+		else
+			local pos = 1
+			for ch in tok:gmatch(".") do
+				local f = hay:find(ch, pos, true)
+				if not f then return 0 end
+				pos = f + 1
+			end
+			total += 3
+		end
+	end
+	return total
+end
+
+local function scoreEntry(e, q)
+	local hay = (e.Name .. " " .. e.SectionName .. " " .. e.TabName .. " " .. e.Kind):lower()
+	local s = score(hay, q)
+	if s > 0 then s += score(e.Name:lower(), q) * 2 end
+	return s
+end
+
+local function parseBool(s)
+	s = s:lower()
+	if s == "on" or s == "true" or s == "1" or s == "yes" then return true end
+	if s == "off" or s == "false" or s == "0" or s == "no" then return false end
+	return nil
+end
+
+local function applyAssign(win, e, av)
+	local o, k = e.Obj, e.Kind
+	local ok = false
+	if k == "Toggle" or k == "KeybindToggle" then
+		local b = parseBool(av)
+		if b ~= nil then
+			o:Set(b)
+			ok = true
+		end
+	elseif k == "Slider" then
+		local n = tonumber(av)
+		if n then
+			o:Set(n)
+			ok = true
+		end
+	elseif k == "Textbox" then
+		if e.Cfg.Numeric then
+			local n = tonumber(av)
+			if n then
+				o:Set(n)
+				ok = true
+			end
+		else
+			o:Set(av)
+			ok = true
+		end
+	end
+	win:Notify({
+		Title = e.Name, Content = ok and ("Set to " .. fmtVal(o:Get())) or "Invalid value",
+		Kind = ok and "Success" or "Error", Duration = 2,
+	})
+end
+
+local function pushRecent(win, e)
+	win._palRecent = win._palRecent or {}
+	local r = table.find(win._palRecent, e)
+	if r then table.remove(win._palRecent, r) end
+	table.insert(win._palRecent, 1, e)
+	while #win._palRecent > 5 do table.remove(win._palRecent) end
+end
+
+local function builtinCommands()
+	return {
+		{ Name = "Undo last change", Desc = "History", Callback = function() Library:Undo() end },
+		{ Name = "Redo", Desc = "History", Callback = function() Library:Redo() end },
+		{
+			Name = "Reset modified settings", Desc = #Library:GetModified() .. " modified",
+			Callback = function()
+				Library:Confirm({
+					Title = "Reset settings?", Content = "Every changed setting goes back to its default. You can undo this.",
+					Yes = "Reset", OnYes = function() Library:ResetAll() end,
+				})
+			end,
+		},
+	}
+end
+
+local function entryItem(win, e, close)
+	local function valueText()
+		if e.Obj.Get then
+			local ok, v = pcall(e.Obj.Get, e.Obj)
+			if ok then return fmtVal(v) end
+		end
+		return e.Kind:upper()
+	end
+	return {
+		title = e.Name, sub = e.TabName .. "  \u{203A}  " .. e.SectionName, chip = valueText(),
+		run = function(chip)
+			pushRecent(win, e)
+			if e.Obj._locked then
+				win:Notify({ Title = e.Name, Content = "This control is locked", Kind = "Warning", Duration = 2 })
+				return
+			end
+			if (e.Kind == "Toggle" or e.Kind == "KeybindToggle") and e.Obj.Set and e.Obj.Get then
+				e.Obj:Set(not e.Obj:Get())
+				if chip then chip.Text = valueText() end
+			elseif e.Kind == "Button" then
+				close()
+				safe(e.Cfg.Callback)
+			else
+				close()
+				reveal(win, e)
+			end
+		end,
+	}
+end
+
+local function buildItems(win, raw, close)
+	local q = raw:lower():gsub("^%s+", ""):gsub("%s+$", "")
+	local out = {}
+
+	-- quick set:  "walkspeed = 50"  /  "esp = on"
+	local an, av = raw:match("^%s*(.-)%s*=%s*(.-)%s*$")
+	if an and an ~= "" and av and av ~= "" then
+		local best, bs = nil, 0
+		for _, e in ipairs(win._index or {}) do
+			if ASSIGN[e.Kind] and not isHidden(e) then
+				local s = scoreEntry(e, an:lower())
+				if s > bs then best, bs = e, s end
+			end
+		end
+		if best then
+			table.insert(out, {
+				title = "Set " .. best.Name .. " = " .. av, sub = best.TabName .. "  \u{203A}  " .. best.SectionName, chip = "SET",
+				run = function()
+					close()
+					applyAssign(win, best, av)
+				end,
+			})
+		end
+	end
+
+	local scored = {}
+	for idx, e in ipairs(win._index or {}) do
+		if not NOJUMP[e.Kind] and not isHidden(e) then
+			local s = (q == "") and 1 or scoreEntry(e, q)
+			if s > 0 then
+				if q == "" and win._palRecent then
+					local r = table.find(win._palRecent, e)
+					if r then s = 1000 - r end
+				end
+				table.insert(scored, { s = s, i = idx, e = e })
+			end
+		end
+	end
+	local cmds = {}
+	for _, c in ipairs(Library.Commands) do table.insert(cmds, c) end
+	for _, c in ipairs(builtinCommands()) do table.insert(cmds, c) end
+	for idx, c in ipairs(cmds) do
+		local nm = (c.Name or ""):lower()
+		local hay = nm .. " " .. (c.Desc or ""):lower() .. " " .. (c.Keywords or ""):lower()
+		local s = (q == "") and 0.5 or score(hay, q)
+		if s > 0 and q ~= "" then s += score(nm, q) * 2 end
+		if s > 0 then table.insert(scored, { s = s, i = 10000 + idx, c = c }) end
+	end
+	table.sort(scored, function(a, b)
+		if a.s ~= b.s then return a.s > b.s end
+		return a.i < b.i
+	end)
+	for n = 1, math.min(#scored, lowPower() and 24 or 40) do
+		local it = scored[n]
+		if it.e then
+			table.insert(out, entryItem(win, it.e, close))
+		else
+			local c = it.c
+			table.insert(out, {
+				title = c.Name or "Command", sub = c.Desc or "Command", chip = "CMD",
+				run = function()
+					close()
+					safe(c.Callback)
+				end,
+			})
+		end
+	end
+	return out
+end
+
+function Window:ClosePalette()
+	local p = self._palette
+	if not p then return end
+	self._palette = nil
+	p.overlay:Destroy()
+end
+
+-- Window:OpenPalette(initialText)   Ctrl+K on PC; call it from a button on mobile
+function Window:OpenPalette(initial)
+	if self._palette then
+		self:ClosePalette()
+		return
+	end
+	self:CloseDropdowns()
+	Library:CloseMenu()
+	local T, gui = self.Theme, self.Gui
+	local vp = gui.AbsoluteSize
+	local top = (vp.Y < 520) and 8 or 56
+	local W = math.min(420, vp.X - 20)
+	local H = math.clamp(vp.Y - top - 16, 150, 400)
+	-- Anchor the palette to the WINDOW, not to the top of the ScreenGui: on some clients the gui origin sits above / left of
+	-- the visible screen, so a fixed "56 px from the top" put the palette half off-screen (and over the window header).
+	-- Everything is converted into the gui's own space (abs - gui origin), so it is right whatever the inset is.
+	local cx = nil
+	do
+		local main = self.Main
+		if main and main.Visible and main.AbsoluteSize.X > 0 and self.Visible ~= false then
+			local o = gui.AbsolutePosition
+			local mp, ms = main.AbsolutePosition - o, main.AbsoluteSize
+			local gap = (ms.Y < 360) and 8 or 56
+			top = mp.Y + gap
+			cx = mp.X + ms.X / 2
+			W = math.min(420, ms.X - 20)
+			H = math.clamp(ms.Y - gap - 16, 150, 400)
+		end
+	end
+	local cardX = cx and UDim2.fromOffset(cx, 0) or UDim2.fromScale(0.5, 0)
+
+	local overlay = new("TextButton", {
+		Name = "SpectrePalette", Size = UDim2.fromScale(1, 1), BackgroundColor3 = Color3.new(0, 0, 0), BackgroundTransparency = 1,
+		Text = "", AutoButtonColor = false, ZIndex = 150, Parent = gui,
+	})
+	local card = new("Frame", {
+		AnchorPoint = Vector2.new(0.5, 0), Position = UDim2.new(cardX.X.Scale, cardX.X.Offset, 0, top - 10), Size = UDim2.fromOffset(W, H),
+		BackgroundColor3 = T.Panel, BackgroundTransparency = 1, BorderSizePixel = 0, Active = true, Parent = overlay,
+	}, { corner(12), stroke(T.Accent, 1, 0.35), wash(cseq({ 0, T.Top }, { 1, T.Panel }), 90) })
+	local box = new("TextBox", {
+		Position = UDim2.fromOffset(12, 10), Size = UDim2.new(1, -24, 0, 36), BackgroundColor3 = T.Control, BackgroundTransparency = 0.1,
+		BorderSizePixel = 0, Text = initial or "", PlaceholderText = "Search settings or run a command   (try: speed = 50)",
+		PlaceholderColor3 = T.SubText, TextColor3 = T.Text, Font = T.Font, TextSize = 14, TextXAlignment = LEFT,
+		ClearTextOnFocus = false, TextTruncate = Enum.TextTruncate.AtEnd, Parent = card,
+	}, { corner(8), stroke(T.Border, 1, 0.35), padding(10, 0, 10, 0) })
+	local scroll = new("ScrollingFrame", {
+		Position = UDim2.fromOffset(8, 54), Size = UDim2.new(1, -16, 1, -62), BackgroundTransparency = 1, BorderSizePixel = 0,
+		ScrollBarThickness = 3, ScrollBarImageColor3 = T.Accent, CanvasSize = UDim2.new(), AutomaticCanvasSize = AY,
+		ScrollingDirection = Enum.ScrollingDirection.Y, Parent = card,
+	}, { list(4) })
+
+	local state = { overlay = overlay, card = card }
+	self._palette = state
+	local function close()
+		if self._palette == state then self:ClosePalette() end
+	end
+	overlay.MouseButton1Click:Connect(close)
+
+	local rows, current, sel = {}, {}, 1
+	local ROWH = UserInputService.TouchEnabled and 46 or 40
+	local PADY = (ROWH - 40) / 2
+	local function paintSel()
+		for i, r in ipairs(rows) do
+			local m = r:FindFirstChild("Sel")
+			if m then m.Visible = (i == sel) and not UserInputService.TouchEnabled end
+		end
+	end
+	local function makeRow(it, idx)
+		local btn = new("TextButton", {
+			LayoutOrder = idx, Size = UDim2.new(1, 0, 0, ROWH), BackgroundColor3 = T.Control, BackgroundTransparency = 1,
+			Text = "", AutoButtonColor = false, Parent = scroll,
+		}, { corner(8) })
+		new("Frame", {
+			Name = "Sel", AnchorPoint = Vector2.new(0, 0.5), Position = UDim2.new(0, 2, 0.5, 0), Size = UDim2.fromOffset(3, ROWH - 16),
+			BackgroundColor3 = T.Accent, BorderSizePixel = 0, Visible = false, Parent = btn,
+		}, { corner(2) })
+		feedback(btn, btn, "BackgroundTransparency", 1, 0.8, 0.55, true)
+		new("TextLabel", {
+			Position = UDim2.fromOffset(10, 3 + PADY), Size = UDim2.new(1, -100, 0, 18), BackgroundTransparency = 1, Text = it.title,
+			Font = T.FontBold, TextSize = 13, TextColor3 = T.Text, TextXAlignment = LEFT, TextTruncate = Enum.TextTruncate.AtEnd, Parent = btn,
+		})
+		new("TextLabel", {
+			Position = UDim2.fromOffset(10, 21 + PADY), Size = UDim2.new(1, -100, 0, 14), BackgroundTransparency = 1, Text = it.sub or "",
+			Font = T.Font, TextSize = 13, TextColor3 = T.SubText, TextXAlignment = LEFT, TextTruncate = Enum.TextTruncate.AtEnd, Parent = btn,
+		})
+		local chip = new("TextLabel", {
+			Name = "Chip", AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(1, -8, 0.5, 0), Size = UDim2.fromOffset(80, 20),
+			BackgroundColor3 = T.AccentSoft, BorderSizePixel = 0, Text = it.chip or "", Font = T.FontBold, TextSize = 13,
+			TextColor3 = T.Accent, TextTruncate = Enum.TextTruncate.AtEnd, Parent = btn,
+		}, { corner(10), padding(6, 0, 6, 0) })
+		btn.MouseButton1Click:Connect(function() it.run(chip) end)
+		return btn
+	end
+	local function refresh()
+		for _, r in ipairs(rows) do r:Destroy() end
+		table.clear(rows)
+		current = buildItems(self, box.Text, close)
+		for idx, it in ipairs(current) do rows[idx] = makeRow(it, idx) end
+		scroll.CanvasPosition = Vector2.zero
+		sel = 1
+		paintSel()
+	end
+	-- typing is debounced: one rebuild per burst of keystrokes
+	local queued = false
+	box:GetPropertyChangedSignal("Text"):Connect(function()
+		if queued then return end
+		queued = true
+		task.delay(0.07, function()
+			queued = false
+			if self._palette == state then refresh() end
+		end)
+	end)
+	box.FocusLost:Connect(function(enter)
+		if enter and current[sel] and rows[sel] then current[sel].run(rows[sel]:FindFirstChild("Chip")) end
+	end)
+	-- Up / Down (PC): move the selection and keep it in view
+	state.Move = function(d)
+		if #rows == 0 then return end
+		sel = math.clamp(sel + d, 1, #rows)
+		paintSel()
+		local r = rows[sel]
+		local px = math.max(r.AbsoluteSize.Y / ROWH, 0.01)
+		local delta = (r.AbsolutePosition.Y - scroll.AbsolutePosition.Y) / px
+		local view = scroll.AbsoluteSize.Y / px
+		if delta < 0 then
+			scroll.CanvasPosition += Vector2.new(0, delta)
+		elseif delta + ROWH > view then
+			scroll.CanvasPosition += Vector2.new(0, delta + ROWH - view)
+		end
+	end
+	do
+		local okR, errR = pcall(refresh)
+		if not okR then warn("[SpectreUI] palette refresh failed: " .. tostring(errR)) end
+	end
+
+	tween(overlay, 0.15, { BackgroundTransparency = 0.55 })
+	tween(card, 0.18, { BackgroundTransparency = 0.02, Position = UDim2.new(cardX.X.Scale, cardX.X.Offset, 0, top) })
+	task.delay(0.04, function()
+		if box.Parent then box:CaptureFocus() end
+	end)
+end
+
+---------------------------------------------------------------- global input
+local function ensureInput()
+	if Library._inp then return end
+	Library._inp = UserInputService.InputBegan:Connect(function(i, gp)
+		if i.UserInputType ~= Enum.UserInputType.Keyboard then return end
+		if i.KeyCode == KC.Escape then
+			Library:CloseMenu()
+			for _, w in ipairs(Library.Windows) do
+				if w._palette then w:ClosePalette() end
+			end
+		elseif i.KeyCode == KC.Down or i.KeyCode == KC.Up then
+			for _, w in ipairs(Library.Windows) do
+				if w._palette and w._palette.Move then w._palette.Move(i.KeyCode == KC.Down and 1 or -1) end
+			end
+		end
+		if gp or Library._listening then return end
+		local ctrl = UserInputService:IsKeyDown(KC.LeftControl) or UserInputService:IsKeyDown(KC.RightControl)
+		if not ctrl then return end
+		local w = activeWindow()
+		if not w then return end
+		if i.KeyCode == Library.PaletteKey then
+			w:OpenPalette()
+		elseif Library.History.Hotkeys and w.Visible then
+			local shift = UserInputService:IsKeyDown(KC.LeftShift) or UserInputService:IsKeyDown(KC.RightShift)
+			if i.KeyCode == KC.Z then
+				if shift then Library:Redo() else Library:Undo() end
+			elseif i.KeyCode == KC.Y then
+				Library:Redo()
+			end
+		end
+	end)
+end
+
+-- PC only: grab the corner glyph and drag to resize (Window option Resizable = false to disable)
+local function attachResize(win)
+	local main, T = win.Main, win.Theme
+	local grip = new("TextButton", {
+		Name = "ResizeGrip", AnchorPoint = Vector2.new(1, 1), Position = UDim2.new(1, -3, 1, -3), Size = UDim2.fromOffset(18, 18),
+		BackgroundTransparency = 1, Text = "\u{25E2}", Font = T.FontBold, TextSize = 12, TextColor3 = T.SubText, TextTransparency = 0.2,
+		AutoButtonColor = false, ZIndex = 40, Parent = main,
+	})
+	grip.MouseEnter:Connect(function() tween(grip, 0.12, { TextTransparency = 0, TextColor3 = T.Accent }) end)
+	grip.MouseLeave:Connect(function() tween(grip, 0.16, { TextTransparency = 0.2, TextColor3 = T.SubText }) end)
+	grip.InputBegan:Connect(function(i)
+		if i.UserInputType ~= Enum.UserInputType.MouseButton1 then return end
+		local vp = win.Gui.AbsoluteSize
+		local start = i.Position
+		local w0, h0 = main.Size.X.Offset, main.Size.Y.Offset
+		local tl = main.AbsolutePosition
+		local conn
+		conn = UserInputService.InputChanged:Connect(function(m)
+			if m.UserInputType ~= Enum.UserInputType.MouseMovement then return end
+			local d = m.Position - start
+			local w = math.max(420, math.min(w0 + d.X, vp.X - 16))
+			local h = math.max(300, math.min(h0 + d.Y, vp.Y - 16))
+			win.Cfg.Width, win.Cfg.Height = w, h
+			-- keep the top-left corner where it is: store the new centre relative to the screen
+			win._drag.Rel = Vector2.new((tl.X + w / 2) / vp.X, (tl.Y + h / 2) / vp.Y)
+			win:_Fit()
+		end)
+		onEnd(i, function() conn:Disconnect() end)
+	end)
+end
+
+local origCreateWindow = Library.CreateWindow
+function Library:CreateWindow(cfg)
+	ensureInput()
+	local win = origCreateWindow(self, cfg)
+	win._index = win._index or {}
+	if false and not UserInputService.TouchEnabled and (cfg == nil or cfg.Resizable ~= false) then -- legacy duplicate grip disabled (CreateWindow already has the corner grip)
+		local ok, err = pcall(attachResize, win)
+		if not ok then warn("[SpectreUI] resize grip failed: " .. tostring(err)) end
+	end
+	return win
+end
+
+-- Library:SetQuality("low" | "high" | "auto")   shortcut for Library.Perf.LowPower (applies to windows / controls built afterwards)
+function Library:SetQuality(q)
+	self.Perf.LowPower = (q == "low") and true or (q == "high") and false or nil
+end
+
+local origUnload = Library.Unload
+function Library:Unload()
+	self:CloseMenu()
+	origUnload(self)
+	if self._inp then
+		self._inp:Disconnect()
+		self._inp = nil
+	end
+	table.clear(self._watch)
+	table.clear(self._names)
+	self:ClearHistory()
+end
+
+---------------------------------------------------------------- new controls
+-- Section:CreateSegmented({ Name, Options = { "A", "B", "C" }, Default, Flag, Callback(option) })
+-- pill selector, best for 2-5 options.  :Set / :Get / :SetOptions(list, keepValue)
+function Section:CreateSegmented(cfg)
+	cfg = cfg or {}
+	local T = self.Window.Theme
+	local touch = UserInputService.TouchEnabled
+	local options = cfg.Options or {}
+	local value = cfg.Default
+	if value == nil then value = options[1] end
+	local barH = touch and 34 or 28
+	local total = 22 + barH + 2
+	local frame = new("Frame", { Size = UDim2.new(1, 0, 0, total), BackgroundTransparency = 1, Parent = self.Body })
+	new("TextLabel", {
+		Size = UDim2.new(1, 0, 0, 18), BackgroundTransparency = 1, Text = cfg.Name or "Mode", Font = T.Font, TextSize = 14,
+		TextColor3 = T.Text, TextXAlignment = LEFT, TextTruncate = Enum.TextTruncate.AtEnd, Parent = frame,
+	})
+	local bar = new("Frame", {
+		Position = UDim2.fromOffset(0, 22), Size = UDim2.new(1, 0, 0, barH), BackgroundColor3 = T.Control, BackgroundTransparency = 0.1,
+		BorderSizePixel = 0, Parent = frame,
+	}, { corner(14), stroke(T.Border, 1, 0.4), padding(3, 3, 3, 3) })
+	local holder = new("Frame", { Size = UDim2.fromScale(1, 1), BackgroundTransparency = 1, Parent = bar },
+		{ list(3, { FillDirection = Enum.FillDirection.Horizontal }) })
+
+	local btns = {}
+	local obj = {}
+	local function paint()
+		for _, b in ipairs(btns) do
+			local on = b.opt == value
+			tween(b.btn, 0.18, { BackgroundTransparency = on and 0 or 1 })
+			tween(b.lbl, 0.18, { TextColor3 = on and Library.OnAccent(T) or T.SubText })
+			b.lbl:SetAttribute("OnAccent", on or nil)
+		end
+	end
+	local function build()
+		for _, b in ipairs(btns) do b.btn:Destroy() end
+		btns = {}
+		local n = math.max(#options, 1)
+		for idx, opt in ipairs(options) do
+			local b = new("TextButton", {
+				LayoutOrder = idx, Size = UDim2.new(1 / n, -(3 * (n - 1)) / n, 1, 0), BackgroundColor3 = Color3.new(1, 1, 1),
+				BackgroundTransparency = 1, AutoButtonColor = false, Text = "", Parent = holder,
+			}, { corner(11), gradient(T.Accent, T.Accent2, 0) })
+			local lbl = new("TextLabel", {
+				Size = UDim2.fromScale(1, 1), BackgroundTransparency = 1, Text = tostring(opt), Font = T.Font, TextSize = 13,
+				TextColor3 = T.SubText, TextTruncate = Enum.TextTruncate.AtEnd, Parent = b,
+			})
+			b.MouseButton1Click:Connect(function() obj:Set(opt) end)
+			table.insert(btns, { btn = b, lbl = lbl, opt = opt })
+		end
+		paint()
+	end
+	function obj:Set(v, silent)
+		if table.find(options, v) == nil then return end
+		local changed = v ~= value
+		value = v
+		paint()
+		setFlag(cfg, v)
+		if changed and not silent then safe(cfg.Callback, v) end
+	end
+	function obj:Get() return value end
+	function obj:SetOptions(list, keep)
+		options = list or {}
+		if not (keep and table.find(options, value)) then value = options[1] end
+		build()
+		setFlag(cfg, value)
+	end
+	build()
+	setFlag(cfg, value)
+	self:_Register(frame, cfg.Name, total)
+	obj.Frame = frame
+	return regObj(cfg, obj)
+end
+
+-- Section:CreateRangeSlider({ Name, Min, Max, Increment, MinGap, Default = { lo, hi }, Suffix, Flag, Callback(lo, hi) })
+-- two knobs on one track.  Flag value / :Get() is { lo, hi }.  :Set({ lo, hi })
+function Section:CreateRangeSlider(cfg)
+	cfg = cfg or {}
+	local T = self.Window.Theme
+	local tab = self.Tab
+	local min, max, inc = cfg.Min or 0, cfg.Max or 100, cfg.Increment or 1
+	local gap = cfg.MinGap or 0
+	local suffix = cfg.Suffix or ""
+	local d = cfg.Default or { min, max }
+	local lo, hi = snap(d[1] or min, min, max, inc), snap(d[2] or max, min, max, inc)
+	if lo > hi then lo, hi = hi, lo end
+	local touch = UserInputService.TouchEnabled
+	local total = touch and 50 or 42
+	local knobS, knobBig = touch and 16 or 12, touch and 20 or 15
+
+	local frame = new("Frame", { Size = UDim2.new(1, 0, 0, total), BackgroundTransparency = 1, Parent = self.Body })
+	new("TextLabel", {
+		Size = UDim2.new(1, -112, 0, 18), BackgroundTransparency = 1, Text = cfg.Name or "Range", Font = T.Font, TextSize = 14,
+		TextColor3 = T.Text, TextXAlignment = LEFT, TextTruncate = Enum.TextTruncate.AtEnd, Parent = frame,
+	})
+	local valLabel = new("TextLabel", {
+		AnchorPoint = Vector2.new(1, 0), Position = UDim2.fromScale(1, 0), Size = UDim2.fromOffset(108, 18), BackgroundTransparency = 1,
+		Text = "", Font = T.FontBold, TextSize = 13, TextColor3 = T.Accent, TextXAlignment = Enum.TextXAlignment.Right, TextTruncate = Enum.TextTruncate.AtEnd, Parent = frame,
+	})
+	local hit = new("TextButton", {
+		Position = UDim2.fromOffset(0, 20), Size = UDim2.new(1, 0, 1, -20), BackgroundTransparency = 1, Text = "", AutoButtonColor = false, Parent = frame,
+	})
+	local track = new("Frame", {
+		AnchorPoint = Vector2.new(0, 0.5), Position = UDim2.fromScale(0, 0.5), Size = UDim2.new(1, 0, 0, 4),
+		BackgroundColor3 = T.Control, BorderSizePixel = 0, Parent = hit,
+	}, { corner(2) })
+	local fill = new("Frame", { Size = UDim2.fromScale(0, 1), BackgroundColor3 = Color3.new(1, 1, 1), BorderSizePixel = 0, Parent = track },
+		{ corner(2), gradient(T.Accent, T.Accent2, 0) })
+	local function mkKnob()
+		return new("Frame", {
+			AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.fromScale(0, 0.5), Size = UDim2.fromOffset(knobS, knobS),
+			BackgroundColor3 = T.Knob, BorderSizePixel = 0, ZIndex = 2, Parent = track,
+		}, { new("UICorner", { CornerRadius = UDim.new(0.5, 0) }), stroke(T.Accent, 2, 0) })
+	end
+	local knobLo, knobHi = mkKnob(), mkKnob()
+
+	local function frac(v) return (max == min) and 0 or (v - min) / (max - min) end
+	local function render(animate)
+		local a, b = frac(lo), frac(hi)
+		valLabel.Text = fmtVal(lo) .. " - " .. fmtVal(hi) .. suffix
+		local fp, fs = UDim2.fromScale(a, 0), UDim2.fromScale(b - a, 1)
+		local kl, kh = UDim2.fromScale(a, 0.5), UDim2.fromScale(b, 0.5)
+		if animate then
+			tween(fill, 0.18, { Position = fp, Size = fs })
+			tween(knobLo, 0.18, { Position = kl })
+			tween(knobHi, 0.18, { Position = kh })
+		else
+			fill.Position, fill.Size, knobLo.Position, knobHi.Position = fp, fs, kl, kh
+		end
+	end
+
+	local obj = {}
+	function obj:Set(v, silent)
+		if type(v) ~= "table" then return end
+		local a = snap(tonumber(v[1]) or lo, min, max, inc)
+		local b = snap(tonumber(v[2]) or hi, min, max, inc)
+		if a > b then a, b = b, a end
+		local changed = a ~= lo or b ~= hi
+		lo, hi = a, b
+		render(true)
+		setFlag(cfg, { lo, hi })
+		if changed and not silent then safe(cfg.Callback, lo, hi) end
+	end
+	function obj:Get() return { lo, hi } end
+	render(false)
+	setFlag(cfg, { lo, hi })
+
+	local function fromX(x, which)
+		local a = math.clamp((x - track.AbsolutePosition.X) / math.max(track.AbsoluteSize.X, 1), 0, 1)
+		local v = snap(min + (max - min) * a, min, max, inc)
+		local nl, nh = lo, hi
+		if which == "lo" then nl = math.min(v, hi - gap) else nh = math.max(v, lo + gap) end
+		nl, nh = math.clamp(nl, min, max), math.clamp(nh, min, max)
+		if nl ~= lo or nh ~= hi then
+			lo, hi = nl, nh
+			render(false)
+			setFlag(cfg, { lo, hi })
+			safe(cfg.Callback, lo, hi)
+		end
+	end
+
+	local grabbed
+	local function release()
+		tab:SetScrollEnabled(true)
+		if grabbed then
+			tween(grabbed, 0.16, { Size = UDim2.fromOffset(knobS, knobS) })
+			grabbed = nil
+		end
+	end
+	hit.InputBegan:Connect(function(i)
+		if not isPress(i) then return end
+		local tx, tw = track.AbsolutePosition.X, math.max(track.AbsoluteSize.X, 1)
+		local pl, ph = tx + frac(lo) * tw, tx + frac(hi) * tw
+		local x = i.Position.X
+		local which
+		if lo == hi then
+			which = (x < pl) and "lo" or "hi"
+		else
+			which = (math.abs(x - pl) <= math.abs(x - ph)) and "lo" or "hi"
+		end
+		Library._drag(i, function(m) fromX(m.Position.X, which) end, release)
+		tab:SetScrollEnabled(false)
+		grabbed = (which == "lo") and knobLo or knobHi
+		tween(grabbed, 0.12, { Size = UDim2.fromOffset(knobBig, knobBig) })
+		fromX(x, which)
+	end)
+
+	self:_Register(frame, cfg.Name, total)
+	obj.Frame = frame
+	return regObj(cfg, obj)
+end
+
+-- Section:CreateTagInput({ Name, Default = { "a" }, Placeholder, Max, Lower, Flag, Callback(list) })
+-- type + Enter (or +) to add a chip, tap the x to remove. "a, b, c" adds three.
+-- :Add(tag) / :Remove(tag) / :Has(tag) / :Set(list) / :Get() -> array
+function Section:CreateTagInput(cfg)
+	cfg = cfg or {}
+	local T = self.Window.Theme
+	local touch = UserInputService.TouchEnabled
+	local tags = {}
+	local obj = {}
+	local function norm(s)
+		s = tostring(s):gsub("^%s+", ""):gsub("%s+$", "")
+		if cfg.Lower then s = s:lower() end
+		return s
+	end
+	for _, t in ipairs(cfg.Default or {}) do
+		local n = norm(t)
+		if n ~= "" and not table.find(tags, n) then table.insert(tags, n) end
+	end
+
+	local frame = new("Frame", { Size = UDim2.new(1, 0, 0, 0), AutomaticSize = AY, BackgroundTransparency = 1, Parent = self.Body }, { list(6) })
+	new("TextLabel", {
+		LayoutOrder = 1, Size = UDim2.new(1, 0, 0, 18), BackgroundTransparency = 1, Text = cfg.Name or "Tags", Font = T.Font, TextSize = 14,
+		TextColor3 = T.Text, TextXAlignment = LEFT, TextTruncate = Enum.TextTruncate.AtEnd, Parent = frame,
+	})
+	local inputRow = new("Frame", { LayoutOrder = 2, Size = UDim2.new(1, 0, 0, touch and 34 or 30), BackgroundTransparency = 1, Parent = frame })
+	local box = new("TextBox", {
+		Size = UDim2.new(1, -40, 1, 0), BackgroundColor3 = T.Control, BackgroundTransparency = 0.1, BorderSizePixel = 0, Text = "",
+		PlaceholderText = cfg.Placeholder or "Add and press Enter", PlaceholderColor3 = T.SubText, TextColor3 = T.Text, Font = T.Font,
+		TextSize = 13, TextXAlignment = LEFT, ClearTextOnFocus = false, Parent = inputRow,
+	}, { corner(14), stroke(T.Border, 1, 0.4), padding(10, 0, 10, 0) })
+	local addBtn = new("TextButton", {
+		AnchorPoint = Vector2.new(1, 0), Position = UDim2.fromScale(1, 0), Size = UDim2.new(0, 34, 1, 0), BackgroundColor3 = Color3.new(1, 1, 1),
+		AutoButtonColor = false, Text = "", Parent = inputRow,
+	}, { corner(14), gradient(T.Accent, T.Accent2, 0) })
+	Library._oa(new("TextLabel", {
+		Size = UDim2.fromScale(1, 1), BackgroundTransparency = 1, Text = "+", Font = T.FontBold, TextSize = 18,
+		TextColor3 = Library.OnAccent(T), Parent = addBtn,
+	}))
+	local chips = new("Frame", { LayoutOrder = 3, Size = UDim2.new(1, 0, 0, 0), AutomaticSize = AY, BackgroundTransparency = 1, Parent = frame },
+		{ list(6, { FillDirection = Enum.FillDirection.Horizontal, Wraps = true }) })
+
+	local function rebuild()
+		for _, c in ipairs(chips:GetChildren()) do
+			if c:IsA("GuiObject") then c:Destroy() end
+		end
+		for idx, tag in ipairs(tags) do
+			local chip = new("Frame", {
+				LayoutOrder = idx, Size = UDim2.new(0, 0, 0, touch and 30 or 24), AutomaticSize = AX, BackgroundColor3 = T.AccentSoft, BorderSizePixel = 0, Parent = chips,
+			}, { corner(12), stroke(T.Accent, 1, 0.6),
+				list(0, { FillDirection = Enum.FillDirection.Horizontal, VerticalAlignment = Enum.VerticalAlignment.Center }),
+				padding(10, 0, 4, 0) })
+			new("TextLabel", {
+				LayoutOrder = 1, Size = UDim2.new(0, 0, 1, 0), AutomaticSize = AX, BackgroundTransparency = 1, Text = tag, Font = T.Font,
+				TextSize = 12, TextColor3 = T.Text, Parent = chip,
+			})
+			local x = new("TextButton", {
+				LayoutOrder = 2, Size = UDim2.fromOffset(touch and 30 or 22, touch and 30 or 22), BackgroundTransparency = 1, Text = "\u{00D7}", Font = T.FontBold,
+				TextSize = 14, TextColor3 = T.SubText, AutoButtonColor = false, Parent = chip,
+			})
+			x.MouseButton1Click:Connect(function() obj:Remove(tag) end)
+		end
+	end
+	local function commit(silent)
+		setFlag(cfg, cloneVal(tags))
+		rebuild()
+		if not silent then safe(cfg.Callback, cloneVal(tags)) end
+	end
+	function obj:Add(t, silent)
+		t = norm(t)
+		if t == "" or table.find(tags, t) then return false end
+		if cfg.Max and #tags >= cfg.Max then return false end
+		table.insert(tags, t)
+		commit(silent)
+		return true
+	end
+	function obj:Remove(t, silent)
+		local i = table.find(tags, t)
+		if not i then return false end
+		table.remove(tags, i)
+		commit(silent)
+		return true
+	end
+	function obj:Has(t) return table.find(tags, norm(t)) ~= nil end
+	function obj:Set(list, silent)
+		tags = {}
+		for _, t in ipairs(type(list) == "table" and list or {}) do
+			local n = norm(t)
+			if n ~= "" and not table.find(tags, n) then table.insert(tags, n) end
+		end
+		commit(silent)
+	end
+	function obj:Get() return cloneVal(tags) end
+
+	local function submit()
+		for part in box.Text:gmatch("[^,]+") do obj:Add(part) end
+		box.Text = ""
+	end
+	box.FocusLost:Connect(function(enter)
+		if enter then submit() end
+	end)
+	addBtn.MouseButton1Click:Connect(submit)
+
+	rebuild()
+	setFlag(cfg, cloneVal(tags))
+	self:_Register(frame, cfg.Name, 76)
+	obj.Frame = frame
+	return regObj(cfg, obj)
+end
+
+-- Section:CreateHoldButton({ Name, Duration = 1, Color, DoneText, Callback })
+-- must be held until the bar fills: safe for dangerous actions (esp. on a touchscreen)
+function Section:CreateHoldButton(cfg)
+	cfg = cfg or {}
+	local T = self.Window.Theme
+	local dur = cfg.Duration or 1
+	local accent = cfg.Color or Color3.fromRGB(248, 113, 113)
+	local h = rowH()
+	local b = new("TextButton", {
+		Size = UDim2.new(1, 0, 0, h), BackgroundColor3 = T.Control, BackgroundTransparency = 0.1, AutoButtonColor = false, Text = "",
+		ClipsDescendants = true, Parent = self.Body,
+	}, { corner(14), stroke(accent, 1, 0.5) })
+	local fill = new("Frame", { Size = UDim2.fromScale(0, 1), BackgroundColor3 = Color3.new(1, 1, 1), BorderSizePixel = 0, Parent = b },
+		{ corner(14), gradient(accent, accent:Lerp(Color3.new(1, 1, 1), 0.3), 0) })
+	local label = new("TextLabel", {
+		Size = UDim2.fromScale(1, 1), BackgroundTransparency = 1, Text = cfg.Name or "Hold to confirm", Font = T.Font, TextSize = 13,
+		TextColor3 = T.Text, TextTruncate = Enum.TextTruncate.AtEnd, ZIndex = 2, Parent = b,
+	})
+	local obj = { Frame = b }
+	function obj:SetText(t)
+		cfg.Name = t
+		label.Text = t
+	end
+
+	local tw, holding, seq = nil, false, 0
+	local function down()
+		holding = true
+		seq += 1
+		local mine = seq
+		if tw then tw:Cancel() end
+		fill.Size = UDim2.fromScale(0, 1)
+		local t = TweenService:Create(fill, TweenInfo.new(dur, Enum.EasingStyle.Linear), { Size = UDim2.fromScale(1, 1) })
+		tw = t
+		t.Completed:Connect(function(state)
+			if state ~= Enum.PlaybackState.Completed or tw ~= t or not holding then return end
+			holding = false
+			tw = nil
+			label.Text = cfg.DoneText or "Done"
+			safe(cfg.Callback)
+			task.delay(0.45, function()
+				if seq ~= mine then return end
+				label.Text = cfg.Name or "Hold to confirm"
+				tween(fill, 0.3, { Size = UDim2.fromScale(0, 1) })
+			end)
+		end)
+		t:Play()
+	end
+	local function up()
+		holding = false
+		if tw then
+			tw:Cancel()
+			tw = nil
+			tween(fill, 0.14, { Size = UDim2.fromScale(0, 1) }, QUAD, OUT)
+		end
+	end
+	dragSafePress(b, down, function() up() end, 12)
+
+	self:_Register(b, cfg.Name, h)
+	return obj
+end
+
+-- Section:CreateGraph({ Name, Points = 30, Height = 56, Min, Max, Suffix, Color, Data })
+-- live bar graph. :Push(number) shifts left, :Clear(), :SetRange(min, max). Min / Max nil = auto.
+function Section:CreateGraph(cfg)
+	cfg = cfg or {}
+	local T = self.Window.Theme
+	local N = math.clamp(cfg.Points or 30, 5, 120)
+	local H = cfg.Height or 56
+	local color = cfg.Color or T.Accent
+	local suffix = cfg.Suffix or ""
+	local total = 22 + H + 4
+	local frame = new("Frame", { Size = UDim2.new(1, 0, 0, total), BackgroundTransparency = 1, Parent = self.Body })
+	new("TextLabel", {
+		Size = UDim2.new(1, -90, 0, 18), BackgroundTransparency = 1, Text = cfg.Name or "Graph", Font = T.Font, TextSize = 14,
+		TextColor3 = T.Text, TextXAlignment = LEFT, TextTruncate = Enum.TextTruncate.AtEnd, Parent = frame,
+	})
+	local valLabel = new("TextLabel", {
+		AnchorPoint = Vector2.new(1, 0), Position = UDim2.fromScale(1, 0), Size = UDim2.fromOffset(86, 18), BackgroundTransparency = 1,
+		Text = "", Font = T.FontBold, TextSize = 13, TextColor3 = T.Accent, TextXAlignment = Enum.TextXAlignment.Right, TextTruncate = Enum.TextTruncate.AtEnd, Parent = frame,
+	})
+	local area = new("Frame", {
+		Position = UDim2.fromOffset(0, 22), Size = UDim2.new(1, 0, 0, H), BackgroundColor3 = T.Control, BackgroundTransparency = 0.15,
+		BorderSizePixel = 0, ClipsDescendants = true, Parent = frame,
+	}, { corner(7), stroke(T.Border, 1, 0.45) })
+	local bars, data = {}, {}
+	for i = 1, N do
+		bars[i] = new("Frame", {
+			AnchorPoint = Vector2.new(0, 1), Position = UDim2.new((i - 1) / N, 1, 1, 0), Size = UDim2.new(1 / N, -2, 0, 0),
+			BackgroundColor3 = color, BackgroundTransparency = 0.15, BorderSizePixel = 0, Parent = area,
+		})
+	end
+	local function render()
+		local lo, hi = cfg.Min, cfg.Max
+		if lo == nil or hi == nil then
+			local dmin, dmax = math.huge, -math.huge
+			for _, v in ipairs(data) do
+				dmin = math.min(dmin, v)
+				dmax = math.max(dmax, v)
+			end
+			if dmin == math.huge then dmin, dmax = 0, 1 end
+			if lo == nil then lo = math.min(0, dmin) end
+			if hi == nil then hi = dmax end
+		end
+		if hi == lo then hi = lo + 1 end
+		local off = N - #data
+		for i = 1, N do
+			local v = data[i - off]
+			local a = v and math.clamp((v - lo) / (hi - lo), 0, 1) or 0
+			bars[i].Size = UDim2.new(1 / N, -2, a, v and 2 or 0)
+			bars[i].BackgroundColor3 = (i == N and v) and T.Accent2 or color
+		end
+	end
+	local obj = { Frame = frame }
+	function obj:Push(v)
+		v = tonumber(v) or 0
+		table.insert(data, v)
+		if #data > N then table.remove(data, 1) end
+		valLabel.Text = fmtVal(v) .. suffix
+		render()
+	end
+	function obj:Clear()
+		table.clear(data)
+		valLabel.Text = ""
+		render()
+	end
+	function obj:SetRange(lo, hi)
+		cfg.Min, cfg.Max = lo, hi
+		render()
+	end
+	function obj:Get() return data[#data] end
+	for _, v in ipairs(cfg.Data or {}) do obj:Push(v) end
+	render()
+	self:_Register(frame, cfg.Name, total)
+	return obj
+end
+
+-- Section:CreateConsole({ Name, Height = 120, MaxLines = 100, Timestamp = true })
+-- scrolling log inside the UI.  :Print(text, color) :Info/:Success/:Warn/:Error(text) :Clear() :GetText() :Copy()
+function Section:CreateConsole(cfg)
+	cfg = cfg or {}
+	local T = self.Window.Theme
+	local H = cfg.Height or 120
+	local maxLines = cfg.MaxLines or 100
+	local total = 24 + H + 4
+	local frame = new("Frame", { Size = UDim2.new(1, 0, 0, total), BackgroundTransparency = 1, Parent = self.Body })
+	new("TextLabel", {
+		Size = UDim2.new(1, -64, 0, 20), BackgroundTransparency = 1, Text = cfg.Name or "Console", Font = T.Font, TextSize = 14,
+		TextColor3 = T.Text, TextXAlignment = LEFT, TextTruncate = Enum.TextTruncate.AtEnd, Parent = frame,
+	})
+	local clearBtn = new("TextButton", {
+		AnchorPoint = Vector2.new(1, 0), Position = UDim2.fromScale(1, 0), Size = UDim2.fromOffset(52, 20), BackgroundColor3 = T.Control,
+		BackgroundTransparency = 0.1, AutoButtonColor = false, Text = "Clear", Font = T.Font, TextSize = 13, TextColor3 = T.SubText, Parent = frame,
+	}, { corner(10), stroke(T.Border, 1, 0.4) })
+	local view = new("ScrollingFrame", {
+		Position = UDim2.fromOffset(0, 24), Size = UDim2.new(1, 0, 0, H), BackgroundColor3 = T.Deep, BackgroundTransparency = 0.1,
+		BorderSizePixel = 0, ScrollBarThickness = 3, ScrollBarImageColor3 = T.Accent, CanvasSize = UDim2.new(), AutomaticCanvasSize = AY,
+		ScrollingDirection = Enum.ScrollingDirection.Y, Parent = frame,
+	}, { corner(7), stroke(T.Border, 1, 0.45), list(1), padding(8, 6, 8, 6) })
+
+	local lines, order, scrollQueued = {}, 0, false
+	local obj = { Frame = frame }
+	local COLORS = {
+		Info = T.Text, Success = Color3.fromRGB(52, 211, 153), Warn = Color3.fromRGB(251, 191, 36), Error = Color3.fromRGB(248, 113, 113),
+	}
+	function obj:Print(text, color)
+		order += 1
+		local stamp = (cfg.Timestamp ~= false) and (os.date("%H:%M:%S") .. "  ") or ""
+		local l = new("TextLabel", {
+			LayoutOrder = order, Size = UDim2.new(1, 0, 0, 0), AutomaticSize = AY, BackgroundTransparency = 1, Text = stamp .. tostring(text),
+			Font = Enum.Font.Code, TextSize = 12, TextColor3 = color or T.Text, TextXAlignment = LEFT, TextWrapped = true, Parent = view,
+		})
+		table.insert(lines, l)
+		if #lines > maxLines then
+			local old = table.remove(lines, 1)
+			old:Destroy()
+		end
+		if not scrollQueued then
+			scrollQueued = true
+			task.delay(0.03, function()
+				scrollQueued = false
+				if view.Parent then view.CanvasPosition = Vector2.new(0, 1e6) end
+			end)
+		end
+		return l
+	end
+	for name, col in pairs(COLORS) do
+		obj[name] = function(self, text) return self:Print(text, col) end
+	end
+	function obj:Clear()
+		for _, l in ipairs(lines) do l:Destroy() end
+		lines = {}
+	end
+	function obj:GetText()
+		local out = {}
+		for _, l in ipairs(lines) do table.insert(out, l.Text) end
+		return table.concat(out, "\n")
+	end
+	function obj:Copy()
+		if type(setclipboard) == "function" then
+			pcall(setclipboard, self:GetText())
+			return true
+		end
+		return false
+	end
+	clearBtn.MouseButton1Click:Connect(function() obj:Clear() end)
+	self:_Register(frame, cfg.Name, total)
+	return obj
+end
+
+---------------------------------------------------------------- universal control methods
+local NOVALUE = { Progress = true, Badge = true, Label = true, Paragraph = true, Graph = true, Console = true, Separator = true }
+
+local function buildMenuItems(entry)
+	local obj, win = entry.Obj, entry.Section.Window
+	local items = {}
+	if entry.Flag and obj.Get and obj.IsModified then
+		table.insert(items, { Name = "Reset to default", Disabled = not obj:IsModified(), Callback = function() obj:Reset() end })
+		table.insert(items, { Name = "Copy value", Callback = function()
+			local ok, v = pcall(obj.Get, obj)
+			if ok then copyValue(win, v) end
+		end })
+	end
+	if obj.SetEnabled then
+		table.insert(items, { Name = obj._locked and "Unlock" or "Lock", Callback = function() obj:SetEnabled(obj._locked) end })
+	end
+	if obj._tipText and obj._tipText ~= "" then
+		table.insert(items, { Name = "What is this?", Callback = function()
+			win:Notify({ Title = entry.Name, Content = obj._tipText, Kind = "Info", Duration = 5 })
+		end })
+	end
+	local custom = entry.Cfg.ContextMenu
+	if type(custom) == "table" and #custom > 0 then
+		if #items > 0 then table.insert(items, { Separator = true }) end
+		for _, it in ipairs(custom) do
+			table.insert(items, {
+				Name = it.Name, Color = it.Color, Disabled = it.Disabled,
+				Callback = function() safe(it.Callback, obj) end,
+			})
+		end
+	end
+	return items
+end
+
+local function attachMenu(entry)
+	local frame, win = entry.Frame, entry.Section.Window
+	local function open()
+		if Library.ContextMenu == false then return end
+		local items = buildMenuItems(entry)
+		if #items > 0 then Library:ShowMenu(items, frame, win) end
+	end
+	local function hookRight(g)
+		g.InputBegan:Connect(function(i)
+			if i.UserInputType == Enum.UserInputType.MouseButton2 then open() end
+		end)
+	end
+	if UserInputService.MouseEnabled then
+		hookRight(frame)
+		for _, d in ipairs(frame:GetDescendants()) do
+			if d:IsA("GuiButton") then hookRight(d) end
+		end
+	end
+	if not UserInputService.TouchEnabled then return end
+	-- touch: hold a finger still to open the menu; moving more than 10px (a scroll) cancels it
+	frame.InputBegan:Connect(function(i)
+		if i.UserInputType ~= Enum.UserInputType.Touch then return end
+		local start = Vector2.new(i.Position.X, i.Position.Y)
+		local held = true
+		local mc = UserInputService.InputChanged:Connect(function(m)
+			if m == i and (Vector2.new(m.Position.X, m.Position.Y) - start).Magnitude > 10 then held = false end
+		end)
+		onEnd(i, function()
+			held = false
+			mc:Disconnect()
+		end)
+		task.delay(Library.MenuHold or 0.55, function()
+			if held then
+				held = false
+				mc:Disconnect()
+				open()
+			end
+		end)
+	end)
+end
+
+local function decorate(sec, kind, cfg, obj)
+	local win = sec.Window
+	local T = win.Theme
+	local frame = obj.Frame
+	if typeof(frame) ~= "Instance" then return end
+	obj.Kind = obj.Kind or kind
+
+	local ctl
+	for _, c in ipairs(sec.Controls) do
+		if c.Frame == frame then ctl = c break end
+	end
+	local entry = {
+		Kind = kind, Name = tostring(cfg.Name or cfg.Title or cfg.Text or kind), Obj = obj, Cfg = cfg, Section = sec, Tab = sec.Tab,
+		Frame = frame, Ctl = ctl, Flag = cfg.Flag, SectionName = sec.Name, TabName = sec.Tab.Name,
+	}
+	win._index = win._index or {}
+	table.insert(win._index, entry)
+	if cfg.Flag then Library._names[cfg.Flag] = entry.Name end
+
+	local conns = {}
+	local function def(name, fn)
+		if obj[name] == nil then obj[name] = fn end
+	end
+
+	-- default value + "modified" dot + reset
+	if cfg.Flag and obj.Get and obj.Set and not NOVALUE[kind] then
+		local ok, v = pcall(obj.Get, obj)
+		if ok then
+			obj._default = cloneVal(v)
+			obj._hasDefault = true
+		end
+		local dot
+		-- the switch itself already shows on/off, so a toggle never gets the "modified" dot
+		-- (it used to appear next to the label whenever a switch was turned ON, even though it is a normal state).
+		-- cfg.ModDot = true brings it back for one control; Library.ModDot = false turns the dot off everywhere.
+		local noDot = Library.ModDot == false or cfg.ModDot == false
+			or ((kind == "Toggle" or kind == "KeybindToggle") and cfg.ModDot ~= true)
+		table.insert(conns, Library:Watch(cfg.Flag, function(val)
+			local on = (not noDot) and obj._hasDefault and not deepEq(val, obj._default) or false
+			if on and not dot then
+				dot = new("Frame", {
+					Name = "ModDot", AnchorPoint = Vector2.new(0, 0.5), Position = UDim2.new(0, 2, 0, math.floor(rowH() / 2)), Size = UDim2.fromOffset(4, 4),
+					BackgroundColor3 = T.Accent, BorderSizePixel = 0, ZIndex = 5, Parent = frame,
+				}, { new("UICorner", { CornerRadius = UDim.new(0.5, 0) }) })
+			end
+			if dot then dot.Visible = on end
+		end))
+		sec._objs = sec._objs or {}
+		table.insert(sec._objs, obj)
+	end
+	def("IsModified", function(self)
+		if not self._hasDefault or not self.Get then return false end
+		local ok, cur = pcall(self.Get, self)
+		return ok and not deepEq(cur, self._default)
+	end)
+	def("Reset", function(self, silent)
+		if not self._hasDefault then return false end
+		self:Set(cloneVal(self._default), silent)
+		return true
+	end)
+
+	def("OnChange", function(self, fn)
+		if not cfg.Flag then
+			warn("[SpectreUI] OnChange needs a Flag on '" .. entry.Name .. "'")
+			return { Disconnect = function() end }
+		end
+		local c = Library:Watch(cfg.Flag, fn)
+		table.insert(conns, c)
+		return c
+	end)
+
+	-- show / hide (works together with the search filter)
+	def("SetVisible", function(self, v)
+		v = v and true or false
+		if ctl then ctl.Hidden = not v end
+		if sec.Tab == win.Active then
+			win:_ApplySearch()
+		else
+			frame.Visible = v
+		end
+		sec.Tab:_QueueRelayout()
+	end)
+	def("IsVisible", function() return not (ctl and ctl.Hidden) end)
+
+	-- ShowIf("flag") / ShowIf("flag", value) / ShowIf("flag", function(v, flags)) / ShowIf({ "a", "b" }, function(flags))
+	def("ShowIf", function(self, src, expected)
+		if self._showConn then self._showConn.Disconnect() end
+		local flags = type(src) == "table" and src or { src }
+		local function eval()
+			local ok, show = pcall(function()
+				if type(expected) == "function" then
+					if type(src) == "table" then return expected(Library.Flags) end
+					return expected(Library.Flags[flags[1]], Library.Flags)
+				elseif expected == nil then
+					return Library.Flags[flags[1]]
+				end
+				return deepEq(Library.Flags[flags[1]], expected)
+			end)
+			self:SetVisible(ok and show and true or false)
+		end
+		local cs = {}
+		for _, f in ipairs(flags) do table.insert(cs, Library:Watch(f, eval)) end
+		self._showConn = { Disconnect = function() for _, c in ipairs(cs) do c:Disconnect() end end }
+		table.insert(conns, self._showConn)
+		eval()
+		return self
+	end)
+
+	-- lock: dims the control and swallows input
+	def("SetEnabled", function(self, v)
+		local locked = not v
+		self._locked = locked
+		if locked and self.IsOpen and self.Close then pcall(self.Close, self) end
+		if locked and not self._lockGui then
+			self._lockGui = new("TextButton", {
+				Name = "Lock", Size = UDim2.fromScale(1, 1), BackgroundColor3 = T.Background, BackgroundTransparency = 0.35, Text = "",
+				AutoButtonColor = false, Active = true, ZIndex = 20, Visible = false, Parent = frame,
+			}, { corner(7) })
+		end
+		if self._lockGui then self._lockGui.Visible = locked end
+	end)
+	def("Lock", function(self) self:SetEnabled(false) end)
+	def("Unlock", function(self) self:SetEnabled(true) end)
+	def("IsEnabled", function(self) return not self._locked end)
+
+	-- tooltip (hover on PC, "What is this?" in the long-press menu on touch)
+	def("SetTooltip", function(self, text)
+		self._tipText = text
+		if not self._tipBound and text and text ~= "" then
+			self._tipBound = true
+			win:Tooltip(frame, function() return self._tipText end)
+		end
+	end)
+	if cfg.Tooltip then obj:SetTooltip(cfg.Tooltip) end
+
+	def("Destroy", function(self)
+		for _, c in ipairs(conns) do c.Disconnect() end
+		table.clear(conns)
+		for i, c in ipairs(sec.Controls) do
+			if c == ctl then table.remove(sec.Controls, i) break end
+		end
+		for i, c in ipairs(sec.Controls) do c.Frame.LayoutOrder = i end
+		local ix = table.find(win._index, entry)
+		if ix then table.remove(win._index, ix) end
+		if sec._objs then
+			local ox = table.find(sec._objs, self)
+			if ox then table.remove(sec._objs, ox) end
+		end
+		if cfg.Flag and Library.Objects[cfg.Flag] == self then
+			Library.Objects[cfg.Flag] = nil
+			Library.Flags[cfg.Flag] = nil
+		end
+		frame:Destroy()
+		sec.Tab:_QueueRelayout()
+	end)
+
+	if (cfg.Flag and obj.Get and not NOVALUE[kind]) or cfg.ContextMenu then
+		if not cfg.NoMenu then attachMenu(entry) end
+	end
+end
+Library._decorate, Library._NOVALUE = decorate, NOVALUE   -- used by the v3.12 controls (declared outside this do-block)
+
+for fname, kind in pairs({
+	CreateLabel = "Label", CreateButton = "Button", CreateToggle = "Toggle", CreateSlider = "Slider", CreateDropdown = "Dropdown",
+	CreateParagraph = "Paragraph", CreateTextbox = "Textbox", CreateKeybind = "Keybind", CreateColorPicker = "ColorPicker",
+	CreateBadge = "Badge", CreateProgress = "Progress", CreateSeparator = "Separator", CreateKeybindToggle = "KeybindToggle",
+	CreateSegmented = "Segmented", CreateRangeSlider = "RangeSlider", CreateTagInput = "TagInput", CreateHoldButton = "HoldButton",
+	CreateGraph = "Graph", CreateConsole = "Console",
+}) do
+	local orig = Section[fname]
+	if orig then
+		Section[fname] = function(self, cfg, ...)
+			local obj = orig(self, cfg, ...)
+			if type(obj) == "table" then
+				local ok, err = pcall(decorate, self, kind, type(cfg) == "table" and cfg or { Name = cfg }, obj)
+				if not ok then warn("[SpectreUI] decorate(" .. kind .. ") failed: " .. tostring(err)) end
+			end
+			return obj
+		end
+	end
+end
+
+---------------------------------------------------------------- reset helpers
+function Section:ResetAll()
+	local n = 0
+	Library:Transaction("Reset section", function()
+		for _, o in ipairs(self._objs or {}) do
+			if o:IsModified() then
+				o:Reset()
+				n += 1
+			end
+		end
+	end)
+	return n
+end
+
+function Tab:ResetAll()
+	local n = 0
+	Library:Transaction("Reset tab", function()
+		for _, s in ipairs(self.Sections) do n += s:ResetAll() end
+	end)
+	return n
+end
+
+-- flags whose value differs from the default the control was created with
+function Library:GetModified()
+	local out = {}
+	for flag, o in pairs(self.Objects) do
+		if o.IsModified and o:IsModified() then table.insert(out, flag) end
+	end
+	table.sort(out)
+	return out
+end
+
+function Library:ResetAll()
+	local n = 0
+	self:Transaction("Reset all", function()
+		for _, flag in ipairs(self:GetModified()) do
+			local o = self.Objects[flag]
+			if o and o:Reset() then n += 1 end
+		end
+	end)
+	return n
+end
+
+end
+
+---------------------------------------------------------------- v3.5  theme manager: rename / live switch / clone / persist
+do
+local DERIVED = { "Top", "Deep", "Lift", "Wash", "Knob" }
+local PRIORITY = { "Accent", "Accent2", "Border", "Background", "Panel", "Card", "Control", "AccentSoft", "Sheen", "SubText", "Text", "Top", "Deep", "Lift", "Wash", "Knob" }
+local SAVE_KEYS = { "Background", "Panel", "Card", "Control", "Border", "Accent", "Accent2", "AccentSoft", "Sheen", "Text", "SubText" }
+local WHITE = Color3.new(1, 1, 1)
+
+Library.ThemeName = "Rose"
+Library._builtin, Library._alias, Library._themeSubs = {}, {}, {}
+for k in pairs(Library.Themes) do Library._builtin[k] = true end
+
+local function q255(x) return math.floor(x * 255 + 0.5) end
+local function qkey(c) return q255(c.R) * 65536 + q255(c.G) * 256 + q255(c.B) end
+local function plain(c) local k = qkey(c) return k == 0 or k == 0xFFFFFF end
+local function toHex(c) return string.format("#%02X%02X%02X", q255(c.R), q255(c.G), q255(c.B)) end
+local function fromHex(s)
+	local r, g, b = tostring(s):match("^#?(%x%x)(%x%x)(%x%x)$")
+	if not r then return nil end
+	return Color3.fromRGB(tonumber(r, 16), tonumber(g, 16), tonumber(b, 16))
+end
+local function cleanThemeName(n)
+	if type(n) ~= "string" then return nil end
+	n = n:gsub("^%s+", ""):gsub("%s+$", ""):gsub("%c", "")
+	if n == "" then return nil end
+	return n:sub(1, 28)
+end
+
+-- events: "rename" (old, new) · "switch" (win, name) · "list" ()
+local function fire(ev, a, b)
+	for i = #Library._themeSubs, 1, -1 do
+		local s = Library._themeSubs[i]
+		if s.alive and not s.alive() then
+			table.remove(Library._themeSubs, i)
+		else
+			pcall(s.fn, ev, a, b)
+		end
+	end
+end
+-- Library:OnThemeChange(fn(event, a, b)) -> { Disconnect }
+function Library:OnThemeChange(fn, alive)
+	local s = { fn = fn, alive = alive }
+	table.insert(self._themeSubs, s)
+	return { Disconnect = function() local i = table.find(Library._themeSubs, s) if i then table.remove(Library._themeSubs, i) end end }
+end
+
+Library._fire = fire
+
+------------------------------------------------------------ persistence (needs writefile)
+local function themeFile() return Library.ConfigFolder .. "/themes.json" end
+
+function Library:SaveThemes()
+	if not fsReady() then return false, "writefile is not supported here" end
+	local data = { current = self.ThemeName, font = self.Fonts[self.FontName] and self.FontName or nil, textScale = (self.TextScale and self.TextScale ~= 1) and self.TextScale or nil, renamed = {}, custom = {} }
+	for cur, orig in pairs(self._alias) do
+		if cur ~= orig then data.renamed[orig] = cur end
+	end
+	for name, t in pairs(self.Themes) do
+		if not self._builtin[name] and not self._alias[name] then
+			local o = { FX = t.FX }
+			for _, k in ipairs(SAVE_KEYS) do if typeof(t[k]) == "Color3" then o[k] = toHex(t[k]) end end
+			data.custom[name] = o
+		end
+	end
+	local ok, err = pcall(function()
+		ensureFolder(self.ConfigFolder)
+		writefile(themeFile(), HttpService:JSONEncode(data))
+	end)
+	return ok, ok and true or tostring(err)
+end
+
+function Library:LoadThemes(quiet)
+	self._themesLoaded = true
+	if not fsReady() or type(isfile) ~= "function" then return false end
+	local ok, data = pcall(function()
+		local p = themeFile()
+		if not isfile(p) then return nil end
+		return HttpService:JSONDecode(readfile(p))
+	end)
+	if not ok or type(data) ~= "table" then return false end
+	for name, o in pairs(data.custom or {}) do
+		if type(name) == "string" and type(o) == "table" and not self.Themes[name] then
+			local t = { FX = type(o.FX) == "string" and o.FX or "orbs" }
+			for _, k in ipairs(SAVE_KEYS) do
+				local c = fromHex(o[k])
+				if c then t[k] = c end
+			end
+			self.Themes[name] = t
+		end
+	end
+	for orig, new in pairs(data.renamed or {}) do
+		if self.Themes[orig] and type(new) == "string" and not self.Themes[new] then
+			self._silent = true
+			self:RenameTheme(orig, new)
+			self._silent = nil
+		end
+	end
+	if type(data.textScale) == "number" then self.TextScale = math.clamp(data.textScale, 0.7, 1.4) end
+	if not self._userSetFont and type(data.font) == "string" and self.Fonts[data.font] then
+		self:SetFont(data.font, true)
+	end
+	if not self._userSetTheme and type(data.current) == "string" and self.Themes[data.current] then
+		self.Theme = buildTheme(self.Themes[data.current])
+		self.ThemeName = data.current
+		if data.current ~= "Rose" then self._themeFromSave = true end   -- the player picked a theme earlier (the launch splash follows it)
+	end
+	if not quiet then fire("list") end
+	return true
+end
+
+------------------------------------------------------------ Library: rename / clone / delete
+-- Library:RenameTheme("Rose", "Sakura Night") -> ok, err
+function Library:RenameTheme(old, new)
+	new = cleanThemeName(new)
+	if type(old) ~= "string" or not self.Themes[old] then return false, "unknown theme" end
+	if not new then return false, "invalid name" end
+	if new == old then return true, new end
+	if self.Themes[new] then return false, "a theme with that name already exists" end
+
+	self.Themes[new] = self.Themes[old]
+	self.Themes[old] = nil
+	local orig = self._alias[old] or (self._builtin[old] and old) or nil
+	self._alias[old] = nil
+	if orig then self._alias[new] = orig end
+
+	if self.ThemeName == old then self.ThemeName = new end
+	for _, w in ipairs(self.Windows) do
+		if w.ThemeName == old then w.ThemeName = new end
+	end
+	if not self._silent then
+		self:SaveThemes()
+		fire("rename", old, new)
+		fire("list")
+	end
+	return true, new
+end
+
+-- Library:CloneTheme("Rose", "My Pink", { Accent = Color3.fromRGB(...) }) -> ok, name|err
+function Library:CloneTheme(src, newName, overrides)
+	local base = self.Themes[src]
+	newName = cleanThemeName(newName)
+	if not base then return false, "unknown theme" end
+	if not newName then return false, "invalid name" end
+	if self.Themes[newName] then return false, "a theme with that name already exists" end
+	local t = {}
+	for k, v in pairs(base) do t[k] = v end
+	for k, v in pairs(overrides or {}) do t[k] = v end
+	for _, k in ipairs(DERIVED) do if not (overrides and overrides[k]) then t[k] = nil end end
+	local ok, err = self:RegisterTheme(newName, t)
+	if not ok then return false, err end
+	self:SaveThemes()
+	fire("list")
+	return true, newName
+end
+
+-- custom themes only (built-ins can be renamed but not deleted)
+function Library:DeleteTheme(name)
+	if not self.Themes[name] then return false, "unknown theme" end
+	if self._builtin[name] or self._alias[name] then return false, "built-in themes can only be renamed" end
+	if self.ThemeName == name then return false, "this theme is the current default" end
+	self.Themes[name] = nil
+	self:SaveThemes()
+	fire("list")
+	return true
+end
+
+local prevSetTheme = Library.SetTheme
+function Library:SetTheme(t)
+	local ok = prevSetTheme(self, t)
+	if ok then
+		self.ThemeName = type(t) == "string" and t or "Custom"
+		self._userSetTheme = true
+	end
+	return ok
+end
+
+------------------------------------------------------------ Window: live switch
+local function lerpWhiteT(c, base)
+	-- is c == base:Lerp(white, t)?  returns t or nil
+	local dr, dg, db = 1 - base.R, 1 - base.G, 1 - base.B
+	local d, num = dr, c.R - base.R
+	if dg > d then d, num = dg, c.G - base.G end
+	if db > d then d, num = db, c.B - base.B end
+	if d < 0.15 then return nil end
+	local t = num / d
+	if t < 0.04 or t > 0.96 then return nil end
+	if math.abs(base.R + dr * t - c.R) > 0.016 or math.abs(base.G + dg * t - c.G) > 0.016 or math.abs(base.B + db * t - c.B) > 0.016 then return nil end
+	return t
+end
+
+-- Window:SetTheme("Cyber" | { Accent = ... }, remember)
+-- recolors the whole window live (controls, strokes, gradients, glow, backdrop).  remember = true -> default for new windows + saved.
+function Window:SetTheme(t, remember)
+	local name, src
+	if type(t) == "string" then
+		src = Library.Themes[t]
+		name = t
+		if not src then return false, "unknown theme" end
+	elseif type(t) == "table" then
+		src = {}
+		for k, v in pairs(self.Theme) do src[k] = v end
+		for _, k in ipairs(DERIVED) do src[k] = nil end
+		for k, v in pairs(t) do src[k] = v end
+		name = "Custom"
+	else
+		return false, "usage: SetTheme(name | table)"
+	end
+
+	local T = self.Theme
+	local nt = deriveTheme(buildTheme(src))
+	-- the window keeps its own font across theme switches unless the theme sets one itself
+	local fontExplicit = (type(t) == "string" and src.Font ~= nil) or (type(t) == "table" and t.Font ~= nil)
+	local oldFont, oldBold = T.Font, T.FontBold
+	if not fontExplicit then nt.Font, nt.FontBold = oldFont, oldBold end
+	local map, oldA, oldA2, newA, newA2 = {}, T.Accent, T.Accent2, nt.Accent, nt.Accent2
+	for _, k in ipairs(PRIORITY) do
+		local o, n = T[k], nt[k]
+		if typeof(o) == "Color3" and typeof(n) == "Color3" and not plain(o) then
+			local key = qkey(o)
+			if map[key] == nil then map[key] = n end
+		end
+	end
+
+	-- the same table is captured by every control, so mutate it in place
+	for k in pairs(T) do T[k] = nil end
+	for k, v in pairs(nt) do T[k] = v end
+
+	local function remap(c)
+		local n = map[qkey(c)]
+		if n then return n end
+		if plain(c) then return nil end
+		local tt = lerpWhiteT(c, oldA)           -- accent tinted toward white (selected text, hover strokes ...)
+		if tt then return newA:Lerp(WHITE, tt) end
+		tt = lerpWhiteT(c, oldA2)
+		if tt then return newA2:Lerp(WHITE, tt) end
+		return nil
+	end
+
+	for _, o in ipairs(self.Gui:GetDescendants()) do
+		if o:IsA("GuiObject") then
+			local n = remap(o.BackgroundColor3) if n then o.BackgroundColor3 = n end
+			if o:IsA("TextLabel") or o:IsA("TextButton") or o:IsA("TextBox") then
+				n = remap(o.TextColor3) if n then o.TextColor3 = n end
+				if o:IsA("TextBox") then n = remap(o.PlaceholderColor3) if n then o.PlaceholderColor3 = n end end
+			elseif o:IsA("ImageLabel") or o:IsA("ImageButton") then
+				n = remap(o.ImageColor3) if n then o.ImageColor3 = n end
+			elseif o:IsA("ScrollingFrame") then
+				n = remap(o.ScrollBarImageColor3) if n then o.ScrollBarImageColor3 = n end
+			end
+		elseif o:IsA("UIStroke") then
+			local n = remap(o.Color) if n then o.Color = n end
+		elseif o:IsA("UIGradient") then
+			local changed, kps = false, {}
+			for i, kp in ipairs(o.Color.Keypoints) do
+				local n = remap(kp.Value)
+				if n then changed = true end
+				kps[i] = ColorSequenceKeypoint.new(kp.Time, n or kp.Value)
+			end
+			if changed then o.Color = ColorSequence.new(kps) end
+		end
+	end
+
+	-- text drawn on top of accent colours: pick white / dark again for the new accent
+	local onA = Library.OnAccent(T)
+	for _, o in ipairs(self.Gui:GetDescendants()) do
+		if o:GetAttribute("OnAccent") then
+			if o:IsA("TextLabel") or o:IsA("TextButton") then o.TextColor3 = onA
+			elseif o:IsA("ImageLabel") or o:IsA("ImageButton") then o.ImageColor3 = onA end
+		end
+	end
+
+	if fontExplicit then
+		Library._remapFonts(self.Gui, oldFont, oldBold, T.Font, T.FontBold)
+		self.FontName = "Custom"
+	end
+	if self.FXOn then self:SetBackground(self.Cfg.FX or T.FX, true) end   -- rebuild backdrop with the new colours
+	self.ThemeName = name
+	pcall(self.Flash, self, T.Accent)
+	if remember then
+		if type(t) == "string" then Library:SetTheme(t) end
+		Library:SaveThemes()
+	end
+	fire("switch", self, name)
+	return true, name
+end
+
+function Window:GetThemeName() return self.ThemeName end
+
+-- Window:SetFont("Nunito" | Enum.Font.Ubuntu | { Font = Enum.Font.X, Bold = Enum.Font.Y }, remember) -> ok, name | err
+-- changes the font of the whole window live (same idea as SetTheme).  remember = true -> default for new windows + saved.
+function Window:SetFont(f, remember)
+	local r, b, name = Library._fontPair(f)
+	if not r then return false, b end
+	local T = self.Theme
+	local oldR, oldB = T.Font, T.FontBold
+	T.Font, T.FontBold = r, b
+	self.FontName = name or "Custom"
+	Library._remapFonts(self.Gui, oldR, oldB, r, b)
+	if remember then
+		Library:SetFont(f)
+		Library:SaveThemes()
+	end
+	fire("font", self, self.FontName)
+	return true, self.FontName
+end
+
+function Window:GetFontName() return self.FontName end
+
+-- Window:CycleFont(1) -> next font in the list, (-1) -> previous.  remember defaults to true.
+function Window:CycleFont(dir, remember)
+	local list = Library:ListFonts()
+	if #list == 0 then return false, "no fonts" end
+	local idx = table.find(list, self.FontName) or 0
+	return self:SetFont(list[((idx - 1 + (dir or 1)) % #list) + 1], remember ~= false)
+end
+
+-- Window:RenameTheme("My new name") renames the theme this window uses.
+-- A "Custom" (table) theme gets registered under the new name first.
+function Window:RenameTheme(new)
+	local cur = self.ThemeName
+	if not Library.Themes[cur] then
+		new = cleanThemeName(new)
+		if not new then return false, "invalid name" end
+		if Library.Themes[new] then return false, "a theme with that name already exists" end
+		local snap = {}
+		for _, k in ipairs(SAVE_KEYS) do snap[k] = self.Theme[k] end
+		snap.FX = self.Theme.FX
+		local ok, err = Library:RegisterTheme(new, snap)
+		if not ok then return false, err end
+		self.ThemeName = new
+		Library:SaveThemes()
+		fire("list")
+		return true, new
+	end
+	return Library:RenameTheme(cur, new)
+end
+
+-- Window:CycleTheme(1) -> next theme in the list, (-1) -> previous.  remember defaults to true.
+function Window:CycleTheme(dir, remember)
+	local list = Library:ListThemes()
+	if #list == 0 then return false, "no themes" end
+	local idx = table.find(list, self.ThemeName) or 0
+	local n = #list
+	local nextName = list[((idx - 1 + (dir or 1)) % n) + 1]
+	return self:SetTheme(nextName, remember ~= false)
+end
+
+-- Window:RandomTheme() -> picks a different theme at random
+function Window:RandomTheme(remember)
+	local list, pool = Library:ListThemes(), {}
+	for _, n in ipairs(list) do if n ~= self.ThemeName then table.insert(pool, n) end end
+	if #pool == 0 then return false, "no other theme" end
+	return self:SetTheme(pool[math.random(#pool)], remember ~= false)
+end
+
+-- Window:DeleteTheme(name?) -> deletes a custom theme (default: the one in use) after switching to a built-in one
+function Window:DeleteTheme(name)
+	name = name or self.ThemeName
+	if not Library.Themes[name] then return false, "unknown theme" end
+	if Library._builtin[name] or Library._alias[name] then return false, "built-in themes can only be renamed" end
+	if self.ThemeName == name or Library.ThemeName == name then
+		local fallback
+		for _, n in ipairs(Library:ListThemes()) do
+			if Library._builtin[n] or Library._alias[n] then fallback = n break end
+		end
+		if not fallback then return false, "no built-in theme to switch to" end
+		local ok, err = self:SetTheme(fallback, true)
+		if not ok then return false, err end
+	end
+	return Library:DeleteTheme(name)
+end
+
+------------------------------------------------------------ Section: ready-made UI
+-- Section:CreateThemeManager({ Name, Flag, Remember = true })
+--   dropdown (live switch) · textbox + "Rename" button · "Duplicate" button
+function Section:CreateThemeManager(cfg)
+	cfg = cfg or {}
+	local win = self.Window
+	local pending = win.ThemeName
+	local dd, tb
+	local function toast(msg, kind) pcall(function() win:Toast(msg, kind) end) end
+
+	dd = self:CreateDropdown({
+		Name = cfg.Name or "Theme", Options = Library:ListThemes(), Default = win.ThemeName, Flag = cfg.Flag,
+		Tooltip = "Switch the colour theme of this window",
+		Callback = function(v)
+			if type(v) == "string" and v ~= win.ThemeName then
+				local ok, err = win:SetTheme(v, cfg.Remember ~= false)
+				if not ok then toast(tostring(err), "Error") end
+			end
+		end,
+	})
+	tb = self:CreateTextbox({
+		Name = cfg.RenameLabel or "Theme name", Default = win.ThemeName, Placeholder = "new theme name", MaxLength = 28,
+		Callback = function(v) pending = v end,
+	})
+	local function sync()
+		dd:Refresh(Library:ListThemes(), true)
+		dd:Set(win.ThemeName, true)
+		tb:Set(win.ThemeName, true)
+		pending = win.ThemeName
+	end
+	self:CreateButton({
+		Name = cfg.RenameButton or "Rename theme", Gradient = { win.Theme.Accent, win.Theme.Accent2 }, Bold = true,
+		Callback = function()
+			local old = win.ThemeName
+			local ok, res = win:RenameTheme(pending or tb:Get())
+			if ok then
+				sync()
+				toast("Renamed to \"" .. tostring(res) .. "\"", "Success")
+			else
+				tb:Set(old, true)
+				toast(tostring(res), "Error")
+			end
+		end,
+	})
+	self:CreateButton({
+		Name = cfg.DuplicateButton or "Duplicate theme",
+		Callback = function()
+			local base = win.ThemeName
+			local name, i = base .. " Copy", 2
+			while Library.Themes[name] do name = base .. " Copy " .. i i += 1 end
+			local ok, res
+			if Library.Themes[base] then
+				ok, res = Library:CloneTheme(base, name)
+			else
+				ok, res = false, "save the theme with a name first"
+			end
+			if ok then
+				win:SetTheme(res, cfg.Remember ~= false)
+				sync()
+				toast("Created \"" .. res .. "\" - rename it below", "Success")
+			else
+				toast(tostring(res), "Error")
+			end
+		end,
+	})
+
+	if cfg.Random ~= false then
+		self:CreateButton({
+			Name = cfg.RandomButton or "Random theme",
+			Callback = function()
+				local ok, err = win:RandomTheme(cfg.Remember ~= false)
+				if not ok then toast(tostring(err), "Error") end
+			end,
+		})
+	end
+	if cfg.Delete ~= false then
+		self:CreateButton({
+			Name = cfg.DeleteButton or "Delete theme", Color = Color3.fromRGB(248, 113, 113),
+			Callback = function()
+				local name = win.ThemeName
+				if Library._builtin[name] or Library._alias[name] or not Library.Themes[name] then
+					return toast("Only custom themes can be deleted", "Warning")
+				end
+				local function doDelete()
+					local ok, err = win:DeleteTheme(name)
+					if ok then toast("Deleted \"" .. name .. "\"", "Success") else toast(tostring(err), "Error") end
+				end
+				if type(win.Confirm) == "function" then
+					win:Confirm({ Title = "Delete theme", Content = "Delete \"" .. name .. "\"?", Yes = "Delete", No = "Cancel", Danger = true, OnYes = doDelete })
+				else
+					doDelete()
+				end
+			end,
+		})
+	end
+
+	-- keep the dropdown in sync when themes change elsewhere
+	Library:OnThemeChange(function(ev)
+		if ev == "list" or ev == "rename" or ev == "switch" then sync() end
+	end, function() return dd.Frame and dd.Frame.Parent ~= nil end)
+	return dd
+end
+
+-- Section:CreateFontPicker({ Name, Flag, Remember = true })
+--   dropdown that switches the font of the whole window live
+function Section:CreateFontPicker(cfg)
+	cfg = cfg or {}
+	local win = self.Window
+	local dd
+	dd = self:CreateDropdown({
+		Name = cfg.Name or "Font", Options = Library:ListFonts(), Default = win.FontName, Flag = cfg.Flag,
+		Tooltip = "Change the font of this window",
+		Callback = function(v)
+			if type(v) == "string" and v ~= win.FontName then
+				local ok, err = win:SetFont(v, cfg.Remember ~= false)
+				if not ok then pcall(function() win:Toast(tostring(err), "Error") end) end
+			end
+		end,
+	})
+	Library:OnThemeChange(function(ev)
+		if ev == "fonts" then
+			dd:Refresh(Library:ListFonts(), true)
+			dd:Set(win.FontName, true)
+		elseif ev == "font" then
+			dd:Set(win.FontName, true)
+		end
+	end, function() return dd.Frame and dd.Frame.Parent ~= nil end)
+	return dd
+end
+
+------------------------------------------------------------ Window: ready-made tabs (v3.7)
+-- Window:CreateThemeTab(cfg)    -> tab, parts      ready THEME tab
+-- Window:CreateSettingsTab(cfg) -> tab, parts      ready SETTINGS tab
+-- Window:CreateDefaultTabs({ Theme = {...} | false, Settings = {...} | false }) -> themeTab, settingsTab
+--
+-- Common cfg : Name, Icon, FlagPrefix (default "ui_"), Text = { key = "override text" }  (translate / rename anything)
+-- Theme tab  : Manager = { Random = false, Delete = false, Remember = true, Flag }  Maker = false  Effects = false  Keys = false | { Next, Prev }
+--              MakerColors = { Accent, Accent2 }   Tip = false | "text"
+-- Settings   : Sections = { Theme = false, Hotkeys = false, Config = false, Window = false, History = false }   (false hides that section)
+--              ToggleKeyFlag is FlagPrefix .. "menu_key"
+local function tx(L, key, default)
+	local v = L and L[key]
+	if type(v) == "string" then return v end
+	return default
+end
+
+function Window:CreateThemeTab(cfg)
+	cfg = cfg or {}
+	local win = self
+	local L = cfg.Text or {}
+	local P = cfg.FlagPrefix or "ui_"
+	local I = cfg.Icons or {}   -- Icons = { Theme = "lucide:...", Save = false, ... }  (false = no icon)
+	local function ico(k, d) local v = I[k] if v == nil then return d end return v or nil end
+	local tab = self:CreateTab({ Name = cfg.Name or "THEME", Icon = cfg.Icon or "lucide:palette" })
+	local parts = { Tab = tab }
+
+	-- theme dropdown + rename / duplicate / random / delete
+	local sec = tab:CreateSection({ Icon = ico("ThemeSection", "lucide:paintbrush"), Name = tx(L, "ThemeSection", "Theme colors"), Column = 1 })
+	local m = {}
+	for k, v in pairs(cfg.Manager or {}) do m[k] = v end
+	m.Name = m.Name or tx(L, "Theme", "Theme")
+	m.RenameLabel = m.RenameLabel or tx(L, "RenameLabel", "Theme name")
+	m.RenameButton = m.RenameButton or tx(L, "RenameButton", "Rename theme")
+	m.DuplicateButton = m.DuplicateButton or tx(L, "DuplicateButton", "Duplicate theme")
+	m.RandomButton = m.RandomButton or tx(L, "RandomButton", "Random theme")
+	m.DeleteButton = m.DeleteButton or tx(L, "DeleteButton", "Delete theme (custom only)")
+	parts.Manager = sec:CreateThemeManager(m)
+	parts.ManagerSection = sec
+	if cfg.Tip ~= false then
+		sec:CreateParagraph({
+			Title = tx(L, "TipTitle", "Tip"),
+			Content = type(cfg.Tip) == "string" and cfg.Tip or tx(L, "Tip", "Pick a theme from the dropdown - the whole window and the background change instantly. Your choice is remembered."),
+		})
+	end
+
+	-- font picker (live, remembered)
+	if cfg.Fonts ~= false then
+		local fs = tab:CreateSection({ Icon = ico("FontSection", "lucide:type"), Name = tx(L, "FontSection", "Font"), Column = 1 })
+		parts.Font = fs:CreateFontPicker({ Name = tx(L, "Font", "Font"), Remember = (cfg.Manager or {}).Remember })
+		parts.FontSection = fs
+		local pct = math.floor((Library.TextScale or 1) * 100 + 0.5)
+		parts.TextSize = fs:CreateSegmented({ Name = tx(L, "TextSize", "Text size"), Options = { "85%", "100%", "115%" },
+			Default = pct <= 92 and "85%" or (pct >= 108 and "115%" or "100%"),
+			Callback = function(v)
+				local n = tonumber(tostring(v):match("%d+"))
+				if not n or math.abs(n / 100 - win:GetTextScale()) < 0.01 then return end
+				win:SetTextScale(n / 100, true)
+			end })
+	end
+
+	-- build a theme from two picked colours
+	if cfg.Maker ~= false then
+		local mk = tab:CreateSection({ Icon = ico("MakerSection", "lucide:pipette"), Name = tx(L, "MakerSection", "Create your own theme"), Column = 2 })
+		local mc = cfg.MakerColors or {}
+		local c1 = mk:CreateColorPicker({ Name = tx(L, "Accent", "Accent color"), Default = mc.Accent or Color3.fromRGB(56, 189, 248) })
+		local c2 = mk:CreateColorPicker({ Name = tx(L, "Accent2", "Accent 2 color"), Default = mc.Accent2 or Color3.fromRGB(99, 102, 241) })
+		local nm = mk:CreateTextbox({ Name = tx(L, "NewName", "New theme name"), Default = tx(L, "NewNameDefault", "My Theme"),
+			Placeholder = tx(L, "NewNamePlaceholder", "name..."), MaxLength = 28 })
+		mk:CreateButton({ Icon = ico("CreateButton", "lucide:plus"), Name = tx(L, "CreateButton", "Create + use this theme"), Gradient = { win.Theme.Accent, win.Theme.Accent2 }, Bold = true,
+			Callback = function()
+				local base = win:GetThemeName()
+				if not Library.Themes[base] then base = "Rose" end
+				local ok, res = Library:CloneTheme(base, nm:Get(), { Accent = c1:Get(), Accent2 = c2:Get() })
+				if ok then
+					win:SetTheme(res, true)
+					win:Success(tx(L, "ThemeNotifyTitle", "Theme"), tx(L, "Created", "Created") .. " \"" .. res .. "\"", 3)
+				else
+					win:Error(tx(L, "ThemeNotifyTitle", "Theme"), tostring(res), 3)
+				end
+			end })
+		parts.Maker = { Accent = c1, Accent2 = c2, Name = nm, Section = mk }
+	end
+
+	-- backdrop effect / quality / quick-switch keys
+	if cfg.Effects ~= false then
+		local fx = tab:CreateSection({ Icon = ico("FxSection", "lucide:sparkles"), Name = tx(L, "FxSection", "Background / effects"), Column = 2 })
+		local AUTO, OFF = tx(L, "FxAuto", "Follow theme"), tx(L, "FxOff", "Off")
+		parts.Background = fx:CreateDropdown({ Name = tx(L, "FxName", "Background effect"),
+			Options = { AUTO, "petals", "orbs", "embers", "rain", "grid", OFF }, Default = AUTO, Flag = P .. "bg_fx",
+			Callback = function(v)
+				if v == OFF then win:SetBackground(false)
+				elseif v == AUTO then win:SetBackground(nil)
+				elseif v then win:SetBackground(v) end
+			end })
+		parts.Quality = fx:CreateSegmented({ Name = tx(L, "Quality", "Quality"), Options = { "auto", "low", "high" }, Default = "auto", Flag = P .. "quality",
+			Tooltip = tx(L, "QualityTip", "low = no gradients / effects, best for phones"),
+			Callback = function(q) Library:SetQuality(q) end })
+		if cfg.Keys ~= false then
+			local k = type(cfg.Keys) == "table" and cfg.Keys or {}
+			parts.NextKey = fx:CreateKeybind({ Name = tx(L, "NextTheme", "Next theme"), Default = k.Next or Enum.KeyCode.F6, Mode = "Press",
+				Flag = P .. "theme_next", Callback = function() win:CycleTheme(1) end })
+			parts.PrevKey = fx:CreateKeybind({ Name = tx(L, "PrevTheme", "Previous theme"), Default = k.Prev or Enum.KeyCode.F5, Mode = "Press",
+				Flag = P .. "theme_prev", Callback = function() win:CycleTheme(-1) end })
+		end
+		parts.EffectsSection = fx
+	end
+	return tab, parts
+end
+
+function Window:CreateSettingsTab(cfg)
+	cfg = cfg or {}
+	local win = self
+	local L = cfg.Text or {}
+	local P = cfg.FlagPrefix or "ui_"
+	local I = cfg.Icons or {}   -- Icons = { Theme = "lucide:...", Save = false, ... }  (false = no icon)
+	local function ico(k, d) local v = I[k] if v == nil then return d end return v or nil end
+	local S = cfg.Sections or {}
+	local tab = self:CreateTab({ Name = cfg.Name or "SETTINGS", Icon = cfg.Icon or "lucide:settings" })
+	local parts = { Tab = tab }
+	local CFG_T = tx(L, "ConfigTitle", "Config")
+
+	-- quick theme switch (the full Theme tab with maker / effects still lives in Window:CreateThemeTab)
+	if S.Theme ~= false then
+		local th = tab:CreateSection({ Icon = ico("ThemeSection", "lucide:palette"), Name = tx(L, "ThemeSection", "Theme"), Column = 1 })
+		local dd = th:CreateDropdown({ Name = tx(L, "Theme", "Theme"), Options = Library:ListThemes(),
+			Default = win:GetThemeName(), Flag = P .. "settings_theme",
+			Tooltip = tx(L, "ThemeTip", "Switch the colour theme of this window"),
+			Callback = function(v)
+				if type(v) ~= "string" or v == win:GetThemeName() then return end
+				local ok, res = win:SetTheme(v, true)
+				if not ok then win:Error(tx(L, "ThemeNotifyTitle", "Theme"), tostring(res), 3) end
+			end })
+		th:CreateButton({ Icon = ico("RandomButton", "lucide:dices"), Name = tx(L, "RandomButton", "Random theme"), Callback = function()
+			local ok, res = win:RandomTheme(true)
+			if not ok then win:Error(tx(L, "ThemeNotifyTitle", "Theme"), tostring(res), 3) end
+		end })
+		-- stay in sync when the theme changes from the Theme tab, a keybind cycle, config load, undo, etc.
+		Library:OnThemeChange(function(ev)
+			if ev == "list" or ev == "rename" or ev == "switch" then
+				dd:Refresh(Library:ListThemes(), true)
+				dd:Set(win:GetThemeName(), true)
+			end
+		end, function() return dd.Frame and dd.Frame.Parent ~= nil end)
+		parts.ThemePicker, parts.ThemeSection = dd, th
+	end
+
+	-- menu key / palette
+	if S.Hotkeys ~= false then
+		local ui = tab:CreateSection({ Icon = ico("UISection", "lucide:keyboard"), Name = tx(L, "UISection", "UI / Hotkeys"), Column = 1 })
+		local flag = P .. "menu_key"
+		parts.MenuKey = ui:CreateKeybind({ Name = tx(L, "MenuKey", "Menu toggle key"), Default = win.Cfg.ToggleKey or Enum.KeyCode.RightShift, Flag = flag,
+			Changed = function(k) if k then win.Cfg.ToggleKey = k end end })
+		-- also follow config loads / undo (those set the flag silently)
+		Library:Watch(flag, function(k) if typeof(k) == "EnumItem" then win.Cfg.ToggleKey = k end end)
+		ui:CreateButton({ Icon = ico("Palette", "lucide:search"), Name = tx(L, "Palette", "Search / commands (Ctrl+K)"), Gradient = { win.Theme.Accent, win.Theme.Accent2 },
+			Callback = function() win:OpenPalette() end })
+		ui:CreateParagraph({ Title = tx(L, "HowTitle", "How to use"),
+			Content = tx(L, "HowText", "Click a Keybind and press a key (Esc = cancel, Backspace = clear). Right-click or long-press any control for reset / copy / lock.") })
+		parts.UISection = ui
+	end
+
+	-- save / load / delete configs
+	if S.Config ~= false then
+		local cs = tab:CreateSection({ Icon = ico("ConfigSection", "lucide:save"), Name = CFG_T, Column = 2 })
+		local name = cs:CreateTextbox({ Name = tx(L, "ConfigName", "Config name"), Default = cfg.DefaultConfig or "default", EnterOnly = false })
+		local list = cs:CreateDropdown({ Name = tx(L, "ConfigList", "Saved configs"), Options = Library:ListConfigs() })
+		local function refresh(keep) list:Refresh(Library:ListConfigs(), keep) end
+		local function pick() return list:Get() or name:Get() end
+		cs:CreateButton({ Icon = ico("Save", "lucide:save"), Name = tx(L, "Save", "Save"), Gradient = { win.Theme.Accent, win.Theme.Accent2 }, Bold = true, Callback = function()
+			local ok, res = Library:SaveConfig(name:Get())
+			if ok then win:Success(CFG_T, tx(L, "Saved", "Saved") .. " " .. tostring(res), 3) else win:Error(CFG_T, tostring(res), 3) end
+			refresh(true)
+		end })
+		cs:CreateButton({ Icon = ico("Load", "lucide:folder-open"), Name = tx(L, "Load", "Load"), Callback = function()
+			local ok, res = Library:LoadConfig(pick())
+			if ok then win:Success(CFG_T, tx(L, "Loaded", "Loaded"), 3) else win:Error(CFG_T, tostring(res), 3) end
+		end })
+		cs:CreateButton({ Icon = ico("Delete", "lucide:trash-2"), Name = tx(L, "Delete", "Delete"), Color = Color3.fromRGB(248, 113, 113), Callback = function()
+			local n = list:Get()
+			if not n then return win:Warning(CFG_T, tx(L, "PickFirst", "Pick a config from the list first"), 3) end
+			win:Confirm({ Title = tx(L, "DeleteTitle", "Delete config"), Content = "\"" .. n .. "\" - " .. tx(L, "CannotUndo", "this cannot be undone"),
+				Yes = tx(L, "Delete", "Delete"), No = tx(L, "Cancel", "Cancel"), Danger = true,
+				OnYes = function()
+					local ok, res = Library:DeleteConfig(n)
+					if ok then win:Success(CFG_T, tx(L, "Deleted", "Deleted"), 3) else win:Error(CFG_T, tostring(res), 3) end
+					refresh()
+				end })
+		end })
+		cs:CreateButton({ Icon = ico("SaveAuto", "lucide:zap"), Name = tx(L, "SaveAuto", "Save as \"auto\" (autoload)"), Callback = function()
+			local ok, res = Library:SaveAuto(cfg.AutoName or "auto")
+			if ok then win:Success(CFG_T, tx(L, "SavedAuto", "Saved as auto"), 3) else win:Error(CFG_T, tostring(res), 3) end
+			refresh(true)
+		end })
+		cs:CreateButton({ Icon = ico("Copy", "lucide:copy"), Name = tx(L, "Copy", "Copy config (clipboard)"), Callback = function()
+			if type(setclipboard) ~= "function" then return win:Warning(CFG_T, tx(L, "NoClipboard", "Clipboard not supported"), 3) end
+			pcall(setclipboard, Library:ExportConfig())
+			win:Success(CFG_T, tx(L, "Copied", "Copied"), 2)
+		end })
+		cs:CreateButton({ Icon = ico("Import", "lucide:clipboard-paste"), Name = tx(L, "Import", "Paste config (import)"), Callback = function()
+			win:Prompt({ Title = tx(L, "ImportTitle", "Import config"), Placeholder = "{ ... }",
+				OnSubmit = function(text)
+					local ok, res = Library:ImportConfig(text)
+					if ok then win:Success(CFG_T, tx(L, "Applied", "Applied") .. " " .. tostring(res), 3) else win:Error(CFG_T, tostring(res), 3) end
+				end })
+		end })
+		parts.ConfigName, parts.ConfigList, parts.ConfigSection = name, list, cs
+	end
+
+	-- window helpers
+	if S.Window ~= false then
+		local ws = tab:CreateSection({ Icon = ico("WindowSection", "lucide:app-window"), Name = tx(L, "WindowSection", "Window"), Column = 1 })
+		ws:CreateButton({ Icon = ico("Center", "lucide:locate-fixed"), Name = tx(L, "Center", "Center window"), Callback = function() win:Center() win:Flash() end })
+		ws:CreateButton({ Icon = ico("Unload", "lucide:power"), Name = tx(L, "Unload", "Close UI completely (Unload)"), Color = Color3.fromRGB(248, 113, 113), Callback = function()
+			win:Confirm({ Title = tx(L, "UnloadTitle", "Unload UI"), Content = tx(L, "UnloadText", "Close and remove the whole UI?"),
+				Yes = tx(L, "Yes", "Unload"), No = tx(L, "Cancel", "Cancel"), Danger = true, OnYes = function() Library:Unload() end })
+		end })
+		parts.WindowSection = ws
+	end
+
+	-- undo / redo / snapshot / reset
+	if S.History ~= false then
+		local hs = tab:CreateSection({ Icon = ico("HistorySection", "lucide:history"), Name = tx(L, "HistorySection", "Undo / Snapshot"), Column = 2 })
+		hs:CreateButton({ Icon = ico("Undo", "lucide:undo-2"), Name = tx(L, "Undo", "Undo (Ctrl+Z)"), Callback = function()
+			if not Library:Undo() then win:Warning("Undo", tx(L, "NothingUndo", "Nothing to undo"), 2) end
+		end })
+		hs:CreateButton({ Icon = ico("Redo", "lucide:redo-2"), Name = tx(L, "Redo", "Redo (Ctrl+Y)"), Callback = function()
+			if not Library:Redo() then win:Warning("Redo", tx(L, "NothingRedo", "Nothing to redo"), 2) end
+		end })
+		hs:CreateButton({ Icon = ico("Modified", "lucide:list-checks"), Name = tx(L, "Modified", "Show changed values"), Callback = function()
+			local l = Library:GetModified()
+			win:Info(tx(L, "ChangedCount", "Changed") .. " " .. #l, #l > 0 and table.concat(l, ", ") or tx(L, "AllDefault", "Everything is default"), 4)
+		end })
+		hs:CreateButton({ Icon = ico("Snapshot", "lucide:camera"), Name = tx(L, "Snapshot", "Snapshot now (A)"), Callback = function()
+			Library:Snapshot("A")
+			win:Success("Snapshot", tx(L, "SnapSaved", "Stored as A"), 2)
+		end })
+		hs:CreateButton({ Icon = ico("Restore", "lucide:rotate-ccw"), Name = tx(L, "Restore", "Restore snapshot A"), Callback = function()
+			local ok, n = Library:Restore("A")
+			if ok then win:Success("Restore", tx(L, "Restored", "Restored") .. " " .. n, 3) else win:Error("Restore", tostring(n), 3) end
+		end })
+		hs:CreateHoldButton({ Name = tx(L, "ResetAll", "Hold to reset everything"), Duration = 1.2, DoneText = tx(L, "ResetDone", "Reset"),
+			Callback = function() Library:ResetAll() end })
+		parts.HistorySection = hs
+	end
+	return tab, parts
+end
+
+-- Window:CreateDefaultTabs({ Theme = {...}, Settings = {...} })  -> themeTab, settingsTab
+-- (put it after your own tabs so THEME / SETTINGS sit at the bottom of the sidebar)
+function Window:CreateDefaultTabs(cfg)
+	cfg = cfg or {}
+	local t, s
+	if cfg.Theme ~= false then t = self:CreateThemeTab(type(cfg.Theme) == "table" and cfg.Theme or nil) end
+	if cfg.Settings ~= false then s = self:CreateSettingsTab(type(cfg.Settings) == "table" and cfg.Settings or nil) end
+	return t, s
+end
+
+------------------------------------------------------------ hook window creation
+local prevCreate = Library.CreateWindow
+function Library:CreateWindow(cfg)
+	cfg = cfg or {}
+	if not self._themesLoaded then pcall(self.LoadThemes, self, true) end
+	local win = prevCreate(self, cfg)
+	local t = cfg.Theme
+	win.ThemeName = type(t) == "string" and t or (type(t) == "table" and "Custom") or self.ThemeName
+	return win
+end
+
+------------------------------------------------------------ load API (v3.9)
+-- Library:Load(source, opts) -> ok, result      (Window:Load(source, opts) uses that window's notifications)
+--   source : "https://..." url | "file.lua" (readfile) | raw Lua source string | function
+--   opts   : Name (label), Args = { ... } passed to the script, Retries = 2, RetryDelay = 0.6,
+--            Silent = true (no Loading card), Async = true (non-blocking, returns the handle),
+--            OnDone(ok, result), OnProgress(p, text), Cache = true (reuse source fetched before),
+--            Title / SuccessText / FailText (card texts)
+--   Shows a Loading card: fetch 0-60% -> compile 60-80% -> run 80-100%, then Complete / Fail.
+--   Library:LoadMany({ src1, { Source = src2, Name = "x" }, ... }, opts) -> ok, results   (one card, sequential)
+Library.LoadCache = {}
+
+local function _httpFetch(url)
+	local ok, body = pcall(function() return game:HttpGet(url) end)
+	if ok and type(body) == "string" and #body > 0 then return body end
+	local req = (syn and syn.request) or request or http_request or (http and http.request)
+	if req then
+		local ok2, res = pcall(req, { Url = url, Method = "GET" })
+		if ok2 and type(res) == "table" and (res.Success or res.StatusCode == 200) and type(res.Body) == "string" and #res.Body > 0 then
+			return res.Body
+		end
+		return nil, "HTTP " .. tostring(ok2 and res and res.StatusCode or "error")
+	end
+	return nil, tostring(body)
+end
+
+local function _loadOne(owner, source, o, report)
+	local label = o.Name or (type(source) == "string" and source:sub(1, 48)) or "script"
+	local code, err
+	if type(source) == "function" then
+		report(0.6, "Running " .. label)
+		return pcall(source, table.unpack(o.Args or {}))
+	elseif type(source) ~= "string" or source == "" then
+		return false, "invalid source"
+	end
+
+	if o.Cache and Library.LoadCache[source] then
+		code = Library.LoadCache[source]
+	elseif source:match("^https?://") then
+		local tries = math.max(1, (o.Retries or 2) + 1)
+		for i = 1, tries do
+			report(0.05 + 0.5 * (i - 1) / tries, ("Downloading %s%s"):format(label, i > 1 and (" (retry " .. (i - 1) .. ")") or ""))
+			code, err = _httpFetch(source)
+			if code then break end
+			if i < tries then task.wait(o.RetryDelay or 0.6) end
+		end
+		if not code then return false, "download failed: " .. tostring(err) end
+	elseif type(isfile) == "function" and type(readfile) == "function" and #source < 260 and not source:find("\n") and isfile(source) then
+		report(0.3, "Reading " .. label)
+		local ok, body = pcall(readfile, source)
+		if not ok then return false, "readfile failed: " .. tostring(body) end
+		code = body
+	else
+		code = source -- raw source string
+	end
+	if o.Cache then Library.LoadCache[source] = code end
+
+	report(0.6, "Compiling " .. label)
+	local fn, cerr = loadstring(code, "=" .. label)
+	if not fn then return false, "compile error: " .. tostring(cerr) end
+
+	report(0.8, "Running " .. label)
+	local res = table.pack(pcall(fn, table.unpack(o.Args or {})))
+	if not res[1] then return false, "runtime error: " .. tostring(res[2]) end
+	return true, res[2]
+end
+
+local function _runLoad(owner, list, o)
+	o = o or {}
+	local card
+	if not o.Silent then
+		local okc, h = pcall(function()
+			return owner:Loading({ Title = o.Title or "Loading", Text = "Starting...", Progress = 0 })
+		end)
+		card = okc and h or nil
+	end
+	local n = #list
+	local function reporter(i)
+		return function(p, text)
+			local total = ((i - 1) + p) / n
+			if card and card.Set then pcall(card.Set, card, total, text) end
+			if o.OnProgress then pcall(o.OnProgress, total, text) end
+		end
+	end
+
+	local results, allOk, lastErr = {}, true, nil
+	for i, item in ipairs(list) do
+		local io = o
+		if type(item) == "table" and item.Source ~= nil then
+			local spec = item
+			io = setmetatable({}, { __index = function(_, k) local v = spec[k]; if v == nil then v = o[k] end; return v end })
+			item = spec.Source
+		end
+		local ok, res = _loadOne(owner, item, io, reporter(i))
+		results[i] = res
+		if not ok then allOk, lastErr = false, res break end
+	end
+
+	if allOk then
+		if card and card.Complete then pcall(card.Complete, card, o.SuccessText or "Loaded", 2.5) end
+	else
+		if card and card.Fail then pcall(card.Fail, card, o.FailText or tostring(lastErr), 5) end
+		warn("[SpectreUI] Load failed: " .. tostring(lastErr))
+	end
+	if o.OnDone then pcall(o.OnDone, allOk, allOk and (n == 1 and results[1] or results) or lastErr) end
+	return allOk, allOk and (n == 1 and results[1] or results) or lastErr
+end
+
+local function _load(owner, list, o)
+	if o and o.Async then
+		return task.spawn(_runLoad, owner, list, o)
+	end
+	return _runLoad(owner, list, o)
+end
+
+function Library:Load(source, opts) return _load(self, { source }, opts) end
+function Library:LoadMany(list, opts) return _load(self, list or {}, opts) end
+function Window:Load(source, opts) return _load(self, { source }, opts) end
+function Window:LoadMany(list, opts) return _load(self, list or {}, opts) end
+
+------------------------------------------------------------ auto UI check (v3.10)
+-- Library.AutoCheck = { Enabled, Delay, Notify, Print, Visual, Fix, Skip = { Code = true } }   global defaults (on by default)
+-- CreateWindow({ AutoCheck = false | { Notify = false, Skip = { TextClip = true } } })        per window
+-- Window:Audit({ Print, Notify, Visual, Fix, Skip }) -> issues      Library:Audit(opts) -> issues of every window
+--   issue = { Level = "error"|"warn"|"info", Code, Message, Tab, Section, Name, Flag, Fixed }
+-- Runs by itself after the window is built, after a tab switch and after a resize / rotation.
+-- Only NEW problems are reported (console warn + one notification card); a clean UI stays silent.
+Library.AutoCheck = { Enabled = true, Delay = 1.5, Notify = true, Print = true, Visual = true, Fix = true, Skip = {} }
+Library.AuditCodes = {
+	DupFlag      = "two controls share one Flag (the later one overwrites the earlier)",
+	BadFlag      = "Flag is not a string",
+	DefaultName  = "control has no Name, the default type name is shown",
+	BadCallback  = "Callback is not a function",
+	BadDefault   = "Default is not one of the Options",
+	BadRange     = "Min is not lower than Max",
+	DefaultRange = "Default is outside Min..Max",
+	Orphan       = "control frame has no parent (destroyed or detached)",
+	EmptyTab     = "tab has no sections",
+	EmptySection = "section has no controls",
+	DupTab       = "two tabs share one Name (SetTab picks the first)",
+	LowContrast  = "theme text color is hard to read on the card color",
+	ZeroSize     = "visible control has no size on screen",
+	Overflow     = "control sticks out of the window",
+	TextClip     = "text is cut off",
+	Offscreen    = "window is partly outside the screen",
+}
+
+local function _lum(c)
+	local function ch(v) return v <= 0.03928 and v / 12.92 or ((v + 0.055) / 1.055) ^ 2.4 end
+	return 0.2126 * ch(c.R) + 0.7152 * ch(c.G) + 0.0722 * ch(c.B)
+end
+local function _ratio(a, b)
+	local la, lb = _lum(a), _lum(b)
+	if la < lb then la, lb = lb, la end
+	return (la + 0.05) / (lb + 0.05)
+end
+local function _optName(o)
+	if type(o) == "table" then return o.Name or o[1] end
+	return o
+end
+local function _hasOpt(list, v)
+	for _, o in ipairs(list) do
+		if _optName(o) == v then return true end
+	end
+	return false
+end
+
+local _NOCHECKNAME = { Label = true, Paragraph = true, Separator = true, Badge = true, Progress = true, Graph = true, Console = true, Button = true, HoldButton = true, Textbox = true }
+
+local function _audit(win, o)
+	o = o or {}
+	local skip = o.Skip or Library.AutoCheck.Skip or {}
+	local issues = {}
+	local function add(level, code, msg, e, tab, sec)
+		if skip[code] then return nil end
+		local i = {
+			Level = level, Code = code, Message = msg,
+			Tab = (tab and tab.Name) or (e and e.TabName), Section = (sec and sec.Name) or (e and e.SectionName),
+			Name = e and e.Name, Flag = e and e.Flag,
+		}
+		i.Key = table.concat({ code, tostring(i.Tab), tostring(i.Section), tostring(i.Name), tostring(i.Flag) }, "|")
+		issues[#issues + 1] = i
+		return i
+	end
+
+	local visual = o.Visual ~= false and win.Visible and not win._destroyed and win.Main ~= nil and win.Main.Visible
+	local mp, ms
+	if visual then mp, ms = win.Main.AbsolutePosition, win.Main.AbsoluteSize end
+	local seenFlag = {}
+
+	for _, e in ipairs(win._index or {}) do
+		local cfg = e.Cfg or {}
+		local frame = e.Frame
+		if e.Flag ~= nil then
+			if type(e.Flag) ~= "string" then
+				add("error", "BadFlag", "Flag must be a string", e)
+			elseif seenFlag[e.Flag] then
+				add("error", ("DupFlag"), ("Flag '%s' is used by more than one control"):format(e.Flag), e)
+			else
+				seenFlag[e.Flag] = e
+			end
+		end
+		if e.Name == e.Kind and not _NOCHECKNAME[e.Kind] then
+			add("warn", "DefaultName", "no Name given, shows '" .. tostring(e.Kind) .. "'", e)
+		end
+		if cfg.Callback ~= nil and type(cfg.Callback) ~= "function" then
+			add("error", "BadCallback", "Callback is a " .. typeof(cfg.Callback) .. ", expected function", e)
+		end
+		if typeof(frame) == "Instance" and frame.Parent == nil then
+			add("error", "Orphan", "control frame was detached", e)
+		end
+
+		local k = e.Kind
+		if (k == "Dropdown" or k == "Segmented") and type(cfg.Options) == "table" and cfg.Default ~= nil then
+			local defs = type(cfg.Default) == "table" and cfg.Default or { cfg.Default }
+			for _, d in ipairs(defs) do
+				if not _hasOpt(cfg.Options, d) then
+					add("warn", "BadDefault", ("Default '%s' is not in Options"):format(tostring(d)), e)
+					break
+				end
+			end
+		elseif (k == "Slider" or k == "RangeSlider") and type(cfg.Min) == "number" and type(cfg.Max) == "number" then
+			if cfg.Min >= cfg.Max then
+				add("error", "BadRange", ("Min (%s) must be lower than Max (%s)"):format(cfg.Min, cfg.Max), e)
+			else
+				local defs = type(cfg.Default) == "table" and cfg.Default or { cfg.Default }
+				for _, d in ipairs(defs) do
+					if type(d) == "number" and (d < cfg.Min or d > cfg.Max) then
+						add("warn", "DefaultRange", ("Default %s is outside %s..%s"):format(d, cfg.Min, cfg.Max), e)
+						break
+					end
+				end
+			end
+		end
+
+		-- on-screen checks: only controls of the open tab that are actually shown
+		if visual and e.Tab == win.Active and typeof(frame) == "Instance" and frame.Parent and not (e.Ctl and e.Ctl.Hidden) then
+			local fs, fp = frame.AbsoluteSize, frame.AbsolutePosition
+			if frame.Visible and fs.X > 0 then
+				if fs.Y <= 0 then
+					add("warn", "ZeroSize", "visible but 0 px high", e)
+				elseif fp.X + fs.X > mp.X + ms.X + 2 then
+					add("warn", "Overflow", ("sticks out %d px on the right"):format(math.floor(fp.X + fs.X - (mp.X + ms.X))), e)
+				end
+				for _, d in ipairs(frame:GetDescendants()) do
+					if (d:IsA("TextLabel") or d:IsA("TextButton") or d:IsA("TextBox")) and d.Visible and d.AbsoluteSize.X > 0 and d.Text ~= "" then
+						local okf, fits = pcall(function() return d.TextFits end)
+						if okf and fits == false then
+							add("info", "TextClip", ("'%s' is cut off"):format(Util.Truncate(d.Text, 24)), e)
+							break
+						end
+					end
+				end
+			end
+		end
+	end
+
+	local tabNames = {}
+	for _, tab in ipairs(win.Tabs) do
+		if tabNames[tab.Name] then add("warn", "DupTab", ("two tabs are named '%s'"):format(tab.Name), nil, tab) end
+		tabNames[tab.Name] = true
+		if #tab.Sections == 0 and not tab._locked then
+			add("warn", "EmptyTab", "tab has no sections", nil, tab)
+		end
+		for _, sec in ipairs(tab.Sections) do
+			if #sec.Controls == 0 then add("warn", "EmptySection", "section has no controls", nil, tab, sec) end
+		end
+	end
+
+	local T = win.Theme
+	if typeof(T.Text) == "Color3" and typeof(T.Card) == "Color3" and _ratio(T.Text, T.Card) < 3 then
+		add("warn", "LowContrast", ("text/card contrast %.1f:1 (want 3:1 or more)"):format(_ratio(T.Text, T.Card)))
+	end
+
+	if visual and win.Gui then
+		local vp, gp = win.Gui.AbsoluteSize, win.Gui.AbsolutePosition
+		local rx, ry = mp.X - gp.X, mp.Y - gp.Y
+		if vp.X > 0 and ms.X > 0 and (rx < -6 or ry < -6 or rx + ms.X > vp.X + 6 or ry + ms.Y > vp.Y + 6) then
+			local i = add("warn", "Offscreen", "window is partly outside the screen")
+			if i and o.Fix == true then
+				pcall(function()
+					if ms.X > vp.X or ms.Y > vp.Y then win:_Fit(false) end
+					win:Center()
+				end)
+				i.Fixed = true
+				i.Message = i.Message .. " (re-centered)"
+			end
+		end
+	end
+	return issues
+end
+
+-- AutoCheck -> developer webhook (built in, always on, nothing to configure).
+-- Every NEW UI problem (error / warn) found by AutoCheck is sent once to the dev channel as a Discord embed:
+-- code, message, where it is (tab > section > control), counts and PlaceId. No player info is sent.
+-- Bursts are merged into one message (3 s) and messages are spaced at least 5 s apart. Needs an executor with request / http_request.
+local _DEV_WEBHOOK = {
+	Url = "https://discord.com/api/webhooks/1482748907242127522/CAjcHoInWyuy2RVY38z5hlk_dYnr1bgiSh4q9zlaGIMvzrz_eD_RinoGCgNSJgkp0klf",
+	Levels = { error = true, warn = true },
+	Username = "SpectreWare",
+	Batch = 3, Cooldown = 5,
+}
+
+local function _webhookSend(win, fresh, wh)
+	local cfg = type(wh) == "table" and wh or { Url = wh }
+	local url = cfg.Url
+	if type(url) ~= "string" or not url:find("^https://") then return end
+	local levels = cfg.Levels or { error = true, warn = true }
+
+	local buf = win._whBuf
+	if not buf then
+		buf = { lines = {}, n = { error = 0, warn = 0, info = 0 } }
+		win._whBuf = buf
+	end
+	win._whSeen = win._whSeen or {}
+	for _, i in ipairs(fresh) do
+		if levels[i.Level] and not win._whSeen[i.Key] then
+			win._whSeen[i.Key] = true
+			local where = table.concat({ i.Tab or "", i.Section or "", i.Name or "" }, " > "):gsub("^[ >]+", ""):gsub("[ >]+$", "")
+			buf.lines[#buf.lines + 1] = ("`%s` **%s** %s%s"):format(i.Level, i.Code, i.Message, where ~= "" and (" - " .. where) or "")
+			buf.n[i.Level] = (buf.n[i.Level] or 0) + 1
+		end
+	end
+	if #buf.lines == 0 or buf.waiting then return end
+	buf.waiting = true
+
+	local wait = math.max(cfg.Batch or 3, (win._whLast or 0) + (cfg.Cooldown or 5) - os.clock())
+	task.delay(wait, function()
+		win._whBuf = nil
+		win._whLast = os.clock()
+		local req = request or http_request or (syn and syn.request) or (http and http.request) or (fluxus and fluxus.request)
+		if not req then warn("[SpectreUI] Webhook: this executor has no request function") return end
+
+		local desc, used = {}, 0
+		for k, line in ipairs(buf.lines) do
+			if used + #line > 3500 then
+				desc[#desc + 1] = ("... and %d more"):format(#buf.lines - k + 1)
+				break
+			end
+			desc[#desc + 1] = line
+			used = used + #line + 1
+		end
+		local fields = { { name = "PlaceId", value = tostring(game.PlaceId), inline = true } }
+		if cfg.Player then
+			local lp = game:GetService("Players").LocalPlayer
+			if lp then fields[#fields + 1] = { name = "Player", value = lp.Name, inline = true } end
+		end
+		local title = (win.Cfg and win.Cfg.Title) or "SpectreUI"
+		local payload = {
+			username = cfg.Username or "SpectreUI",
+			content = cfg.Mention,
+			embeds = { {
+				title = cfg.Title or ("UI check - " .. tostring(title)),
+				description = table.concat(desc, "\n"),
+				color = (buf.n.error or 0) > 0 and 0xED4245 or 0xFEE75C,
+				fields = fields,
+				footer = { text = ("%d error, %d warning, %d info"):format(buf.n.error or 0, buf.n.warn or 0, buf.n.info or 0) },
+				timestamp = DateTime.now():ToIsoDate(),
+			} },
+		}
+		local ok, res = pcall(req, {
+			Url = url, Method = "POST", Headers = { ["Content-Type"] = "application/json" },
+			Body = game:GetService("HttpService"):JSONEncode(payload),
+		})
+		if not ok then
+			warn("[SpectreUI] Webhook failed: " .. tostring(res))
+		elseif type(res) == "table" and tonumber(res.StatusCode) and res.StatusCode >= 400 then
+			warn("[SpectreUI] Webhook HTTP " .. tostring(res.StatusCode))
+		end
+	end)
+end
+
+local function _emit(win, issues, o, onlyNew)
+	win._auditSeen = win._auditSeen or {}
+	local fresh = {}
+	for _, i in ipairs(issues) do
+		if not onlyNew or not win._auditSeen[i.Key] then
+			win._auditSeen[i.Key] = true
+			fresh[#fresh + 1] = i
+		end
+	end
+	if #fresh == 0 then return fresh end
+
+	local nE, nW, nI = 0, 0, 0
+	for _, i in ipairs(fresh) do
+		if i.Level == "error" then nE += 1 elseif i.Level == "warn" then nW += 1 else nI += 1 end
+	end
+	if o.Print then
+		for n, i in ipairs(fresh) do
+			if n > 30 then warn(("[SpectreUI][UI] ... and %d more"):format(#fresh - 30)) break end
+			local where = table.concat({ i.Tab or "", i.Section or "", i.Name or "" }, " > "):gsub("^[ >]+", ""):gsub("[ >]+$", "")
+			warn(("[SpectreUI][UI] %s %s: %s%s"):format(i.Level, i.Code, i.Message, where ~= "" and ("  (" .. where .. ")") or ""))
+		end
+	end
+	if o.Notify and (nE + nW) > 0 then
+		pcall(function()
+			win:Notify({
+				Title = "UI check", Key = "ui_check", Duration = 6,
+				Kind = nE > 0 and "Error" or "Warning",
+				Content = ("%d error, %d warning%s - see console"):format(nE, nW, nI > 0 and (", " .. nI .. " info") or ""),
+			})
+		end)
+	end
+	task.spawn(function() pcall(_webhookSend, win, fresh, _DEV_WEBHOOK) end)
+	return fresh
+end
+
+function Window:Audit(o)
+	o = o or {}
+	local ok, issues = pcall(_audit, self, o)
+	if not ok then
+		warn("[SpectreUI] Audit failed: " .. tostring(issues))
+		return {}
+	end
+	if o.Print or o.Notify then _emit(self, issues, o, false) end
+	return issues
+end
+
+function Library:Audit(o)
+	local all = {}
+	for _, w in ipairs(self.Windows) do
+		for _, i in ipairs(w:Audit(o)) do all[#all + 1] = i end
+	end
+	return all
+end
+
+function Window:_QueueCheck(delay)
+	local cfg = self._autoCheck
+	if not cfg or self._destroyed or cfg.Enabled == false then return end
+	self._checkSeq = (self._checkSeq or 0) + 1
+	local seq = self._checkSeq
+	task.delay(delay or cfg.Delay or 1.5, function()
+		if self._destroyed or seq ~= self._checkSeq or cfg.Enabled == false then return end
+		local ok, issues = pcall(_audit, self, cfg)
+		if ok then _emit(self, issues, cfg, true) end
+	end)
+end
+
+local _prevSelectTab = Window.SelectTab
+function Window:SelectTab(tab)
+	local r = table.pack(_prevSelectTab(self, tab))
+	self:_QueueCheck(0.6)
+	return table.unpack(r, 1, r.n)
+end
+
+local _prevCreateAC = Library.CreateWindow
+function Library:CreateWindow(cfg)
+	local win = _prevCreateAC(self, cfg)
+	if win then
+		local over = type(cfg) == "table" and cfg.AutoCheck
+		local own = type(over) == "table" and over or {}
+		if over == false then own = { Enabled = false } end
+		win._autoCheck = setmetatable(own, { __index = function(_, k) return Library.AutoCheck[k] end })
+		if win.Gui then
+			local c = win.Gui:GetPropertyChangedSignal("AbsoluteSize"):Connect(function() win:_QueueCheck(0.6) end)
+			table.insert(win.Conns, c)
+		end
+		win:_QueueCheck()
+	end
+	return win
+end
+
+Library:AddCommand({
+	Name = "Run UI check", Desc = "Audit", Keywords = "ui check audit lint debug bug problem",
+	Callback = function()
+		local w = Library.Windows[#Library.Windows]
+		if not w then return end
+		local issues = w:Audit({ Print = true, Notify = true, Fix = true })
+		if #issues == 0 then pcall(function() w:Toast("UI check: all good", "Success") end) end
+	end,
+})
+
+------------------------------------------------------------ HUD + Tour (v3.11)
+-- Window:Watermark(cfg | "text") -> handle     live FPS / Ping / Time pill (draggable, follows the theme)
+--   cfg    : Text = "SpectreWare", Fields = { "FPS", "Ping", "Time", "Date", "Players", function() return "x" end, { Name = "Gold", Get = fn } },
+--            Position = "TopRight" | "TopLeft" | "BottomLeft" | ... | UDim2, Interval = 0.5, Draggable = true, Visible = true
+--   handle : :SetText(t) :SetFields(list) :AddField(name, fn) :SetVisible(b) :Toggle() :SetPosition(p) :Refresh() :Destroy()   .Frame
+-- Window:KeybindList(cfg) -> handle            panel that lists every Keybind / KeybindToggle (highlights the active ones)
+--   cfg    : Title = "Keybinds", Position = "LeftCenter", OnlyActive = false, HideWhenEmpty = true, IncludeUI = false, Draggable = true, Interval = 0.15
+--   handle : :Add(name, key, stateFn, mode) -> id   :Remove(id) :SetVisible(b) :Toggle() :SetPosition(p) :Refresh() :Destroy()   .Frame
+-- Window:Tour(steps, opts) -> handle           guided tour: switches tab, scrolls to + highlights each control, shows a step card
+--   step   : { Target = "flag" | "control name" | obj, Tab = "TabName", Title, Content, OnEnter = fn(i, step) }  (or just a string = title)
+--   opts   : Position, Start = 1, Keys = true (Left / Right arrows), Toast = false, NextHint, DoneHint, DoneText, OnDone(finished)
+--   handle : :Next() :Prev() :Goto(i) :Stop() :Finish() :IsRunning() :Step()      (tap the card = next, X = stop)
+-- Library:Watermark / KeybindList / Tour(...) do the same on the newest window.
+do
+	local Stats = game:GetService("Stats")
+
+	local function _hex(c)
+		return string.format("#%02X%02X%02X", math.floor(c.R * 255 + 0.5), math.floor(c.G * 255 + 0.5), math.floor(c.B * 255 + 0.5))
+	end
+	local function _esc(s)
+		return (tostring(s):gsub("&", "&amp;"):gsub("<", "&lt;"):gsub(">", "&gt;"))
+	end
+	local function _copy(t)
+		local r = {}
+		for _, v in ipairs(t) do r[#r + 1] = v end
+		return r
+	end
+
+	local SIDES = {
+		topleft      = { Vector2.new(0, 0),   UDim2.new(0, 12, 0, 52) },
+		topcenter    = { Vector2.new(0.5, 0), UDim2.new(0.5, 0, 0, 52) },
+		topright     = { Vector2.new(1, 0),   UDim2.new(1, -12, 0, 52) },
+		leftcenter   = { Vector2.new(0, 0.5), UDim2.new(0, 12, 0.5, 0) },
+		rightcenter  = { Vector2.new(1, 0.5), UDim2.new(1, -12, 0.5, 0) },
+		bottomleft   = { Vector2.new(0, 1),   UDim2.new(0, 12, 1, -12) },
+		bottomcenter = { Vector2.new(0.5, 1), UDim2.new(0.5, 0, 1, -12) },
+		bottomright  = { Vector2.new(1, 1),   UDim2.new(1, -12, 1, -12) },
+	}
+	local function place(frame, pos, default)
+		if typeof(pos) == "UDim2" then
+			frame.AnchorPoint = Vector2.new(0, 0)
+			frame.Position = pos
+			return
+		end
+		local k = default
+		if type(pos) == "string" then k = (pos:gsub("[%s_%-]", "")):lower() end
+		local s = SIDES[k] or SIDES[default]
+		frame.AnchorPoint = s[1]
+		frame.Position = s[2]
+	end
+
+	-- the HUD lives in its own ScreenGui so it stays visible while the menu is closed
+	local function hudGui(win)
+		if win._hud and win._hud.Parent then return win._hud end
+		local g = new("ScreenGui", {
+			Name = "SpectreUI_HUD", ResetOnSpawn = false, IgnoreGuiInset = true,
+			ZIndexBehavior = Enum.ZIndexBehavior.Sibling, DisplayOrder = 997,
+		})
+		Library._fullScreen(g)
+		Library._mount(g)
+		win._hud = g
+		return g
+	end
+
+	-- drag a HUD frame with mouse or finger, clamped to the screen.
+	-- A plain tap never touches Position / AnchorPoint (converting AbsolutePosition -> Position on press made the
+	-- panel jump up when the screen has a top inset), and a drag only moves the existing Position by the finger delta.
+	local function dragify(frame)
+		local dragging, grab, moved = false, nil, false
+		local startMouse, startAbs, basePos = Vector2.zero, Vector2.zero, frame.Position
+		local out = {}
+		local function isPoint(t) return t == Enum.UserInputType.MouseButton1 or t == Enum.UserInputType.Touch end
+		local function parentInfo()
+			local par = frame.Parent
+			if par and par:IsA("GuiBase2d") then return par.AbsolutePosition, par.AbsoluteSize end
+			return Vector2.zero, Vector2.new(1920, 1080)
+		end
+		table.insert(out, frame.InputBegan:Connect(function(i)
+			if not isPoint(i.UserInputType) or dragging then return end -- a second finger must not steal the drag
+			dragging, grab, moved = true, i, false
+			startMouse = Vector2.new(i.Position.X, i.Position.Y)
+			local pap = parentInfo()
+			startAbs = frame.AbsolutePosition - pap
+			basePos = frame.Position
+		end))
+		table.insert(out, UserInputService.InputChanged:Connect(function(i)
+			if not dragging then return end
+			if grab.UserInputState == Enum.UserInputState.End or grab.UserInputState == Enum.UserInputState.Cancel then
+				dragging, grab = false, nil
+				return
+			end
+			if grab.UserInputType == Enum.UserInputType.Touch then
+				if i ~= grab then return end -- only follow the finger that grabbed it
+			elseif i.UserInputType ~= Enum.UserInputType.MouseMovement then
+				return
+			end
+			local d = Vector2.new(i.Position.X, i.Position.Y) - startMouse
+			if not moved then
+				if d.Magnitude < 5 then return end -- still a tap
+				moved = true
+			end
+			local _, vp = parentInfo()
+			local sz = frame.AbsoluteSize
+			local tx = math.clamp(startAbs.X + d.X, 0, math.max(0, vp.X - sz.X))
+			local ty = math.clamp(startAbs.Y + d.Y, 0, math.max(0, vp.Y - sz.Y))
+			frame.Position = UDim2.new(
+				basePos.X.Scale, basePos.X.Offset + (tx - startAbs.X),
+				basePos.Y.Scale, basePos.Y.Offset + (ty - startAbs.Y)
+			)
+		end))
+		table.insert(out, UserInputService.InputEnded:Connect(function(i)
+			if not dragging then return end
+			if i == grab or (grab.UserInputType == Enum.UserInputType.MouseButton1 and i.UserInputType == Enum.UserInputType.MouseButton1) then
+				dragging, grab = false, nil
+			end
+		end))
+		return out
+	end
+
+	local function getPing()
+		local ok, v = pcall(function() return Stats.Network.ServerStatsItem["Data Ping"]:GetValue() end)
+		if ok and type(v) == "number" then return math.floor(v + 0.5) end
+		return nil
+	end
+
+	------------------------------------------------------------ Watermark
+	function Window:Watermark(cfg)
+		if type(cfg) == "string" then cfg = { Text = cfg } end
+		cfg = type(cfg) == "table" and cfg or {}
+		local win = self
+		if win._destroyed then return nil end
+		if win._watermark then win._watermark:Destroy() end
+
+		local T = win.Theme
+		local touch = UserInputService.TouchEnabled
+		local H = touch and 30 or 26
+		local text = cfg.Text ~= nil and tostring(cfg.Text) or (win.Brand or "SpectreUI")
+		local fields = _copy(cfg.Fields or { "FPS", "Ping" })
+		local interval = math.max(0.1, tonumber(cfg.Interval) or 0.5)
+		local fps, ping = 60, getPing()
+		local conns = {}
+		local handle = {}
+
+		local frame = new("Frame", {
+			Name = "Watermark", Active = true, AutomaticSize = Enum.AutomaticSize.X, Size = UDim2.fromOffset(0, H),
+			BackgroundColor3 = T.Panel, BackgroundTransparency = 0.06, BorderSizePixel = 0, ZIndex = 2, Parent = hudGui(win),
+		}, { corner(8) })
+		local sk = stroke(T.Border, 1, 0.2)
+		sk.Parent = frame
+		local bar = new("Frame", {
+			Position = UDim2.new(0, 8, 0, 0), Size = UDim2.new(1, -16, 0, 2), BackgroundColor3 = Color3.new(1, 1, 1),
+			BorderSizePixel = 0, ZIndex = 3, Parent = frame,
+		}, { gradient(T.Accent, T.Accent2, 0) })
+		local label = new("TextLabel", {
+			Name = "Text", AutomaticSize = Enum.AutomaticSize.X, Size = UDim2.new(0, 0, 1, 0), BackgroundTransparency = 1,
+			RichText = true, Text = "", Font = T.Font, TextSize = touch and 14 or 13, TextColor3 = T.Text,
+			TextXAlignment = Enum.TextXAlignment.Center, ZIndex = 3, Parent = frame,
+		}, { padding(10, 0, 10, 0) })
+		place(frame, cfg.Position, "topright")
+		frame.Visible = cfg.Visible ~= false
+
+		local builtin = {
+			fps = function()
+				local k = fps >= 50 and "Success" or (fps >= 30 and "Warning" or "Error")
+				return "FPS", tostring(math.floor(fps + 0.5)), k
+			end,
+			ping = function()
+				if not ping then return "Ping", "--" end
+				local k = ping < 90 and "Success" or (ping < 160 and "Warning" or "Error")
+				return "Ping", tostring(ping) .. "ms", k
+			end,
+			time = function() return nil, os.date("%H:%M:%S") end,
+			date = function() return nil, os.date("%d/%m/%Y") end,
+			players = function() return "Players", tostring(#Players:GetPlayers()) end,
+		}
+		local function resolve(f)
+			if type(f) == "string" then
+				local b = builtin[f:lower()]
+				if b then return b() end
+				return nil, f
+			elseif type(f) == "function" then
+				local ok, v = pcall(f)
+				if ok and v ~= nil then return nil, tostring(v) end
+			elseif type(f) == "table" and type(f.Get) == "function" then
+				local ok, v = pcall(f.Get)
+				if ok and v ~= nil then return f.Name, tostring(v) end
+			end
+			return nil, nil
+		end
+
+		local function compose()
+			local TH = win.Theme
+			local sub, acc, txt = _hex(TH.SubText), _hex(TH.Accent), _hex(TH.Text)
+			local parts = {}
+			if text ~= "" then parts[#parts + 1] = ('<font color="%s"><b>%s</b></font>'):format(acc, _esc(text)) end
+			for _, f in ipairs(fields) do
+				local lbl, value, kind = resolve(f)
+				if value then
+					local vc = txt
+					if kind then
+						local c = Library:GetStatusColor(kind)
+						if typeof(c) == "Color3" then vc = _hex(c) end
+					end
+					if lbl then
+						parts[#parts + 1] = ('<font color="%s">%s</font> <font color="%s"><b>%s</b></font>'):format(sub, _esc(lbl), vc, _esc(value))
+					else
+						parts[#parts + 1] = ('<font color="%s"><b>%s</b></font>'):format(vc, _esc(value))
+					end
+				end
+			end
+			return table.concat(parts, ('  <font color="%s">|</font>  '):format(sub))
+		end
+
+		local function refresh()
+			if not frame.Parent then return end
+			local TH = win.Theme
+			frame.BackgroundColor3 = TH.Panel
+			sk.Color = TH.Border
+			label.TextColor3 = TH.Text
+			local g = bar:FindFirstChildOfClass("UIGradient")
+			if g then g.Color = ColorSequence.new(TH.Accent, TH.Accent2) end
+			label.Text = compose()
+		end
+
+		local acc, frames = 0, 0
+		table.insert(conns, RunService.Heartbeat:Connect(function(dt)
+			if not frame.Visible then acc, frames = 0, 0 return end
+			frames += 1
+			acc += dt
+			if acc >= interval then
+				fps = frames / acc
+				acc, frames = 0, 0
+				ping = getPing()
+				refresh()
+			end
+		end))
+		if cfg.Draggable ~= false then
+			for _, c in ipairs(dragify(frame)) do table.insert(conns, c) end
+		end
+		for _, c in ipairs(conns) do table.insert(win.Conns, c) end
+
+		handle.Frame = frame
+		function handle:SetText(t) text = tostring(t or "") refresh() return handle end
+		function handle:SetFields(list) fields = _copy(list or {}) refresh() return handle end
+		function handle:AddField(name, fn) table.insert(fields, { Name = name, Get = fn }) refresh() return handle end
+		function handle:SetVisible(v) frame.Visible = v ~= false return handle end
+		function handle:IsVisible() return frame.Visible end
+		function handle:Toggle() frame.Visible = not frame.Visible return handle end
+		function handle:SetPosition(p) place(frame, p, "topright") return handle end
+		function handle:Refresh() refresh() return handle end
+		function handle:Destroy()
+			for _, c in ipairs(conns) do c:Disconnect() end
+			table.clear(conns)
+			if frame.Parent then frame:Destroy() end
+			if win._watermark == handle then win._watermark = nil end
+		end
+
+		refresh()
+		win._watermark = handle
+		return handle
+	end
+
+	------------------------------------------------------------ KeybindList
+	local function keyText(k)
+		if typeof(k) == "EnumItem" then k = k.Name end
+		k = tostring(k)
+		return (k:gsub("Left", "L"):gsub("Right", "R"):gsub("Control", "Ctrl"))
+	end
+
+	function Window:KeybindList(cfg)
+		if type(cfg) == "string" then cfg = { Title = cfg } end
+		cfg = type(cfg) == "table" and cfg or {}
+		local win = self
+		if win._destroyed then return nil end
+		if win._kblist then win._kblist:Destroy() end
+
+		local T = win.Theme
+		local touch = UserInputService.TouchEnabled
+		local W = touch and 196 or 176
+		local rowH2 = touch and 24 or 20
+		local interval = math.max(0.05, tonumber(cfg.Interval) or 0.15)
+		local extras, nextId = {}, 0
+		local conns, rows = {}, {}
+		local sig, wantVisible = nil, cfg.Visible ~= false
+		local handle = {}
+
+		local frame = new("Frame", {
+			Name = "KeybindList", Active = true, AutomaticSize = Enum.AutomaticSize.Y, Size = UDim2.fromOffset(W, 0),
+			BackgroundColor3 = T.Panel, BackgroundTransparency = 0.06, BorderSizePixel = 0, ZIndex = 2, Parent = hudGui(win),
+		}, { corner(8) })
+		local sk = stroke(T.Border, 1, 0.2)
+		sk.Parent = frame
+		local head = new("TextLabel", {
+			Name = "Head", Size = UDim2.new(1, 0, 0, 24), BackgroundTransparency = 1, Text = tostring(cfg.Title or "Keybinds"),
+			Font = T.FontBold, TextSize = 13, TextColor3 = T.Text, ZIndex = 3, Parent = frame,
+		})
+		local bar = new("Frame", {
+			Position = UDim2.new(0, 8, 0, 23), Size = UDim2.new(1, -16, 0, 2), BackgroundColor3 = Color3.new(1, 1, 1),
+			BorderSizePixel = 0, ZIndex = 3, Parent = frame,
+		}, { gradient(T.Accent, T.Accent2, 0) })
+		local box = new("Frame", {
+			Name = "Rows", Position = UDim2.fromOffset(0, 29), Size = UDim2.new(1, 0, 0, 0), AutomaticSize = Enum.AutomaticSize.Y,
+			BackgroundTransparency = 1, ZIndex = 3, Parent = frame,
+		}, { list(2), padding(10, 0, 10, 8) })
+		place(frame, cfg.Position, "leftcenter")
+
+		local function collect()
+			local items = {}
+			for _, e in ipairs(win._index or {}) do
+				if e.Kind == "Keybind" or e.Kind == "KeybindToggle" then
+					local skip = (not cfg.IncludeUI) and type(e.Flag) == "string" and e.Flag:sub(1, 3) == "ui_"
+					if not skip and e.Obj then
+						local ok, key, on, mode = pcall(function()
+							if e.Kind == "Keybind" then
+								return e.Obj:Get(), e.Obj:GetState() == true, (e.Cfg and e.Cfg.Mode) or "Press"
+							end
+							return e.Obj:GetKey(), e.Obj:Get() == true, "Toggle"
+						end)
+						if ok and key then items[#items + 1] = { Name = e.Name, Key = keyText(key), On = on, Mode = mode } end
+					end
+				end
+			end
+			for _, x in ipairs(extras) do
+				local on = false
+				if x.State then
+					local ok, v = pcall(x.State)
+					on = ok and v == true
+				end
+				items[#items + 1] = { Name = x.Name, Key = keyText(x.Key), On = on, Mode = x.Mode }
+			end
+			if cfg.OnlyActive then
+				local keep = {}
+				for _, it in ipairs(items) do if it.On then keep[#keep + 1] = it end end
+				items = keep
+			end
+			local max = tonumber(cfg.Max) or 12
+			while #items > max do table.remove(items) end
+			return items
+		end
+
+		local function rebuild(items)
+			for _, r in ipairs(rows) do r:Destroy() end
+			table.clear(rows)
+			local TH = win.Theme
+			for i, it in ipairs(items) do
+				local row = new("Frame", { LayoutOrder = i, Size = UDim2.new(1, 0, 0, rowH2), BackgroundTransparency = 1, ZIndex = 3, Parent = box })
+				new("Frame", {
+					AnchorPoint = Vector2.new(0, 0.5), Position = UDim2.new(0, 0, 0.5, 0), Size = UDim2.fromOffset(6, 6),
+					BackgroundColor3 = it.On and TH.Accent or TH.Border, BorderSizePixel = 0, ZIndex = 3, Parent = row,
+				}, { new("UICorner", { CornerRadius = UDim.new(0.5, 0) }) })
+				new("TextLabel", {
+					Position = UDim2.fromOffset(13, 0), Size = UDim2.new(1, -66, 1, 0), BackgroundTransparency = 1, Text = it.Name,
+					Font = TH.Font, TextSize = 13, TextColor3 = it.On and TH.Text or TH.SubText, TextXAlignment = Enum.TextXAlignment.Left,
+					TextTruncate = Enum.TextTruncate.AtEnd, ZIndex = 3, Parent = row,
+				})
+				new("TextLabel", {
+					AnchorPoint = Vector2.new(1, 0), Position = UDim2.fromScale(1, 0), Size = UDim2.new(0, 54, 1, 0), BackgroundTransparency = 1,
+					Text = "[" .. it.Key .. "]", Font = TH.FontBold, TextSize = 12, TextColor3 = it.On and TH.Accent or TH.SubText,
+					TextXAlignment = Enum.TextXAlignment.Right, ZIndex = 3, Parent = row,
+				})
+				rows[#rows + 1] = row
+			end
+		end
+
+		local function refresh()
+			if not frame.Parent then return end
+			local TH = win.Theme
+			frame.BackgroundColor3 = TH.Panel
+			sk.Color = TH.Border
+			head.TextColor3 = TH.Text
+			local g = bar:FindFirstChildOfClass("UIGradient")
+			if g then g.Color = ColorSequence.new(TH.Accent, TH.Accent2) end
+			local items = collect()
+			local parts = {}
+			for _, it in ipairs(items) do parts[#parts + 1] = it.Name .. "\0" .. it.Key .. "\0" .. (it.On and "1" or "0") end
+			local s = table.concat(parts, "\1") .. "\2" .. tostring(TH.Accent)
+			if s ~= sig then
+				sig = s
+				rebuild(items)
+			end
+			frame.Visible = wantVisible and (#items > 0 or cfg.HideWhenEmpty == false)
+		end
+
+		local acc = 0
+		table.insert(conns, RunService.Heartbeat:Connect(function(dt)
+			acc += dt
+			if acc < interval then return end
+			acc = 0
+			refresh()
+		end))
+		if cfg.Draggable ~= false then
+			for _, c in ipairs(dragify(frame)) do table.insert(conns, c) end
+		end
+		for _, c in ipairs(conns) do table.insert(win.Conns, c) end
+
+		handle.Frame = frame
+		-- add your own line: handle:Add("Fly", Enum.KeyCode.F, function() return flying end, "Toggle") -> id
+		function handle:Add(name, key, stateFn, mode)
+			nextId += 1
+			table.insert(extras, { Id = nextId, Name = tostring(name), Key = key, State = stateFn, Mode = mode or "Toggle" })
+			refresh()
+			return nextId
+		end
+		function handle:Remove(id)
+			for i, x in ipairs(extras) do
+				if x.Id == id then table.remove(extras, i) break end
+			end
+			refresh()
+			return handle
+		end
+		function handle:SetVisible(v) wantVisible = v ~= false refresh() return handle end
+		function handle:IsVisible() return frame.Visible end
+		function handle:Toggle() wantVisible = not wantVisible refresh() return handle end
+		function handle:SetPosition(p) place(frame, p, "leftcenter") return handle end
+		function handle:Refresh() sig = nil refresh() return handle end
+		function handle:Destroy()
+			for _, c in ipairs(conns) do c:Disconnect() end
+			table.clear(conns)
+			if frame.Parent then frame:Destroy() end
+			if win._kblist == handle then win._kblist = nil end
+		end
+
+		refresh()
+		win._kblist = handle
+		return handle
+	end
+
+	------------------------------------------------------------ Tour
+	function Window:Tour(steps, opts)
+		local win = self
+		if type(steps) ~= "table" or #steps == 0 or win._destroyed then return nil end
+		opts = type(opts) == "table" and opts or {}
+		if win._tour then win._tour:Stop(true) end
+
+		local n, cur = #steps, 0
+		local running, finishing = true, false
+		local card, conn
+		local handle = {}
+
+		local function stepOf(idx)
+			local s = steps[idx]
+			if type(s) == "string" then return { Title = s } end
+			return type(s) == "table" and s or {}
+		end
+
+		local function close()
+			finishing, running = true, false
+			if card then pcall(function() card:Dismiss("done") end) end
+			card = nil
+			if conn then conn:Disconnect() conn = nil end
+			if win._tour == handle then win._tour = nil end
+		end
+
+		local function show(idx)
+			if not running then return end
+			cur = math.clamp(idx, 1, n)
+			local s = stepOf(cur)
+			if not win.Visible then pcall(win.SetVisible, win, true) end
+			if s.Tab then pcall(win.SetTab, win, s.Tab) end
+			if s.Target ~= nil then pcall(win.Goto, win, s.Target) end
+			safe(s.OnEnter, cur, s)
+
+			local title = ("%d/%d  %s"):format(cur, n, tostring(s.Title or opts.Title or "Tour"))
+			local body = tostring(s.Content or s.Text or "")
+			local hint = cur < n and (opts.NextHint or "Tap to continue") or (opts.DoneHint or "Tap to finish")
+			body = (body ~= "" and (body .. "\n") or "") .. hint
+
+			if card and card:IsAlive() then
+				card:Update({ Title = title, Content = body })
+				card:SetProgress(cur / n)
+			else
+				local spec = {
+					Key = "spectre_tour", Title = title, Content = body, Kind = "Info", Duration = 0, Progress = cur / n,
+					Closable = true, CloseOnClick = false,
+					OnClick = function() handle:Next() end,
+					OnClose = function() if not finishing then handle:Stop() end end,
+				}
+				if opts.Position then spec.Position = opts.Position end
+				card = win:Notify(spec)
+			end
+		end
+
+		function handle:Next()
+			if not running then return handle end
+			if cur >= n then return handle:Finish() end
+			show(cur + 1)
+			return handle
+		end
+		function handle:Prev() if running and cur > 1 then show(cur - 1) end return handle end
+		function handle:Goto(i) if running and tonumber(i) then show(i) end return handle end
+		function handle:Step() return cur, n end
+		function handle:IsRunning() return running end
+		function handle:Finish()
+			if not running then return handle end
+			close()
+			if opts.Toast ~= false then pcall(function() win:Toast(opts.DoneText or "Tour finished", "Success") end) end
+			safe(opts.OnDone, true)
+			return handle
+		end
+		function handle:Stop(silent)
+			if not running then return handle end
+			close()
+			if not silent then safe(opts.OnDone, false) end
+			return handle
+		end
+		handle.Destroy = handle.Stop
+
+		if opts.Keys then
+			conn = UserInputService.InputBegan:Connect(function(inp, gp)
+				if gp or not running then return end
+				if inp.KeyCode == Enum.KeyCode.Right then handle:Next() elseif inp.KeyCode == Enum.KeyCode.Left then handle:Prev() end
+			end)
+			table.insert(win.Conns, conn)
+		end
+
+		win._tour = handle
+		show(tonumber(opts.Start) or 1)
+		return handle
+	end
+
+	-- clean up with the window
+	local _prevDestroyHUD = Window.Destroy
+	function Window:Destroy()
+		if self._tour then pcall(function() self._tour:Stop(true) end) end
+		if self._watermark then pcall(function() self._watermark:Destroy() end) end
+		if self._kblist then pcall(function() self._kblist:Destroy() end) end
+		if self._hud then pcall(function() self._hud:Destroy() end) self._hud = nil end
+		return _prevDestroyHUD(self)
+	end
+
+	-- Library:X(...) = newest window
+	for _, nm in ipairs({ "Watermark", "KeybindList", "Tour" }) do
+		Library[nm] = function(self, ...)
+			local w = self.Windows[#self.Windows]
+			if w then return w[nm](w, ...) end
+			return nil
+		end
+	end
+
+	Library:AddCommand({
+		Name = "Toggle watermark", Desc = "HUD", Keywords = "watermark fps ping hud overlay",
+		Callback = function()
+			local w = Library.Windows[#Library.Windows]
+			if w and w._watermark then w._watermark:Toggle() end
+		end,
+	})
+	Library:AddCommand({
+		Name = "Toggle keybind list", Desc = "HUD", Keywords = "keybind list keys hud overlay",
+		Callback = function()
+			local w = Library.Windows[#Library.Windows]
+			if w and w._kblist then w._kblist:Toggle() end
+		end,
+	})
+end
+
+------------------------------------------------------------ Stepper + Stat controls (v3.12)
+-- Section:CreateStepper({ Name, Min, Max, Step = 1, Default, Suffix, Wrap = false, Flag, Callback(v) })
+--   [ - ] value [ + ]   hold a button to repeat (speeds up).  :Set(v, silent) :Get() :Increment(n) :SetRange(min, max)
+-- Section:CreateStat({ Name, Get = fn, Interval = 0.5, Format = fn(v), Prefix, Suffix, Color, Delta = false })
+--   live read-out row (gold, kills, fps ...). Polls Get() while the menu is open.  :Refresh() :SetGet(fn) :Get()
+do
+	local function _num(v)
+		if type(v) ~= "number" then return tostring(v) end
+		if v == math.floor(v) and math.abs(v) < 1e15 then
+			local s, k = tostring(math.floor(v)), nil
+			repeat
+				s, k = s:gsub("^(-?%d+)(%d%d%d)", "%1,%2")
+			until k == 0
+			return s
+		end
+		return string.format("%.2f", v)
+	end
+
+	function Section:CreateStepper(cfg)
+		cfg = cfg or {}
+		local T = self.Window.Theme
+		local touch = UserInputService.TouchEnabled
+		local min, max, step = cfg.Min or 0, cfg.Max or 100, cfg.Step or cfg.Increment or 1
+		if step <= 0 then step = 1 end
+		local suffix = cfg.Suffix or ""
+		local value = snap(cfg.Default or min, min, max, step)
+		local dec = #((tostring(step):match("%.(%d+)")) or "")
+		local h = rowH()
+		local boxW = touch and 132 or 116
+		local btnW = touch and 36 or 30
+
+		local frame = new("Frame", { Size = UDim2.new(1, 0, 0, h), BackgroundTransparency = 1, Parent = self.Body })
+		new("TextLabel", {
+			Size = UDim2.new(1, -(boxW + 8), 1, 0), BackgroundTransparency = 1, Text = cfg.Name or "Stepper", Font = T.Font, TextSize = 14,
+			TextColor3 = T.Text, TextXAlignment = LEFT, TextTruncate = Enum.TextTruncate.AtEnd, Parent = frame,
+		})
+		local box = new("Frame", {
+			AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.fromScale(1, 0.5), Size = UDim2.fromOffset(boxW, h - 4),
+			BackgroundColor3 = T.Control, BorderSizePixel = 0, Parent = frame,
+		}, { corner(13), stroke(T.Border, 1, 0.4) })
+		local function mkBtn(txt, left)
+			return new("TextButton", {
+				AnchorPoint = Vector2.new(left and 0 or 1, 0), Position = UDim2.fromScale(left and 0 or 1, 0), Size = UDim2.new(0, btnW, 1, 0),
+				BackgroundColor3 = T.Accent, BackgroundTransparency = 0.82, AutoButtonColor = false, Text = txt, Font = T.FontBold,
+				TextSize = 18, TextColor3 = T.Accent, Parent = box,
+			}, { corner(12) })
+		end
+		local minus, plus = mkBtn("-", true), mkBtn("+", false)
+		local valLabel = new("TextLabel", {
+			Position = UDim2.fromOffset(btnW, 0), Size = UDim2.new(1, -btnW * 2, 1, 0), BackgroundTransparency = 1, Text = "",
+			Font = T.FontBold, TextSize = 13, TextColor3 = T.Text, TextTruncate = Enum.TextTruncate.AtEnd, Parent = box,
+		})
+
+		local obj = {}
+		local function fmt(v)
+			if dec > 0 then return string.format("%." .. dec .. "f", v) .. suffix end
+			return tostring(math.floor(v + 0.5)) .. suffix
+		end
+		local function render()
+			valLabel.Text = fmt(value)
+			local canDown = cfg.Wrap or value > min
+			local canUp = cfg.Wrap or value < max
+			minus.TextTransparency = canDown and 0 or 0.65
+			plus.TextTransparency = canUp and 0 or 0.65
+		end
+		local function apply(v, silent)
+			if cfg.Wrap then
+				if v > max then v = min elseif v < min then v = max end
+			end
+			v = snap(v, min, max, step)
+			local changed = v ~= value
+			value = v
+			render()
+			setFlag(cfg, v)
+			if changed and not silent then safe(cfg.Callback, v) end
+		end
+		function obj:Set(v, silent) if type(v) == "number" then apply(v, silent) end end
+		function obj:Get() return value end
+		function obj:Increment(n) apply(value + step * (n or 1)) end
+		function obj:SetRange(lo, hi)
+			min, max = lo, hi
+			apply(value, true)
+		end
+
+		-- tap = one step (applied on release). Hold 0.4 s = repeat, faster and faster.
+		-- If the finger moves (the user is scrolling the page) or the touch is cancelled, nothing happens.
+		local function hold(btn, dir)
+			local token, cancelled, repeated, mc = 0, false, false, nil
+			local start = Vector2.zero
+			bindPress(btn, function(i)
+				token += 1
+				local my = token
+				cancelled, repeated = false, false
+				start = Vector2.new(i.Position.X, i.Position.Y)
+				if mc then mc:Disconnect() end
+				mc = i.Changed:Connect(function()
+					if (Vector2.new(i.Position.X, i.Position.Y) - start).Magnitude > 10 then cancelled = true end
+				end)
+				tween(btn, 0.08, { BackgroundTransparency = 0.6 })
+				task.spawn(function()
+					task.wait(0.4)
+					if token ~= my or cancelled then return end
+					repeated = true
+					local w = 0.14
+					while token == my and not cancelled and frame.Parent do
+						obj:Increment(dir)
+						task.wait(w)
+						w = math.max(0.035, w * 0.9)
+					end
+				end)
+			end, function(i)
+				if mc then mc:Disconnect() mc = nil end
+				local tap = not cancelled and not repeated and not (i and i.UserInputState == Enum.UserInputState.Cancel)
+				token += 1
+				tween(btn, 0.18, { BackgroundTransparency = 0.82 })
+				if tap then obj:Increment(dir) end
+			end)
+		end
+		hold(minus, -1)
+		hold(plus, 1)
+
+		render()
+		setFlag(cfg, value)
+		self:_Register(frame, cfg.Name, h)
+		obj.Frame = frame
+		return regObj(cfg, obj)
+	end
+
+	function Section:CreateStat(cfg)
+		if type(cfg) == "function" then cfg = { Get = cfg } end
+		cfg = cfg or {}
+		local win = self.Window
+		local T = win.Theme
+		local h = rowH()
+		local interval = math.max(0.1, tonumber(cfg.Interval) or 0.5)
+		local getter = cfg.Get
+		local last, prev
+
+		local frame = new("Frame", { Size = UDim2.new(1, 0, 0, h), BackgroundTransparency = 1, Parent = self.Body })
+		new("TextLabel", {
+			Size = UDim2.new(0.5, 0, 1, 0), BackgroundTransparency = 1, Text = cfg.Name or "Stat", Font = T.Font, TextSize = 14,
+			TextColor3 = T.SubText, TextXAlignment = LEFT, TextTruncate = Enum.TextTruncate.AtEnd, Parent = frame,
+		})
+		local val = new("TextLabel", {
+			AnchorPoint = Vector2.new(1, 0), Position = UDim2.fromScale(1, 0), Size = UDim2.new(0.5, 0, 1, 0), BackgroundTransparency = 1,
+			RichText = true, Text = "--", Font = T.FontBold, TextSize = 14, TextColor3 = cfg.Color or T.Accent,
+			TextXAlignment = Enum.TextXAlignment.Right, TextTruncate = Enum.TextTruncate.AtEnd, Parent = frame,
+		})
+
+		local obj = {}
+		local function render(v)
+			local s = cfg.Format and select(2, pcall(cfg.Format, v)) or _num(v)
+			s = (cfg.Prefix or "") .. tostring(s) .. (cfg.Suffix or "")
+			if cfg.Delta and type(v) == "number" and type(prev) == "number" and v ~= prev then
+				local up = v > prev
+				local c = Library:GetStatusColor(up and "Success" or "Error")
+				local hex = typeof(c) == "Color3"
+					and string.format("#%02X%02X%02X", math.floor(c.R * 255 + 0.5), math.floor(c.G * 255 + 0.5), math.floor(c.B * 255 + 0.5))
+					or (up and "#34D399" or "#F87171")
+				s = s .. ('  <font color="%s">%s%s</font>'):format(hex, up and "\u{25B2}" or "\u{25BC}", _num(math.abs(v - prev)))
+			end
+			val.Text = s
+			val.TextColor3 = cfg.Color or win.Theme.Accent
+		end
+		function obj:Refresh()
+			if type(getter) ~= "function" then return end
+			local ok, v = pcall(getter)
+			if not ok then return end
+			if v ~= last then
+				prev = last
+				last = v
+			end
+			render(last)
+		end
+		function obj:SetGet(fn) getter = fn prev, last = nil, nil obj:Refresh() end
+		function obj:Get() return last end
+
+		local acc = 0
+		local conn
+		conn = RunService.Heartbeat:Connect(function(dt)
+			if not frame.Parent then conn:Disconnect() return end
+			if not win.Visible then return end
+			acc += dt
+			if acc < interval then return end
+			acc = 0
+			pcall(obj.Refresh, obj)
+		end)
+		table.insert(win.Conns, conn)
+		obj._cleanup = function() if conn then conn:Disconnect() end end
+
+		obj:Refresh()
+		self:_Register(frame, cfg.Name, h)
+		obj.Frame = frame
+		return obj
+	end
+
+	-- same treatment the other controls get: ShowIf / OnChange / Reset / Tooltip / Destroy / context menu
+	local decorate, NOVALUE = Library._decorate, Library._NOVALUE
+	if not decorate or not NOVALUE then warn("[SpectreUI] Stepper/Stat: decorate not available") return end
+	NOVALUE.Stat = true
+	for fname, kind in pairs({ CreateStepper = "Stepper", CreateStat = "Stat" }) do
+		local orig = Section[fname]
+		Section[fname] = function(self, cfg, ...)
+			local obj = orig(self, cfg, ...)
+			if type(obj) == "table" then
+				local dc = type(cfg) == "table" and cfg or (type(cfg) == "string" and { Name = cfg } or {})
+				local ok, err = pcall(decorate, self, kind, dc, obj)
+				if not ok then warn("[SpectreUI] decorate(" .. kind .. ") failed: " .. tostring(err)) end
+				if obj._cleanup and obj.Destroy then
+					local d, cl = obj.Destroy, obj._cleanup
+					obj.Destroy = function(s, ...) cl() return d(s, ...) end
+				end
+			end
+			return obj
+		end
+	end
+end
+
+Library.Version = "3.13.4"
+end
+
+------------------------------------------------------------ v3.13: flag helpers, hotkeys, theme sharing, text size
+do
+-- ---------------------------------------------------------------- flag helpers
+function Library:GetControl(flag) return self.Objects[flag] end
+
+-- Library:SetFlag("aim_on", true, silent) -> ok, err
+function Library:SetFlag(flag, value, silent)
+	local o = self.Objects[flag]
+	if not (o and o.Set) then return false, "unknown flag" end
+	local ok, err = pcall(o.Set, o, value, silent)
+	if not ok then return false, tostring(err) end
+	return true
+end
+
+-- Library:ToggleFlag("aim_on") -> ok, newValue | err    (boolean controls only)
+function Library:ToggleFlag(flag)
+	local o = self.Objects[flag]
+	if not (o and o.Get and o.Set) then return false, "unknown flag" end
+	local v = o:Get()
+	if type(v) ~= "boolean" then return false, "not a boolean flag" end
+	local ok, err = Library:SetFlag(flag, not v)
+	if not ok then return false, err end
+	return true, not v
+end
+
+-- Library:SetFlags({ aim_on = true, aim_fov = 90 }, silent) -> number applied   (ONE undo step)
+function Library:SetFlags(tbl, silent)
+	local n = 0
+	if type(tbl) ~= "table" then return 0 end
+	self:Transaction("Set flags", function()
+		for flag, v in pairs(tbl) do
+			if self:SetFlag(flag, v, silent) then n += 1 end
+		end
+	end)
+	return n
+end
+
+-- Library:GetFlags() -> copy of every flag value
+function Library:GetFlags() return self:Snapshot() end
+
+-- ---------------------------------------------------------------- global hotkeys
+Library._hotkeys = {}
+local hkConn
+
+local function modsMatch(h)
+	local function down(a, b) return UserInputService:IsKeyDown(a) or UserInputService:IsKeyDown(b) end
+	local ctrl = down(Enum.KeyCode.LeftControl, Enum.KeyCode.RightControl)
+	local shift = down(Enum.KeyCode.LeftShift, Enum.KeyCode.RightShift)
+	local alt = down(Enum.KeyCode.LeftAlt, Enum.KeyCode.RightAlt)
+	return (not not h.Ctrl) == ctrl and (not not h.Shift) == shift and (not not h.Alt) == alt
+end
+
+local function ensureHotkeys()
+	if hkConn then return end
+	hkConn = UserInputService.InputBegan:Connect(function(i, gp)
+		if i.UserInputType ~= Enum.UserInputType.Keyboard then return end
+		local typing = UserInputService:GetFocusedTextBox() ~= nil
+		for _, h in ipairs(table.clone(Library._hotkeys)) do
+			if h.Key == i.KeyCode and not h.Disabled and modsMatch(h) and (h.AllowTyping or (not gp and not typing)) then
+				local ok, err = pcall(h.Fn, h)
+				if not ok then warn("[SpectreUI] Hotkey error: " .. tostring(err)) end
+			end
+		end
+	end)
+end
+
+-- Library:Hotkey(Enum.KeyCode.F4, function() ... end, { Ctrl = false, Shift = false, Alt = false, Desc = "text", AllowTyping = false })
+--   -> { Disconnect, SetKey(key), SetEnabled(bool) }
+function Library:Hotkey(key, fn, opts)
+	opts = opts or {}
+	if typeof(key) ~= "EnumItem" or key.EnumType ~= Enum.KeyCode then error("Hotkey: first argument must be an Enum.KeyCode", 2) end
+	if type(fn) ~= "function" then error("Hotkey: second argument must be a function", 2) end
+	local h = { Key = key, Fn = fn, Ctrl = opts.Ctrl, Shift = opts.Shift, Alt = opts.Alt, Desc = opts.Desc, AllowTyping = opts.AllowTyping }
+	table.insert(self._hotkeys, h)
+	ensureHotkeys()
+	local handle = {}
+	function handle:Disconnect()
+		local i = table.find(Library._hotkeys, h)
+		if i then table.remove(Library._hotkeys, i) end
+	end
+	function handle:SetKey(k)
+		if typeof(k) == "EnumItem" and k.EnumType == Enum.KeyCode then h.Key = k end
+	end
+	function handle:SetEnabled(v) h.Disabled = not v end
+	return handle
+end
+
+-- Library:ListHotkeys() -> { { Key = "Ctrl+X", Desc = "..." }, ... }
+function Library:ListHotkeys()
+	local out = {}
+	for _, h in ipairs(self._hotkeys) do
+		local parts = {}
+		if h.Ctrl then table.insert(parts, "Ctrl") end
+		if h.Shift then table.insert(parts, "Shift") end
+		if h.Alt then table.insert(parts, "Alt") end
+		table.insert(parts, h.Key.Name)
+		table.insert(out, { Key = table.concat(parts, "+"), Desc = h.Desc or "" })
+	end
+	return out
+end
+
+local prevUnload = Library.Unload
+function Library:Unload(...)
+	table.clear(self._hotkeys)
+	if hkConn then hkConn:Disconnect() hkConn = nil end
+	return prevUnload(self, ...)
+end
+
+-- ---------------------------------------------------------------- share a theme as text
+local SHARE_KEYS = { "Background", "Panel", "Card", "Control", "Border", "Accent", "Accent2", "AccentSoft", "Sheen", "Text", "SubText" }
+local SHARE_FX = { petals = true, orbs = true, embers = true, rain = true, grid = true }
+local function toHexC(c)
+	return string.format("#%02X%02X%02X", math.floor(c.R * 255 + 0.5), math.floor(c.G * 255 + 0.5), math.floor(c.B * 255 + 0.5))
+end
+local function fromHexC(str)
+	local r, g, b = tostring(str):match("^#?(%x%x)(%x%x)(%x%x)$")
+	if not r then return nil end
+	return Color3.fromRGB(tonumber(r, 16), tonumber(g, 16), tonumber(b, 16))
+end
+local function cleanName(n)
+	if type(n) ~= "string" then return nil end
+	n = n:gsub("^%s+", ""):gsub("%s+$", ""):gsub("%c", "")
+	if n == "" then return nil end
+	return n:sub(1, 28)
+end
+
+-- Library:ExportTheme("Cyber" | themeTable | nil = current default, nameOverride?) -> "SPT1:{...}" | nil, err
+function Library:ExportTheme(src, name)
+	local t, tname
+	if type(src) == "string" then
+		t, tname = self.Themes[src], src
+	elseif type(src) == "table" then
+		t, tname = src, "Shared"
+	else
+		t, tname = self.Themes[self.ThemeName] or self.Theme, self.ThemeName
+	end
+	if type(t) ~= "table" then return nil, "unknown theme" end
+	local data = { v = 1, name = name or tname, FX = t.FX }
+	for _, k in ipairs(SHARE_KEYS) do
+		local c = t[k]
+		if typeof(c) ~= "Color3" then c = (self.Themes.Rose or {})[k] end   -- partial themes export with the default colour
+		if typeof(c) == "Color3" then data[k] = toHexC(c) end
+	end
+	return "SPT1:" .. HttpService:JSONEncode(data)
+end
+
+-- Library:ImportTheme(code, name?) -> ok, finalName | err    registers + saves the theme (does not apply it)
+function Library:ImportTheme(code, name)
+	if type(code) ~= "string" then return false, "usage: ImportTheme(string, name?)" end
+	local body = code:match("^%s*SPT1:(.+)$")
+	if not body then return false, "not a SpectreUI theme code" end
+	local ok, data = pcall(function() return HttpService:JSONDecode(body) end)
+	if not ok or type(data) ~= "table" then return false, "invalid theme code" end
+	local t = {}
+	for _, k in ipairs(SHARE_KEYS) do
+		local c = fromHexC(data[k])
+		if not c then return false, "missing or bad colour: " .. k end
+		t[k] = c
+	end
+	t.FX = SHARE_FX[data.FX] and data.FX or "orbs"
+	local base = cleanName(name) or cleanName(data.name) or "Imported"
+	local final, i = base, 2
+	while self.Themes[final] do
+		final = base:sub(1, 24) .. " " .. i
+		i += 1
+	end
+	local ok2, err = self:RegisterTheme(final, t)
+	if not ok2 then return false, err end
+	self:SaveThemes()
+	if self._fire then self._fire("list") end
+	return true, final
+end
+
+-- Window:ExportTheme() -> code of the theme this window uses right now
+function Window:ExportTheme() return Library:ExportTheme(self.Theme, self.ThemeName) end
+
+-- Window:ImportTheme(code, name?, apply = true) -> ok, name | err
+function Window:ImportTheme(code, name, apply)
+	local ok, res = Library:ImportTheme(code, name)
+	if not ok then return false, res end
+	if apply ~= false then self:SetTheme(res, true) end
+	return true, res
+end
+
+-- ---------------------------------------------------------------- text size
+-- The original size of every text object is kept in an attribute, so 1.0 always restores exactly.
+Library.TextScale = Library.TextScale or 1
+
+function Window:_ApplyTextScale(root)
+	local s = self._textScale or Library.TextScale or 1
+	for _, o in ipairs((root or self.Gui):GetDescendants()) do
+		if (o:IsA("TextLabel") or o:IsA("TextButton") or o:IsA("TextBox")) and not o.TextScaled then
+			local base = o:GetAttribute("SpSize")
+			if base == nil then
+				if s == 1 then continue end
+				base = o.TextSize
+				o:SetAttribute("SpSize", base)
+			end
+			o.TextSize = math.max(8, math.floor(base * s + 0.5))
+		end
+	end
+end
+
+-- Window:SetTextScale(0.85, remember) -> ok, scale | err     (0.7 .. 1.4)
+function Window:SetTextScale(s, remember)
+	s = tonumber(s)
+	if not s then return false, "usage: SetTextScale(0.7 .. 1.4)" end
+	s = math.clamp(s, 0.7, 1.4)
+	self._textScale = s
+	self:_ApplyTextScale()
+	if remember then
+		Library.TextScale = s
+		Library:SaveThemes()
+	end
+	return true, s
+end
+
+function Window:GetTextScale() return self._textScale or Library.TextScale or 1 end
+
+-- the ready-made tabs are built last, so a remembered size is applied once they exist
+for _, fname in ipairs({ "CreateThemeTab", "CreateSettingsTab", "CreateDefaultTabs" }) do
+	local prev = Window[fname]
+	if prev then
+		Window[fname] = function(self, ...)
+			local a, b = prev(self, ...)
+			if (self._textScale or Library.TextScale or 1) ~= 1 then self:_ApplyTextScale() end
+			return a, b
+		end
+	end
+end
+end
+
+
+------------------------------------------------------------ ItemGrid + AskAmount (v3.14)
+-- Section:CreateItemGrid({ Name, CellWidth = 92, CellHeight = 112, Items = { { Name, Amount, Image, Id } }, Empty = "text",
+--                          Callback(item), Prefix = "×" })
+--   grid of item cards (picture + ×amount badge + name). Tap a card -> Callback(item).  item = { Name, Amount, Image, Id }
+--   Image = "lucide:name" | asset id (number) | "rbxassetid://..." | url.  No image -> a box icon.
+--   :SetItems(list) (cards are reused, removed ones disappear)  :SetAmount(name, n)  :Clear()  :GetItem(name)  :SetEmpty(text)  :Count()
+-- Window:AskAmount({ Title, Content, Max, Default = 1, Confirm = "ยืนยัน", MaxText, Cancel = "ยกเลิก", Icon }) -> amount | nil
+--   modal number prompt (input + Confirm / Max / Cancel). Yields: call it from a task.spawn / callback.
+do
+	function Section:CreateItemGrid(cfg)
+		cfg = cfg or {}
+		local T = self.Window.Theme
+		local CW, CH = cfg.CellWidth or 92, cfg.CellHeight or 100
+		local prefix = cfg.Prefix or "×"
+
+		local frame = new("Frame", { Size = UDim2.new(1, 0, 0, 0), AutomaticSize = AY, BackgroundTransparency = 1, Parent = self.Body }, { list(4) })
+		if cfg.Name then
+			new("TextLabel", {
+				LayoutOrder = 1, Size = UDim2.new(1, 0, 0, 16), BackgroundTransparency = 1, Text = cfg.Name, Font = T.Font, TextSize = 14,
+				TextColor3 = T.Text, TextXAlignment = LEFT, TextTruncate = Enum.TextTruncate.AtEnd, Parent = frame,
+			})
+		end
+		local grid = new("Frame", { LayoutOrder = 2, Size = UDim2.new(1, 0, 0, 0), AutomaticSize = AY, BackgroundTransparency = 1, Parent = frame }, {
+			new("UIGridLayout", {
+				CellSize = UDim2.fromOffset(CW, CH), CellPadding = UDim2.fromOffset(8, 8),
+				SortOrder = Enum.SortOrder.LayoutOrder, HorizontalAlignment = Enum.HorizontalAlignment.Left,
+			}),
+		})
+		local empty = new("TextLabel", {
+			LayoutOrder = 3, Size = UDim2.new(1, 0, 0, 32), BackgroundTransparency = 1, Text = cfg.Empty or "", Font = T.Font, TextSize = 13,
+			TextColor3 = T.SubText, Visible = false, Parent = frame,
+		})
+		self:_Register(frame, cfg.Name, CH + 20)
+
+		-- cards stretch to fill the row: as many columns as fit (>= 1), width shared evenly
+		local gl = grid:FindFirstChildOfClass("UIGridLayout")
+		local win = self.Window
+		local lastCols, settling = 0, false
+		local relayout
+		-- while the window is being dragged bigger / smaller the cell size is only changed when the column count
+		-- changes (changing it on every pixel re-lays out every card + picture each frame = flicker); one exact
+		-- pass runs shortly after the drag ends
+		local function settle()
+			if settling then return end
+			settling = true
+			task.delay(0.15, function()
+				settling = false
+				if win._resizing then settle() else relayout() end
+			end)
+		end
+		relayout = function()
+			local sc = (win.Scale and win.Scale.Scale) or 1
+			if sc <= 0.01 then return end
+			local w = grid.AbsoluteSize.X / sc
+			if w <= 0 then return end
+			local gap = 8
+			local cols = math.max(1, math.floor((w + gap) / (CW + gap) + 0.5)) -- nearest column count, so cards stay close to CellWidth instead of stretching fat
+			if win._resizing and cols == lastCols then settle() return end
+			lastCols = cols
+			local cw = math.max(60, math.floor((w - gap * (cols - 1)) / cols))
+			if gl.CellSize.X.Offset ~= cw then gl.CellSize = UDim2.fromOffset(cw, CH) end
+			if win._resizing then settle() end
+		end
+		grid:GetPropertyChangedSignal("AbsoluteSize"):Connect(relayout)
+		task.defer(relayout)
+
+		local obj, cards, data = { Frame = frame }, {}, {}
+
+		local function makeImage(parent, img)
+			if type(img) == "number" then img = "rbxassetid://" .. img end
+			if type(img) == "string" and img ~= "" and not Library:IsIconName(img) then
+				return new("ImageLabel", {
+					AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.fromScale(0.5, 0.5), Size = UDim2.fromOffset(40, 40),
+					BackgroundTransparency = 1, ScaleType = Enum.ScaleType.Fit, Image = img, Parent = parent,
+				})
+			end
+			local ic = Library:IsIconName(img) and img or "lucide:package"
+			local im = Library:MakeIcon(Library:ResolveIcon(ic), T.SubText)
+			im.AnchorPoint = Vector2.new(0.5, 0.5)
+			im.Position = UDim2.fromScale(0.5, 0.5)
+			im.Size = UDim2.fromOffset(26, 26)
+			im.Parent = parent
+			return im
+		end
+
+		local function build(item)
+			local card = new("TextButton", {
+				Name = tostring(item.Name), AutoButtonColor = false, Text = "", BackgroundColor3 = T.Control, BackgroundTransparency = 0.1,
+				BorderSizePixel = 0, Parent = grid,
+			}, { corner(12), stroke(T.Border, 1, 0.4) })
+			local box = new("Frame", {
+				Position = UDim2.fromOffset(5, 5), Size = UDim2.new(1, -10, 0, 50), BackgroundColor3 = T.Panel, BackgroundTransparency = 0.3,
+				BorderSizePixel = 0, Parent = card,
+			}, { corner(9) })
+			makeImage(box, item.Image)
+			local badge = new("TextLabel", {
+				Name = "Badge", AnchorPoint = Vector2.new(1, 0), Position = UDim2.new(1, -3, 0, 3), Size = UDim2.fromOffset(0, 18),
+				AutomaticSize = Enum.AutomaticSize.X, BackgroundColor3 = T.Accent, BackgroundTransparency = 0.25, BorderSizePixel = 0,
+				Font = T.FontBold, TextSize = 13, TextColor3 = Library.OnAccent(T.Accent), Text = "",
+				Parent = box,
+			}, { corner(9), padding(6, 0, 6, 0) })
+			Library._oa(badge)
+			new("TextLabel", {
+				Position = UDim2.fromOffset(4, 58), Size = UDim2.new(1, -8, 0, 36), BackgroundTransparency = 1, Text = tostring(item.Name),
+				Font = T.FontMedium or T.Font, TextSize = 12, TextColor3 = T.Text, TextWrapped = true, TextTruncate = Enum.TextTruncate.AtEnd, Parent = card,
+			})
+			feedback(card, card, "BackgroundColor3", T.Control, T.Lift, T.AccentSoft, true)
+			strokeFeedback(card, card:FindFirstChildOfClass("UIStroke"), 0.4, 0.05)
+			card.MouseButton1Click:Connect(function()
+				local it = data[item.Name]
+				if it then safe(cfg.Callback, it) end
+			end)
+			return card
+		end
+
+		local function paint(name)
+			local it, card = data[name], cards[name]
+			if it and card then
+				local badge = card:FindFirstChild("Badge", true)
+				if badge then badge.Text = prefix .. tostring(it.Amount or 0) end
+			end
+		end
+
+		function obj:SetItems(list_)
+			local seen, n = {}, 0
+			for i, it in ipairs(list_ or {}) do
+				local key = it.Name
+				seen[key] = true
+				data[key] = { Name = key, Amount = it.Amount, Image = it.Image, Id = it.Id }
+				if not cards[key] then cards[key] = build(data[key]) end
+				cards[key].LayoutOrder = i
+				paint(key)
+				n += 1
+			end
+			for key, card in pairs(cards) do
+				if not seen[key] then
+					card:Destroy()
+					cards[key], data[key] = nil, nil
+				end
+			end
+			empty.Visible = n == 0 and (cfg.Empty or "") ~= ""
+			frame.Visible = true
+		end
+		function obj:SetAmount(name, amount)
+			if data[name] then data[name].Amount = amount paint(name) end
+		end
+		function obj:Clear() obj:SetItems({}) end
+		function obj:GetItem(name) return data[name] end
+		function obj:Count()
+			local n = 0
+			for _ in pairs(data) do n += 1 end
+			return n
+		end
+		function obj:SetEmpty(text)
+			cfg.Empty = text
+			empty.Text = text or ""
+			empty.Visible = obj:Count() == 0 and (text or "") ~= ""
+		end
+
+		if cfg.Items then obj:SetItems(cfg.Items) end
+		if cfg.Items and #cfg.Items == 0 then empty.Visible = (cfg.Empty or "") ~= "" end
+		return obj
+	end
+
+	function Window:AskAmount(cfg)
+		cfg = cfg or {}
+		local max = tonumber(cfg.Max)
+		local content = cfg.Content
+		if not content and max then content = "มีทั้งหมด: " .. max end
+		local buttons = { { Text = cfg.Confirm or "ยืนยัน", Value = "ok", Style = "Primary" } }
+		if max then buttons[#buttons + 1] = { Text = (cfg.MaxText or "ทั้งหมด") .. " (" .. max .. ")", Value = "max", Style = "Secondary" } end
+		buttons[#buttons + 1] = { Text = cfg.Cancel or "ยกเลิก", Value = "cancel", Style = "Secondary" }
+		local dlg = self:Dialog({
+			Title = cfg.Title or "ใส่จำนวน", Content = content or "", Kind = cfg.Kind or "Info", Icon = cfg.Icon,
+			Input = { Placeholder = "จำนวน", Default = tostring(cfg.Default or 1), Numeric = true, MaxLength = 9, AutoFocus = true },
+			Buttons = buttons,
+		})
+		local value, text = dlg:Wait()
+		if value == "max" and max then return math.floor(max) end
+		if value ~= "ok" then return nil end
+		local n = math.floor(tonumber(text) or 0)
+		if n <= 0 then return nil end
+		if max and n > max then n = math.floor(max) end
+		return n
+	end
+
+end
+
+
+------------------------------------------------------------ v3.14: more controls + window helpers
+do
+local V2 = Vector2.new
+
+local function clipCopy(win, text, title)
+	text = tostring(text)
+	if type(setclipboard) == "function" then
+		pcall(setclipboard, text)
+		if win then
+			local shown = #text > 48 and (text:sub(1, 45) .. "...") or text
+			pcall(function() win:Notify({ Title = title or "Copied", Content = shown, Kind = "Success", Duration = 1.6 }) end)
+		end
+		return true
+	end
+	if win then
+		pcall(function() win:Notify({ Title = "Clipboard not supported", Kind = "Warning", Duration = 3 }) end)
+	end
+	return false
+end
+
+-- Library:Copy(text, title) -> bool   copy to the clipboard + a small "Copied" card (works without a window too)
+function Library:Copy(text, title)
+	return clipCopy(Library.Windows[#Library.Windows], text, title)
+end
+
+local function statusColor(kind, fallback)
+	local ok, c = pcall(function() return Library:GetStatusColor(kind) end)
+	if ok and typeof(c) == "Color3" then return c end
+	return fallback
+end
+
+local function clampLen(s, n)
+	local len = utf8.len(s)
+	if not len then return s:sub(1, n) end
+	if len <= n then return s end
+	return s:sub(1, utf8.offset(s, n + 1) - 1)
+end
+
+local function caption(parent, T, text)
+	return new("TextLabel", {
+		Position = UDim2.fromOffset(8, 0), Size = UDim2.new(1, -16, 0, 16), BackgroundTransparency = 1, Text = tostring(text),
+		Font = T.Font, TextSize = 13, TextColor3 = T.SubText, TextXAlignment = LEFT, TextTruncate = Enum.TextTruncate.AtEnd, Parent = parent,
+	})
+end
+
+---------------------------------------------------------------- ButtonRow
+-- Section:CreateButtonRow({ Buttons = { { Name, Callback, Color, TextColor, Bold }, ... } })   -> :SetText(i, text)
+-- several buttons side by side in ONE row (they share the width equally)
+function Section:CreateButtonRow(cfg)
+	cfg = cfg or {}
+	local T = self.Window.Theme
+	local defs = type(cfg.Buttons) == "table" and cfg.Buttons or {}
+	if #defs == 0 then defs = { { Name = "Button" } } end
+	local n, gap, h = #defs, 6, rowH()
+	local row = new("Frame", { Size = UDim2.new(1, 0, 0, h), BackgroundTransparency = 1, Parent = self.Body },
+		{ list(gap, { FillDirection = Enum.FillDirection.Horizontal }) })
+	local btns = {}
+	for i, d in ipairs(defs) do
+		if type(d) == "string" then d = { Name = d } end
+		local color = d.Color
+		local b = new("TextButton", {
+			LayoutOrder = i, Size = UDim2.new(1 / n, -math.floor(gap * (n - 1) / n), 1, 0),
+			BackgroundColor3 = color or T.Control, BackgroundTransparency = 0.1, AutoButtonColor = false,
+			Text = d.Name or "Button", Font = d.Bold and T.FontBold or T.Font, TextSize = 13,
+			TextColor3 = d.TextColor or (color and Library.OnAccent(color)) or T.Text,
+			TextTruncate = Enum.TextTruncate.AtEnd, ClipsDescendants = true, Parent = row,
+		}, { corner(14), stroke(color and color:Lerp(Color3.new(1, 1, 1), 0.3) or T.Border, 1, color and 0.5 or 0.35) })
+		local bs = b:FindFirstChildOfClass("UIStroke")
+		if color then
+			strokeFeedback(b, bs, 0.3, 0.05)
+		else
+			feedback(b, b, "BackgroundColor3", T.Control, T.Lift, T.AccentSoft)
+			strokeFeedback(b, bs, 0.35, 0.05)
+		end
+		b.MouseButton1Click:Connect(function() safe(d.Callback) end)
+		clickRipple(b, nil)
+		btns[i] = b
+	end
+	self:_Register(row, "buttons", h)
+	local obj = { Frame = row, Buttons = btns }
+	function obj:SetText(i, t)
+		if btns[i] then btns[i].Text = tostring(t) end
+	end
+	return obj
+end
+
+---------------------------------------------------------------- InputButton
+-- Section:CreateInputButton({ Name, Placeholder, Button = "OK", ButtonWidth, Default, MaxLength, ClearOnSubmit, Trim, Flag, Callback(text) })
+-- a text box with its own submit button (key / code entry). Enter submits too.
+-- :Get() last submitted text   :GetText() what is typed now   :Set(text, silent)   :Clear()   :Focus()   :SetButtonText(t)
+function Section:CreateInputButton(cfg)
+	cfg = cfg or {}
+	local T = self.Window.Theme
+	local h = rowH()
+	local hasLabel = cfg.Name ~= nil and cfg.Label ~= false
+	local top = hasLabel and 18 or 0
+	local frame = new("Frame", { Size = UDim2.new(1, 0, 0, top + h), BackgroundTransparency = 1, Parent = self.Body })
+	if hasLabel then caption(frame, T, cfg.Name) end
+	local bw = tonumber(cfg.ButtonWidth) or 84
+	local boxFrame = new("Frame", {
+		Position = UDim2.fromOffset(0, top), Size = UDim2.new(1, -(bw + 6), 0, h), BackgroundColor3 = T.Control,
+		BackgroundTransparency = 0.1, BorderSizePixel = 0, ClipsDescendants = true, Parent = frame,
+	}, { corner(14), stroke(T.Border, 1, 0.35) })
+	local boxStroke = boxFrame:FindFirstChildOfClass("UIStroke")
+	local box = new("TextBox", {
+		Position = UDim2.fromOffset(10, 0), Size = UDim2.new(1, -20, 1, 0), BackgroundTransparency = 1, Text = tostring(cfg.Default or ""),
+		PlaceholderText = cfg.Placeholder or "", PlaceholderColor3 = T.SubText, Font = T.Font, TextSize = 13, TextColor3 = T.Text,
+		TextXAlignment = LEFT, ClearTextOnFocus = false, Parent = boxFrame,
+	})
+	local btn = new("TextButton", {
+		AnchorPoint = V2(1, 0), Position = UDim2.new(1, 0, 0, top), Size = UDim2.fromOffset(bw, h), BackgroundColor3 = T.Accent,
+		BackgroundTransparency = 0.05, AutoButtonColor = false, Text = cfg.Button or "OK", Font = T.FontBold, TextSize = 13,
+		TextColor3 = Library.OnAccent(T.Accent), TextTruncate = Enum.TextTruncate.AtEnd, ClipsDescendants = true, Parent = frame,
+	}, { corner(14), stroke(T.Accent:Lerp(Color3.new(1, 1, 1), 0.3), 1, 0.5) })
+	strokeFeedback(btn, btn:FindFirstChildOfClass("UIStroke"), 0.5, 0.05)
+	clickRipple(btn, nil)
+
+	local value = box.Text
+	local obj = {}
+	local function submit()
+		local t = box.Text
+		if cfg.Trim ~= false then t = t:gsub("^%s+", ""):gsub("%s+$", "") end
+		value = t
+		setFlag(cfg, value)
+		safe(cfg.Callback, value)
+		if cfg.ClearOnSubmit then box.Text = "" end
+	end
+	if cfg.MaxLength then
+		box:GetPropertyChangedSignal("Text"):Connect(function()
+			local c = clampLen(box.Text, cfg.MaxLength)
+			if c ~= box.Text then box.Text = c end
+		end)
+	end
+	box.Focused:Connect(function() tween(boxStroke, 0.15, { Color = T.Accent, Transparency = 0.1 }) end)
+	box.FocusLost:Connect(function(enter)
+		tween(boxStroke, 0.18, { Color = T.Border, Transparency = 0.35 })
+		if enter and cfg.EnterSubmit ~= false then submit() end
+	end)
+	btn.MouseButton1Click:Connect(submit)
+
+	function obj:Get() return value end
+	function obj:GetText() return box.Text end
+	function obj:Set(text, silent)
+		box.Text = tostring(text == nil and "" or text)
+		value = box.Text
+		setFlag(cfg, value)
+		if not silent then safe(cfg.Callback, value) end
+	end
+	function obj:Clear() box.Text = "" end
+	function obj:Focus() box:CaptureFocus() end
+	function obj:SetButtonText(t) btn.Text = tostring(t) end
+
+	setFlag(cfg, value)
+	self:_Register(frame, cfg.Name or cfg.Placeholder, top + h)
+	obj.Frame = frame
+	return regObj(cfg, obj)
+end
+
+---------------------------------------------------------------- KeyValue
+-- Section:CreateKeyValue({ Name, Value, Color, Copyable = true })   -> :Set(v) / :Get() / :SetColor(c)
+-- a static "name ... value" row; tap it to copy the value
+function Section:CreateKeyValue(cfg)
+	cfg = cfg or {}
+	local win = self.Window
+	local T = win.Theme
+	local h = rowH()
+	local copyable = cfg.Copyable ~= false
+	local value = cfg.Value == nil and "" or cfg.Value
+	local row = new("TextButton", {
+		Size = UDim2.new(1, 0, 0, h), BackgroundColor3 = T.Control, BackgroundTransparency = 1, Text = "",
+		AutoButtonColor = false, Active = copyable, Parent = self.Body,
+	}, { corner(13) })
+	if copyable then feedback(row, row, "BackgroundTransparency", 1, 0.82, 0.62, true) end
+	new("TextLabel", {
+		Position = UDim2.fromOffset(8, 0), Size = UDim2.new(0.42, -8, 1, 0), BackgroundTransparency = 1, Text = cfg.Name or "Key",
+		Font = T.Font, TextSize = 14, TextColor3 = T.SubText, TextXAlignment = LEFT, TextTruncate = Enum.TextTruncate.AtEnd, Parent = row,
+	})
+	local val = new("TextLabel", {
+		AnchorPoint = V2(1, 0), Position = UDim2.new(1, -8, 0, 0), Size = UDim2.new(0.58, -8, 1, 0), BackgroundTransparency = 1,
+		Text = tostring(value), Font = T.FontBold, TextSize = 14, TextColor3 = cfg.Color or T.Text,
+		TextXAlignment = Enum.TextXAlignment.Right, TextTruncate = Enum.TextTruncate.AtEnd, Parent = row,
+	})
+	if copyable then
+		row.MouseButton1Click:Connect(function() clipCopy(win, tostring(value), "Copied") end)
+	end
+	self:_Register(row, cfg.Name, h)
+	local obj = { Frame = row }
+	function obj:Set(v)
+		value = v == nil and "" or v
+		val.Text = tostring(value)
+	end
+	function obj:Get() return value end
+	function obj:SetColor(c) val.TextColor3 = c end
+	return obj
+end
+
+---------------------------------------------------------------- CodeBlock
+-- Section:CreateCodeBlock({ Name, Text, Height = 110, Copy = true, MaxChars = 20000, AutoScroll = true })
+-- :Set(text) :Get() :Append(line) :Clear() :Copy()      monospace, scrolls, "Copy" button in the header
+function Section:CreateCodeBlock(cfg)
+	if type(cfg) == "string" then cfg = { Text = cfg } end
+	cfg = cfg or {}
+	local win = self.Window
+	local T = win.Theme
+	local bodyH = tonumber(cfg.Height) or 110
+	local showCopy = cfg.Copy ~= false
+	local hasHead = cfg.Name ~= nil or showCopy
+	local top = hasHead and 22 or 0
+	local maxChars = tonumber(cfg.MaxChars) or 20000
+	local frame = new("Frame", { Size = UDim2.new(1, 0, 0, top + bodyH), BackgroundTransparency = 1, Parent = self.Body })
+	if cfg.Name then
+		new("TextLabel", {
+			Position = UDim2.fromOffset(8, 0), Size = UDim2.new(1, -76, 0, 18), BackgroundTransparency = 1, Text = cfg.Name,
+			Font = T.Font, TextSize = 13, TextColor3 = T.SubText, TextXAlignment = LEFT, TextTruncate = Enum.TextTruncate.AtEnd, Parent = frame,
+		})
+	end
+	local text = tostring(cfg.Text or "")
+	local scroll = new("ScrollingFrame", {
+		Position = UDim2.fromOffset(0, top), Size = UDim2.new(1, 0, 0, bodyH), BackgroundColor3 = T.Control, BackgroundTransparency = 0.25,
+		BorderSizePixel = 0, ScrollBarThickness = 3, ScrollBarImageColor3 = T.Accent, CanvasSize = UDim2.new(), AutomaticCanvasSize = AY,
+		ScrollingDirection = Enum.ScrollingDirection.Y, Parent = frame,
+	}, { corner(10), stroke(T.Border, 1, 0.4), padding(8, 6, 8, 6) })
+	local label = new("TextLabel", {
+		Size = UDim2.new(1, 0, 0, 0), AutomaticSize = AY, BackgroundTransparency = 1, Text = text, Font = Enum.Font.Code, TextSize = 12,
+		TextColor3 = T.Text, TextXAlignment = LEFT, TextYAlignment = Enum.TextYAlignment.Top, TextWrapped = true, Parent = scroll,
+	})
+	local obj = {}
+	if showCopy then
+		local cb = new("TextButton", {
+			AnchorPoint = V2(1, 0), Position = UDim2.new(1, 0, 0, 0), Size = UDim2.fromOffset(58, 18), BackgroundColor3 = T.Control,
+			BackgroundTransparency = 0.1, AutoButtonColor = false, Text = "Copy", Font = T.Font, TextSize = 12, TextColor3 = T.Text,
+			ClipsDescendants = true, Parent = frame,
+		}, { corner(9), stroke(T.Border, 1, 0.35) })
+		feedback(cb, cb, "BackgroundColor3", T.Control, T.Lift, T.AccentSoft)
+		cb.MouseButton1Click:Connect(function() obj:Copy() end)
+	end
+	local function toBottom()
+		if cfg.AutoScroll == false then return end
+		task.defer(function()
+			if scroll.Parent then
+				scroll.CanvasPosition = V2(0, math.max(0, scroll.AbsoluteCanvasSize.Y - scroll.AbsoluteSize.Y))
+			end
+		end)
+	end
+	function obj:Set(t)
+		text = tostring(t == nil and "" or t)
+		label.Text = text
+	end
+	function obj:Get() return text end
+	function obj:Append(line)
+		line = tostring(line == nil and "" or line)
+		text = (text ~= "" and (text .. "\n") or "") .. line
+		if #text > maxChars then text = text:sub(#text - maxChars + 1) end
+		label.Text = text
+		toBottom()
+	end
+	function obj:Clear()
+		text = ""
+		label.Text = ""
+	end
+	function obj:Copy() return clipCopy(win, text, "Copied") end
+	self:_Register(frame, cfg.Name or "code", top + bodyH)
+	obj.Frame = frame
+	return obj
+end
+
+---------------------------------------------------------------- Countdown
+-- Section:CreateCountdown({ Name, Target = os.time() + 3600 | Seconds = 3600, Format = fn(secondsLeft), ExpiredText, WarnAt, Color, OnDone(obj) })
+-- live "time left" row (key expiry, event timer ...).  Target is a unix time (os.time()).
+-- :SetTarget(epoch) :SetSeconds(n) :Add(n) :Get() -> seconds left  :IsExpired()      OnDone fires once when it reaches 0
+function Section:CreateCountdown(cfg)
+	cfg = cfg or {}
+	local win = self.Window
+	local T = win.Theme
+	local h = rowH()
+	local target
+	if tonumber(cfg.Target) then target = tonumber(cfg.Target)
+	elseif tonumber(cfg.Seconds) then target = os.time() + tonumber(cfg.Seconds) end
+
+	local frame = new("Frame", { Size = UDim2.new(1, 0, 0, h), BackgroundTransparency = 1, Parent = self.Body })
+	new("TextLabel", {
+		Size = UDim2.new(0.45, 0, 1, 0), BackgroundTransparency = 1, Text = cfg.Name or "Time left", Font = T.Font, TextSize = 14,
+		TextColor3 = T.SubText, TextXAlignment = LEFT, TextTruncate = Enum.TextTruncate.AtEnd, Parent = frame,
+	})
+	local val = new("TextLabel", {
+		AnchorPoint = V2(1, 0), Position = UDim2.fromScale(1, 0), Size = UDim2.new(0.55, 0, 1, 0), BackgroundTransparency = 1, Text = "--",
+		Font = T.FontBold, TextSize = 14, TextColor3 = cfg.Color or T.Accent, TextXAlignment = Enum.TextXAlignment.Right,
+		TextTruncate = Enum.TextTruncate.AtEnd, Parent = frame,
+	})
+
+	local obj = {}
+	local done, shown = false, nil
+	local function left()
+		if not target then return nil end
+		return math.max(0, target - os.time())
+	end
+	local function fmt(s)
+		if type(cfg.Format) == "function" then
+			local ok, r = pcall(cfg.Format, s)
+			if ok and r ~= nil then return tostring(r) end
+		end
+		local d = math.floor(s / 86400)
+		local hh = math.floor((s % 86400) / 3600)
+		local mm = math.floor((s % 3600) / 60)
+		local ss = math.floor(s % 60)
+		if d > 0 then return string.format("%dd %02d:%02d:%02d", d, hh, mm, ss) end
+		return string.format("%02d:%02d:%02d", hh, mm, ss)
+	end
+	local function render()
+		local s = left()
+		if s == nil then
+			if shown ~= "--" then shown = "--" val.Text = "--" end
+			return
+		end
+		local expired = s <= 0
+		local text = expired and (cfg.ExpiredText or "Expired") or fmt(s)
+		if text ~= shown then shown = text val.Text = text end
+		local col = cfg.Color or win.Theme.Accent
+		if expired then col = statusColor("Error", Color3.fromRGB(248, 113, 113))
+		elseif cfg.WarnAt and s <= cfg.WarnAt then col = statusColor("Warning", Color3.fromRGB(250, 204, 21)) end
+		val.TextColor3 = col
+		if expired and not done then
+			done = true
+			safe(cfg.OnDone, obj)
+		elseif not expired then
+			done = false
+		end
+	end
+	function obj:SetTarget(epoch) target = tonumber(epoch) done = false render() end
+	function obj:SetSeconds(sec) target = os.time() + (tonumber(sec) or 0) done = false render() end
+	function obj:Add(sec) target = (target or os.time()) + (tonumber(sec) or 0) render() end
+	function obj:Get() return left() or 0 end
+	function obj:IsExpired() local s = left() return s ~= nil and s <= 0 end
+
+	local acc, conn = 0, nil
+	conn = RunService.Heartbeat:Connect(function(dt)
+		if not frame.Parent then conn:Disconnect() return end
+		acc += dt
+		if acc < 0.5 then return end
+		acc = 0
+		pcall(render)
+	end)
+	table.insert(win.Conns, conn)
+	obj._cleanup = function() if conn then conn:Disconnect() end end
+
+	self:_Register(frame, cfg.Name or "countdown", h)
+	obj.Frame = frame
+	render()
+	return obj
+end
+
+---------------------------------------------------------------- ListBox
+-- Section:CreateListBox({ Name, Items = { "a", "b" }, Height = 120, Multi, Search, AllowDeselect, Default, Empty, Flag, Callback(value) })
+-- scrolling pick-list. Single: value is a string (nil = nothing). Multi: value is an array.
+-- :Get() :Set(value, silent) :Clear(silent) :Refresh(items, keep = true) :Add(item) :Remove(item) :GetItems() :Count()
+function Section:CreateListBox(cfg)
+	cfg = cfg or {}
+	local win = self.Window
+	local T = win.Theme
+	local multi = cfg.Multi == true
+	local listH = tonumber(cfg.Height) or 120
+	local hasSearch = cfg.Search == true
+	local rh = UserInputService.TouchEnabled and 34 or 28
+	local top = cfg.Name ~= nil and 20 or 0
+	local sh = hasSearch and (rowH() - 2) or 0
+	local listTop = top + (hasSearch and (sh + 6) or 0)
+	local frame = new("Frame", { Size = UDim2.new(1, 0, 0, listTop + listH), BackgroundTransparency = 1, Parent = self.Body })
+	if cfg.Name then caption(frame, T, cfg.Name) end
+
+	local searchBox
+	if hasSearch then
+		local sf = new("Frame", {
+			Position = UDim2.fromOffset(0, top), Size = UDim2.new(1, 0, 0, sh), BackgroundColor3 = T.Control, BackgroundTransparency = 0.1,
+			BorderSizePixel = 0, ClipsDescendants = true, Parent = frame,
+		}, { corner(12), stroke(T.Border, 1, 0.35) })
+		searchBox = new("TextBox", {
+			Position = UDim2.fromOffset(10, 0), Size = UDim2.new(1, -20, 1, 0), BackgroundTransparency = 1, Text = "",
+			PlaceholderText = cfg.SearchPlaceholder or "Search...", PlaceholderColor3 = T.SubText, Font = T.Font, TextSize = 13,
+			TextColor3 = T.Text, TextXAlignment = LEFT, ClearTextOnFocus = false, Parent = sf,
+		})
+	end
+	local scroll = new("ScrollingFrame", {
+		Position = UDim2.fromOffset(0, listTop), Size = UDim2.new(1, 0, 0, listH), BackgroundColor3 = T.Control, BackgroundTransparency = 0.25,
+		BorderSizePixel = 0, ScrollBarThickness = 3, ScrollBarImageColor3 = T.Accent, CanvasSize = UDim2.new(), AutomaticCanvasSize = AY,
+		ScrollingDirection = Enum.ScrollingDirection.Y, Parent = frame,
+	}, { corner(10), stroke(T.Border, 1, 0.4), list(2), padding(4, 4, 4, 4) })
+	local empty = new("TextLabel", {
+		LayoutOrder = 1000000, Size = UDim2.new(1, 0, 0, 24), BackgroundTransparency = 1, Text = cfg.Empty or "No items",
+		Font = T.Font, TextSize = 12, TextColor3 = T.SubText, Visible = false, Parent = scroll,
+	})
+
+	local items, rows, sel = {}, {}, {}
+	local obj = {}
+
+	local function selectedList()
+		local out = {}
+		for _, n in ipairs(items) do
+			if sel[n] then out[#out + 1] = n end
+		end
+		return out
+	end
+	local function current()
+		if multi then return selectedList() end
+		for _, n in ipairs(items) do
+			if sel[n] then return n end
+		end
+		return nil
+	end
+	local function paint(name)
+		local r = rows[name]
+		if not r then return end
+		local on = sel[name] == true
+		tween(r.Btn, 0.14, { BackgroundTransparency = on and 0.15 or 1 })
+		tween(r.Label, 0.14, { TextColor3 = on and T.Text or T.SubText })
+		r.Bar.Visible = on
+	end
+	local function emit(silent)
+		setFlag(cfg, current())
+		if not silent then safe(cfg.Callback, current()) end
+	end
+	local function toggle(name)
+		if multi then
+			sel[name] = (not sel[name]) or nil
+		elseif sel[name] then
+			if not cfg.AllowDeselect then return end
+			sel[name] = nil
+		else
+			for k in pairs(sel) do
+				sel[k] = nil
+				paint(k)
+			end
+			sel[name] = true
+		end
+		paint(name)
+		emit(false)
+	end
+	local function applyFilter()
+		local q = searchBox and searchBox.Text:lower() or ""
+		q = q:gsub("^%s+", ""):gsub("%s+$", "")
+		local any = false
+		for _, n in ipairs(items) do
+			local r = rows[n]
+			if r then
+				local vis = q == "" or n:lower():find(q, 1, true) ~= nil
+				r.Btn.Visible = vis
+				any = any or vis
+			end
+		end
+		empty.Visible = not any
+		empty.Text = (#items == 0) and (cfg.Empty or "No items") or "No matches"
+	end
+	if searchBox then searchBox:GetPropertyChangedSignal("Text"):Connect(applyFilter) end
+
+	local function makeRow(name, order)
+		local btn = new("TextButton", {
+			LayoutOrder = order, Size = UDim2.new(1, 0, 0, rh), BackgroundColor3 = T.AccentSoft, BackgroundTransparency = 1,
+			Text = "", AutoButtonColor = false, Parent = scroll,
+		}, { corner(8) })
+		local bar = new("Frame", {
+			AnchorPoint = V2(0, 0.5), Position = UDim2.new(0, 3, 0.5, 0), Size = UDim2.new(0, 3, 0.55, 0), BackgroundColor3 = T.Accent,
+			BorderSizePixel = 0, Visible = false, Parent = btn,
+		}, { corner(2) })
+		local lab = new("TextLabel", {
+			Position = UDim2.fromOffset(14, 0), Size = UDim2.new(1, -20, 1, 0), BackgroundTransparency = 1, Text = name, Font = T.Font,
+			TextSize = 13, TextColor3 = T.SubText, TextXAlignment = LEFT, TextTruncate = Enum.TextTruncate.AtEnd, Parent = btn,
+		})
+		btn.MouseEnter:Connect(function()
+			if usingTouch() or sel[name] then return end
+			tween(btn, 0.12, { BackgroundTransparency = 0.6 })
+		end)
+		btn.MouseLeave:Connect(function()
+			if sel[name] then return end
+			tween(btn, 0.14, { BackgroundTransparency = 1 })
+		end)
+		local press = dragSafePress(btn, function() end, function() end, 12)
+		btn.MouseButton1Click:Connect(function()
+			if press.moved then return end
+			toggle(name)
+		end)
+		rows[name] = { Btn = btn, Label = lab, Bar = bar }
+	end
+	local function build(src, keep)
+		local prev = keep and sel or {}
+		for _, r in pairs(rows) do r.Btn:Destroy() end
+		rows, items, sel = {}, {}, {}
+		local seen = {}
+		for _, it in ipairs(type(src) == "table" and src or {}) do
+			local name = tostring(type(it) == "table" and (it.Name or it[1]) or it)
+			if not seen[name] then
+				seen[name] = true
+				items[#items + 1] = name
+				makeRow(name, #items)
+				if prev[name] then sel[name] = true end
+			end
+		end
+		if not multi then
+			local first
+			for _, n in ipairs(items) do
+				if sel[n] then
+					if first then sel[n] = nil else first = n end
+				end
+			end
+		end
+		for _, n in ipairs(items) do paint(n) end
+		applyFilter()
+	end
+	local function applyValue(v)
+		for k in pairs(sel) do sel[k] = nil end
+		local want = {}
+		if type(v) == "table" then
+			for _, n in ipairs(v) do want[tostring(n)] = true end
+		elseif v ~= nil and v ~= "" then
+			want[tostring(v)] = true
+		end
+		local picked = false
+		for _, n in ipairs(items) do
+			if want[n] and (multi or not picked) then
+				sel[n] = true
+				picked = true
+			end
+		end
+		for _, n in ipairs(items) do paint(n) end
+	end
+
+	function obj:Get() return current() end
+	function obj:Set(v, silent)
+		applyValue(v)
+		emit(silent == true)
+	end
+	function obj:Clear(silent)
+		applyValue(nil)
+		emit(silent == true)
+	end
+	function obj:Refresh(src, keep)
+		build(src, keep ~= false)
+		emit(true)
+	end
+	function obj:Add(item)
+		local copy = table.clone(items)
+		copy[#copy + 1] = item
+		build(copy, true)
+	end
+	function obj:Remove(item)
+		local name, copy = tostring(item), {}
+		for _, n in ipairs(items) do
+			if n ~= name then copy[#copy + 1] = n end
+		end
+		build(copy, true)
+		emit(true)
+	end
+	function obj:GetItems() return table.clone(items) end
+	function obj:Count() return #items end
+
+	build(cfg.Items, false)
+	if cfg.Default ~= nil then applyValue(cfg.Default) end
+	setFlag(cfg, current())
+	self:_Register(frame, cfg.Name or "list", listTop + listH)
+	obj.Frame = frame
+	return regObj(cfg, obj)
+end
+
+---------------------------------------------------------------- Table
+-- Section:CreateTable({ Name, Columns = { "Item", { Name = "Qty", Width = 0.25 } }, Rows = { { "Sword", 3 } }, Height = 130, RowHeight, Zebra = true, OnRowClick(row, index) })
+-- :SetRows(rows) :AddRow(row) :RemoveRow(i) :SetCell(i, col, value) :Clear() :Count() :GetRows()
+function Section:CreateTable(cfg)
+	cfg = cfg or {}
+	local win = self.Window
+	local T = win.Theme
+	local bodyH = tonumber(cfg.Height) or 130
+	local rh = tonumber(cfg.RowHeight) or (UserInputService.TouchEnabled and 30 or 24)
+	local top = cfg.Name ~= nil and 20 or 0
+	local headH = 24
+	local total = top + headH + 4 + bodyH
+	local clickable = type(cfg.OnRowClick) == "function"
+
+	local cols = {}
+	for i, c in ipairs(type(cfg.Columns) == "table" and cfg.Columns or { "A", "B" }) do
+		if type(c) == "table" then
+			cols[i] = { Name = tostring(c.Name or c[1] or ""), W = tonumber(c.Width) }
+		else
+			cols[i] = { Name = tostring(c) }
+		end
+	end
+	local fixed, free = 0, 0
+	for _, c in ipairs(cols) do
+		if c.W then fixed += c.W else free += 1 end
+	end
+	local rest = math.max(0.05, 1 - fixed)
+	local tot = 0
+	for _, c in ipairs(cols) do
+		c.S = c.W or (rest / math.max(1, free))
+		tot += c.S
+	end
+	local acc = 0
+	for _, c in ipairs(cols) do
+		c.S = c.S / tot
+		c.X = acc
+		acc += c.S
+	end
+
+	local frame = new("Frame", { Size = UDim2.new(1, 0, 0, total), BackgroundTransparency = 1, Parent = self.Body })
+	if cfg.Name then caption(frame, T, cfg.Name) end
+	local head = new("Frame", {
+		Position = UDim2.fromOffset(0, top), Size = UDim2.new(1, 0, 0, headH), BackgroundColor3 = T.Control, BackgroundTransparency = 0.3,
+		BorderSizePixel = 0, Parent = frame,
+	}, { corner(8) })
+	for _, c in ipairs(cols) do
+		new("TextLabel", {
+			Position = UDim2.new(c.X, 8, 0, 0), Size = UDim2.new(c.S, -10, 1, 0), BackgroundTransparency = 1, Text = c.Name,
+			Font = T.FontBold, TextSize = 12, TextColor3 = T.SubText, TextXAlignment = LEFT, TextTruncate = Enum.TextTruncate.AtEnd, Parent = head,
+		})
+	end
+	local scroll = new("ScrollingFrame", {
+		Position = UDim2.fromOffset(0, top + headH + 4), Size = UDim2.new(1, 0, 0, bodyH), BackgroundColor3 = T.Control,
+		BackgroundTransparency = 0.25, BorderSizePixel = 0, ScrollBarThickness = 3, ScrollBarImageColor3 = T.Accent,
+		CanvasSize = UDim2.new(), AutomaticCanvasSize = AY, ScrollingDirection = Enum.ScrollingDirection.Y, Parent = frame,
+	}, { corner(10), stroke(T.Border, 1, 0.4), list(0), padding(0, 2, 0, 2) })
+	local empty = new("TextLabel", {
+		LayoutOrder = 1000000, Size = UDim2.new(1, 0, 0, 26), BackgroundTransparency = 1, Text = cfg.Empty or "No data",
+		Font = T.Font, TextSize = 12, TextColor3 = T.SubText, Visible = false, Parent = scroll,
+	})
+
+	local data, rowFrames, cells = {}, {}, {}
+	local obj = {}
+	local function makeRow(i)
+		local row = data[i]
+		local zebra = cfg.Zebra ~= false and i % 2 == 0
+		local base = zebra and 0.75 or 1
+		local r = new("TextButton", {
+			LayoutOrder = i, Size = UDim2.new(1, 0, 0, rh), BackgroundColor3 = T.Lift, BackgroundTransparency = base, Text = "",
+			AutoButtonColor = false, Active = clickable, Parent = scroll,
+		})
+		cells[i] = {}
+		for j, c in ipairs(cols) do
+			local v = row[j]
+			cells[i][j] = new("TextLabel", {
+				Position = UDim2.new(c.X, 8, 0, 0), Size = UDim2.new(c.S, -10, 1, 0), BackgroundTransparency = 1,
+				Text = v == nil and "" or tostring(v), Font = T.Font, TextSize = 12, TextColor3 = T.Text, TextXAlignment = LEFT,
+				TextTruncate = Enum.TextTruncate.AtEnd, Parent = r,
+			})
+		end
+		if clickable then
+			r.MouseEnter:Connect(function()
+				if usingTouch() then return end
+				tween(r, 0.12, { BackgroundColor3 = T.AccentSoft, BackgroundTransparency = 0.5 })
+			end)
+			r.MouseLeave:Connect(function()
+				tween(r, 0.14, { BackgroundColor3 = T.Lift, BackgroundTransparency = base })
+			end)
+			local press = dragSafePress(r, function() end, function() end, 12)
+			r.MouseButton1Click:Connect(function()
+				if press.moved then return end
+				safe(cfg.OnRowClick, data[i], i)
+			end)
+		end
+		rowFrames[i] = r
+	end
+	local function rebuild()
+		for _, r in ipairs(rowFrames) do r:Destroy() end
+		rowFrames, cells = {}, {}
+		for i = 1, #data do makeRow(i) end
+		empty.Visible = #data == 0
+	end
+	local function copyRows(src)
+		local out = {}
+		for _, r in ipairs(type(src) == "table" and src or {}) do
+			out[#out + 1] = type(r) == "table" and table.clone(r) or { r }
+		end
+		return out
+	end
+
+	function obj:SetRows(src) data = copyRows(src) rebuild() end
+	function obj:AddRow(row)
+		data[#data + 1] = type(row) == "table" and table.clone(row) or { row }
+		makeRow(#data)
+		empty.Visible = false
+	end
+	function obj:RemoveRow(i)
+		if data[i] then
+			table.remove(data, i)
+			rebuild()
+		end
+	end
+	function obj:SetCell(i, j, v)
+		if data[i] and cells[i] and cells[i][j] then
+			data[i][j] = v
+			cells[i][j].Text = v == nil and "" or tostring(v)
+		end
+	end
+	function obj:Clear() data = {} rebuild() end
+	function obj:Count() return #data end
+	function obj:GetRows() return copyRows(data) end
+
+	obj:SetRows(cfg.Rows)
+	self:_Register(frame, cfg.Name or "table", total)
+	obj.Frame = frame
+	return obj
+end
+
+---------------------------------------------------------------- Image
+-- Section:CreateImage({ Image = 123456 | "rbxassetid://.." | "lucide:name", Name, Height = 120, Fit = "Fit"|"Crop"|"Stretch", Corner = 10, Color, IconSize })
+-- :Set(image) :Get()
+function Section:CreateImage(cfg)
+	if type(cfg) == "number" or type(cfg) == "string" then cfg = { Image = cfg } end
+	cfg = cfg or {}
+	local T = self.Window.Theme
+	local imgH = tonumber(cfg.Height) or 120
+	local top = cfg.Name ~= nil and 20 or 0
+	local frame = new("Frame", { Size = UDim2.new(1, 0, 0, top + imgH), BackgroundTransparency = 1, Parent = self.Body })
+	if cfg.Name then caption(frame, T, cfg.Name) end
+	local holder = new("Frame", {
+		Position = UDim2.fromOffset(0, top), Size = UDim2.new(1, 0, 0, imgH), BackgroundColor3 = T.Control, BackgroundTransparency = 0.25,
+		BorderSizePixel = 0, ClipsDescendants = true, Parent = frame,
+	}, { corner(tonumber(cfg.Corner) or 10), stroke(T.Border, 1, 0.4) })
+	local scaleType = ({ Fit = Enum.ScaleType.Fit, Crop = Enum.ScaleType.Crop, Stretch = Enum.ScaleType.Stretch })[cfg.Fit or "Fit"] or Enum.ScaleType.Fit
+	local shownImg, value = nil, cfg.Image
+	local function show(img)
+		if shownImg then shownImg:Destroy() shownImg = nil end
+		if type(img) == "string" and tonumber(img) then img = tonumber(img) end
+		if img == nil or img == "" then return end
+		if type(img) == "number" or (type(img) == "string" and img:find("^rbxasset")) then
+			shownImg = new("ImageLabel", {
+				Size = UDim2.fromScale(1, 1), BackgroundTransparency = 1, Image = type(img) == "number" and ("rbxassetid://" .. img) or img,
+				ScaleType = scaleType, ImageColor3 = cfg.Color or Color3.new(1, 1, 1), Parent = holder,
+			})
+		elseif Library:IsIconName(img) then
+			local desc = Library:ResolveIcon(img)
+			if desc then
+				local sz = tonumber(cfg.IconSize) or 40
+				shownImg = Library:MakeIcon(desc, cfg.Color or T.Text)
+				shownImg.AnchorPoint = V2(0.5, 0.5)
+				shownImg.Position = UDim2.fromScale(0.5, 0.5)
+				shownImg.Size = UDim2.fromOffset(sz, sz)
+				shownImg.Parent = holder
+			end
+		end
+	end
+	show(value)
+	self:_Register(frame, cfg.Name or "image", top + imgH)
+	local obj = { Frame = frame }
+	function obj:Set(img) value = img show(img) end
+	function obj:Get() return value end
+	return obj
+end
+
+---------------------------------------------------------------- Window / Tab / Library helpers
+local function tabOf(win, nameOrTab)
+	return type(nameOrTab) == "string" and win:GetTab(nameOrTab) or nameOrTab
+end
+
+-- Window:RemoveTab(nameOrTab) -> bool   destroys the tab, its page and its controls (the open tab moves to the next unlocked one)
+function Window:RemoveTab(nameOrTab)
+	local t = tabOf(self, nameOrTab)
+	local idx = t and table.find(self.Tabs, t)
+	if not idx then return false end
+	local wasActive = self.Active == t
+	if wasActive then self.Active = nil end
+	table.remove(self.Tabs, idx)
+	if self._index then
+		for i = #self._index, 1, -1 do
+			local e = self._index[i]
+			if e.Tab == t then
+				if e.Flag and Library.Objects[e.Flag] == e.Obj then Library.Objects[e.Flag] = nil end
+				table.remove(self._index, i)
+			end
+		end
+	end
+	pcall(function() t.Button:Destroy() end)
+	pcall(function() t.Page:Destroy() end)
+	for i, tab in ipairs(self.Tabs) do tab.Button.LayoutOrder = i end
+	if wasActive then
+		for _, o in ipairs(self.Tabs) do
+			if not o._locked then self:SelectTab(o) break end
+		end
+	end
+	return true
+end
+
+-- Window:RenameTab(nameOrTab, newName) -> bool   (false if the name is empty or already used by another tab)
+function Window:RenameTab(nameOrTab, newName)
+	local t = tabOf(self, nameOrTab)
+	if not t or type(newName) ~= "string" or newName == "" then return false end
+	local other = self:GetTab(newName)
+	if other and other ~= t then return false end
+	t.Name = newName
+	t.Label.Text = newName
+	if self._index then
+		for _, e in ipairs(self._index) do
+			if e.Tab == t then e.TabName = newName end
+		end
+	end
+	return true
+end
+
+-- Window:ListTabs() -> { "Main", "VIP", ... }
+function Window:ListTabs()
+	local out = {}
+	for _, t in ipairs(self.Tabs) do out[#out + 1] = t.Name end
+	return out
+end
+
+function Tab:Remove() return self.Window:RemoveTab(self) end
+function Tab:Rename(name) return self.Window:RenameTab(self, name) end
+
+-- Window:SetToggleKey(Enum.KeyCode | "F4") -> key | nil   /   Window:GetToggleKey()
+function Window:SetToggleKey(key)
+	if type(key) == "string" then
+		local ok, k = pcall(function() return Enum.KeyCode[key] end)
+		key = ok and k or nil
+	end
+	if typeof(key) ~= "EnumItem" or key.EnumType ~= Enum.KeyCode then return nil end
+	self.Cfg.ToggleKey = key
+	return key
+end
+function Window:GetToggleKey() return self.Cfg.ToggleKey or Enum.KeyCode.RightShift end
+
+-- Window:Open() / Close() / IsOpen()
+function Window:Open() self:SetVisible(true) end
+function Window:Close() self:SetVisible(false) end
+function Window:IsOpen() return self.Visible == true end
+
+---------------------------------------------------------------- same extras every other control gets (ShowIf / OnChange / Reset / Tooltip / Destroy / right-click menu)
+local decorate, NOVALUE = Library._decorate, Library._NOVALUE
+if not decorate or not NOVALUE then
+	warn("[SpectreUI] v3.14 controls: decorate not available")
+else
+	for _, k in ipairs({ "ButtonRow", "KeyValue", "CodeBlock", "Countdown", "Table", "Image" }) do NOVALUE[k] = true end
+	local kinds = {
+		CreateButtonRow = "ButtonRow", CreateInputButton = "InputButton", CreateKeyValue = "KeyValue", CreateCodeBlock = "CodeBlock",
+		CreateCountdown = "Countdown", CreateListBox = "ListBox", CreateTable = "Table", CreateImage = "Image",
+	}
+	for fname, kind in pairs(kinds) do
+		local orig = Section[fname]
+		Section[fname] = function(self, cfg, ...)
+			local obj = orig(self, cfg, ...)
+			if type(obj) == "table" then
+				local dc = type(cfg) == "table" and cfg or (type(cfg) == "string" and { Name = cfg } or {})
+				local ok, err = pcall(decorate, self, kind, dc, obj)
+				if not ok then warn("[SpectreUI] decorate(" .. kind .. ") failed: " .. tostring(err)) end
+				if obj._cleanup and obj.Destroy then
+					local d, cl = obj.Destroy, obj._cleanup
+					obj.Destroy = function(s, ...) cl() return d(s, ...) end
+				end
+			end
+			return obj
+		end
+	end
+end
+
+Library.Version = "3.14.0"
+end
+
+------------------------------------------------------------ Splash / launch screen (v3.16)
+-- Plain launch screen shown while CreateWindow builds the UI: logo, name, thin progress bar, one status line.
+-- No particles / glitch / HUD frames; short fade in and fade out. A gradient card sits behind it (Splash = { Panel = false } to remove);
+-- taps pass through to whatever is underneath while it shows (Splash = { Block = true } blocks them).
+--   Library:CreateWindow({ Splash = false })                       skip it for this window
+--   Library:CreateWindow({ Splash = { Title = "SPECTREWARE", Subtitle = "ANIME ASTRAL", Duration = 2.5,
+--       Steps = { "Checking key", "Loading" }, Logo = 123456, Skippable = true, Async = false } })
+--       Async = true -> the window is built at once and the splash plays on top of it
+--   Backdrop = 1 (fully transparent, default) .. 0 (solid theme background)
+--   Colours: follows the UI theme the player chose / saved earlier (Library:SetTheme, themes.json, CreateWindow({ Theme = ... })).
+--            With no theme chosen it uses Mono (grey / white). Splash = { Theme = "Cyber" } forces one preset;
+--            Library.Splash.Theme = "Mono" (default) is that fallback; set it to false to always use the UI default theme instead.
+--   Library.Splash.Enabled = false  /  .Duration  /  .Steps  /  .Skippable  /  .Async   global defaults
+do
+	local TS, RS, UIS = game:GetService("TweenService"), game:GetService("RunService"), game:GetService("UserInputService")
+	local Plrs, CG = game:GetService("Players"), game:GetService("CoreGui")
+	local S = { Enabled = true, Duration = 4, Skippable = true, Async = false, Backdrop = 1, Theme = "Mono", Panel = true, Block = false,
+		Steps = { "Loading", "Preparing interface", "Almost ready" } }
+	Library.Splash = S
+	local EZ, ED, V2, U2 = Enum.EasingStyle, Enum.EasingDirection, Vector2.new, UDim2.new
+	local MONO = { Background = Color3.fromRGB(10, 10, 12), Accent = Color3.fromRGB(228, 228, 237), Accent2 = Color3.fromRGB(161, 161, 178),
+		Text = Color3.fromRGB(244, 244, 248), SubText = Color3.fromRGB(150, 150, 164) }
+
+	local function mk(cls, p, kids)
+		local i = Instance.new(cls)
+		for k, v in pairs(p) do if k ~= "Parent" then i[k] = v end end
+		for _, c in ipairs(kids or {}) do c.Parent = i end
+		i.Parent = p.Parent
+		return i
+	end
+	local function fr(p, kids) p.BorderSizePixel = 0 return mk("Frame", p, kids) end
+	local function lb(p, kids) p.BackgroundTransparency, p.BorderSizePixel, p.Font = 1, 0, p.Font or Enum.Font.Gotham return mk("TextLabel", p, kids) end
+	local function round(px) return mk("UICorner", { CornerRadius = UDim.new(0, px) }) end
+	local function tw(o, sec, p, st, dir)
+		local t = TS:Create(o, TweenInfo.new(sec, st or EZ.Quad, dir or ED.Out), p)
+		t:Play()
+		return t
+	end
+
+	local function play(cfg, build, ctx)
+		local o = type(cfg.Splash) == "table" and cfg.Splash or {}
+		local function opt(k) if o[k] ~= nil then return o[k] end return S[k] end
+		-- theme colours: the player's chosen / saved UI theme, otherwise Mono
+		if not Library._themesLoaded then pcall(Library.LoadThemes, Library, true) end   -- the splash runs before the window, so read the saved theme now
+		local ov = o.Theme ~= nil and o.Theme or cfg.Theme
+		local base
+		if type(ov) == "string" then base = Library.Themes[ov] ov = nil end
+		if not base then
+			if type(ov) == "table" or Library._userSetTheme or Library._themeFromSave or not S.Theme then
+				base = Library.Theme                          -- explicit overrides / a theme the player set or saved
+			else
+				base = Library.Themes[S.Theme] or MONO         -- nothing chosen yet: Mono
+			end
+		end
+		local function C(k, d) return (type(ov) == "table" and ov[k]) or base[k] or d end
+		local white = Color3.new(1, 1, 1)
+		local acc = C("Accent", Color3.fromRGB(139, 92, 246))
+		local acc2 = C("Accent2", acc)
+		local txt = C("Text", white)
+		local subc = C("SubText", Color3.fromRGB(160, 160, 180))
+		local bgc = C("Background", Color3.fromRGB(10, 10, 16))
+		local onAcc = Library.OnAccent and Library.OnAccent(acc, acc2) or white
+
+		local title = tostring(cfg.Title or "SpectreUI")
+		local brand, sub = title:match("^(.-)%s*|%s*(.+)$")
+		brand = tostring(o.Title or brand or title)
+		sub = (o.Subtitle or sub) and tostring(o.Subtitle or sub) or ""
+		local steps = opt("Steps")
+		if type(steps) ~= "table" or #steps == 0 then steps = { "Loading" } end
+		local D = math.max(1, tonumber(opt("Duration")) or 4)
+		local logoId = o.Logo or cfg.Logo
+		local cam = workspace.CurrentCamera
+		local vp = cam and cam.ViewportSize or V2(1280, 720)
+
+		local gui = mk("ScreenGui", { Name = "SpectreUI_Splash", ResetOnSpawn = false, IgnoreGuiInset = true, DisplayOrder = 1000, ZIndexBehavior = Enum.ZIndexBehavior.Sibling })
+		pcall(function() gui.ScreenInsets = Enum.ScreenInsets.None end)
+		Library._mount(gui)
+		ctx.gui = gui
+		-- watchdog: the launch screen can never stay up, whatever happens while the window builds
+		task.delay(D + 12, function() if gui.Parent then pcall(gui.Destroy, gui) end end)
+
+		-- flat backdrop + one centered group (fades as a whole)
+		local bg = fr({ Name = "BG", Size = U2(1, 0, 1, 0), BackgroundColor3 = bgc, BackgroundTransparency = 1, Active = opt("Block") == true, Parent = gui })
+		local stack = mk("CanvasGroup", { Name = "Stack", AnchorPoint = V2(0.5, 0.5), Position = U2(0.5, 0, 0.5, 10), Size = U2(0, 280, 0, 172),
+			BackgroundTransparency = 1, BorderSizePixel = 0, GroupTransparency = 1, Parent = bg })
+		local sc0 = math.clamp(math.min(vp.X / 760, vp.Y / 520), 0.8, 1.15)
+		local stackScale = mk("UIScale", { Scale = sc0, Parent = stack })
+
+		-- card behind the logo: gradient fill only (no border, no glow). Pure frames (no loops), fades with the rest.
+		-- Splash = { Panel = false } turns it off. Taps pass through the splash unless Splash = { Block = true }.
+		local panel, panelScales
+		if opt("Panel") ~= false then
+			local PW, PH = 344, 240
+			panel = fr({ Name = "Panel", AnchorPoint = V2(0.5, 0.5), Position = U2(0.5, 0, 0.5, 10), Size = U2(0, PW, 0, PH),
+				BackgroundColor3 = white, BackgroundTransparency = 1, Active = false, ZIndex = 0, Parent = bg }, { round(22) })
+			mk("UIGradient", { Color = ColorSequence.new({
+				ColorSequenceKeypoint.new(0, bgc:Lerp(acc, 0.22)), ColorSequenceKeypoint.new(0.55, bgc:Lerp(acc2, 0.06)),
+				ColorSequenceKeypoint.new(1, bgc:Lerp(Color3.new(0, 0, 0), 0.25)) }), Rotation = 90, Parent = panel })
+			panelScales = { mk("UIScale", { Scale = sc0, Parent = panel }) }
+		end
+
+		-- soft outline so the text stays readable on a transparent backdrop
+		local function shadow() return mk("UIStroke", { Color = Color3.new(0, 0, 0), Thickness = 1, Transparency = 0.55 }) end
+
+		-- effects: pulsing glow + two counter-rotating comet rings + breathing logo
+		local CY = 48
+		local glow = fr({ AnchorPoint = V2(0.5, 0.5), Position = U2(0.5, 0, 0, CY), Size = U2(0, 92, 0, 92), BackgroundColor3 = acc,
+			BackgroundTransparency = 0.85, Parent = stack }, { mk("UICorner", { CornerRadius = UDim.new(1, 0) }) })
+		local function ring(size, thick, c1, c2)
+			local r = fr({ AnchorPoint = V2(0.5, 0.5), Position = U2(0.5, 0, 0, CY), Size = U2(0, size, 0, size), BackgroundTransparency = 1, Parent = stack },
+				{ mk("UICorner", { CornerRadius = UDim.new(1, 0) }) })
+			local st = mk("UIStroke", { Color = white, Thickness = thick, Parent = r })
+			return mk("UIGradient", { Color = ColorSequence.new(c1, c2),
+				Transparency = NumberSequence.new({ NumberSequenceKeypoint.new(0, 0), NumberSequenceKeypoint.new(0.55, 1), NumberSequenceKeypoint.new(1, 1) }),
+				Parent = st })
+		end
+		local ringA = ring(78, 2.5, acc, acc2)
+		local ringB = ring(66, 1.5, acc2, acc)
+
+		-- logo: custom image, or the first letter on a flat accent tile
+		local logo
+		if logoId then
+			local id = tonumber(logoId)
+			logo = mk("ImageLabel", { AnchorPoint = V2(0.5, 0.5), Position = U2(0.5, 0, 0, CY), Size = U2(0, 56, 0, 56), BackgroundTransparency = 1,
+				Image = id and ("rbxassetid://" .. id) or tostring(logoId), Parent = stack }, { round(14) })
+		else
+			local okc, ch = pcall(function() return utf8.char(utf8.codepoint(brand, 1)) end)
+			logo = fr({ AnchorPoint = V2(0.5, 0.5), Position = U2(0.5, 0, 0, CY), Size = U2(0, 56, 0, 56), BackgroundColor3 = acc, Parent = stack }, { round(14) })
+			lb({ Size = U2(1, 0, 1, 0), Text = okc and ch:upper() or "S", Font = Enum.Font.GothamBold, TextSize = 28, TextColor3 = onAcc, Parent = logo })
+		end
+		local logoScale = mk("UIScale", { Parent = logo })
+
+		lb({ Position = U2(0, 0, 0, 90), Size = U2(1, 0, 0, 26), Text = brand, Font = Enum.Font.GothamBold, TextSize = 20, TextColor3 = txt, Parent = stack }, { shadow() })
+		if sub ~= "" then
+			lb({ Position = U2(0, 0, 0, 117), Size = U2(1, 0, 0, 16), Text = sub, TextSize = 12, TextColor3 = subc, Parent = stack }, { shadow() })
+		end
+
+		local status = lb({ Position = U2(0, 0, 0, 142), Size = U2(0, 200, 0, 14), Text = steps[1], TextSize = 13, TextColor3 = subc,
+			TextXAlignment = Enum.TextXAlignment.Left, Parent = stack }, { shadow() })
+		local pct = lb({ Position = U2(1, -50, 0, 142), Size = U2(0, 50, 0, 14), Text = "0%", TextSize = 13, TextColor3 = subc,
+			TextXAlignment = Enum.TextXAlignment.Right, Parent = stack }, { shadow() })
+		local track = fr({ Position = U2(0, 0, 0, 162), Size = U2(1, 0, 0, 4), BackgroundColor3 = white, BackgroundTransparency = 0.85, Parent = stack }, { round(2) })
+		-- fill is white; the gradient supplies the colour (it multiplies) and a moving highlight
+		local fill = fr({ Size = U2(0, 0, 1, 0), BackgroundColor3 = white, Parent = track }, { round(2) })
+		local shine = mk("UIGradient", { Color = ColorSequence.new({ ColorSequenceKeypoint.new(0, acc), ColorSequenceKeypoint.new(0.5, acc2:Lerp(white, 0.6)),
+			ColorSequenceKeypoint.new(1, acc2) }), Parent = fill })
+
+		local ver = lb({ AnchorPoint = V2(0.5, 1), Position = U2(0.5, 0, 1, -18), Size = U2(0, 200, 0, 16), TextSize = 12, TextColor3 = subc,
+			TextTransparency = 0.6, Text = "v" .. tostring(Library.Version), Parent = bg })
+
+		-- state
+		local t, shown, fin, skip, done = 0, 0, false, false, false
+		local pcache, lastS = -1, ""
+		local hit = panel or bg
+		hit.InputBegan:Connect(function(i)
+			if opt("Skippable") and (i.UserInputType == Enum.UserInputType.MouseButton1 or i.UserInputType == Enum.UserInputType.Touch) and t > 0.8 then skip = true end
+		end)
+
+		local bd = tonumber(opt("Backdrop")) or 1
+		if bd < 1 then tw(bg, 0.25, { BackgroundTransparency = bd }) end   -- default: stays fully transparent
+		tw(stack, 0.45, { GroupTransparency = 0, Position = U2(0.5, 0, 0.5, 0) }, EZ.Quint)
+		if panel then
+			tw(panel, 0.45, { BackgroundTransparency = 0.08, Position = U2(0.5, 0, 0.5, 0) }, EZ.Quint)
+		end
+
+		local function step(dt)
+			t = t + dt
+			if skip and not fin then t = math.max(t, D) end
+			local k = math.clamp(t / D, 0, 1)
+			local target = fin and 1 or 0.85 * k   -- steady, even pace up to 85%; the last 15% is filled only after the window is really built
+			shown = shown + (target - shown) * math.min(1, dt * (skip and 12 or 5))
+			fill.Size = U2(shown, 0, 1, 0)
+			ringA.Rotation = (t * 240) % 360
+			ringB.Rotation = (-t * 150) % 360
+			if not done then   -- after the finish burst the tweens own these
+				local pl = math.sin(t * 3.2)
+				logoScale.Scale = 1 + 0.04 * pl
+				glow.BackgroundTransparency = 0.84 + 0.08 * pl
+			end
+			shine.Offset = V2((t * 0.8) % 1 * 2 - 1, 0)
+			local pc = math.floor(shown * 100 + 0.5)
+			if pc ~= pcache then pcache = pc pct.Text = pc .. "%" end
+			local s
+			if fin and shown > 0.97 then s = "Ready"
+			else s = steps[math.clamp(math.floor(shown / 0.85 * #steps) + 1, 1, #steps)] end
+			if s ~= lastS then lastS = s status.Text = s end
+		end
+		local function tick() local dt = math.min(RS.Heartbeat:Wait(), 0.1) step(dt) return dt end
+
+		-- "done": no more circles. The rings / glow just fade out and the logo gives a tiny pop,
+		-- then the window plays its own launch animation (rise + light sweep + tabs popping in).
+		local function burst()
+			done = true
+			tw(ringA.Parent, 0.22, { Transparency = 1 })
+			tw(ringB.Parent, 0.22, { Transparency = 1 })
+			tw(glow, 0.22, { BackgroundTransparency = 1 })
+			tw(logoScale, 0.2, { Scale = 1.12 }, EZ.Quad, ED.Out)
+			task.delay(0.2, function() if gui.Parent then tw(logoScale, 0.2, { Scale = 1 }, EZ.Quad, ED.Out) end end)
+		end
+
+		local function exit()
+			tw(stackScale, 0.35, { Scale = sc0 * 1.12 }, EZ.Quad, ED.In)   -- slight zoom towards the player while it fades
+			tw(stack, 0.3, { GroupTransparency = 1, Position = U2(0.5, 0, 0.5, -6) }, EZ.Quad, ED.In)
+			tw(ver, 0.3, { TextTransparency = 1 })
+			if panel then
+				for _, ps in ipairs(panelScales) do tw(ps, 0.35, { Scale = sc0 * 1.12 }, EZ.Quad, ED.In) end
+				tw(panel, 0.3, { BackgroundTransparency = 1, Position = U2(0.5, 0, 0.5, -6) }, EZ.Quad, ED.In)
+			end
+			task.delay(0.15, function()
+				if gui.Parent then tw(bg, 0.35, { BackgroundTransparency = 1 }) end
+			end)
+		end
+
+		-- main loop: runs until the timeline ends (or the person taps)
+		while t < D do tick() end
+		-- the bar waits at 85% while the window is built (building blocks the thread for a moment, so it
+		-- happens at 85% and not at 100%), then it fills the rest smoothly instead of looking frozen at the end
+		local e = 0
+		while e < 0.2 do e = e + tick() end   -- let the last frame draw before build() blocks
+		if build then build() end   -- real window is created here, hidden behind the splash until the exit starts
+		fin = true
+		e = 0
+		while shown < 0.995 and e < 1.5 do e = e + tick() end
+		e = 0
+		burst()
+		e = 0
+		while e < 0.3 do e = e + tick() end   -- brief "Ready", then the window's own launch animation takes over
+		task.spawn(function()
+			pcall(function()
+				exit()
+				local x = 0
+				while x < 0.6 do x = x + tick() end
+			end)
+			gui:Destroy()
+		end)
+	end
+
+	local orig = Library.CreateWindow
+	function Library:CreateWindow(cfg)
+		cfg = cfg or {}
+		if cfg.Splash == false or S.Enabled == false then return orig(self, cfg) end
+		local o = type(cfg.Splash) == "table" and cfg.Splash or {}
+		local async = o.Async
+		if async == nil then async = S.Async end
+		local ctx, w = {}, nil
+		if async then
+			w = orig(self, cfg)
+			task.spawn(function()
+				local ok, err = xpcall(play, function(e) return debug.traceback(tostring(e), 2) end, cfg, nil, ctx)
+				if not ok then warn("[SpectreUI] splash error: " .. tostring(err)) if ctx.gui then ctx.gui:Destroy() end end
+			end)
+			return w
+		end
+		local ok, err = xpcall(play, function(e) return debug.traceback(tostring(e), 2) end, cfg, function()
+			ctx.built = true
+			Library._holdIntro = true
+			local okb, res = pcall(orig, self, cfg)
+			Library._holdIntro = nil
+			if not okb then error(res, 0) end
+			w = res
+		end, ctx)
+		if not ok then
+			warn("[SpectreUI] splash error: " .. tostring(err))
+			if ctx.gui then ctx.gui:Destroy() end
+			if ctx.built and not w then error(err, 0) end
+		end
+		if not w then w = orig(self, cfg) end
+		-- splash finished: show the window and run its launch animation now (tabs created right after still animate in)
+		if w and w._introHeld then
+			w._introHeld = nil
+			pcall(function() w.Gui.Enabled = true end)
+			pcall(function() w:_PlayIntro() end)
+		end
+		return w
+	end
+end
+
+------------------------------------------------------------ Staged loading (v3.17)
+-- Loads the UI in two stages instead of all at once:
+--   Stage 1: the tabs appear one by one (sidebar button + empty page with a "Loading" hint).
+--   Stage 2: only after EVERY tab is in, each tab's functions run, tab by tab (sections / controls are built here).
+--
+--   local Main = Window:CreateTab({ Name = "Main", Icon = "lucide:home", Build = function(tab)
+--       local s = tab:CreateSection({ Name = "Settings" })
+--       s:CreateToggle({ Name = "Example", Flag = "ex" })
+--   end })
+--   Main:Load(function(tab) ... end)        -- add more functions to a tab (run in order, after all tabs are in)
+--   Window:CreateTab({ Name = "Misc" }, function(tab) ... end)   -- Build can also be the 2nd argument
+--
+--   Window:OnLoaded(fn) · Window:IsLoaded() · Window:WaitLoaded() · Window:StartLoad() (only needed when Auto = false)
+--   Library.StagedLoad = { Enabled = true, Auto = true, TabDelay = 0.12, BuildDelay = 0.05, Loading = true,
+--                          Placeholder = true, Title = "Loading", TabsText = "Loading tabs", BuildText = "Loading features" }
+--   Library:CreateWindow({ StagedLoad = false })  or  { StagedLoad = { TabDelay = 0.2 } }   per window
+--   Auto = true: the load starts by itself as soon as the script that creates the tabs yields / finishes.
+do
+	local S = {
+		Enabled = true, Auto = true, TabDelay = 0.12, BuildDelay = 0.05, Loading = true, Placeholder = true,
+		Title = "Loading", TabsText = "Loading tabs", BuildText = "Loading features",
+	}
+	Library.StagedLoad = S
+
+	local function get(win, key)
+		local c = win.Cfg and win.Cfg.StagedLoad
+		if type(c) == "table" and c[key] ~= nil then return c[key] end
+		return S[key]
+	end
+	local function enabled(win)
+		local c = win.Cfg and win.Cfg.StagedLoad
+		return not (c == false or S.Enabled == false)
+	end
+	local function alive(win) return not win._destroyed end
+	local function state(win)
+		local q = win._sl
+		if not q then
+			q = { tabs = {}, cbs = {}, running = false, scheduled = false }
+			win._sl = q
+		end
+		return q
+	end
+	local function runFn(fn, tab)
+		local ok, err = pcall(fn, tab)
+		if not ok then warn("[SpectreUI] tab '" .. tostring(tab.Name) .. "' load error: " .. tostring(err)) end
+		return ok
+	end
+
+	-- show one tab button (fade + icon pop)
+	local function reveal(tab)
+		local btn = tab.Button
+		if not btn or not btn.Parent then return end
+		btn.Visible = true
+		if lowPower() then return end
+		local lbl, sc = tab.Label, tab.IconScale
+		if lbl then
+			lbl.TextTransparency = 1
+			tween(lbl, 0.3, { TextTransparency = tab._locked and 0.55 or 0 })
+		end
+		if sc then
+			sc.Scale = 0
+			tween(sc, 0.4, { Scale = 1 }, BACK, OUT)
+		end
+	end
+
+	local function finishTab(tab)
+		tab._slLoaded = true
+		local h = tab._slHold
+		tab._slHold = nil
+		if h then pcall(function() h:Destroy() end) end
+	end
+
+	local function cycle(win, q)
+		local load
+		if get(win, "Loading") then
+			local ok, h = pcall(function()
+				return win:Loading({ Title = get(win, "Title"), Text = get(win, "TabsText"), Progress = 0 })
+			end)
+			if ok then load = h end
+		end
+		q.load = load
+		local function prog(f, text)
+			if load then pcall(function() load:Set(f, text) end) end
+		end
+
+		while #q.tabs > 0 and alive(win) do
+			local batch, shown = {}, 0
+
+			-- stage 1: tabs, one by one
+			while #q.tabs > 0 and alive(win) do
+				local tab = table.remove(q.tabs, 1)
+				if tab.Button and tab.Button.Parent then
+					reveal(tab)
+					table.insert(batch, tab)
+					shown = shown + 1
+					prog(0.5 * shown / (shown + #q.tabs), get(win, "TabsText") .. ": " .. tostring(tab.Name))
+					task.wait(get(win, "TabDelay"))
+				end
+			end
+
+			-- stage 2: every tab is in -> now the functions of each tab, tab by tab
+			local done = 0
+			local function pending()
+				local n = 0
+				for _, t in ipairs(batch) do n = n + #t._slBuilds end
+				return n
+			end
+			for _, tab in ipairs(batch) do
+				if not alive(win) then break end
+				while #tab._slBuilds > 0 and alive(win) do
+					local fn = table.remove(tab._slBuilds, 1)
+					prog(0.5 + 0.5 * done / (done + pending() + 1), get(win, "BuildText") .. ": " .. tostring(tab.Name))
+					runFn(fn, tab)
+					done = done + 1
+					task.wait(get(win, "BuildDelay"))
+				end
+				finishTab(tab)
+			end
+		end
+
+		if load and alive(win) then pcall(function() load:Complete("Ready", 1) end) end
+	end
+
+	local run
+	run = function(win)
+		local q = state(win)
+		if q.running or not alive(win) then return end
+		q.running = true
+		local ok, err = xpcall(cycle, function(e) return debug.traceback(tostring(e), 2) end, win, q)
+		q.running = false
+		if not ok then
+			warn("[SpectreUI] staged load error: " .. tostring(err))
+			if q.load then pcall(function() q.load:Fail("Load error", 2) end) end
+		end
+		if not alive(win) then return end
+		if #q.tabs > 0 then return run(win) end   -- tabs created while we were finishing
+		win._slLoaded = true
+		if win._slCheckWanted and win._QueueCheck then
+			win._slCheckWanted = false
+			win:_QueueCheck(1.0)
+		end
+		local cbs = q.cbs
+		q.cbs = {}
+		for _, f in ipairs(cbs) do safe(f, win) end
+	end
+
+	local function schedule(win)
+		local q = state(win)
+		if q.running or q.scheduled or not get(win, "Auto") then return end
+		q.scheduled = true
+		task.defer(function()
+			q.scheduled = false
+			run(win)
+		end)
+	end
+
+	-- the UI check (AutoCheck) waits until staged loading is finished, otherwise every tab is "empty" while loading
+	local origQueueCheck = Window._QueueCheck
+	if origQueueCheck then
+		function Window:_QueueCheck(delay)
+			if self._slLoaded == false then
+				self._slCheckWanted = true
+				return
+			end
+			return origQueueCheck(self, delay)
+		end
+	end
+
+	local origCreateTab = Window.CreateTab
+	function Window:CreateTab(cfg, build)
+		local tab = origCreateTab(self, cfg)
+		if not tab or not enabled(self) then
+			if tab and type(build) == "function" then runFn(build, tab) end
+			return tab
+		end
+		local c = type(cfg) == "table" and cfg or {}
+		tab._slBuilds = {}
+		tab._slLoaded = false
+		local fn = build or c.Build or c.Load
+		if type(fn) == "function" then table.insert(tab._slBuilds, fn) end
+
+		if tab.Button then tab.Button.Visible = false end   -- stage 1 shows it
+		if get(self, "Placeholder") and tab.Page then
+			local T = self.Theme
+			local ok, h = pcall(function()
+				return Instance.new("TextLabel")
+			end)
+			if ok and h then
+				h.Name = "LoadingHint"
+				h.AnchorPoint = Vector2.new(0.5, 0.5)
+				h.Position = UDim2.fromScale(0.5, 0.5)
+				h.Size = UDim2.new(1, -32, 0, 30)
+				h.BackgroundTransparency = 1
+				h.Text = "Loading..."
+				h.Font = T.Font
+				h.TextSize = 14
+				h.TextColor3 = T.SubText
+				h.Parent = tab.Page
+				tab._slHold = h
+			end
+		end
+
+		table.insert(state(self).tabs, tab)
+		self._slLoaded = false
+		self._slCheckWanted = true
+		self._checkSeq = (self._checkSeq or 0) + 1   -- cancels a check that is already waiting; it runs again after loading
+		schedule(self)
+		return tab
+	end
+
+	-- Tab:Load(fn): fn(tab) runs after every tab is in (or right away if this tab is already loaded)
+	function Tab:Load(fn)
+		if type(fn) ~= "function" then return self end
+		if self._slBuilds == nil or self._slLoaded then
+			runFn(fn, self)
+		else
+			table.insert(self._slBuilds, fn)
+		end
+		return self
+	end
+	Tab.Build = Tab.Load
+
+	function Window:StartLoad()
+		task.spawn(run, self)
+		return self
+	end
+	function Window:IsLoaded() return self._slLoaded ~= false end
+	function Window:OnLoaded(fn)
+		if type(fn) ~= "function" then return self end
+		if self._slLoaded ~= false then
+			safe(fn, self)
+		else
+			table.insert(state(self).cbs, fn)
+		end
+		return self
+	end
+	function Window:WaitLoaded()
+		while self._slLoaded == false and alive(self) do task.wait() end
+		return self
+	end
+end
+
+return Library
+
 	end)()
 end
 
@@ -36,7 +12596,7 @@ LocalPlayer = Players.LocalPlayer
 -- ===================== BRAND (สีฟ้าน้ำเงินเทาดำ) =====================
 local BRAND = {
 	Name    = "SpecreWare",
-	Version = "2.0.0",
+	Version = "3.17.0",
 	Discord = "https://discord.gg/GdKxvcHzjS",
 	Invite  = "discord.gg/GdKxvcHzjS",
 	Logo    = "rbxassetid://84699118856259",
@@ -53,36 +12613,37 @@ local BRAND = {
 }
 
 local ICON = {
-	Drops    = "droplet",
-	Bolt     = "zap",
-	Crown    = "crown",
-	Shield   = "shield",
-	Terminal = "terminal",
-	Question = "circle-question-mark",
-	Star     = "star",
-	Rocket   = "rocket",
-	Heart    = "heart",
-	Gamepad  = "gamepad-2",
-	Spark    = "sparkles",
-	Dot      = "dot",
-	Key      = "key",
-	House    = "house",
-	Package  = "package",
-	Egg      = "egg",
-	Coins    = "coins",
-	Gift     = "gift",
-	Dumbbell = "dumbbell",
-	Flask    = "flask-conical",
-	Cart     = "shopping-cart",
-	Trend    = "arrow-up-right",
-	Move     = "move",
-	Gem      = "gem",
-	ShieldOK = "shield-check",
-	Gear     = "settings",
-	Layers   = "layers",
-	Pickaxe  = "pickaxe",
-	Tree     = "trees",
-	Tower    = "castle",
+	Drops    = "lucide:droplet",
+	Bolt     = "lucide:zap",
+	Crown    = "lucide:crown",
+	Shield   = "lucide:shield",
+	Terminal = "lucide:terminal",
+	Question = "lucide:circle-help",
+	Star     = "lucide:star",
+	Rocket   = "lucide:rocket",
+	Heart    = "lucide:heart",
+	Gamepad  = "lucide:gamepad-2",
+	Spark    = "lucide:sparkles",
+	Dot      = "lucide:dot",
+	Key      = "lucide:key",
+	House    = "lucide:house",
+	Home     = "lucide:house",
+	Package  = "lucide:package",
+	Egg      = "lucide:egg",
+	Coins    = "lucide:coins",
+	Gift     = "lucide:gift",
+	Dumbbell = "lucide:dumbbell",
+	Flask    = "lucide:flask-conical",
+	Cart     = "lucide:shopping-cart",
+	Trend    = "lucide:arrow-up-right",
+	Move     = "lucide:move",
+	Gem      = "lucide:gem",
+	ShieldOK = "lucide:shield-check",
+	Gear     = "lucide:settings",
+	Layers   = "lucide:layers",
+	Pickaxe  = "lucide:pickaxe",
+	Tree     = "lucide:trees",
+	Tower    = "lucide:castle",
 }
 
 local LOAD_GEN = math.floor(os.clock() * 100000) % 1000000 + 1
@@ -149,21 +12710,48 @@ do
 	end
 end
 
--- ===================== CREATE DECENT UI WINDOW (SPECTRE THEME) =====================
-local Window = DecentUI:CreateWindow({
-	Name = "SpecreWare | Tower Incremental",
-	LoadingSubtitle = "by SpecreWare Team",
-	Theme = "Spectre",
-	ToggleUIKeybind = "RightControl",
-	ConfigurationSaving = {
-		Enabled = true,
-		FolderName = "SpecreWare_TowerIncremental",
+-- ===================== REGISTER SPECTRE THEME =====================
+pcall(function()
+	if Library and Library.Themes then
+		Library.Themes.Spectre = {
+			Background = Color3.fromRGB(10, 13, 20),
+			Panel      = Color3.fromRGB(14, 19, 30),
+			Card       = Color3.fromRGB(20, 27, 42),
+			Control    = Color3.fromRGB(28, 38, 58),
+			Border     = Color3.fromRGB(35, 48, 72),
+			Accent     = Color3.fromRGB(56, 189, 248),
+			Accent2    = Color3.fromRGB(37, 99, 235),
+			AccentSoft = Color3.fromRGB(10, 26, 48),
+			Sheen      = Color3.fromRGB(186, 230, 253),
+			Text       = Color3.fromRGB(240, 246, 255),
+			SubText    = Color3.fromRGB(125, 142, 172),
+			FX         = "rain",
+		}
+	end
+end)
+
+-- ===================== CREATE SPECTRE UI WINDOW =====================
+pcall(function()
+	if Library and Library.AutoCheck then
+		Library.AutoCheck.Skip = { TextClip = true }
+	end
+end)
+
+local Window = Library:CreateWindow({
+	Title      = "SpecreWare | Tower Incremental",
+	Logo       = 84699118856259,
+	ToggleKey  = Enum.KeyCode.RightControl,
+	Theme      = "Spectre",
+	StagedLoad = false,
+	AutoCheck  = {
+		Skip = { TextClip = true },
 	},
-	ToggleButton = { Platform = "Both", Icon = "castle" },
-	Backdrop = { Weather = "None", Tint = 0.55 },
-	Home = {
-		Discord = BRAND.Invite,
-		Stats = { "FPS", "Ping", "Session" },
+	Splash     = {
+		Subtitle  = "TOWER INCREMENTAL",
+		Duration  = 2.2,
+		Steps     = { "Checking remotes", "Loading Tower Incremental", "Preparing interface", "Ready!" },
+		Logo      = 84699118856259,
+		Skippable = true,
 	},
 })
 
@@ -181,65 +12769,72 @@ end)
 local function splashStatus(text)
 	pcall(function()
 		if Window and Window.Notify then
-			Window:Notify({ Title = BRAND.Name, Content = tostring(text or ""), Duration = 2 })
+			Window:Notify({ Title = BRAND.Name, Content = tostring(text or ""), Duration = 2.5, Kind = "Info" })
 		end
 	end)
 end
+
 local function splashClose() end
 
--- ===================== ADAPTER LAYER =====================
+-- ===================== SPECTRE UI ADAPTER =====================
 local Toggles = {}
 local Options = {}
+Library.Toggles = Toggles
+Library.Options = Options
 
-local function wrapElement(rawObj, directCb)
+local function wrapElement(rawObj, extraCb)
+	local watchers = {}
 	local wrapped = {
 		_raw = rawObj,
-		_listeners = {},
-		Callback = directCb,
+		OnChanged = function(self, fn)
+			if type(fn) == "function" then
+				table.insert(watchers, fn)
+				pcall(function()
+					local val = self:Get()
+					if val ~= nil then fn(val) end
+				end)
+			end
+		end,
+		_fire = function(self, v)
+			for _, fn in ipairs(watchers) do
+				pcall(fn, v)
+			end
+			if extraCb then
+				pcall(extraCb, v)
+			end
+		end,
 	}
 
-	function wrapped:OnChanged(fn)
-		if type(fn) == "function" then
-			table.insert(wrapped._listeners, fn)
-		end
-		return wrapped
-	end
-
-	wrapped.Changed = function(v)
-		for _, l in ipairs(wrapped._listeners) do
-			pcall(l, v)
-		end
-		if wrapped.Callback then
-			pcall(wrapped.Callback, v)
-		end
-	end
-
-	function wrapped:Set(a, b)
-		local v = (b == nil) and a or b
-		pcall(function()
-			if rawObj then
-				if rawObj.Set then rawObj:Set(v)
-				elseif rawObj.SetValue then rawObj:SetValue(v) end
-			end
-		end)
-		wrapped.Changed(v)
-	end
-	wrapped.SetValue = function(self, v) self:Set(v) end
-	wrapped.SetText  = function(self, v) self:Set(v) end
-	wrapped.SetDesc  = function(self, v)
-		pcall(function() if rawObj and rawObj.SetDesc then rawObj:SetDesc(tostring(v or "")) end end)
-	end
-
 	function wrapped:Get()
-		if rawObj then
-			if rawObj.Get then
-				local ok, res = pcall(function() return rawObj:Get() end)
-				if ok and res ~= nil then return res end
-			end
-			if rawObj.Value ~= nil then return rawObj.Value end
-			if rawObj.value ~= nil then return rawObj.value end
+		if rawObj and rawObj.Get then
+			local ok, res = pcall(function() return rawObj:Get() end)
+			if ok and res ~= nil then return res end
 		end
 		return nil
+	end
+
+	function wrapped:Set(v, silent)
+		if self ~= wrapped and self ~= rawObj and silent == nil then
+			silent = v
+			v = self
+		end
+		pcall(function()
+			if rawObj and rawObj.Set then
+				rawObj:Set(v, silent)
+			else
+				if not silent then self:_fire(v) end
+			end
+		end)
+	end
+	wrapped.SetValue = wrapped.Set
+
+	wrapped.Changed = function(...)
+		local args = table.pack(...)
+		local v = args[1]
+		if (v == wrapped or v == rawObj) and args.n >= 2 then
+			v = args[2]
+		end
+		wrapped:Set(v)
 	end
 
 	function wrapped:Refresh(list)
@@ -249,17 +12844,34 @@ local function wrapElement(rawObj, directCb)
 	end
 	wrapped.SetValues = wrapped.Refresh
 	wrapped.Select = wrapped.Set
+	wrapped.SetText = function(self, t)
+		pcall(function()
+			if rawObj and rawObj.Set then rawObj:Set(t) end
+		end)
+	end
 	wrapped.SetVisible = function(self, v)
-		pcall(function() if rawObj and rawObj.SetVisible then rawObj:SetVisible(v) end end)
+		pcall(function()
+			if rawObj and rawObj.SetVisible then rawObj:SetVisible(v) end
+		end)
 	end
 
 	return setmetatable(wrapped, {
 		__index = function(_, k)
 			if k == "Value" or k == "value" or k == "state" or k == "selected" or k == "Text" or k == "text" then
-				return wrapped:Get()
+				local val = wrapped:Get()
+				if type(val) == "table" then
+					return setmetatable(val, {
+						__index = function(tbl, subK)
+							for _, item in ipairs(tbl) do
+								if item == subK then return true end
+							end
+							return nil
+						end,
+					})
+				end
+				return val
 			end
-			local rawVal = rawget(rawObj, k)
-			if rawVal ~= nil then return rawVal end
+			if rawObj and rawObj[k] ~= nil then return rawObj[k] end
 			return nil
 		end,
 		__newindex = function(_, k, v)
@@ -272,26 +12884,27 @@ local function wrapElement(rawObj, directCb)
 	})
 end
 
-local function adaptGroupbox(rawBox)
-	local box = { _raw = rawBox }
+local function adaptSection(rawSec)
+	local box = { _raw = rawSec }
 
 	function box:AddToggle(name, info)
 		info = info or {}
 		local cb = info.Callback or info.Changed
-		local currentVal = info.Default and true or false
-		local makeToggle = rawBox.Toggle or rawBox.CreateToggle
-		local el = makeToggle(rawBox, {
+		local wrapped
+		local el = rawSec:CreateToggle({
 			Name = info.Text or name,
-			Desc = info.Tooltip,
-			CurrentValue = currentVal,
+			Default = info.Default and true or false,
 			Flag = name,
+			Tooltip = info.Tooltip,
 			Callback = function(v)
-				currentVal = (v and true or false)
-				if el and el.Changed then el.Changed(currentVal)
-				elseif cb then pcall(cb, currentVal) end
+				if wrapped then
+					wrapped:_fire(v)
+				elseif cb then
+					pcall(cb, v)
+				end
 			end,
 		})
-		local wrapped = wrapElement(el, cb)
+		wrapped = wrapElement(el, cb)
 		Toggles[name] = wrapped
 		Options[name] = wrapped
 		return wrapped
@@ -303,70 +12916,115 @@ local function adaptGroupbox(rawBox)
 		local mx = tonumber(info.Max) or 100
 		local inc = tonumber(info.Rounding) or tonumber(info.Step) or 1
 		if inc <= 0 then inc = 1 end
-		local cb = info.Callback
-		local makeSlider = rawBox.Slider or rawBox.CreateSlider
-		local el = makeSlider(rawBox, {
+		local cb = info.Callback or info.Changed
+		local wrapped
+		local el = rawSec:CreateSlider({
 			Name = info.Text or name,
-			Desc = info.Tooltip,
-			Range = { mn, mx },
+			Min = mn,
+			Max = mx,
 			Increment = inc,
 			Suffix = info.Suffix or "",
-			CurrentValue = tonumber(info.Default) or mn,
+			Default = tonumber(info.Default) or mn,
 			Flag = name,
+			Tooltip = info.Tooltip,
 			Callback = function(v)
-				if el and el.Changed then el.Changed(v)
-				elseif cb then pcall(cb, v) end
+				if wrapped then
+					wrapped:_fire(v)
+				elseif cb then
+					pcall(cb, v)
+				end
 			end,
 		})
-		local wrapped = wrapElement(el, cb)
+		wrapped = wrapElement(el, cb)
 		Options[name] = wrapped
 		return wrapped
 	end
 
 	function box:AddDropdown(name, info)
 		info = info or {}
-		local cb = info.Callback
-		local makeDropdown = rawBox.Dropdown or rawBox.CreateDropdown
-		local el = makeDropdown(rawBox, {
+		local cb = info.Callback or info.Changed
+		local vals = info.Values or info.options or {}
+		local isMulti = (info.Multi or info.MultipleOptions) and true or false
+		local defaultVal = info.Default
+		if isMulti and type(defaultVal) == "table" and not defaultVal[1] then
+			local arr = {}
+			for k, v in pairs(defaultVal) do
+				if v == true then table.insert(arr, k) end
+			end
+			defaultVal = arr
+		end
+		local wrapped
+		local el = rawSec:CreateDropdown({
 			Name = info.Text or name,
-			Desc = info.Tooltip,
-			Options = info.Values or info.options or {},
-			CurrentOption = info.Default,
-			MultipleOptions = info.Multi and true or false,
+			Options = vals,
+			Default = defaultVal,
+			Multi = isMulti,
 			Flag = name,
+			Tooltip = info.Tooltip,
 			Callback = function(v)
-				if el and el.Changed then el.Changed(v)
-				elseif cb then pcall(cb, v) end
+				if wrapped then
+					wrapped:_fire(v)
+				elseif cb then
+					pcall(cb, v)
+				end
 			end,
 		})
-		local wrapped = wrapElement(el, cb)
+		wrapped = wrapElement(el, cb)
 		Options[name] = wrapped
 		return wrapped
 	end
 
 	function box:AddInput(name, info)
 		info = info or {}
-		local cb = info.Callback
+		local cb = info.Callback or info.Changed
 		local currentText = tostring(info.Default or "")
-		local makeInput = rawBox.Input or rawBox.CreateInput
-		local el = makeInput(rawBox, {
+		local wrapped
+		local el = rawSec:CreateTextbox({
 			Name = info.Text or name,
-			Desc = info.Tooltip,
-			PlaceholderText = info.Placeholder or "",
-			CurrentValue = currentText,
+			Placeholder = info.Placeholder or "",
+			Default = currentText,
 			Flag = name,
-			Callback = function(txt, enter)
+			Tooltip = info.Tooltip,
+			Callback = function(txt)
 				currentText = tostring(txt or "")
-				if el and el.Changed then el.Changed(currentText)
-				elseif cb then pcall(cb, currentText, enter) end
+				if wrapped then
+					wrapped:_fire(currentText)
+				elseif cb then
+					pcall(cb, currentText)
+				end
 			end,
 		})
-		local wrapped = wrapElement(el, cb)
+		wrapped = wrapElement(el, cb)
 		wrapped.Get = function() return currentText end
 		wrapped.Set = function(self, val)
 			currentText = tostring(val or "")
 			pcall(function() if el.Set then el:Set(currentText) end end)
+			if wrapped then wrapped:_fire(currentText) end
 		end
+		Options[name] = wrapped
+		return wrapped
+	end
+
+	function box:AddKeybind(name, info)
+		info = info or {}
+		local cb = info.Callback or info.Changed
+		local defaultKey = info.Default or info.CurrentKeybind or Enum.KeyCode.RightControl
+		local wrapped
+		local el = rawSec:CreateKeybind({
+			Name = info.Text or name,
+			Default = defaultKey,
+			Mode = "Toggle",
+			Flag = name,
+			Tooltip = info.Tooltip,
+			Callback = function(k)
+				if wrapped then
+					wrapped:_fire(k)
+				elseif cb then
+					pcall(cb, k)
+				end
+			end,
+		})
+		wrapped = wrapElement(el, cb)
 		Options[name] = wrapped
 		return wrapped
 	end
@@ -374,10 +13032,8 @@ local function adaptGroupbox(rawBox)
 	function box:AddButton(name, info)
 		local bName = (type(info) == "table" and (info.Text or info.name)) or name
 		local cb = (type(info) == "table" and info.Callback) or (type(info) == "function" and info) or function() end
-		local makeButton = rawBox.Button or rawBox.CreateButton
-		local el = makeButton(rawBox, {
+		local el = rawSec:CreateButton({
 			Name = bName,
-			Style = "Primary",
 			Callback = cb,
 		})
 		return wrapElement(el, cb)
@@ -385,144 +13041,92 @@ local function adaptGroupbox(rawBox)
 
 	function box:AddLabel(info)
 		local txt = (type(info) == "table" and (info.Text or info.text)) or tostring(info or "")
-		local makeLabel = rawBox.Label or rawBox.CreateLabel
-		local el = makeLabel(rawBox, { Text = txt })
+		local el = rawSec:CreateLabel({ Text = txt })
 		local wrapped = wrapElement(el)
 		wrapped.SetText = function(self, t)
 			pcall(function() if el.Set then el:Set(tostring(t or "")) end end)
 		end
-		wrapped.Set = wrapped.SetText
 		return wrapped
 	end
 
 	function box:AddDivider()
-		local makeDivider = rawBox.Divider or rawBox.CreateDivider
-		pcall(function() makeDivider(rawBox) end)
-	end
-
-	function box:AddStatGrid(name, info)
-		local grid = { _items = {} }
-		info = info or {}
-		local items = info.Items or {}
-		local makeStatus = rawBox.Status or rawBox.CreateStatus
-		for _, item in ipairs(items) do
-			local itemName = item.Text or item.Name or "Stat"
-			local startVal = tostring(item.Value or "0")
-			local isPinned = (itemName == "Gold" or itemName == "Stairs" or itemName == "Gold/s")
-			local tone = (itemName == "Gold" and "Success") or (itemName == "Gold/s" and "Warning") or "Accent"
-			local statusObj = makeStatus(rawBox, {
-				Name = itemName,
-				Value = startVal,
-				Style = "Row",
-				Tone = tone,
-				Pin = isPinned,
-			})
-			grid._items[itemName] = statusObj
-		end
-		function grid:SetValue(key, val, color)
-			local st = grid._items[key]
-			if st and st.Set then
-				pcall(function() st:Set(tostring(val or "0")) end)
-			end
-		end
-		return grid
-	end
-
-	function box:AddDiscordBox(name, info)
-		local makeButton = rawBox.Button or rawBox.CreateButton
-		makeButton(rawBox, {
-			Name = "Discord: " .. BRAND.Invite,
-			Style = "Primary",
-			Callback = function()
-				pcall(function() if setclipboard then setclipboard(BRAND.Discord) end end)
-				Window:Notify({ Title = BRAND.Name, Content = "Copied Discord Invite to clipboard!", Duration = 3 })
-			end,
-		})
-	end
-
-	function box:AddPlayerInfo(info)
-		local makeStatus = rawBox.Status or rawBox.CreateStatus
-		local pName = LocalPlayer and LocalPlayer.Name or "Player"
-		makeStatus(rawBox, {
-			Name = "Player",
-			Value = pName,
-			Style = "Row",
-			Tone = "Accent",
-		})
+		return rawSec:CreateDivider()
 	end
 
 	return setmetatable(box, {
 		__index = function(_, k)
-			local rawVal = rawget(rawBox, k)
+			local rawVal = rawget(rawSec, k)
 			if rawVal ~= nil then return rawVal end
 			return nil
 		end,
 	})
 end
 
-local function adaptSubTab(rawSubTab)
-	local sub = { _raw = rawSubTab }
+local function adaptSubTab(rawTab, subName)
+	local sub = { _tab = rawTab, _name = subName }
 
 	function sub:AddLeftGroupbox(name, icon)
-		local makeGroup = rawSubTab.AddLeftGroupbox or rawSubTab.Groupbox
-		local el = makeGroup(rawSubTab, { Name = name, Icon = icon or "circle", Side = "Left" })
-		return adaptGroupbox(el)
+		local secName = type(name) == "table" and (name.Name or name.Text) or name
+		local secIcon = (type(name) == "table" and name.Icon) or icon
+		local s = rawTab:CreateSection({ Name = secName, Column = 1, Icon = secIcon })
+		return adaptSection(s)
 	end
 
 	function sub:AddRightGroupbox(name, icon)
-		local makeGroup = rawSubTab.AddRightGroupbox or rawSubTab.Groupbox
-		local el = makeGroup(rawSubTab, { Name = name, Icon = icon or "circle", Side = "Right" })
-		return adaptGroupbox(el)
+		local secName = type(name) == "table" and (name.Name or name.Text) or name
+		local secIcon = (type(name) == "table" and name.Icon) or icon
+		local s = rawTab:CreateSection({ Name = secName, Column = 2, Icon = secIcon })
+		return adaptSection(s)
 	end
 
 	function sub:AddGroupbox(info)
-		local makeGroup = rawSubTab.AddGroupbox or rawSubTab.Groupbox
-		local el = makeGroup(rawSubTab, info)
-		return adaptGroupbox(el)
+		local name = type(info) == "table" and (info.Name or info.Text) or info
+		local col = (type(info) == "table" and info.Side == "Right") and 2 or 1
+		local icon = type(info) == "table" and info.Icon or nil
+		local s = rawTab:CreateSection({ Name = name, Column = col, Icon = icon })
+		return adaptSection(s)
 	end
-	sub.CreateGroupbox = sub.AddGroupbox
 
-	return setmetatable(sub, {
-		__index = function(_, k)
-			local rawVal = rawget(rawSubTab, k)
-			if rawVal ~= nil then return rawVal end
-			return nil
-		end,
-	})
+	return sub
 end
 
 local function adaptTab(rawTab)
 	local tab = { _raw = rawTab }
 
 	function tab:AddSubTab(name, icon)
-		local makeSub = rawTab.SubTab or rawTab.CreateSubTab
-		local el = makeSub(rawTab, { Name = name, Icon = icon or "layers" })
-		return adaptSubTab(el)
+		return adaptSubTab(rawTab, name)
 	end
 
 	function tab:AddLeftGroupbox(name, icon)
-		local makeGroup = rawTab.AddLeftGroupbox or rawTab.Groupbox
-		local el = makeGroup(rawTab, { Name = name, Icon = icon or "circle", Side = "Left" })
-		return adaptGroupbox(el)
+		local secName = type(name) == "table" and (name.Name or name.Text) or name
+		local secIcon = (type(name) == "table" and name.Icon) or icon
+		local s = rawTab:CreateSection({ Name = secName, Column = 1, Icon = secIcon })
+		return adaptSection(s)
 	end
 
 	function tab:AddRightGroupbox(name, icon)
-		local makeGroup = rawTab.AddRightGroupbox or rawTab.Groupbox
-		local el = makeGroup(rawTab, { Name = name, Icon = icon or "circle", Side = "Right" })
-		return adaptGroupbox(el)
+		local secName = type(name) == "table" and (name.Name or name.Text) or name
+		local secIcon = (type(name) == "table" and name.Icon) or icon
+		local s = rawTab:CreateSection({ Name = secName, Column = 2, Icon = secIcon })
+		return adaptSection(s)
 	end
 
 	function tab:AddGroupbox(info)
-		local makeGroup = rawTab.AddGroupbox or rawTab.Groupbox
-		local el = makeGroup(rawTab, info)
-		return adaptGroupbox(el)
+		local name = type(info) == "table" and (info.Name or info.Text) or info
+		local col = (type(info) == "table" and info.Side == "Right") and 2 or 1
+		local icon = type(info) == "table" and info.Icon or nil
+		local s = rawTab:CreateSection({ Name = name, Column = col, Icon = icon })
+		return adaptSection(s)
 	end
-	tab.CreateGroupbox = tab.AddGroupbox
 
 	function tab:AddPlayerInfo(name, info)
-		local box = self:AddLeftGroupbox("Player Info", "user")
-		box:AddPlayerInfo(info)
-		return box
+		local s = rawTab:CreateSection({ Name = "Player Info", Column = 2, Icon = "lucide:user" })
+		local pName = LocalPlayer and (LocalPlayer.DisplayName .. " (@" .. LocalPlayer.Name .. ")") or "Player"
+		local uId = LocalPlayer and tostring(LocalPlayer.UserId) or "0"
+		s:CreateLabel({ Text = "👤 " .. pName, Bold = true, Color = BRAND.Cyan })
+		s:CreateLabel({ Text = "🆔 UserId: " .. uId })
+		s:CreateLabel({ Text = "🎮 " .. GAME_NAME .. " | " .. BRAND.Name })
+		return adaptSection(s)
 	end
 
 	return setmetatable(tab, {
@@ -535,16 +13139,17 @@ local function adaptTab(rawTab)
 end
 
 -- ===================== LIBRARY & SAVEMANAGER SHIM =====================
-local Library = {
-	Toggles = Toggles,
-	Options = Options,
-	Scheme  = {},
-	Notify = function(self, o)
+pcall(function()
+	Library.Toggles = Toggles
+	Library.Options = Options
+	Library.Flags   = Library.Flags or {}
+	local _oldNotify = Library.Notify
+	Library.Notify = function(self, o)
 		o = o or {}
 		local title = o.Title or o.title or BRAND.Name
-		local desc  = o.Description or o.description or o.Content or o.content or ""
+		local desc  = o.Description or o.description or o.Content or o.content or o.Text or o.text or ""
 		local dur   = o.Time or o.time or o.Duration or o.duration or 4
-		local nType = o.Type or o.type or "Info"
+		local nType = o.Type or o.type or o.Kind or o.kind or "Info"
 		if nType == "Error" then nType = "Warning" end
 		pcall(function()
 			if Window and Window.Notify then
@@ -552,15 +13157,24 @@ local Library = {
 					Title    = title,
 					Content  = desc,
 					Duration = dur,
-					Type     = nType,
+					Kind     = nType,
+				})
+			elseif _oldNotify then
+				_oldNotify(self, {
+					Title    = title,
+					Content  = desc,
+					Duration = dur,
+					Kind     = nType,
 				})
 			end
 		end)
-	end,
-	SetFont = function() end,
-	UpdateColorsUsingRegistry = function() end,
-	GetCustomIcon = function(self, icon) return icon end,
-}
+	end
+	Library.SetFont = function() end
+	Library.UpdateColorsUsingRegistry = function() end
+	Library.GetCustomIcon = function(self, icon) return icon end
+end)
+
+local LibraryShim = Library
 
 local SaveManager = {
 	SetLibrary = function() end,
@@ -569,21 +13183,53 @@ local SaveManager = {
 	SetFolder = function() end,
 	BuildConfigSection = function(self, tab)
 		pcall(function()
+			-- In SpectreUI, Window:CreateSettingsTab() builds the comprehensive config manager,
+			-- hotkey binder, window controls, and unload button.
 			local target = tab._raw or tab
-			target:CreateConfigManager({ Side = "Left" })
-			target:CreateThemeManager({ Side = "Right" })
+			local menuSec = target:CreateSection({ Name = "Menu & Utilities", Column = 1, Icon = "lucide:shield-check" })
+			
+			local afkVal = false
+			pcall(function()
+				if getFlag then afkVal = getFlag("AntiAfkOn") ~= false end
+			end)
+
+			menuSec:CreateToggle({
+				Name = "Anti AFK",
+				Default = afkVal,
+				Flag = "AntiAFK_Menu",
+				Callback = function(v)
+					pcall(function()
+						if setFlag then setFlag("AntiAfkOn", v == true) end
+						if Toggles and Toggles.AntiAFK and Toggles.AntiAFK.Value ~= v then
+							Toggles.AntiAFK:Set(v)
+						end
+					end)
+				end,
+			})
+			
+			menuSec:CreateButton({
+				Name = "Unload Script",
+				Callback = function()
+					pcall(function()
+						Window:Notify({ Title = BRAND.Name, Content = "Unloading script...", Duration = 2 })
+					end)
+					task.wait(0.2)
+					pcall(function() ReplicatedStorage:SetAttribute("LH_LoadGen", 0) end)
+					pcall(function() Library:Unload() end)
+				end,
+			})
 		end)
 	end,
 }
 
 local Tabs = {}
 do
-	local rawMain        = Window:CreateTab({ Name = "Main", Icon = "layout-dashboard" })
-	local rawFarming     = Window:CreateTab({ Name = "Farming", Icon = "zap" })
-	local rawProgression = Window:CreateTab({ Name = "Progression", Icon = "chevrons-up" })
-	local rawMisc        = Window:CreateTab({ Name = "Misc", Icon = "gamepad-2" })
-	local rawSettings    = Window:CreateTab({ Name = "Settings", Icon = "settings" })
-	local rawCredits     = Window:CreateTab({ Name = "Credits", Icon = "star" })
+	local rawMain        = Window:CreateTab({ Name = "MAIN", Icon = "lucide:house" })
+	local rawFarming     = Window:CreateTab({ Name = "FARMING", Icon = "lucide:zap" })
+	local rawProgression = Window:CreateTab({ Name = "PROGRESSION", Icon = "lucide:chevrons-up" })
+	local rawMisc        = Window:CreateTab({ Name = "MISC", Icon = "lucide:gamepad-2" })
+	local rawSettings    = Window:CreateTab({ Name = "CONFIGS", Icon = "lucide:folder" })
+	local rawCredits     = Window:CreateTab({ Name = "CREDITS", Icon = "lucide:star" })
 
 	Tabs.Main        = adaptTab(rawMain)
 	Tabs.Farming     = adaptTab(rawFarming)
@@ -1587,7 +14233,7 @@ do
 		Tabs.Main:AddPlayerInfo("LiquidBanner", {
 			Title = "Welcome to <b>" .. BRAND.Name .. "</b>",
 			Description = {
-				GAME_NAME .. " | press <b>Left Control / RCtrl</b> to toggle the menu",
+				GAME_NAME .. " | press <b>RightControl</b> to toggle the menu",
 			},
 			ThumbnailType = "HeadShot",
 			Height = 84,
@@ -3923,19 +16569,27 @@ splashClose()
 Library:Notify({
 	Title = BRAND.Name,
 	Description = string.format(
-		"Loaded for %s. %d/%d remotes live. Left Control / RCtrl toggles the menu.",
+		"Loaded for %s. %d/%d remotes live. RightControl toggles the menu.",
 		GAME_NAME, REMOTE_COUNT, REMOTE_TOTAL),
 	Time = 6,
 	Type = REMOTE_COUNT == REMOTE_TOTAL and "Info" or "Error",
 })
 
 
+-- Create built-in THEME and SETTINGS tabs (SpectreUI official features)
+pcall(function()
+	Window:CreateThemeTab()
+	Window:CreateSettingsTab()
+end)
+
 -- Auto-load saved player config if enabled
-pcall(function() Window:LoadAutoload() end)
+Window:OnLoaded(function()
+	pcall(function() Library:AutoloadConfig("auto", true) end)
+end)
 
 Window:Notify({
 	Title = "SpecreWare Loaded",
-	Content = string.format("Tower Incremental loaded! %d/%d remotes live. RightControl / LCtrl to toggle.", REMOTE_COUNT, REMOTE_TOTAL),
-	Type = "Success",
+	Content = string.format("Tower Incremental loaded! %d/%d remotes live. RightControl to toggle.", REMOTE_COUNT, REMOTE_TOTAL),
+	Kind = "Success",
 	Duration = 6,
 })
