@@ -1,20 +1,3 @@
---[[
-	SpecreWare | Tower Incremental
-	UI: Decent UI / Airflow UI (OuroFlow) v2
-	Theme: Spectre (Sleek Dark Navy / Graphite Black / Electric Cyan)
-	Brand: SpecreWare
-	Discord: https://discord.gg/GdKxvcHzjS
-	Game: [UPD3] Tower Incremental by Lucky CStudios
-	PlaceId: 75766778174856 / Universe: 10765067592
-
-	Features:
-	  • Decent UI v2 with Spectre Theme (สีฟ้าน้ำเงินเทาดำ หรูหรา สบายตา คมชัด)
-	  • Draggable Dynamic Island Minimize with Pinned Live Stats (Gold, Stairs, Gold/s)
-	  • 2-Column Collapsible Groupboxes with SubTabs
-	  • 100% of Tower Incremental Game Automation Logic Preserved Intact
-]]
-
--- ===================== DECENT UI LIBRARY LOADER =====================
 local DecentUI
 pcall(function()
 	if isfile and isfile("DecentUI.luau") and readfile then
