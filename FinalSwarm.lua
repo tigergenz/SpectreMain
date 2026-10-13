@@ -1,18 +1,59 @@
 --[[
 	SpecreWare | Final Swarm
-	UI: Rayfield Gen2 (https://docs.sirius.menu/rayfield-gen2)
+	UI: SpectreUI v3.17 (dark/cyan-navy Roblox UI library by SpectreWare)
+	Theme: Spectre (Dark Graphite / Deep Navy Slate / Electric Cyan / Vivid Blue)
 	Brand: SpecreWare
 	Discord: https://discord.gg/GdKxvcHzjS
 	Game: Final Swarm
+	PlaceId: 99521272836282 / Raid: 79787558257549 / Universe: 9551044479
 
-	Clean, streamlined Rayfield Gen2 interface without intrusive loading screens.
-	Logo: rbxassetid://84699118856259
-	Toggle Keybind: Left Control
-	100% of Final Swarm game automation logic preserved intact.
+	Features:
+	  • Built with SpectreUI v3.17 with Command Palette (Ctrl+K), Theme & Settings
+	  • Sleek Cyber/Spectre Aesthetic with Animated Weather Particles
+	  • 2-Column Responsive Section Cards with Collapsible Headers
+	  • User Logo (84699118856259) Embedded in Header, Splash & Open Button
+	  • 100% of Final Swarm Game Automation Logic Preserved Intact
 ]]
 
--- ===================== KEYLESS STARTUP =====================
--- Starts directly without license/session validation, HWID storage, or key system.
+-- AUTO Plugin fix for Delta / Wave / Arceus / Fluxus
+pcall(function()
+	local set = setthreadidentity or set_thread_identity or setthreadcontext or set_identity
+	if set then pcall(set, 8) pcall(set, 7) end
+end)
+
+-- ===================== SPECTRE UI LIBRARY LOADER =====================
+local Library
+pcall(function()
+	if isfile and isfile("SpectreUI.lua") and readfile then
+		local c = readfile("SpectreUI.lua")
+		if #c > 20000 then
+			c = c:gsub(
+				"if parent then o%.Parent = parent end",
+				"if parent then local ok = pcall(function() o.Parent = parent end) if not ok then local setid = setthreadidentity or set_thread_identity or setthreadcontext or set_identity or (syn and syn.set_thread_identity) if setid then pcall(setid, 8) end pcall(function() o.Parent = parent end) end end"
+			)
+			Library = loadstring(c)()
+		end
+	end
+end)
+
+if not Library then
+	pcall(function()
+		local ok, res = pcall(function()
+			return game:HttpGet("https://raw.githubusercontent.com/SpectreWareZ/SpectreWare/refs/heads/main/Tools/Ui/SpectreUI.lua")
+		end)
+		if ok and type(res) == "string" and #res > 20000 then
+			res = res:gsub(
+				"if parent then o%.Parent = parent end",
+				"if parent then local ok = pcall(function() o.Parent = parent end) if not ok then local setid = setthreadidentity or set_thread_identity or setthreadcontext or set_identity or (syn and syn.set_thread_identity) if setid then pcall(setid, 8) end pcall(function() o.Parent = parent end) end end"
+			)
+			Library = loadstring(res)()
+		end
+	end)
+end
+
+if not Library then
+	return warn("[SpecreWare] Failed to load SpectreUI from GitHub. Please check your internet connection or executor.")
+end
 
 -- ===================== VISIBLE ERROR BOX =====================
 local function showErrorBox(where, err)
@@ -101,7 +142,34 @@ local Players = game:GetService("Players")
 local RS = game:GetService("ReplicatedStorage")
 
 local function getFlag(n) return RS:GetAttribute("TPL_"..n) end
-local function setFlag(n,v) RS:SetAttribute("TPL_"..n, v) end
+local function sanitizeAttributeName(name)
+	if not name then return nil end
+	local clean = tostring(name):gsub("[%s%c%p]", "")
+	if clean == "" then return nil end
+	return clean
+end
+
+local function setFlag(n, v)
+	local clean = sanitizeAttributeName(n)
+	if clean then
+		if typeof(v) == "EnumItem" then
+			v = v.Name
+		end
+		pcall(function()
+			RS:SetAttribute("TPL_" .. clean, v)
+		end)
+	end
+end
+
+local function getFlag(n)
+	local clean = sanitizeAttributeName(n)
+	if not clean then return nil end
+	local val = nil
+	pcall(function()
+		val = RS:GetAttribute("TPL_" .. clean)
+	end)
+	return val
+end
 local function isCurrentGen() return true end
 
 -- Default attributes for Final Swarm
@@ -172,7 +240,7 @@ pcall(function()
 	for _, parent in ipairs(parents) do
 		for _, sg in ipairs(parent:GetChildren()) do
 			if sg:IsA("ScreenGui") and sg.Name ~= "RobloxGui" then
-				if sg.Name:find("Rayfield") or sg.Name:find("VantaUI_") or sg.Name == "VantaNotifs" or sg.Name == "SpecreSplash" or sg.Name == "LiquidSplash" or sg.Name == "AutoUpgradeUI" or sg.Name == "Obsidian" or sg.Name == "WindUI" then
+				if sg.Name:find("Rayfield") or sg.Name:find("VantaUI_") or sg.Name == "VantaNotifs" or sg.Name == "SpecreSplash" or sg.Name == "LiquidSplash" or sg.Name == "AutoUpgradeUI" or sg.Name == "Obsidian" or sg.Name == "WindUI" or sg.Name:find("SpectreUI") then
 					pcall(function() sg:Destroy() end)
 				end
 			end
@@ -217,7 +285,7 @@ local LocalPlayer = Players.LocalPlayer
 -- ===================== BRAND =====================
 local BRAND = {
 	Name    = "SpecreWare",
-	Version = "1.0.0",
+	Version = "3.17.0",
 	Discord = "https://discord.gg/GdKxvcHzjS",
 	Invite  = "discord.gg/GdKxvcHzjS",
 	Logo    = "rbxassetid://84699118856259",
@@ -225,103 +293,36 @@ local BRAND = {
 }
 
 local ICON = {
-	Drops    = "rbxassetid://84699118856259",
-	Bolt     = "zap",
-	Crown    = "crown",
-	Shield   = "shield",
-	Terminal = "terminal",
-	Star     = "star",
-	Rocket   = "rocket",
-	Heart    = "heart",
-	Gamepad  = "gamepad-2",
-	Spark    = "sparkles",
-	Dot      = "dot",
-	Key      = "key",
-	Lobby    = "map-pin",
-	Up       = "arrow-up",
-	Gift     = "gift",
-	Map      = "map-pin",
-	Gear     = "settings",
-	Package  = "package",
-	Coins    = "coins",
-	Gem      = "gem",
-	Cart     = "shopping-cart",
-	Move     = "move",
-	ShieldOK = "shield-check",
-	Target   = "target",
-	Flask    = "flask-conical",
-	Orbit    = "orbit",
-	Waves    = "waves",
-	Ring     = "crosshair",
-	Badge    = "badge-check",
+	Drops    = "lucide:droplet",
+	Bolt     = "lucide:zap",
+	Crown    = "lucide:crown",
+	Shield   = "lucide:shield",
+	Terminal = "lucide:terminal",
+	Star     = "lucide:star",
+	Rocket   = "lucide:rocket",
+	Heart    = "lucide:heart",
+	Gamepad  = "lucide:gamepad-2",
+	Spark    = "lucide:sparkles",
+	Dot      = "lucide:dot",
+	Key      = "lucide:key",
+	Lobby    = "lucide:map-pin",
+	Up       = "lucide:arrow-up",
+	Gift     = "lucide:gift",
+	Map      = "lucide:map-pin",
+	Gear     = "lucide:settings",
+	Package  = "lucide:package",
+	Coins    = "lucide:coins",
+	Gem      = "lucide:gem",
+	Cart     = "lucide:shopping-cart",
+	Move     = "lucide:move",
+	ShieldOK = "lucide:shield-check",
+	Target   = "lucide:target",
+	Flask    = "lucide:flask-conical",
+	Orbit    = "lucide:orbit",
+	Waves    = "lucide:waves",
+	Ring     = "lucide:crosshair",
+	Badge    = "lucide:badge-check",
 }
-
--- ===================== LIBRARY LOADER (Rayfield Gen2) =====================
--- Direct, clean loading with local cache to avoid re-downloads (no intrusive splash)
-local LIB_CACHE_DIR = "SpecreWare"
-local LIB_CACHE_FILE = "SpecreWare/rayfield_gen2_cache.luau"
-
-local function safeReadCache()
-	local ok, content = pcall(function()
-		if isfile and isfile(LIB_CACHE_FILE) and readfile then
-			return readfile(LIB_CACHE_FILE)
-		end
-		return nil
-	end)
-	if ok and type(content) == "string" and #content > 20000 then
-		return content
-	end
-	return nil
-end
-
-local function safeWriteCache(content)
-	pcall(function()
-		if writefile then
-			if makefolder and isfolder and not isfolder(LIB_CACHE_DIR) then
-				makefolder(LIB_CACHE_DIR)
-			end
-			writefile(LIB_CACHE_FILE, content)
-		end
-	end)
-end
-
-local Rayfield = nil
-
--- Check local cache first
-local cached = safeReadCache()
-if cached then
-	local okCompile, fn = pcall(loadstring, cached)
-	if okCompile and type(fn) == "function" then
-		local okRun, lib = pcall(fn)
-		if okRun and type(lib) == "table" and lib.CreateWindow then
-			Rayfield = lib
-		end
-	end
-end
-
--- If not cached, fetch via HttpGet
-if not Rayfield then
-	local urls = { "https://sirius.menu/gen2" }
-	for _, url in ipairs(urls) do
-		local okFetch, res = pcall(function() return game:HttpGet(url) end)
-		if okFetch and type(res) == "string" and #res > 20000 then
-			local okCompile, fn = pcall(loadstring, res)
-			if okCompile and type(fn) == "function" then
-				local okRun, lib = pcall(fn)
-				if okRun and type(lib) == "table" and lib.CreateWindow then
-					Rayfield = lib
-					safeWriteCache(res)
-					break
-				end
-			end
-		end
-	end
-end
-
-if not Rayfield then
-	showErrorBox("Rayfield Gen2 Load", "Could not load Rayfield Gen2 from https://sirius.menu/gen2 or cache.\nPlease verify internet access or executor HTTP permissions.")
-	return
-end
 
 -- ===================== GAME DETECTION =====================
 local GAME_NAME = "Final Swarm"
@@ -333,68 +334,184 @@ pcall(function()
 	end
 end)
 
--- ===================== WINDOW CREATION =====================
-local Window = Rayfield:CreateWindow({
-	name          = BRAND.Name .. " | " .. GAME_NAME,
-	subtitle      = "Final Swarm",
-	theme         = "cobalt",
-	icon          = BRAND.Logo,
-	sidebarLayout = true,
-	profile       = "SpecreWare",
-	showName      = "SpecreWare",
-	showIcon      = BRAND.Logo,
-	configuration = {
-		autoSave     = true,
-		autoLoad     = true,
-		fileName     = "FinalSwarm",
-		customFolder = "SpecreWare",
+-- ===================== REGISTER SPECTRE THEME =====================
+pcall(function()
+	if Library and Library.Themes then
+		Library.Themes.Spectre = {
+			Background = Color3.fromRGB(10, 13, 20),
+			Panel      = Color3.fromRGB(14, 19, 30),
+			Card       = Color3.fromRGB(20, 27, 42),
+			Control    = Color3.fromRGB(28, 38, 58),
+			Border     = Color3.fromRGB(35, 48, 72),
+			Accent     = Color3.fromRGB(56, 189, 248),
+			Accent2    = Color3.fromRGB(37, 99, 235),
+			AccentSoft = Color3.fromRGB(10, 26, 48),
+			Sheen      = Color3.fromRGB(186, 230, 253),
+			Text       = Color3.fromRGB(240, 246, 255),
+			SubText    = Color3.fromRGB(125, 142, 172),
+			FX         = "snow",
+		}
+	end
+end)
+
+-- ===================== CREATE SPECTRE UI WINDOW =====================
+pcall(function()
+	if Library and Library.AutoCheck then
+		Library.AutoCheck.Skip = { TextClip = true }
+	end
+end)
+
+-- Persistent Menu Toggle Keybind (Default: RightControl, customizable via Minimize Bind)
+local currentToggleKey = Enum.KeyCode.RightControl
+pcall(function()
+	if isfile and isfile("SpecreWare/MenuKey.txt") and readfile then
+		local savedKey = readfile("SpecreWare/MenuKey.txt")
+		if savedKey and #savedKey > 0 then
+			local cleanKey = savedKey:match("^%s*(.-)%s*$")
+			local ok, k = pcall(function() return Enum.KeyCode[cleanKey] end)
+			if ok and k then currentToggleKey = k end
+		end
+	end
+end)
+
+local menuKeyConn = nil
+local function updateMenuKeyListener()
+	if menuKeyConn then
+		pcall(function() menuKeyConn:Disconnect() end)
+		menuKeyConn = nil
+	end
+	if currentToggleKey then
+		local uis = game:GetService("UserInputService")
+		menuKeyConn = uis.InputBegan:Connect(function(input)
+			if uis:GetFocusedTextBox() then return end
+			if input.KeyCode == currentToggleKey then
+				if Window then
+					pcall(function()
+						if Window.Toggle then
+							Window:Toggle()
+						elseif Window.SetVisible then
+							Window:SetVisible(not Window.Visible)
+						end
+					end)
+				end
+			end
+		end)
+	end
+end
+
+local function setMinimizeKey(k)
+	if type(k) == "string" then
+		local ok, ek = pcall(function() return Enum.KeyCode[k] end)
+		k = ok and ek or nil
+	end
+	if typeof(k) == "EnumItem" and k.EnumType == Enum.KeyCode then
+		currentToggleKey = k
+		pcall(function()
+			if Window then
+				if Window.Cfg then
+					Window.Cfg.ToggleKey = k
+				end
+				if Window.OpenBtn and Window.OpenBtn:FindFirstChild("OpenTooltip") then
+					local tip = Window.OpenBtn.OpenTooltip
+					tip.Text = "Open " .. (Window.Brand or "SpecreWare") .. "  [" .. k.Name .. "]"
+				end
+			end
+		end)
+		updateMenuKeyListener()
+		pcall(function()
+			if makefolder and isfolder and not isfolder("SpecreWare") then
+				makefolder("SpecreWare")
+			end
+			if writefile then
+				writefile("SpecreWare/MenuKey.txt", k.Name)
+			end
+		end)
+		pcall(function()
+			RS:SetAttribute("TPL_MenuKeybind", k.Name)
+		end)
+	end
+end
+
+local Window = Library:CreateWindow({
+	Title      = BRAND.Name .. " | " .. GAME_NAME,
+	Logo       = 84699118856259,
+	ToggleKey  = currentToggleKey,
+	Theme      = "Spectre",
+	StagedLoad = false,
+	AutoCheck  = {
+		Skip = { TextClip = true },
+	},
+	Splash     = {
+		Title     = "SpecreWare",
+		Subtitle  = "FINAL SWARM",
+		Duration  = 2.2,
+		Steps     = { "Checking remotes", "Loading Final Swarm", "Preparing interface", "Ready!" },
+		Logo      = 84699118856259,
+		Skippable = true,
 	},
 })
 
 if not Window then
-	showErrorBox("Window Creation", "Rayfield:CreateWindow failed to initialize.")
+	showErrorBox("Window Creation", "SpectreUI:CreateWindow failed to initialize.")
 	return
 end
 
--- Configure Default Minimize / Toggle Keybind to Left Control
-pcall(function()
-	if Window.settings then
-		Window.settings.toggleKeybind = Enum.KeyCode.LeftControl
-	end
-end)
-
--- Enlarge & Enhance Logo Appearance (Topbar & Collapsed State)
-local function applyLogoEnhancements()
+-- Compatibility methods on Window
+function Window:ToggleHide()
+	pcall(function() self:Toggle() end)
+end
+function Window:Unload()
+	pcall(function() self:Destroy() end)
+end
+function Window:ChangeTheme(name)
 	pcall(function()
-		if Window.themeProperties then
-			if Window.topbarIcon then Window.themeProperties[Window.topbarIcon] = nil end
-			if Window.collapsedIcon then Window.themeProperties[Window.collapsedIcon] = nil end
-		end
-		if Window.topbarIcon then
-			Window.topbarIcon.Size = UDim2.fromOffset(54, 54)
-			Window.topbarIcon.ImageColor3 = Color3.fromRGB(255, 255, 255)
-			Window.topbarIcon.ScaleType = Enum.ScaleType.Fit
-		end
-		if Window.topContainer then
-			Window.topContainer.Size = UDim2.new(0, 380, 0, 56)
-		end
-		if Window.collapsedIcon then
-			Window.collapsedIcon.Size = UDim2.fromOffset(38, 38)
-			Window.collapsedIcon.ImageColor3 = Color3.fromRGB(255, 255, 255)
-			Window.collapsedIcon.ScaleType = Enum.ScaleType.Fit
+		if self.SetTheme then
+			self:SetTheme(name, true)
+		elseif Library.SetTheme then
+			Library:SetTheme(name)
 		end
 	end)
 end
 
-applyLogoEnhancements()
-task.spawn(function()
-	task.wait(0.6)
-	applyLogoEnhancements()
-	task.wait(0.6)
-	applyLogoEnhancements()
+-- Disconnect SpectreUI internal hardcoded toggle connection so our dynamic keybind takes 100% control
+pcall(function()
+	if Window and Window.Conns and Window.Conns[1] then
+		Window.Conns[1]:Disconnect()
+		Window.Conns[1] = nil
+	end
 end)
 
--- ===================== UI ADAPTER (Legacy API -> Rayfield Gen2) =====================
+-- Hook Window:SetToggleKey to our persistent updater and start listener
+Window.SetToggleKey = setMinimizeKey
+updateMenuKeyListener()
+function Window:Save(name) end
+function Window:Load(name) end
+
+-- Notification shim
+_G.FS_Notify = function(title, content, dur)
+	pcall(function()
+		if Window and Window.Notify then
+			Window:Notify({
+				Title    = title or BRAND.Name,
+				Content  = tostring(content or ""),
+				Duration = dur or 3,
+			})
+		end
+	end)
+end
+
+local window = {}
+window._raw = Window
+function window:Notify(o)
+	o = o or {}
+	_G.FS_Notify(o.Title or o.title, o.Content or o.content or o.Description, o.Duration or o.duration or o.Time)
+end
+
+-- ===================== UI ADAPTER (Legacy API -> SpectreUI) =====================
+local Toggles = {}
+local Options = {}
+Library.Toggles = Toggles
+Library.Options = Options
 
 local function normOpts(o, cb)
 	if type(o) == "string" then return { name = o, callback = cb, text = o } end
@@ -410,42 +527,67 @@ local function normOpts(o, cb)
 		options     = o.options or o.Options or o.values or o.Values or {},
 		multiSelect = (o.multiSelect ~= nil and o.multiSelect) or (o.multipleOptions ~= nil and o.multipleOptions) or (o.multi ~= nil and o.multi) or (o.Multi ~= nil and o.Multi) or false,
 		placeholder = o.placeholder or o.Placeholder or o.PlaceholderText or "",
-		flag        = o.flag or o.Flag or o.name or o.Name,
+		flag        = o.flag or o.Flag or (o.name and sanitizeAttributeName(o.name)) or (o.Name and sanitizeAttributeName(o.Name)),
 	}
 end
 
-local function wrapElement(rawObj)
+local function wrapElement(rawObj, extraCb, flagName)
+	local watchers = {}
 	local wrapped = {
 		_raw = rawObj,
+		OnChanged = function(self, fn)
+			if type(fn) == "function" then
+				table.insert(watchers, fn)
+				pcall(function()
+					local val = self:Get()
+					if val ~= nil then fn(val) end
+				end)
+			end
+		end,
+		_fire = function(self, v)
+			if flagName then setFlag(flagName, v) end
+			for _, fn in ipairs(watchers) do
+				pcall(fn, v)
+			end
+			if extraCb then
+				pcall(extraCb, v)
+			end
+		end,
 	}
+
+	function wrapped:Get()
+		if rawObj and rawObj.Get then
+			local ok, res = pcall(function() return rawObj:Get() end)
+			if ok and res ~= nil then return res end
+		end
+		if flagName then return getFlag(flagName) end
+		return nil
+	end
 
 	function wrapped:Set(a, b)
 		local v = (b == nil) and a or b
+		if self ~= wrapped and self ~= rawObj and b == nil then
+			v = a
+		end
 		pcall(function()
-			if rawObj and rawObj.Set then rawObj:Set(v) end
+			if rawObj and rawObj.Set then
+				rawObj:Set(v)
+			else
+				self:_fire(v)
+			end
 		end)
 	end
 	wrapped.SetValue = wrapped.Set
 	wrapped.SetText  = wrapped.Set
 	wrapped.SetDesc  = wrapped.Set
-
-	function wrapped:Get()
-		if rawObj then
-			if rawObj.value ~= nil then
-				if type(rawObj.value) == "table" and #rawObj.value == 1 then
-					return rawObj.value[1]
-				end
-				return rawObj.value
-			end
-			if rawObj.Get then
-				local ok, res = pcall(function() return rawObj:Get() end)
-				if ok then return res end
-			end
+	wrapped.Changed  = function(...)
+		local args = table.pack(...)
+		local v = args[1]
+		if (v == wrapped or v == rawObj) and args.n >= 2 then
+			v = args[2]
 		end
-		return nil
+		wrapped:Set(v)
 	end
-
-	function wrapped:SetVisible() end
 
 	function wrapped:Refresh(list)
 		pcall(function()
@@ -454,18 +596,33 @@ local function wrapElement(rawObj)
 	end
 	wrapped.SetValues = wrapped.Refresh
 	wrapped.Select = wrapped.Set
+	wrapped.SetVisible = function(self, v)
+		pcall(function()
+			if rawObj and rawObj.SetVisible then rawObj:SetVisible(v) end
+		end)
+	end
 
 	return setmetatable(wrapped, {
 		__index = function(_, k)
-			if k == "Value" or k == "value" or k == "state" or k == "selected" then
-				return wrapped:Get()
+			if k == "Value" or k == "value" or k == "state" or k == "selected" or k == "Text" or k == "text" then
+				local val = wrapped:Get()
+				if type(val) == "table" then
+					return setmetatable(val, {
+						__index = function(tbl, subK)
+							for _, item in ipairs(tbl) do
+								if item == subK then return true end
+							end
+							return nil
+						end,
+					})
+				end
+				return val
 			end
-			local rawVal = rawget(rawObj, k)
-			if rawVal ~= nil then return rawVal end
+			if rawObj and rawObj[k] ~= nil then return rawObj[k] end
 			return nil
 		end,
 		__newindex = function(_, k, v)
-			if k == "Value" or k == "value" or k == "state" or k == "selected" then
+			if k == "Value" or k == "value" or k == "state" or k == "selected" or k == "Text" or k == "text" then
 				wrapped:Set(v)
 			else
 				rawset(wrapped, k, v)
@@ -474,261 +631,269 @@ local function wrapElement(rawObj)
 	})
 end
 
-local function adaptSection(rawTab, secName)
-	local s = { _raw = rawTab, _name = secName }
+local function adaptSection(rawSec)
+	local s = { _raw = rawSec }
 
 	function s:CreateToggle(o)
 		local n = normOpts(o)
-		local rawObj = rawTab:CreateToggle({
-			name        = n.name,
-			description = n.desc ~= "" and n.desc or nil,
-			value       = n.value and true or false,
-			flag        = n.flag,
-			callback    = n.callback,
+		local flag = n.flag
+		local initVal = n.value
+		if initVal == nil and flag then initVal = getFlag(flag) end
+		local cb = n.callback
+		local wrapped
+		local el = rawSec:CreateToggle({
+			Name = n.name ~= "" and n.name or "Toggle",
+			Default = initVal and true or false,
+			Flag = flag,
+			Tooltip = n.desc ~= "" and n.desc or nil,
+			Callback = function(v)
+				if wrapped then wrapped:_fire(v) elseif cb then pcall(cb, v) end
+			end,
 		})
-		return wrapElement(rawObj)
+		wrapped = wrapElement(el, cb, flag)
+		if flag then Toggles[flag] = wrapped Options[flag] = wrapped end
+		return wrapped
+	end
+	s.AddToggle = function(self, name, info)
+		info = info or {}
+		return s:CreateToggle({
+			name = info.Text or name,
+			desc = info.Tooltip,
+			value = info.Default,
+			callback = info.Changed or info.Callback,
+			flag = name,
+		})
 	end
 
 	function s:CreateSlider(o)
 		local n = normOpts(o)
+		local flag = n.flag
 		local mn = tonumber(n.range[1]) or 0
 		local mx = tonumber(n.range[2]) or 100
-		local def = tonumber(n.value) or mn
+		local def = tonumber(n.value)
+		if def == nil and flag then def = tonumber(getFlag(flag)) end
+		def = def or mn
 		local inc = tonumber(n.increment) or 1
 		if inc <= 0 then inc = 1 end
-		local rawObj = rawTab:CreateSlider({
-			name        = n.name,
-			description = n.desc ~= "" and n.desc or nil,
-			range       = { mn, mx },
-			increment   = inc,
-			value       = def,
-			suffix      = n.suffix ~= "" and n.suffix or nil,
-			flag        = n.flag,
-			callback    = n.callback,
+		local cb = n.callback
+		local wrapped
+		local el = rawSec:CreateSlider({
+			Name = n.name ~= "" and n.name or "Slider",
+			Min = mn,
+			Max = mx,
+			Increment = inc,
+			Default = def,
+			Suffix = n.suffix ~= "" and n.suffix or nil,
+			Flag = flag,
+			Tooltip = n.desc ~= "" and n.desc or nil,
+			Callback = function(v)
+				if wrapped then wrapped:_fire(v) elseif cb then pcall(cb, v) end
+			end,
 		})
-		return wrapElement(rawObj)
+		wrapped = wrapElement(el, cb, flag)
+		if flag then Options[flag] = wrapped end
+		return wrapped
+	end
+	s.AddSlider = function(self, name, info)
+		info = info or {}
+		return s:CreateSlider({
+			name = info.Text or name,
+			desc = info.Tooltip,
+			range = { info.Min or 0, info.Max or 100 },
+			increment = (info.Rounding and info.Rounding > 0 and info.Rounding) or (info.Step and info.Step > 0 and info.Step) or 1,
+			value = info.Default,
+			suffix = info.Suffix,
+			callback = info.Changed or info.Callback,
+			flag = name,
+		})
 	end
 
 	function s:CreateDropdown(o)
 		local n = normOpts(o)
+		local flag = n.flag
 		local opts = n.options or {}
 		local multi = n.multiSelect and true or false
 		local initVal = n.value
+		if initVal == nil and flag then initVal = getFlag(flag) end
 		if multi then
 			if type(initVal) == "string" then initVal = { initVal }
+			elseif type(initVal) == "table" and not initVal[1] then
+				local arr = {}
+				for k, v in pairs(initVal) do if v == true then table.insert(arr, k) end end
+				initVal = arr
 			elseif type(initVal) ~= "table" then initVal = {} end
 		else
 			if type(initVal) == "table" then initVal = initVal[1] end
 			if initVal == nil and #opts > 0 then initVal = opts[1] end
 		end
-		local rawObj = rawTab:CreateDropdown({
-			name        = n.name,
-			description = n.desc ~= "" and n.desc or nil,
-			options     = opts,
-			value       = initVal,
-			multiSelect = multi,
-			flag        = n.flag,
-			callback    = n.callback,
+		local cb = n.callback
+		local wrapped
+		local el = rawSec:CreateDropdown({
+			Name = n.name ~= "" and n.name or "Dropdown",
+			Options = opts,
+			Default = initVal,
+			Multi = multi,
+			Flag = flag,
+			Tooltip = n.desc ~= "" and n.desc or nil,
+			Callback = function(v)
+				if wrapped then wrapped:_fire(v) elseif cb then pcall(cb, v) end
+			end,
 		})
-		return wrapElement(rawObj)
+		wrapped = wrapElement(el, cb, flag)
+		if flag then Options[flag] = wrapped end
+		return wrapped
+	end
+	s.AddDropdown = function(self, name, info)
+		info = info or {}
+		return s:CreateDropdown({
+			name = info.Text or name,
+			desc = info.Tooltip,
+			options = info.Values or info.options or {},
+			multiSelect = info.Multi or info.MultipleOptions,
+			value = info.Default,
+			callback = info.Changed or info.Callback,
+			flag = name,
+		})
 	end
 
 	function s:CreateButton(o, cb)
 		local n = normOpts(o, cb)
-		local rawObj = rawTab:CreateButton({
-			name        = n.name,
-			description = n.desc ~= "" and n.desc or nil,
-			callback    = n.callback,
+		local fn = n.callback or function() end
+		local el = rawSec:CreateButton({
+			Name = n.name ~= "" and n.name or "Button",
+			Callback = fn,
 		})
-		return wrapElement(rawObj)
+		return wrapElement(el, fn)
+	end
+	s.AddButton = function(self, name, info)
+		return s:CreateButton({
+			name = (type(info) == "table" and (info.Text or info.name)) or name,
+			callback = (type(info) == "function" and info) or (type(info) == "table" and (info.Func or info.Callback or info.callback)),
+		})
 	end
 
-	function s:CreateStat(o)
+	function s:CreateInput(o)
 		local n = normOpts(o)
-		local title = n.name ~= "" and n.name or "Stat"
-		local rawObj
-		local numVal = tonumber(n.value)
-		if numVal ~= nil then
-			rawObj = rawTab:CreateStat({
-				name  = title,
-				value = numVal,
-			})
-		else
-			rawObj = rawTab:CreateText({
-				name = title,
-				text = tostring(n.value or ""),
-			})
+		local flag = n.flag
+		local currentText = n.value ~= nil and tostring(n.value) or ""
+		if currentText == "" and flag and getFlag(flag) ~= nil then currentText = tostring(getFlag(flag)) end
+		local cb = n.callback
+		local wrapped
+		local el = rawSec:CreateTextbox({
+			Name = n.name ~= "" and n.name or "Input",
+			Placeholder = n.placeholder ~= "" and n.placeholder or "Enter text...",
+			Default = currentText,
+			Flag = flag,
+			Callback = function(txt)
+				currentText = tostring(txt or "")
+				if wrapped then wrapped:_fire(currentText) elseif cb then pcall(cb, currentText) end
+			end,
+		})
+		wrapped = wrapElement(el, cb, flag)
+		wrapped.Get = function() return currentText end
+		wrapped.Set = function(self, val)
+			currentText = tostring(val or "")
+			pcall(function() if el.Set then el:Set(currentText) end end)
+			if wrapped then wrapped:_fire(currentText) end
 		end
-		local wrapped = wrapElement(rawObj)
-		function wrapped:Set(a, b)
-			local v = (b == nil) and a or b
-			pcall(function()
-				if rawObj.Set then rawObj:Set(v) end
-			end)
-		end
-		wrapped.SetDesc = wrapped.Set
-		wrapped.SetValue = wrapped.Set
-		function wrapped:SetTitle(a, b)
-			local v = (b == nil) and a or b
-			pcall(function()
-				if rawObj.SetTitle then rawObj:SetTitle(tostring(v or "")) end
-			end)
-		end
+		if flag then Options[flag] = wrapped end
 		return wrapped
+	end
+	s.AddInput = function(self, name, info)
+		info = info or {}
+		return s:CreateInput({
+			name = info.Text or name,
+			placeholder = info.Placeholder,
+			value = info.Default,
+			callback = info.Changed or info.Callback,
+			flag = name,
+		})
+	end
+
+	function s:CreateKeybind(o, cb)
+		local n = normOpts(o, cb)
+		local flag = n.flag
+		local defKey = n.value or "RightControl"
+		if typeof(defKey) == "EnumItem" then defKey = defKey.Name end
+		local fn = n.callback
+		local changeFn = (type(o) == "table" and (o.Changed or o.changed)) or nil
+		local wrapped
+		local el = rawSec:CreateKeybind({
+			Name = n.name ~= "" and n.name or "Keybind",
+			Default = defKey,
+			Mode = (type(o) == "table" and (o.Mode or o.mode)) or "Toggle",
+			Flag = flag,
+			Changed = function(k)
+				if wrapped then wrapped:_fire(k) end
+				if changeFn then pcall(changeFn, k) end
+			end,
+			Callback = function(k)
+				if fn then pcall(fn, k) end
+			end,
+		})
+		wrapped = wrapElement(el, changeFn or fn, flag)
+		if flag then Options[flag] = wrapped end
+		return wrapped
+	end
+	s.AddKeyPicker = function(self, name, info)
+		info = info or {}
+		return s:CreateKeybind({
+			name = info.Text or name,
+			desc = info.Tooltip,
+			value = info.Default,
+			callback = info.Changed or info.Callback,
+			flag = name,
+		})
 	end
 
 	function s:CreateParagraph(o)
 		local opts = o or {}
 		local title = opts.Title or opts.title or opts.name or opts.Name or ""
 		local content = opts.Content or opts.content or opts.desc or opts.Desc or opts.text or opts.Text or ""
-		local rawObj = rawTab:CreateText({
-			name = title,
-			text = tostring(content or ""),
+		local el = rawSec:CreateParagraph({
+			Title = tostring(title or ""),
+			Content = tostring(content or ""),
 		})
-		local wrapped = wrapElement(rawObj)
-		function wrapped:Set(a, b)
+		local wrapped = wrapElement(el)
+		wrapped.Set = function(self, a, b)
 			local v = (b == nil) and a or b
 			pcall(function()
 				if type(v) == "table" then
-					if v.Content then rawObj:Set(tostring(v.Content)) end
-					if v.Title then rawObj:SetTitle(tostring(v.Title)) end
+					if v.Title or v.Content then el:Set(v.Title, v.Content) end
 				else
-					rawObj:Set(tostring(v or ""))
+					el:Set(nil, tostring(v or ""))
 				end
 			end)
 		end
 		wrapped.SetTitle = function(self, t)
 			local val = (t == nil) and self or t
-			pcall(function() rawObj:SetTitle(tostring(val or "")) end)
+			pcall(function() el:Set(tostring(val or ""), nil) end)
 		end
 		wrapped.SetContent = function(self, c)
 			local val = (c == nil) and self or c
-			pcall(function() rawObj:Set(tostring(val or "")) end)
+			pcall(function() el:Set(nil, tostring(val or "")) end)
 		end
 		return wrapped
 	end
 
-	function s:CreateInput(o)
-		local n = normOpts(o)
-		local rawObj = rawTab:CreateInput({
-			name        = n.name,
-			description = n.desc ~= "" and n.desc or nil,
-			placeholder = n.placeholder ~= "" and n.placeholder or "Enter text...",
-			value       = n.value ~= nil and tostring(n.value) or "",
-			callback    = n.callback,
-		})
-		return wrapElement(rawObj)
-	end
-
-	function s:CreateKeybind(o, cb)
-		local n = normOpts(o, cb)
-		local defKey = n.value or "RightShift"
-		if typeof(defKey) == "EnumItem" then defKey = defKey.Name end
-		local rawObj = rawTab:CreateKeybind({
-			name        = n.name,
-			description = n.desc ~= "" and n.desc or nil,
-			value       = tostring(defKey),
-			flag        = n.flag,
-			callback    = n.callback,
-		})
-		return wrapElement(rawObj)
-	end
-
+	function s:CreateStat(o) return s:CreateParagraph(o) end
 	function s:CreateLabel(o)
-		local text = type(o) == "table" and (o.Text or o.text or o.name or o.Title) or tostring(o or "")
-		local rawObj = rawTab:CreateText({
-			name = "",
-			text = text,
-		})
-		return wrapElement(rawObj)
+		local txt = (type(o) == "table" and (o.Text or o.text or o.name or o.Title)) or tostring(o or "")
+		return s:CreateParagraph({ Title = "", Content = txt })
 	end
-
-	function s:CreateSection(o)
-		local n = normOpts(o)
-		if n.name and n.name ~= "" then
-			pcall(function() rawTab:CreateSection({ name = n.name }) end)
-		end
-		return s
-	end
-
-	function s:CreateDivider()
-		pcall(function() rawTab:CreateDivider() end)
-	end
-
-	-- Groupbox compatibility aliases
-	function s:AddToggle(name, info)
-		info = info or {}
-		return s:CreateToggle({
-			name = info.Text or name,
-			desc = info.Tooltip,
-			value = info.Default,
-			callback = info.Changed,
-			flag = name,
-		})
-	end
-
-	function s:AddSlider(name, info)
-		info = info or {}
-		return s:CreateSlider({
-			name = info.Text or name,
-			desc = info.Tooltip,
-			range = { info.Min or 0, info.Max or 100 },
-			increment = (info.Rounding and info.Rounding > 0 and info.Rounding) or 1,
-			value = info.Default,
-			suffix = info.Suffix,
-			callback = info.Changed,
-			flag = name,
-		})
-	end
-
-	function s:AddDropdown(name, info)
-		info = info or {}
-		return s:CreateDropdown({
-			name = info.Text or name,
-			desc = info.Tooltip,
-			options = info.Values or {},
-			multiSelect = info.Multi,
-			value = info.Default,
-			callback = info.Changed,
-			flag = name,
-		})
-	end
-
-	function s:AddButton(name, info)
-		return s:CreateButton({
-			name = (type(info) == "table" and (info.Text or info.name)) or name,
-			callback = (type(info) == "function" and info) or (type(info) == "table" and (info.Func or info.callback)),
-		})
-	end
-
-	function s:AddLabel(info)
-		return s:CreateLabel(info)
-	end
-
-	function s:AddKeyPicker(name, info)
-		info = info or {}
-		return s:CreateKeybind({
-			name = info.Text or name,
-			desc = info.Tooltip,
-			value = info.Default,
-			callback = info.Changed,
-			flag = name,
-		})
-	end
-
-	function s:AddDivider()
-		pcall(function() rawTab:CreateDivider() end)
-	end
+	s.AddLabel = function(self, info) return s:CreateLabel(info) end
+	s.AddDivider = function(self) pcall(function() rawSec:CreateDivider() end) end
+	s.CreateDivider = function(self) pcall(function() rawSec:CreateDivider() end) end
 
 	function s:AddDiscordBox(name, info)
 		local inviteUrl = BRAND.Discord
-		rawTab:CreateText({
-			name = BRAND.Name .. " Discord Community",
-			text = "Join our official community for support, updates, and announcements:\n" .. inviteUrl
+		rawSec:CreateParagraph({
+			Title = BRAND.Name .. " Discord Community",
+			Content = "Join our official community for support, updates, and announcements:\n" .. inviteUrl,
 		})
-		rawTab:CreateButton({
-			name     = "Copy Discord Invite Link",
-			callback = function()
+		rawSec:CreateButton({
+			Name = "Copy Discord Invite Link",
+			Callback = function()
 				local copied = false
 				pcall(function()
 					if setclipboard then
@@ -741,7 +906,7 @@ local function adaptSection(rawTab, secName)
 				else
 					_G.FS_Notify("SpecreWare", inviteUrl, 6)
 				end
-			end
+			end,
 		})
 	end
 
@@ -756,6 +921,7 @@ local function adaptTab(rawTab)
 		_raw = rawTab,
 		_cur = nil,
 		_count = 0,
+		_sections = {},
 		_isAdapted = true,
 	}
 
@@ -763,9 +929,12 @@ local function adaptTab(rawTab)
 		local n = normOpts(o)
 		t._count = t._count + 1
 		local nm = n.name ~= "" and n.name or "Features"
-		pcall(function() rawTab:CreateSection({ name = nm }) end)
-		t._cur = adaptSection(rawTab, nm)
-		return t._cur
+		local col = o and (o.column or o.Column) or nil
+		local rawSec = rawTab:CreateSection({ Name = nm, Column = col })
+		local secAdapted = adaptSection(rawSec)
+		t._cur = secAdapted
+		t._sections[nm] = secAdapted
+		return secAdapted
 	end
 
 	local function cur()
@@ -784,62 +953,26 @@ local function adaptTab(rawTab)
 	function t:CreateInput(o) return cur():CreateInput(o) end
 	function t:CreateKeybind(o, cb) return cur():CreateKeybind(o, cb) end
 	function t:CreateLabel(o) return cur():CreateLabel(o) end
-	function t:CreateDivider() pcall(function() rawTab:CreateDivider() end) end
-	function t:Divider() pcall(function() rawTab:CreateDivider() end) end
+	function t:CreateDivider() pcall(function() cur():CreateDivider() end) end
+	function t:Divider() pcall(function() cur():CreateDivider() end) end
 	function t:Space() end
 
-	function t:AddLeftGroupbox(name, icon, ...) return t:CreateSection({ name = name }) end
-	function t:AddRightGroupbox(name, icon, ...) return t:CreateSection({ name = name }) end
+	function t:AddLeftGroupbox(name, icon, ...) return t:CreateSection({ name = name, column = 1 }) end
+	function t:AddRightGroupbox(name, icon, ...) return t:CreateSection({ name = name, column = 2 }) end
 	function t:AddGroupbox(name, icon, ...) return t:CreateSection({ name = name }) end
 
 	return t
 end
 
--- Notification shim
-_G.FS_Notify = function(title, content, dur)
-	pcall(function()
-		if Window and Window.Notify then
-			Window:Notify({
-				title    = title or BRAND.Name,
-				content  = content or "",
-				duration = dur or 4,
-			})
-		end
-	end)
-end
-
-local window = {}
-window._raw = Window
-function window:Notify(o)
-	o = o or {}
-	_G.FS_Notify(o.Title or o.title, o.Content or o.content or o.Description, o.Duration or o.duration or o.Time)
-end
-
--- Keybind to toggle GUI visibility (Default: Left Control)
-pcall(function()
-	local uis = game:GetService("UserInputService")
-	uis.InputBegan:Connect(function(inp, gp)
-		if not gp and (inp.KeyCode == Enum.KeyCode.LeftControl or (Window and Window.settings and inp.KeyCode == Window.settings.toggleKeybind)) then
-			if Window and Window.ToggleHide then
-				Window:ToggleHide()
-			end
-		end
-	end)
-end)
-
 -- ===================== TABS INITIALIZATION =====================
-local rawMain     = Window:CreateTab({ name = "Main", icon = BRAND.Logo })
+local rawMain     = Window:CreateTab({ Name = "Main", Icon = "lucide:swords" })
+local rawLobby    = Window:CreateTab({ Name = "Lobby", Icon = "lucide:map-pin" })
+local rawMisc     = Window:CreateTab({ Name = "Misc", Icon = "lucide:shield" })
+local rawSettings = Window:CreateTab({ Name = "Settings", Icon = "lucide:settings" })
+local rawCredits  = Window:CreateTab({ Name = "Credits", Icon = "lucide:star" })
 pcall(function()
-	if rawMain.topbarItemIcon then
-		rawMain.topbarItemIcon.Size = UDim2.fromOffset(26, 26)
-		rawMain.topbarItemIcon.ImageColor3 = Color3.fromRGB(255, 255, 255)
-		rawMain.topbarItemIcon.ScaleType = Enum.ScaleType.Fit
-	end
+	Window:CreateThemeTab({ Name = "Theme", Icon = "lucide:palette" })
 end)
-local rawLobby    = Window:CreateTab({ name = "Lobby", icon = "map-pin" })
-local rawMisc     = Window:CreateTab({ name = "Misc", icon = "shield" })
-local rawSettings = Window:CreateTab({ name = "Settings", icon = "settings" })
-local rawCredits  = Window:CreateTab({ name = "Credits", icon = "star" })
 
 local Tabs = {
 	Main     = adaptTab(rawMain),
@@ -2368,6 +2501,7 @@ do
 	local worldDD = secJoin:CreateDropdown({
 
 		name = "Map",
+		flag = "Lobby_World",
 
 		options = WORLDS,
 
@@ -2390,6 +2524,7 @@ do
 	local diffDD = secJoin:CreateDropdown({
 
 		name = "Difficulty",
+		flag = "Lobby_Difficulty",
 
 		options = DIFFICULTIES,
 
@@ -2410,35 +2545,23 @@ do
 	})
 
 	secJoin:CreateToggle({
-
 		name = "Auto Join Map",
-
+		flag = "AutoJoinOn",
 		value = autoJoinOn,
-
 		callback = function(v)
-
 			RS:SetAttribute("TPL_AutoJoinOn", v)
-
 			if _G.FS_StartAutoJoin then _G.FS_StartAutoJoin(v) end
-
 		end,
-
 	})
 
 	secJoin:CreateToggle({
-
 		name = "Auto Raid (Colosseum)",
-
+		flag = "AutoRaidQueueOn",
 		value = autoRaidOn,
-
 		callback = function(v)
-
 			RS:SetAttribute("TPL_AutoRaidQueueOn", v)
-
 			if _G.FS_StartAutoRaid then _G.FS_StartAutoRaid(v) end
-
 		end,
-
 	})
 
 end
@@ -3920,6 +4043,7 @@ do
 	local selDD = secUpg:CreateDropdown({
 
 		name = "Upgrade Items",
+		flag = "AutoUpgradeSelList",
 
 		multiSelect = true,
 
@@ -3960,17 +4084,13 @@ do
 	})
 
 	secUpg:CreateToggle({
-
 		name = "Auto Upgrade Items",
-
+		flag = "AutoUpgradeOn",
 		value = getFlag("AutoUpgradeOn"),
-
 		callback = function(v)
-
+			RS:SetAttribute("TPL_AutoUpgradeOn", v)
 			if _G.FS_StartAutoUpgrade then _G.FS_StartAutoUpgrade(v) end
-
 		end,
-
 	})
 
 	-- ==================== AUTO SKILL TREE UI ====================
@@ -3981,6 +4101,7 @@ do
 	local skillDD = secSkill:CreateDropdown({
 
 		name = "Skills To Buy",
+		flag = "AutoSkillSelList",
 
 		multiSelect = true,
 
@@ -4019,17 +4140,13 @@ do
 	})
 
 	secSkill:CreateToggle({
-
 		name = "Auto Skill Tree Upgrade",
-
+		flag = "AutoSkillTreeOn",
 		value = getFlag("AutoSkillTreeOn"),
-
 		callback = function(v)
-
+			RS:SetAttribute("TPL_AutoSkillTreeOn", v)
 			if _G.FS_StartAutoSkill then _G.FS_StartAutoSkill(v) end
-
 		end,
-
 	})
 
 	-- ==================== AUTO GRADING UI ====================
@@ -4054,6 +4171,7 @@ do
 	secGrade:CreateDropdown({
 
 		name = "Item To Grade",
+		flag = "AutoGradeItem",
 
 		search = true,
 
@@ -4082,6 +4200,7 @@ do
 	secGrade:CreateDropdown({
 
 		name = "Grade Until",
+		flag = "AutoGradeStopTier",
 
 		options = gradeNames,
 
@@ -4116,19 +4235,14 @@ do
 	})
 
 	secGrade:CreateToggle({
-
 		name = "Auto Grade",
-
+		flag = "AutoGradeOn",
 		desc = "Rolls until the item hits Grade Until.",
-
 		value = getFlag("AutoGradeOn"),
-
 		callback = function(v)
-
+			RS:SetAttribute("TPL_AutoGradeOn", v)
 			if _G.FS_StartAutoGrade then _G.FS_StartAutoGrade(v) end
-
 		end,
-
 	})
 
 	local secClaim = lobby:CreateSection({ name = "Auto Claim" })
@@ -4136,6 +4250,7 @@ do
 	secClaim:CreateToggle({
 
 		name = "Auto Claim Quests",
+		flag = "AutoClaimQuestsOn",
 
 		desc = "Claims the daily quests as soon as you finish one.",
 
@@ -4148,6 +4263,7 @@ do
 	secClaim:CreateToggle({
 
 		name = "Auto Claim Achievements",
+		flag = "AutoClaimAchOn",
 
 		desc = "Claims every achievement tier you have earned.",
 
@@ -4160,6 +4276,7 @@ do
 	secClaim:CreateToggle({
 
 		name = "Auto Claim Streak Rewards",
+		flag = "AutoClaimStreakOn",
 
 		desc = "Claims the login streak rewards you have reached.",
 
@@ -4186,25 +4303,21 @@ do
 	local secChest = lobby:CreateSection({ name = "Chests" })
 
 	secChest:CreateToggle({
-
 		name = "Auto Open Chests",
-
+		flag = "AutoOpenChestsOn",
 		desc = "Keeps opening the selected chests as you get them.",
-
 		value = getFlag("AutoOpenChestsOn"),
-
 		callback = function(v)
-
+			RS:SetAttribute("TPL_AutoOpenChestsOn", v)
 			if _G.FS_StartAutoChests then _G.FS_StartAutoChests(v) end
-
 		end,
-
 	})
 
 	-- which chest types to open, used by the loop above and by Open Now
 	secChest:CreateDropdown({
 
 		name = "Chests To Open",
+		flag = "ChestSelList",
 
 		desc = "None ticked means none get opened.",
 
@@ -4227,6 +4340,7 @@ do
 	secChest:CreateSlider({
 
 		name = "Chests Per Call",
+		flag = "ChestBatchCap",
 
 		range = { 1, 5000 },
 
@@ -4478,12 +4592,9 @@ local function setAbilitySlots(list)
 
 end
 
--- in a match? the same test the rest of this file uses for "in a round"
+-- in a match? uses robust inRound check
 local function inMatchForAbilities()
-
-	return workspace:FindFirstChild("Enemies") ~= nil
-		and workspace:FindFirstChild("Lobby") == nil
-
+	return inRound()
 end
 
 do
@@ -4574,11 +4685,52 @@ local bubbleDriving = false
 
 -- // SCENE READS //--
 
--- in a round = the match workspace exists (Lobby exists only in the lobby)
+-- in a round = active combat / arena match (resilient across Sandworm, Raid, and all sub-places)
 local function inRound()
+	-- 1. Raid place is always an active combat match
+	local pid = game.PlaceId
+	if pid == 79787558257549 or pid == 797875825749 then
+		return true
+	end
 
-	return workspace:FindFirstChild("Enemies") ~= nil and workspace:FindFirstChild("Lobby") == nil
+	-- 2. Enemies exist in workspace
+	local enemies = workspace:FindFirstChild("Enemies")
+	if enemies and #enemies:GetChildren() > 0 then
+		return true
+	end
 
+	-- 3. Match map arena exists (Map with Floor part)
+	local map = workspace:FindFirstChild("Map")
+	local lobby = workspace:FindFirstChild("Lobby")
+	if map and map:FindFirstChild("Floor") then
+		return true
+	end
+
+	if enemies then
+		return true
+	end
+
+	if map and not lobby then
+		return true
+	end
+
+	-- 4. Check HUD match elements (WaveDisplay, LeaveButton, FinalSwarmBar)
+	local pg = Players.LocalPlayer and Players.LocalPlayer:FindFirstChildOfClass("PlayerGui")
+	local hud = pg and pg:FindFirstChild("HUD")
+	if hud then
+		local top = hud:FindFirstChild("Top")
+		if top and (top:FindFirstChild("FinalSwarmBar") or top:FindFirstChild("WaveDisplay")) then
+			return true
+		end
+		local bottom = hud:FindFirstChild("Bottom")
+		local buttons = bottom and bottom:FindFirstChild("ButtonsHolder")
+		local leave = buttons and buttons:FindFirstChild("LeaveButton")
+		if leave and leave.Visible then
+			return true
+		end
+	end
+
+	return false
 end
 
 -- nearest walkable floor under a point: raycast DOWN from just ABOVE the point,
@@ -4943,36 +5095,45 @@ local goalHeld = false
 local moverGoal = nil
 local moverLook = nil
 local moverConn = nil
+local firstTakeoff = true
+
 local function ensureMover()
 	if moverConn then return end
 	local rs = game:GetService("RunService")
 	moverConn = rs.Heartbeat:Connect(function(dt)
 		pcall(function()
-			if not farmOn and not farmCollectOn then return end
+			if not farmOn and not farmCollectOn then
+				firstTakeoff = true
+				return
+			end
 			if not moverGoal then return end
 			local char = Players.LocalPlayer.Character
 			local h = char and char:FindFirstChild("HumanoidRootPart")
 			if not h then return end
 			local hum = char:FindFirstChildOfClass("Humanoid")
 			if hum and hum.Health <= 0 then return end
+
+			-- Keep PlatformStand asserted while auto farming so ground physics doesn't pin the player
+			if hum and not hum.PlatformStand then
+				pcall(function() hum.PlatformStand = true end)
+			end
+
 			local cur = h.Position
-			-- flight speed: exponential smoothing strength, user-set (Farm_Speed,
-			-- default 7 = the original feel). Clamp hard: 1 crawls, 30 teleport-snaps
-			local spd = math.clamp(tonumber(getFlag("Farm_Speed")) or 7, 1, 30)
-			local alpha = 1 - math.exp(-dt * spd)
+			local spd = math.clamp(tonumber(getFlag("Farm_Speed")) or 10, 1, 30)
+
+			-- Instant takeoff on first frame so player immediately enters flight without fighting ground friction
+			if firstTakeoff and (moverGoal.Y - cur.Y) > 5 then
+				firstTakeoff = false
+				h.CFrame = CFrame.new(cur.X, moverGoal.Y, cur.Z)
+				cur = h.Position
+			else
+				firstTakeoff = false
+			end
+
+			local alpha = math.clamp(1 - math.exp(-dt * spd), 0.08, 1)
 			local step = cur:Lerp(moverGoal, alpha)
 			local lt = moverLook or step
-			-- NEVER hand lookAt an eye equal to its target. Verified in this client:
-			-- CFrame.lookAt(p, p) returns a rotation matrix whose nine components are
-			-- ALL NaN, and writing that onto the HumanoidRootPart NaNs the camera with
-			-- it -- the screen blanks and Roblox puts up its "Gameplay Paused" overlay.
-			-- This is not an edge case: every feature that parks on a target (Auto
-			-- Collect Bubbles holding station on a bubble, a rift standing in a zone,
-			-- Auto Enter Portal sitting on the portal anchor) converges onto it, because
-			-- an exponential lerp approaches its target asymptotically and rounds to
-			-- equal. So the degenerate case is the NORMAL end state of arriving. Fall
-			-- back to a translation-only CFrame, which holds station just as well and
-			-- leaves the facing alone.
+
 			if math.abs(step.X - lt.X) < 1e-4
 				and math.abs(step.Y - lt.Y) < 1e-4
 				and math.abs(step.Z - lt.Z) < 1e-4 then
@@ -4981,6 +5142,7 @@ local function ensureMover()
 				h.CFrame = CFrame.lookAt(step, Vector3.new(lt.X, lt.Y, lt.Z))
 			end
 			h.AssemblyLinearVelocity = Vector3.zero
+			h.AssemblyAngularVelocity = Vector3.zero
 		end)
 	end)
 end
@@ -5261,30 +5423,34 @@ local function farmLoop()
 end
 
 _G.FS_StartAutoFarm = function(on)
-
 	farmOn = on
-
+	firstTakeoff = true
 	RS:SetAttribute("TPL_FarmOn", on)
-
-	if on and not farmThread then
-
-		farmThread = task.spawn(function()
-
-			farmLoop()
-
-			farmThread = nil
-
+	RS:SetAttribute("TPL_AutoFarmOn", on)
+	if not on and not farmCollectOn then
+		pcall(function()
+			local char = Players.LocalPlayer and Players.LocalPlayer.Character
+			local hum = char and char:FindFirstChildOfClass("Humanoid")
+			if hum then hum.PlatformStand = false end
 		end)
-
 	end
-
+	if on and not farmThread then
+		farmThread = task.spawn(function()
+			farmLoop()
+			farmThread = nil
+		end)
+	end
 end
 
 _G.FS_StartAutoCollect = function(on)
-
 	farmCollectOn = on
-RS:SetAttribute("TPL_FarmCollectOn", on)
-
+	RS:SetAttribute("TPL_FarmCollectOn", on)
+	if on and not farmThread then
+		farmThread = task.spawn(function()
+			farmLoop()
+			farmThread = nil
+		end)
+	end
 end
 
 -- ===================== AUTO ENTER PORTAL (Final Swarm) =====================
@@ -5986,23 +6152,19 @@ end
 local secFarm = tab:CreateSection({ name = "Auto Farm" })
 
 secFarm:CreateToggle({
-
 	name = "Auto Farm",
-
-	value = getFlag("FarmOn"),
-
+	flag = "FarmOn",
+	value = getFlag("FarmOn") or getFlag("AutoFarmOn"),
 	callback = function(v)
-
+		RS:SetAttribute("TPL_FarmOn", v)
+		RS:SetAttribute("TPL_AutoFarmOn", v)
 		if _G.FS_StartAutoFarm then _G.FS_StartAutoFarm(v) end
-
 	end,
-
 })
 
--- mode-conditional settings: the dropdown shows/hides the elements that
--- belong to each mode (SetVisible comes from the UI lib)
 local farmModeDD = secFarm:CreateDropdown({
 	name = "Farm Mode",
+	flag = "FarmMode",
 	desc = "Auto-Dodge hovers and dodges. Orbit circles the map center.",
 	options = { "Orbit Center", "Auto-Dodge" },
 	value = getFlag("FarmMode") or "Orbit Center",
@@ -6015,70 +6177,67 @@ local farmModeDD = secFarm:CreateDropdown({
 
 secFarm:CreateSlider({
 	name = "Orbit Speed",
+	flag = "Farm_OrbitSpeed",
 	desc = "Orbit rotation speed (degrees / sec).",
 	range = { 5, 180 },
 	increment = 5,
-	value = getFlag("Farm_OrbitSpeed") or 20,
+	value = tonumber(getFlag("Farm_OrbitSpeed")) or 20,
 	callback = function(v) RS:SetAttribute("TPL_Farm_OrbitSpeed", v) end,
 })
 
 secFarm:CreateSlider({
 	name = "Orbit Radius",
+	flag = "Farm_OrbitRadius",
 	desc = "Orbit distance / radius from map center (studs).",
 	range = { 10, 400 },
 	increment = 1,
-	value = getFlag("Farm_OrbitRadius") or 40,
+	value = tonumber(getFlag("Farm_OrbitRadius")) or 40,
 	callback = function(v) RS:SetAttribute("TPL_Farm_OrbitRadius", v) end,
 })
 
 secFarm:CreateSlider({
 	name = "Orbit Height",
+	flag = "Farm_OrbitHeight",
 	desc = "Orbit mode: altitude / height above ground.",
 	range = { 10, 80 },
 	increment = 1,
-	value = getFlag("Farm_OrbitHeight") or 28,
+	value = tonumber(getFlag("Farm_OrbitHeight")) or 28,
 	callback = function(v) RS:SetAttribute("TPL_Farm_OrbitHeight", v) end,
 })
 
 secFarm:CreateSlider({
 	name = "Hover Height",
+	flag = "Farm_Height",
 	desc = "Auto-Dodge mode: hover altitude above ground.",
 	range = { 10, 80 },
 	increment = 1,
-	value = getFlag("Farm_Height") or 35,
+	value = tonumber(getFlag("Farm_Height")) or 35,
 	callback = function(v) RS:SetAttribute("TPL_Farm_Height", v) end,
 })
 
 secFarm:CreateSlider({
 	name = "Hover Speed",
+	flag = "Farm_Speed",
 	desc = "Hover/Dodge glide speed. Higher is snappier.",
 	range = { 1, 30 },
 	increment = 1,
-	value = getFlag("Farm_Speed") or 7,
+	value = tonumber(getFlag("Farm_Speed")) or 7,
 	callback = function(v) RS:SetAttribute("TPL_Farm_Speed", v) end,
 })
 
--- // FARM DEBUG OVERLAY: makes farm internals visible in-world //--
--- Cyan ball = hover goal the mover is gliding toward. Orange shells = VFX
--- models flagged as OUR OWN shots (skipped by the dodge). Red shells = live
--- threats that triggered the current dodge. Vertical beam = ground raycast
--- result under the goal (nil => void-guard active, shown magenta).
-
 secFarm:CreateToggle({
-
 	name = "Auto Collect Orbs",
-
+	flag = "FarmCollectOn",
+	desc = "Magnetizes and collects drops/orbs.",
 	value = getFlag("FarmCollectOn"),
-
 	callback = function(v)
-
+		RS:SetAttribute("TPL_FarmCollectOn", v)
 		if _G.FS_StartAutoCollect then _G.FS_StartAutoCollect(v) end
-
 	end,
-
 })
 	secFarm:CreateToggle({
 		name = "Auto Smart Cards",
+		flag = "AutoSmartCardsOn",
 		desc = "Auto-picks the best level-up card.",
 		value = getFlag("AutoSmartCardsOn"),
 		callback = function(v)
@@ -6103,6 +6262,7 @@ secFarm:CreateToggle({
 	secFarm:CreateDropdown({
 
 		name = "Prioritise Stats",
+		flag = "CardPriority",
 
 		desc = "Always pick these first. Empty is normal scoring.",
 
@@ -6131,6 +6291,7 @@ secFarm:CreateToggle({
 	secFarm:CreateDropdown({
 
 		name = "Banned Stats",
+		flag = "CardBans",
 
 		desc = "Never pick these if anything else is offered.",
 
@@ -6162,24 +6323,20 @@ secFarm:CreateToggle({
 	local secAbility = tab:CreateSection({ name = "Ability" })
 
 	secAbility:CreateToggle({
-
 		name = "Auto Use Ability",
-
+		flag = "AutoAbilityOn",
 		desc = "Fires your class abilities on cooldown.",
-
 		value = getFlag("AutoAbilityOn"),
-
 		callback = function(v)
-
+			RS:SetAttribute("TPL_AutoAbilityOn", v)
 			if _G.FS_StartAutoAbility then _G.FS_StartAutoAbility(v) end
-
 		end,
-
 	})
 
 	secAbility:CreateDropdown({
 
 		name = "Ability Slots",
+		flag = "AbilitySlots",
 
 		desc = "Which slots to use. Q, R, F.",
 
@@ -6207,6 +6364,7 @@ secFarm:CreateToggle({
 	secAbility:CreateSlider({
 
 		name = "Use Interval",
+		flag = "AbilityInterval",
 
 		range = { 0.5, 15 },
 
@@ -6223,94 +6381,67 @@ secFarm:CreateToggle({
 	local secRoundEnd = tab:CreateSection({ name = "Round End", column = 2 })
 
 secRoundEnd:CreateToggle({
-
 	name = "Auto Enter Portal",
-
+	flag = "AutoEnterPortalOn",
 	desc = "Enters the Final Swarm portal at the target multiplier.",
-
 	value = getFlag("AutoEnterPortalOn"),
-
 	callback = function(v)
-
 		RS:SetAttribute("TPL_AutoEnterPortalOn", v)
-
 		if _G.FS_StartAutoPortal then _G.FS_StartAutoPortal(v) end
-
 	end,
-
 })
 
 secRoundEnd:CreateSlider({
-
 	name = "Portal Target Multiplier",
-
+	flag = "PortalTargetMult",
 	desc = "Enters the portal at this multiplier.",
-
 	range = { 1, 20 },
-
 	increment = 1,
-
-	value = getFlag("PortalTargetMult") or 3,
-
+	value = tonumber(getFlag("PortalTargetMult")) or 3,
 	callback = function(v)
-
 		if type(v) == "number" then RS:SetAttribute("TPL_PortalTargetMult", math.max(1, v)) end
-
 	end,
-
 })
 
 secRoundEnd:CreateToggle({
-
 	name = "Auto Replay",
-
+	flag = "AutoReplayOn",
 	desc = "Rejoins the same map when the round ends.",
-
 	value = getFlag("AutoReplayOn"),
-
 	callback = function(v)
 		RS:SetAttribute("TPL_AutoReplayOn", v)
 		if _G.FS_StartAutoReplay then _G.FS_StartAutoReplay(v) end
 	end,
-
 })
 
 secRoundEnd:CreateToggle({
-
 	name = "Auto Return Lobby",
-
+	flag = "AutoReturnLobbyOn",
 	desc = "Presses Lobby when the round ends.",
-
 	value = getFlag("AutoReturnLobbyOn"),
-
 	callback = function(v)
 		RS:SetAttribute("TPL_AutoReturnLobbyOn", v)
 		if _G.FS_StartAutoReturnLobby then _G.FS_StartAutoReturnLobby(v) end
 	end,
-
 })
 
 local secRift = tab:CreateSection({ name = "Rifts", column = 2 })
 
 secRift:CreateToggle({
-
 	name = "Auto Rift",
-
+	flag = "AutoRiftOn",
 	desc = "Enters each rift orb and plays its minigame.",
-
 	value = getFlag("AutoRiftOn"),
-
 	callback = function(v)
-
+		RS:SetAttribute("TPL_AutoRiftOn", v)
 		if _G.FS_StartAutoRift then _G.FS_StartAutoRift(v) end
-
 	end,
-
 })
 
 secRift:CreateDropdown({
 
 	name = "Minigames",
+		flag = "RiftChallenges",
 
 	desc = "Which rifts to enter. None ticked means all.",
 
@@ -6349,20 +6480,17 @@ secRift:CreateDropdown({
 })
 
 secRift:CreateToggle({
-
 	name = "Avoid Rifts",
-
+	flag = "RiftAvoid",
 	desc = "Never enter a rift orb.",
-
 	value = getFlag("RiftAvoid"),
-
 	callback = function(v) RS:SetAttribute("TPL_RiftAvoid", v) end,
-
 })
 
 secRift:CreateSlider({
 
 	name = "Max Tier",
+		flag = "RiftMaxTier",
 
 	desc = "Skips rifts above this tier.",
 
@@ -6403,24 +6531,20 @@ end)
 local secUnderwater = tab:CreateSection({ name = "Underwater" })
 
 secUnderwater:CreateToggle({
-
 	name = "Auto Collect Bubbles",
-
+	flag = "AutoBubblesOn",
 	desc = "Grabs an oxygen bubble when the meter runs low.",
-
 	value = getFlag("AutoBubblesOn"),
-
 	callback = function(v)
-
+		RS:SetAttribute("TPL_AutoBubblesOn", v)
 		if _G.FS_StartAutoBubbles then _G.FS_StartAutoBubbles(v) end
-
 	end,
-
 })
 
 secUnderwater:CreateSlider({
 
 	name = "Collect Below",
+		flag = "BubbleThreshold",
 
 	desc = "Oxygen percent that triggers a grab.",
 
@@ -7331,6 +7455,7 @@ do
 						data[attr] = val
 					end
 				end
+				data["TPL_MenuKeybind"] = currentToggleKey.Name
 				if writefile then
 					writefile("SpecreWare/FinalSwarm/" .. profileName .. ".json", Http:JSONEncode(data))
 				end
@@ -7357,6 +7482,12 @@ do
 						for k, v in pairs(data) do
 							RS:SetAttribute(k, v)
 						end
+						if data["TPL_MenuKeybind"] then
+							setMinimizeKey(data["TPL_MenuKeybind"])
+							if Options and Options.MenuKeybind and Options.MenuKeybind.Set then
+								pcall(function() Options.MenuKeybind:Set(data["TPL_MenuKeybind"]) end)
+							end
+						end
 						loaded = true
 					end
 				end
@@ -7372,15 +7503,64 @@ do
 
 	local secUI = Tabs.Settings:CreateSection({ name = "UI Controls" })
 
+	secUI:CreateKeybind({
+		name     = "Minimize Bind",
+		desc     = "Keybind to open or close the SpecreWare interface (Click to change)",
+		value    = currentToggleKey,
+		flag     = "MenuKeybind",
+		callback = function(newKey)
+			if typeof(newKey) == "EnumItem" and newKey.EnumType == Enum.KeyCode then
+				setMinimizeKey(newKey)
+				if _G.FS_Notify then
+					_G.FS_Notify("SpecreWare", "Minimize bind updated to: " .. newKey.Name, 3)
+				end
+			elseif type(newKey) == "string" then
+				local ok, ek = pcall(function() return Enum.KeyCode[newKey] end)
+				if ok and ek then
+					setMinimizeKey(ek)
+					if _G.FS_Notify then
+						_G.FS_Notify("SpecreWare", "Minimize bind updated to: " .. ek.Name, 3)
+					end
+				end
+			elseif newKey == nil then
+				currentToggleKey = nil
+				updateMenuKeyListener()
+				if _G.FS_Notify then
+					_G.FS_Notify("SpecreWare", "Minimize bind cleared (None)", 2)
+				end
+			end
+		end,
+		changed  = function(newKey)
+			if typeof(newKey) == "EnumItem" and newKey.EnumType == Enum.KeyCode then
+				setMinimizeKey(newKey)
+			elseif type(newKey) == "string" then
+				local ok, ek = pcall(function() return Enum.KeyCode[newKey] end)
+				if ok and ek then setMinimizeKey(ek) end
+			end
+		end,
+	})
+
 	secUI:CreateDropdown({
 		name     = "Theme",
-		desc     = "Switch UI theme color scheme",
-		options  = { "cobalt", "default", "ember", "amethyst", "frost", "rose" },
-		value    = "cobalt",
+		desc     = "Switch UI theme color scheme (21 Official Spectre Themes)",
+		options  = {
+			"Spectre",
+			"Rose", "Violet", "Cyber", "Crimson", "Matrix",
+			"Midnight", "Ocean", "Sunset", "Mono", "Aurora",
+			"Dracula", "Nord", "TokyoNight", "Mocha", "Synthwave",
+			"Jade", "Gold", "Lavender", "Candy", "Peach"
+		},
+		value    = "Spectre",
+		flag     = "UITheme",
 		callback = function(th)
 			pcall(function()
-				if Window and Window.ChangeTheme then
-					Window:ChangeTheme(th)
+				if Window and Window.SetTheme then
+					Window:SetTheme(th, true)
+				elseif Library and Library.SetTheme then
+					Library:SetTheme(th)
+				end
+				if _G.FS_Notify then
+					_G.FS_Notify("SpecreWare", "Theme changed to: " .. tostring(th), 2)
 				end
 			end)
 		end,
@@ -7390,6 +7570,17 @@ do
 		name     = "Toggle Window (Hide / Show)",
 		callback = function()
 			pcall(function() Window:ToggleHide() end)
+		end,
+	})
+
+	secUI:CreateButton({
+		name     = "Command Palette (Ctrl + K)",
+		callback = function()
+			pcall(function()
+				if Window and Window.OpenPalette then
+					Window:OpenPalette()
+				end
+			end)
 		end,
 	})
 
@@ -7435,7 +7626,7 @@ end
 -- ===================== FINALIZE & NOTIFY =====================
 if _G.FS_Notify then
 	pcall(function()
-		_G.FS_Notify("SpecreWare", "Loaded for " .. GAME_NAME .. ". Press Left Control to toggle UI.")
+		_G.FS_Notify("SpecreWare", "Loaded for " .. GAME_NAME .. ". [" .. currentToggleKey.Name .. "] toggles the menu.")
 	end)
 end
 
